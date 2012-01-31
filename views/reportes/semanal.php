@@ -1,6 +1,8 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
   <head>
   <title><?php echo $titulo; ?></title>
+  	<link rel="stylesheet" type="text/css" href="/reportes/views/styles/galyleo.css" />
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <!-- javascript for ranking_curso -->
     <script type="text/javascript">
@@ -25,10 +27,11 @@
         ]);
 
         var options = {
-          width: 400, height: 240,
+          width: 800, height: 300,
           title: 'Ranking del Curso',
           hAxis: {showTextEvery: 1, showTextEvery:1,gridlines:{count:10}},
-          vAxis: {showTextEvery: 1,viewWindow: {min: 0}}
+          vAxis: {showTextEvery: 1,viewWindow: {min: 0}},
+          pointSize: 5
         };
 
         var chart = new google.visualization.LineChart(document.getElementById('ranking_curso'));
@@ -49,7 +52,7 @@
         ]);
 
         var options = {
-          width: 400, height: 240,
+          width: 500, height: 340,
           vAxis: {showTextEvery: 1,viewWindow: {min: 0}}
         };
 
@@ -59,59 +62,77 @@
     </script>  
   </head>
   <body>
-  	<h1>Informe Semanal para el Estudiante</h1>
-  	<!-- TODO: mostrar la fecha de hoy -->
-  	<b>Curso: </b><?php echo $nombre_curso ?></br>
-  	<b>Estudiante: </b><?php echo ucwords(strtolower($usuario->nombre))." ". ucwords(strtolower($usuario->apellido)); ?></br>
+  	<div class="title"><h1>Informe Semanal para el Estudiante</h1></div>
+  	<div class="fecha_reporte"><?php echo fecha_hoy();?></div>
+  	<div class="datos_alumno">
+  		<b>Curso: </b><?php echo $nombre_curso ?></br>
+  		<b>Estudiante: </b><?php echo ucwords(strtolower($usuario->nombre))." ". ucwords(strtolower($usuario->apellido)); ?>
+  	</div>
   	<hr/>
-  	<p>Estimado alumno:</br>A continuaci&oacute;n podr&aacute;s ver tu matriz de desempe&ntilde;o en las evaluaciones rendidas a la fecha
-  	y acontinuaci&oacute; los resultados de la &uacute;ltima actividad</p> 
+  	<div class="descripcion">
+  		<p>Estimado alumno:</br>A continuaci&oacute;n podr&aacute;s ver tu matriz de 
+  		desempe&ntilde;o en las evaluaciones rendidas a la fecha</p>
+  	</div> 
     <!--Div that will hold the pie chart-->
-    <b>Matriz de desempe&ntilde;o</b>
-    </br>
-    <style type="text/css" media="screen">
- 		table { border: 1px solid black;float:left;width:148px;}
- 		#matriz_desempeno{width:800px;margin:0;overflow:hidden;}
-	</style>
+    <div class="subtitulo">Matriz de desempe&ntilde;o</div>
     <div id="matriz_desempeno">
     <?php
     	foreach($matriz_desempe–o as $quiz => $columna){
     		$celdas = '';
     		$logro_quiz = 0;
     		$total_preguntas = 0;
+    		
     		foreach ($columna as $celda){
     			$celdas .= '<tr>';
-    			if($celda['logro'] < 60){
-    				$celdas .= '<td class="reprueba">'.$celda['contenido']->nombre.'('.$celda['logro'].'%)</td>';
+    			if($celda['logro'] == -1){
+    				$celdas .= '<td class="no_rendido">'.$celda['contenido']->nombre.'</td>';
+    			}elseif($celda['logro'] <= 45){
+    				$celdas .= '<td class="insuficiente">'.$celda['contenido']->nombre.' ('.$celda['logro'].'%)</td>';
+    			}elseif($celda['logro'] > 45 && $celda['logro'] < 55 ){
+    				$celdas .= '<td class="suficiente">'.$celda['contenido']->nombre.' ('.$celda['logro'].'%)</td>';
+    			}elseif ($celda['logro'] >= 55){
+    				$celdas .= '<td class="destacado">'.$celda['contenido']->nombre.' ('.$celda['logro'].'%)</td>';
     			}else{
-    				$celdas .= '<td>'.$celda['contenido']->nombre.'('.$celda['logro'].'%)</td>';
+    				$celdas .= '<td class="no_rendido">'.$celda['contenido']->nombre.' ('.$celda['logro'].'%)</td>';
     			}
     			$celdas .= '</td>';
     			$logro_quiz += $celda['logro']*$celda['numero_preguntas'];
     			$total_preguntas += $celda['numero_preguntas'];
     		}
     		
-    		echo '<table>';
-    		echo '<tr><td><b>';
-    		echo $quiz.'('.round($logro_quiz/$total_preguntas).'%)';
-    		echo '</b></td></td>';
+    		echo '<table class="matriz">';
+    		echo '<tr><td class="header">';
+    		echo $quiz.' ('.round($logro_quiz/$total_preguntas).'%)';
+    		echo '</td></td>';
     		echo $celdas;
     		echo '</table>';	
     	} 
     ?>
     </div>
-    <hr/>
+    
+    <div>
+    	<table class="leyenda">
+    	<tr>
+    		<td class="destacado">Logro &gt;= 55%</td>
+    		<td class="suficiente">45% &lt; Logro &lt;55%</td>
+    		<td class="insuficiente">Logro &lt;= 45%</td>
+    		<td class="no_rendido">A&uacute;n no rendido</td>
+    	</tr>
+    	</table>
+    </div>
     <div id="mensajes_personalizados">
     	<?php
     		foreach ($contenido_logro as $data){
-     			echo "Tu porcentaje de logro est&aacute; ";
-     			if($data['logro']>=60){
-     				echo "por sobre el 60% en ".$data['contenido']->nombre.":</br>";
+     			if($data['logro']>=55){
+     				echo '<div class="mensaje_suficiente"> Tu porcentaje de logro est&aacute; ';
+     				echo "por sobre el 55% en ".$data['contenido']->nombre.":</br>";
      				echo $data['contenido']->fraseLogrado.".</br>";
      			} else{
-     				echo "bajo el 60% en ".$data['contenido']->nombre.":</br>";
+     				echo '<div class="mensaje_insuficiente"> Tu porcentaje de logro est&aacute; ';
+     				echo "bajo el 55% en ".$data['contenido']->nombre.":</br>";
      				echo $data['contenido']->fraseNoLogrado.". Re recomendamos visitar: ".$data['contenido']->linkRepaso.".</br>";
      			}
+     			echo '</div>';
      		}
      	?>
     </div>

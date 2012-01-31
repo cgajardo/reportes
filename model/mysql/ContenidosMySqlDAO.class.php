@@ -6,6 +6,44 @@
  * @date: 2012-01-18 16:29
  */
 class ContenidosMySqlDAO implements ContenidosDAO{
+	
+	/**
+	 * Retornar todos los contenidos asociado a un quiz.
+	 * Se utiliza principalmente para la matriz de desempe–o
+	 * 
+	 * @author cgajardo
+	 * @param int $quiz_id
+	 */
+	public function getContenidosByQuiz($quiz_id){
+		$sql = 'SELECT c.* '.
+				'FROM contenidos as c, preguntas as p '.
+				'WHERE p.id_contenido = c.id '.
+				'AND p.id IN (SELECT qp.id_pregunta '.
+                              'FROM quizes_has_preguntas AS qp '.
+                              'WHERE qp.id_quiz = ?) '.
+				'GROUP BY c.id';
+		
+		$sqlQuery = new SqlQuery($sql);
+		$sqlQuery->set($quiz_id);
+		
+		return $this->getContenidoLogroArray($sqlQuery);
+	}
+	
+	/**
+	 * Esta funci—n permite mantener la compatibilidad con la misma funcion de IntentodDAO
+	 * que permite mostrar los quizes no rendidos en la matriz de desempe–o
+	 * 
+	 * @author cgajardo
+	 * @param SqlQuery $sqlQuery
+	 */
+	protected function getContenidoLogroArray($sqlQuery){
+		$contenidos = $this->getList($sqlQuery);
+		$ret = array();
+		foreach ($contenidos as $id => $contenido){
+			$ret[$id] = array('contenido' => $contenido, 'logro'=> -1);
+		}
+		return $ret;
+	}
 
 	/**
 	 * Get Domain object by primry key

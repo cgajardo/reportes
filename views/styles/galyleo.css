@@ -1,0 +1,89 @@
+@CHARSET "UTF-8";
+
+/* mantenien las tablas de la matriz de desempeño juntas */
+
+body{
+	padding-left: 7%;
+	padding-right: 7%;
+}
+table.matriz {
+	
+	float:left;
+	width:200px;
+}
+
+#matriz_desempeno {
+	width:1000px;
+	margin:0;
+	overflow:hidden;
+}
+
+/** elementos **/
+.title {
+	text-align:center;
+}
+.fecha_reporte {
+	text-align: right;
+}
+.datos_alumno {
+	text-align: left;
+}
+.descripcion {
+}
+.subtitulo{
+	font-weight: bold;
+	padding-bottom: 10px;
+	text-decoration: underline;
+}
+
+/** para la matriz de desempeño **/
+td.header{
+	border: 1px solid black;
+	border-bottom: 1px solid black;
+	font-weight: bold;
+}
+td.insuficiente {
+	border: 1px solid black;
+	background-color: #EE6B9E;
+	color: #000000;
+}
+td.suficiente {
+	border: 1px solid black;
+	background-color: #FFA773;
+	color: #000000;
+}
+td.destacado{
+	border: 1px solid black;
+	background-color: #67E46F;
+	color: #000000;
+}
+td.no_rendido{
+	border: 1px solid black;
+	background-color: #A9A9A9;
+	color: #000000;
+}
+
+table.leyenda {
+	margin-top: 30px;
+	margin-bottom: 30px;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+}
+
+.mensaje_insuficiente{	
+	background-image: url("/reportes/views/images/icons/medalla-bronce.png");
+	background-position: left;
+	background-repeat: no-repeat;
+	padding-left: 35px;
+}
+.mensaje_suficiente {
+	background-image: url("/reportes/views/images/icons/medalla-oro.png");
+	background-position: left;
+	background-repeat: no-repeat;
+	padding-left: 35px;	
+}
+
+
+
+

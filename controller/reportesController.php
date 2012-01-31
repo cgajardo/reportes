@@ -62,9 +62,8 @@ public function index()
 
 /* esta funci—n es s—lo un ejemplo del uso de Google Chart */
 public function semanal(){
-	//print $this->encrypter->encode("platform=utfsm&user=609&group=48&quiz=155");
+	//print $this->encrypter->encode("platform=utfsm&user=609&group=48&quiz=151");
 	$PARAMS = $this->encrypter->decodeURL($_GET['params']);
-	
 	
 	$user_id_in_moodle = $PARAMS['user'];
 	$platform = $PARAMS['platform'];
@@ -99,7 +98,13 @@ public function semanal(){
 	$quizes_en_curso = DAOFactory::getQuizesDAO()->queryCerradosByIdCurso($curso->id);
 	$matriz_desempe–o = array();
 	foreach ($quizes_en_curso as $quiz_en_curso){
-		$matriz_desempe–o[$quiz_en_curso->nombre] = DAOFactory::getIntentosDAO()->getLogroPorContenido($quiz_en_curso->id, $usuario->id);
+		$logro_contenido = DAOFactory::getIntentosDAO()->getLogroPorContenido($quiz_en_curso->id, $usuario->id);
+		if(empty($logro_contenido)){
+			$matriz_desempe–o[$quiz_en_curso->nombre] = DAOFactory::getContenidosDAO()->getContenidosByQuiz($quiz_en_curso->id);
+		}else{
+			$matriz_desempe–o[$quiz_en_curso->nombre] = $logro_contenido;
+		}
+			
 	}
 	
 	//enviamos estos elementos a la vista
@@ -135,7 +140,7 @@ public function profesor(){
 	$this->registry->template->nota_maxima = 100;
 	$this->registry->template->promedio_grupo = promedio_grupo($notas_grupo,count($estudiantes_en_grupo));
 	$this->registry->template->estudiantes =$estudiantes_en_grupo;
-        $this->registry->template->total_estudiantes_grupo = count($estudiantes_en_grupo);
+    $this->registry->template->total_estudiantes_grupo = count($estudiantes_en_grupo);
 	$this->registry->template->nombre_actividad = $quiz->nombre;
 	$this->registry->template->fecha_cierre = $quiz->fechaCierre;
 	$this->registry->template->contenido_logro = $contenido_logro;
@@ -162,13 +167,9 @@ public function profesor(){
 	
 }
 
-public function view(){																
-
-	/*** should not have to call this here.... FIX ME ***/
-
-	$this->registry->template->blog_heading = 'This is the blog heading';
-	$this->registry->template->blog_content = 'This is the blog content';
-	$this->registry->template->show('blog_view');
+public function ensayo(){							
+										
+	$this->registry->template->show('reportes/ensayo');
 }
 
 }

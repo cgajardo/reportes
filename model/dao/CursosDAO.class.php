@@ -6,6 +6,14 @@
  * @date: 2012-01-18 16:29
  */
 interface CursosDAO{
+	
+	/**
+	 * Entrega un listado en los cuales el usuario est‡ inscrito
+	 *
+	 * @author: cgajardo
+	 * @param int $usuario_id
+	 */
+	public function getCursosByUsuario($usuario_id);
 
 	/**
 	 * Get Domain object by primry key

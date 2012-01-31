@@ -8,6 +8,15 @@
 interface QuizesDAO{
 	
 	/**
+	 * Entrega un listado de quizes cuyo nombre contiene "evalua"
+	 *
+	 * TODO: revisar porque quiza es mejor seleccionar aquellos que tienen fecha de cierre
+	 * @author cgajardo
+	 * @param int $id_curso
+	 */
+	public function queryEvaluacionesByIdCurso($id_curso);
+	
+	/**
 	 * Devuelve la lista de quizes evaluados cerrados hasta este momento.
 	 *
 	 * @author cgajardo

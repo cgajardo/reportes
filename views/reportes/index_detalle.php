@@ -25,7 +25,7 @@
 ?>
 </table>
 </br>
-<a href="<?php echo $_SERVER['PHP_SELF'].'?rt=reportes/index&params='.encode($origen);?>">Volver</a>
+<a href="<?php echo $_SERVER['PHP_SELF'].'?rt=reportes/index&params='.$encrypter->encode($origen);?>">Volver</a>
 </body>
 </html>
 

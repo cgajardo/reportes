@@ -4,26 +4,72 @@ Class reportesController Extends baseController {
 
 public function index() 
 {
-    //TODO: quï¿½ hace en el index?
-    $user_id_in_moodle = $_GET['user'];
-    $platform = $_GET['platform'];
-    $usuario = DAOFactory::getPersonasDAO()->getUserInPlatform($platform,$user_id_in_moodle);
-    $this->registry->template->reporte_main = 'se deber&iacute;an listar todos los reportes';
-    $this->registry->template->nombre_usuario = $usuario->nombre;
-    $this->registry->template->apellido_usuario = $usuario->apellido;
-    $this->registry->template->intentos = DAOFactory::getIntentosDAO()->getIntentosByUsuario($usuario->id);
-    $this->registry->template->quizes = DAOFactory::getQuizesDAO()->getQuizesByUsuario($usuario->id);
-    
+	//print $this->encrypter->encode("platform=utfsm&user=609");
+	$PARAMS = $this->encrypter->decodeURL($_GET['params']);
+	
+	$user_id_in_moodle = $PARAMS['user'];
+	$platform = $PARAMS['platform'];
+	
+	$usuario = DAOFactory::getPersonasDAO()->getUserInPlatform($platform,$user_id_in_moodle);
+	$cursos_usuarios = DAOFactory::getCursosDAO()->getCursosByUsuario($usuario->id);
+	
+	if(isset($PARAMS['quiz'])){
+		$id_quiz = $PARAMS['quiz'];
+		
+		$quiz = DAOFactory::getQuizesDAO()->load($id_quiz);
+		$nota_alumno = DAOFactory::getIntentosDAO()->getNotaInQuizByPersona($quiz->id, $usuario->id);
+		$contenido_logro = DAOFactory::getIntentosDAO()->getLogroPorContenido($quiz->id, $usuario->id);
+		
+		$this->registry->template->usuario = $usuario;
+		$this->registry->template->quiz = $quiz;
+		$this->registry->template->nota = $nota_alumno;
+		$this->registry->template->contenido_logro=$contenido_logro;
+		$this->registry->template->origen = '&platform='.$platform.'&user='.$user_id_in_moodle.'&curso='.$PARAMS['curso'];
+		$this->registry->template->encrypter = $this->encrypter;
+		
+		//finally
+		$this->registry->template->show('reportes/index_detalle');
+		
+		return;
+		
+	}
+	
+	if(isset($PARAMS['curso'])){
+		$id_curso = $PARAMS['curso'];
+		
+		$quizes = DAOFactory::getQuizesDAO()->queryEvaluacionesByIdCurso($id_curso);
+		
+		$this->registry->template->usuario = $usuario;
+		$this->registry->template->cursos = $cursos_usuarios;
+		$this->registry->template->origen = '&platform='.$platform.'&user='.$user_id_in_moodle;
+		$this->registry->template->encrypter = $this->encrypter;
+		$this->registry->template->quizes = $quizes;
+		$this->registry->template->id_curso = $id_curso;
+		
+		//finally
+		$this->registry->template->show('reportes/index_quizes');
+		
+		return;
+	}
+	
+	$this->registry->template->usuario = $usuario;
+	$this->registry->template->cursos = $cursos_usuarios;
+	$this->registry->template->origen = '&platform='.$platform.'&user='.$user_id_in_moodle;
+	$this->registry->template->encrypter = $this->encrypter;
     //finally
-    $this->registry->template->show('reportes/index');
+    $this->registry->template->show('reportes/index_cursos');
 }
 
-/* esta funciï¿½n es solo un ejemplo del uso de Google Chart */
+/* esta funci—n es s—lo un ejemplo del uso de Google Chart */
 public function semanal(){
-	$user_id_in_moodle = $_GET['user'];
-	$platform = $_GET['platform'];
-	$grupo_id_in_moodle = $_GET['group'];
-	$quiz_id_in_moodle = $_GET['quiz'];
+	//print $this->encrypter->encode("platform=utfsm&user=609&group=48&quiz=155");
+	$PARAMS = $this->encrypter->decodeURL($_GET['params']);
+	
+	
+	$user_id_in_moodle = $PARAMS['user'];
+	$platform = $PARAMS['platform'];
+	$grupo_id_in_moodle = $PARAMS['group'];
+	$quiz_id_in_moodle = $PARAMS['quiz'];
 	
 	//recuperamos los objetos que nos interesan
 	$usuario = DAOFactory::getPersonasDAO()->getUserInPlatform($platform,$user_id_in_moodle);
@@ -60,8 +106,7 @@ public function semanal(){
 	$this->registry->template->matriz_desempe–o = $matriz_desempe–o;
 	
 	//tiempo dedicado frente a cada quiz
-	$tiempo_decicado = DAOFactory::getLogsDAO()->getTiempoEntreFechas($fecha_fin);
-	printf("tiempo dedicado: %s </br>",$tiempo_decicado);
+	$tiempo_dedicado = DAOFactory::getLogsDAO()->getTiempoEntreFechas($fecha_fin);
 	
 	//finally
 	$this->registry->template->show('reportes/semanal');

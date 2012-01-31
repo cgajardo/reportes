@@ -10,7 +10,7 @@ Por favor selecciona el curso que deseas revisar </p>
   
 <?php
 foreach($cursos as $curso){
-	echo '<a href="'.$_SERVER['PHP_SELF'].'?rt=reportes/index&params='.encode($origen.'&curso='.$curso->id).'">'.$curso->nombre.'</a></br>';	
+	echo '<a href="'.$_SERVER['PHP_SELF'].'?rt=reportes/index&params='.$encrypter->encode($origen.'&curso='.$curso->id).'">'.$curso->nombre.'</a></br>';	
 } 
 echo '</br>';
 ?>

@@ -7,6 +7,37 @@
  */
 class CursosMySqlDAO implements CursosDAO{
 	
+	/**
+	 * Entrega un listado en los cuales el usuario est‡ inscrito
+	 * 
+	 * @author: cgajardo
+	 * @param int $usuario_id
+	 */
+	public function getCursosByUsuario($usuario_id){
+		$sql = 'SELECT c.* '.
+				'FROM cursos as c '.
+				'WHERE c.id IN ('.
+					'SELECT id_curso '. 
+                	'FROM cursos_has_grupos '.
+                	'WHERE id_grupo IN ('.
+                		'SELECT id_grupo '.  
+                      	'FROM grupos_has_estudiantes '.
+						'WHERE id_persona = ?)'.
+                	') '. 
+				'ORDER BY c.id ASC';
+		
+		$sqlQuery = new SqlQuery($sql);
+		$sqlQuery->set($usuario_id);
+		
+		return $this->getList($sqlQuery);
+		
+	}
+	
+	
+	/**
+	 * 
+	 * @param int $grupo_id
+	 */
 	public function getCursoByGrupoId($grupo_id){
 		$sql = "SELECT c.* FROM cursos AS c, cursos_has_grupos AS cg WHERE cg.id_curso = c.id AND cg.id_grupo = ?";
 		$sqlQuery = new SqlQuery($sql);

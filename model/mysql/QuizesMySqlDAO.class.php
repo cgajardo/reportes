@@ -8,6 +8,26 @@
 class QuizesMySqlDAO implements QuizesDAO{
 	
 	/**
+	 * Entrega un listado de quizes cuyo nombre contiene "evalua"
+	 * 
+	 * TODO: revisar porque quiza es mejor seleccionar aquellos que tienen fecha de cierre
+	 * @author cgajardo
+	 * @param int $id_curso
+	 */
+	public function queryEvaluacionesByIdCurso($id_curso){
+		$sql = 'SELECT q.* '.
+				'FROM quizes AS q '.
+				'WHERE id_curso = ? AND nombre LIKE "%evalua%" '.
+				'ORDER BY fecha_cierre ASC';
+		
+		$sqlQuery = new SqlQuery($sql);
+		$sqlQuery->set($id_curso);
+		
+		return $this->getList($sqlQuery);
+		
+	}
+	
+	/**
 	 * Devuelve la lista de quizes evaluados cerrados hasta este momento.
 	 * 
 	 * @author cgajardo 

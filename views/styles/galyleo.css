@@ -9,7 +9,6 @@ body{
 }
 
 table.matriz {
-	
 	float:left;
 	width:200px;
 }
@@ -103,6 +102,11 @@ table.leyenda {
 .hr{
 	background-image: url("/reportes/views/images/logos/separador.jpg");
 	height: 13px;
+}
+
+.contador{
+	width:500px;
+	text-align: center;
 }
 
 

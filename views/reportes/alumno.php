@@ -2,7 +2,7 @@
 <html>
   <head>
   <title><?php echo $titulo; ?></title>
-  	<link rel="stylesheet" type="text/css" href="/reportes/views/styles/galyleo1.css" />
+  	<link rel="stylesheet" type="text/css" href="/reportes/views/styles/galyleo.css" />
   	<style type="text/css">
   	.header_institucion {
 		background-image: url("/reportes/views/images/logos/<?php echo $institucion;?>-header.png");
@@ -94,6 +94,7 @@
     		
     		foreach ($columna as $celda){
     			$celdas .= '<tr>';
+    			//nos permite identificar si el control fue rendido o no
     			if($celda['logro'] == -1){
     				$celdas .= '<td class="no_rendido">'.$celda['contenido']->nombre.'</td>';
     			}elseif($celda['logro'] <= 45){
@@ -119,7 +120,6 @@
     	} 
     ?>
     </div>
-    
     <div>
     	<table class="leyenda">
     	<tr>
@@ -130,6 +130,41 @@
     	</tr>
     	</table>
     </div>
+    <div class="subtitulo">Nivel de logro</div>
+    <div class="contador">
+    	<table class="contador">
+    	<tr>
+    		<th>Actividad</th>
+    		<th>Contenidos Logrados</th>
+    		<th>Contenidos No Logrados</th>
+    	</tr>
+    		<?php
+			foreach($matriz_desempe–o as $quiz => $columna){
+	    		$logrados = 0;
+	    		$no_logrado = 0;
+	    		
+	    		foreach ($columna as $celda){
+	    			//TODO: cuentan los controles no rendidos?
+	    			if($celda['logro'] == -1){
+	    				$no_logrado++;	
+	    			}elseif ($celda['logro'] >= 55){
+	    				$logrados++;
+	    			}else{
+	    				$no_logrado++;
+	    			}
+	    		}
+	    		
+	    		echo '<tr>';
+	    		echo '<td>'.$quiz.'</td>';
+	    		echo '<td>'.$logrados.'</td>';
+	    		echo '<td>'.$no_logrado.'</td>';
+	    		echo '</tr>';	
+	    	}
+    	?>
+    	</table>
+    </div>
+    <div class="hr"></div>
+    <p>Tus resultados en la actividad <?php echo $nombre_actividad;?> indican que:</p>
     <div id="mensajes_personalizados">
     	<?php
     		foreach ($contenido_logro as $data){

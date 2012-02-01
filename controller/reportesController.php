@@ -13,6 +13,9 @@ public function index()
 	$usuario = DAOFactory::getPersonasDAO()->getUserInPlatform($platform,$user_id_in_moodle);
 	$cursos_usuarios = DAOFactory::getCursosDAO()->getCursosByUsuario($usuario->id);
 	
+	// redireccionamos al 404 si usuario no existe
+	 
+	
 	if(isset($PARAMS['quiz'])){
 		$id_quiz = $PARAMS['quiz'];
 		
@@ -133,7 +136,7 @@ public function profesor(){
 	$notas_grupo = DAOFactory::getIntentosDAO()->getNotasNombreGrupo($quiz->id,$grupo->id);
 	$contenido_logro = DAOFactory::getIntentosDAO()->getLogroPorContenidoGrupo($quiz->id);
         //$nota_maxima= DAOFactory::getNotasDAO()->getMaxNotaInQuiz($quiz->id);
-
+	
 	//enviamos los siguientes valores a la vista
 	$this->registry->template->titulo = 'Reporte Profesor';
 	$this->registry->template->usuario = $usuario;
@@ -168,9 +171,15 @@ public function profesor(){
 	
 }
 
+//cgajardo: funci—n para probar el handler de google chart
 public function ensayo(){							
 										
 	$this->registry->template->show('reportes/ensayo');
+}
+
+//cgajardo: funci—n mostrar el tiempo que pasa un alumno entre dos fechas
+public function tiempo(){
+	$this->registry->template->show('reportes/tiempo');
 }
 
 }

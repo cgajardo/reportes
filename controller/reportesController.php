@@ -179,6 +179,8 @@ public function ensayo(){
 
 //cgajardo: funci—n mostrar el tiempo que pasa un alumno entre dos fechas
 public function tiempo(){
+	$tiempo = DAOFactory::getLogsDAO()->getTiempoEntreFechas($fecha_fin, $fecha_inicio);
+	$this->registry->template->tiempo = $tiempo; 
 	$this->registry->template->show('reportes/tiempo');
 }
 

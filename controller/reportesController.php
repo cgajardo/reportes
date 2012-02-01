@@ -98,21 +98,21 @@ public function semanal(){
 	$this->registry->template->nombre_grupo = $grupo->nombre;
 	$this->registry->template->institucion = 'utfsm';
 	
-	// esto es lo necesario para la matriz de desempe–o, TODO: deber’a tener su vista propia?
+	// esto es lo necesario para la matriz de desempeño, TODO: deber’a tener su vista propia?
 	$quizes_en_curso = DAOFactory::getQuizesDAO()->queryCerradosByIdCurso($curso->id);
-	$matriz_desempe–o = array();
+	$matriz_desempeño = array();
 	foreach ($quizes_en_curso as $quiz_en_curso){
 		$logro_contenido = DAOFactory::getIntentosDAO()->getLogroPorContenido($quiz_en_curso->id, $usuario->id);
 		if(empty($logro_contenido)){
-			$matriz_desempe–o[$quiz_en_curso->nombre] = DAOFactory::getContenidosDAO()->getContenidosByQuiz($quiz_en_curso->id);
+			$matriz_desempeño[$quiz_en_curso->nombre] = DAOFactory::getContenidosDAO()->getContenidosByQuiz($quiz_en_curso->id);
 		}else{
-			$matriz_desempe–o[$quiz_en_curso->nombre] = $logro_contenido;
+			$matriz_desempeño[$quiz_en_curso->nombre] = $logro_contenido;
 		}
 			
 	}
 	
 	//enviamos estos elementos a la vista
-	$this->registry->template->matriz_desempe–o = $matriz_desempe–o;
+	$this->registry->template->matriz_desempeño = $matriz_desempeño;
 	
 	//tiempo dedicado frente a cada quiz
 	$tiempo_dedicado = DAOFactory::getLogsDAO()->getTiempoEntreFechas($fecha_fin);

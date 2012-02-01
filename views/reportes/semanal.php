@@ -77,7 +77,7 @@
     <div class="subtitulo">Matriz de desempe&ntilde;o</div>
     <div id="matriz_desempeno">
     <?php
-    	foreach($matriz_desempe–o as $quiz => $columna){
+    	foreach($matriz_desempeño as $quiz => $columna){
     		$celdas = '';
     		$logro_quiz = 0;
     		$total_preguntas = 0;

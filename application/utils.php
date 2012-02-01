@@ -13,7 +13,7 @@ function fecha_hoy(){
 	$dia_semana = date("w");
 	$dia = date("j");
 	$mes = date("n");
-	$a–o = date("Y");
+	$año = date("Y");
 	
 	switch ($dia_semana){
 		case 0: $dia_semana = "Domingo"; break;
@@ -42,7 +42,7 @@ function fecha_hoy(){
 		default: $mes = "Error";
 	}
 	
-	return $dia_semana.' '.$dia.' de '.$mes.' de '.$a–o;
+	return $dia_semana.' '.$dia.' de '.$mes.' de '.$año;
 }
 
 /**

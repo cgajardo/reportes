@@ -2,7 +2,16 @@
 <html>
   <head>
   <title><?php echo $titulo; ?></title>
-  	<link rel="stylesheet" type="text/css" href="/reportes/views/styles/galyleo.css" />
+  	<link rel="stylesheet" type="text/css" href="/reportes/views/styles/galyleo1.css" />
+  	<style type="text/css">
+  	.header_institucion {
+		background-image: url("/reportes/views/images/logos/<?php echo $institucion;?>-header.png");
+		background-position: center;
+		background-repeat: no-repeat;
+		height: 150px;
+		margin-top: -8px;
+	}
+	</style>
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <!-- javascript for ranking_curso -->
     <script type="text/javascript">
@@ -62,6 +71,7 @@
     </script>  
   </head>
   <body>
+  	<div class="header_institucion"></div>
   	<div class="title"><h1>Informe Semanal para el Estudiante</h1></div>
   	<div class="fecha_reporte"><?php echo fecha_hoy();?></div>
   	<div class="datos_alumno">
@@ -130,20 +140,20 @@
      			} else{
      				echo '<div class="mensaje_insuficiente"> Tu porcentaje de logro est&aacute; ';
      				echo "bajo el 55% en ".$data['contenido']->nombre.":</br>";
-     				echo $data['contenido']->fraseNoLogrado.". Re recomendamos visitar: ".$data['contenido']->linkRepaso.".</br>";
+     				echo $data['contenido']->fraseNoLogrado.". Te recomendamos visitar: ".$data['contenido']->linkRepaso.".</br>";
      			}
      			echo '</div>';
      		}
      	?>
     </div>
     <br/>
-    <hr/>
+    <div class="hr"></div>
     <div class="comparacion_grupo">
     <p>Seg&uacute;n lo que respondiste en la actividad <?php echo $nombre_actividad;?>, cerrada el d&iacute;a <?php echo $fecha_cierre;?>, tus resultados son los siguientes:</p>
     <div id="ranking_curso"></div>
     <p>Obtuviste un porcentaje de logro de <?php echo($nota_alumno->logro);?>% lo cual te ubica en el puesto N&deg;<?php echo $posicion_en_grupo;?> 
     de un total de <?php echo $total_estudiantes_grupo?> estudiantes en tu curso. 
-    <hr/>
+    <div class="hr"></div>
     <div id="comparacion_grupo"></div>
     <p>Obtuviste un <?php echo($nota_alumno->nota);?>, lo cual es
     <?php
@@ -154,8 +164,10 @@
     	} else{
     		echo 'igual';
     	} 
-    	?> que el promedio de tu curso, el cual fue <?php echo($promedio_grupo);?></p>
-    <hr/>
+    	?> que el promedio de tu curso, el cual fue <?php echo($promedio_grupo);?>.</p>
+    <div class="hr"></div>
     </div>
+    <div class="author">Reporte preparado por Galyleo para <?php echo ucwords($institucion);?></div>
+    <div class="footer"></div>
   </body>
 </html>

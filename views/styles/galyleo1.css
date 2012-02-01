@@ -5,7 +5,9 @@
 body{
 	padding-left: 7%;
 	padding-right: 7%;
+	width: 1018px;
 }
+
 table.matriz {
 	
 	float:left;
@@ -83,6 +85,26 @@ table.leyenda {
 	background-repeat: no-repeat;
 	padding-left: 35px;	
 }
+.footer {
+	background-image: url("/reportes/views/images/logos/footer.png");
+	background-position: center;
+	background-repeat: no-repeat;
+	height: 68px;
+	margin-bottom:-8px;
+	 	
+}
+
+.author{
+	text-align: center;
+	font-size: small;
+	padding: 5px;
+}
+
+.hr{
+	background-image: url("/reportes/views/images/logos/separador.jpg");
+	height: 13px;
+}
+
 
 
 

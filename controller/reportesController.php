@@ -93,6 +93,7 @@ public function semanal(){
 	$this->registry->template->contenido_logro = $contenido_logro;
 	$this->registry->template->nombre_curso = $curso->nombre;
 	$this->registry->template->nombre_grupo = $grupo->nombre;
+	$this->registry->template->institucion = 'utfsm';
 	
 	// esto es lo necesario para la matriz de desempe–o, TODO: deber’a tener su vista propia?
 	$quizes_en_curso = DAOFactory::getQuizesDAO()->queryCerradosByIdCurso($curso->id);
@@ -114,7 +115,7 @@ public function semanal(){
 	$tiempo_dedicado = DAOFactory::getLogsDAO()->getTiempoEntreFechas($fecha_fin);
 	
 	//finally
-	$this->registry->template->show('reportes/semanal');
+	$this->registry->template->show('reportes/alumno');
 	
 }
 

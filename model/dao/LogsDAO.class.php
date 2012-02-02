@@ -13,9 +13,10 @@ interface LogsDAO{
 	 *
 	 * @param date $fecha_inicio
 	 * @param date $fecha_fin
+	 * @param int $usuario_id
 	 * @return int
 	 */
-	public function getTiempoEntreFechas($fecha_fin,$fecha_inicio);
+	public function getTiempoEntreFechas($fecha_inicio, $fecha_fin, $usuario_id);
 	
 
 }

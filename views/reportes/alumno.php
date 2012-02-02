@@ -20,7 +20,7 @@
       function drawChart() {
         var data = new google.visualization.DataTable();
         data.addColumn('number', 'Alumno');
-        data.addColumn('number', 'Puntaje');
+        data.addColumn('number', 'Porcentaje de logro');
         data.addRows([
           <?php
           foreach ($notas_grupo as $id => $nota){
@@ -69,6 +69,31 @@
         chart.draw(data, options);
       }
     </script>  
+	<!--  javascript para el tiempo en plataforma -->
+	<script type="text/javascript">
+      google.load("visualization", "1", {packages:["corechart"]});
+      google.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Fecha');
+        data.addColumn('number', 'Minutos');
+        data.addRows([
+          <?php 
+          	foreach (array_reverse($tiempos_semanas) AS $fecha => $tiempo){
+          		echo '["'.$fecha.'",'.round($tiempo/60,1).'],';
+          	}
+          ?>	
+        ]);
+
+        var options = {
+          width: 800, height: 300,
+          title: 'Tiempo por semana'
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('tiempo_semana'));
+        chart.draw(data, options);
+      }
+    </script>  
   </head>
   <body>
   	<div class="header_institucion"></div>
@@ -83,11 +108,10 @@
   		<p>Estimado alumno:</br>A continuaci&oacute;n podr&aacute;s ver tu matriz de 
   		desempe&ntilde;o en las evaluaciones rendidas a la fecha</p>
   	</div> 
-    <!--Div that will hold the pie chart-->
     <div class="subtitulo">Matriz de desempe&ntilde;o</div>
     <div id="matriz_desempeno">
     <?php
-    	foreach($matriz_desempeño as $quiz => $columna){
+    	foreach($matriz_desempeÃ±o as $quiz => $columna){
     		$celdas = '';
     		$logro_quiz = 0;
     		$total_preguntas = 0;
@@ -139,7 +163,7 @@
     		<th>Contenidos No Logrados</th>
     	</tr>
     		<?php
-			foreach($matriz_desempe–o as $quiz => $columna){
+			foreach($matriz_desempeÃ±o as $quiz => $columna){
 	    		$logrados = 0;
 	    		$no_logrado = 0;
 	    		
@@ -201,6 +225,8 @@
     	} 
     	?> que el promedio de tu curso, el cual fue <?php echo($promedio_grupo);?>.</p>
     <div class="hr"></div>
+    <p>El siguiente gr&aacute;fico muestra el tiempo que dedicaste a la plataforma durante las &uacute;ltimas 10 semanas.
+    <div id="tiempo_semana"></div>
     </div>
     <div class="author">Reporte preparado por Galyleo para <?php echo ucwords($institucion);?></div>
     <div class="footer"></div>

@@ -63,9 +63,10 @@ public function index()
     $this->registry->template->show('reportes/index_cursos');
 }
 
-/* esta funci�n es s�lo un ejemplo del uso de Google Chart */
+/* esta función es sólo un ejemplo del uso de Google Chart */
 public function semanal(){
 	//print $this->encrypter->encode("platform=utfsm&user=609&group=48&quiz=151");
+	//print $this->encrypter->encode("platform=utfsm&user=570&group=48&quiz=151");
 	$PARAMS = $this->encrypter->decodeURL($_GET['params']);
 	
 	$user_id_in_moodle = $PARAMS['user'];
@@ -83,12 +84,37 @@ public function semanal(){
 	$nota_alumno = DAOFactory::getIntentosDAO()->getNotaInQuizByPersona($quiz->id, $usuario->id);
 	$contenido_logro = DAOFactory::getIntentosDAO()->getLogroPorContenido($quiz->id, $usuario->id);
 	
+	// esto es lo necesario para la matriz de desempeño, TODO: debería tener su vista propia?
+	$quizes_en_curso = DAOFactory::getQuizesDAO()->queryCerradosByIdCurso($curso->id);
+	$matriz_desempeño = array();
+	foreach ($quizes_en_curso as $quiz_en_curso){
+		$logro_contenido = DAOFactory::getIntentosDAO()->getLogroPorContenido($quiz_en_curso->id, $usuario->id);
+		if(empty($logro_contenido)){
+			$matriz_desempeño[$quiz_en_curso->nombre] = DAOFactory::getContenidosDAO()->getContenidosByQuiz($quiz_en_curso->id);
+		}else{
+			$matriz_desempeño[$quiz_en_curso->nombre] = $logro_contenido;
+		}
+			
+	}
+	
+	//calculamos el tiempo que paso el usuario entre quizes
+	//$inicio = '1970-01-01 12:00:00';
+	//hoy será hace 1 mes atrás
+	$hoy = time() - (3 * 7 * 24 * 60 * 60);
+	$semana_pasada = $hoy - (7 * 24 * 60 * 60);
+	$tiempos_semanas = array();
+	for ($i = 0; $i<10; $i++){
+		$tiempos_semanas[ date("d/m",$semana_pasada)] = DAOFactory::getLogsDAO()->getTiempoEntreFechas($semana_pasada,$hoy, $usuario->id);
+		$hoy = $semana_pasada;
+		$semana_pasada = $hoy - (7 * 24 * 60 * 60);
+	}
+	
 	//enviamos los siguientes valores a la vista
 	$this->registry->template->titulo = 'Reporte Estudiante';
 	$this->registry->template->usuario = $usuario;
 	$this->registry->template->notas_grupo = $notas_grupo;
 	$this->registry->template->promedio_grupo = promedio_grupo($notas_grupo,count($estudiantes_en_grupo));
-	$this->registry->template->nota_alumno = $nota_alumno[0]; 
+	$this->registry->template->nota_alumno = $nota_alumno[0];
 	$this->registry->template->posicion_en_grupo = posicion($notas_grupo, $nota_alumno[0]);
 	$this->registry->template->total_estudiantes_grupo = count($estudiantes_en_grupo);
 	$this->registry->template->nombre_actividad = $quiz->nombre;
@@ -97,25 +123,9 @@ public function semanal(){
 	$this->registry->template->nombre_curso = $curso->nombre;
 	$this->registry->template->nombre_grupo = $grupo->nombre;
 	$this->registry->template->institucion = 'utfsm';
+	$this->registry->template->matriz_desempeño = $matriz_desempeño;
+	$this->registry->template->tiempos_semanas = $tiempos_semanas;
 	
-	// esto es lo necesario para la matriz de desempe�o, TODO: deber�a tener su vista propia?
-	$quizes_en_curso = DAOFactory::getQuizesDAO()->queryCerradosByIdCurso($curso->id);
-	$matriz_desempe�o = array();
-	foreach ($quizes_en_curso as $quiz_en_curso){
-		$logro_contenido = DAOFactory::getIntentosDAO()->getLogroPorContenido($quiz_en_curso->id, $usuario->id);
-		if(empty($logro_contenido)){
-			$matriz_desempe�o[$quiz_en_curso->nombre] = DAOFactory::getContenidosDAO()->getContenidosByQuiz($quiz_en_curso->id);
-		}else{
-			$matriz_desempe�o[$quiz_en_curso->nombre] = $logro_contenido;
-		}
-			
-	}
-	
-	//enviamos estos elementos a la vista
-	$this->registry->template->matriz_desempe�o = $matriz_desempe�o;
-	
-	//tiempo dedicado frente a cada quiz
-	$tiempo_dedicado = DAOFactory::getLogsDAO()->getTiempoEntreFechas($fecha_fin);
 	
 	//finally
 	$this->registry->template->show('reportes/alumno');
@@ -171,16 +181,16 @@ public function profesor(){
 	
 }
 
-//cgajardo: funci�n para probar el handler de google chart
+//cgajardo: función para probar el handler de google chart
 public function ensayo(){							
 										
 	$this->registry->template->show('reportes/ensayo');
 }
 
-//cgajardo: funci�n mostrar el tiempo que pasa un alumno entre dos fechas
+//cgajardo: función mostrar el tiempo que pasa un alumno entre dos fechas
 public function tiempo(){
-	$tiempo = DAOFactory::getLogsDAO()->getTiempoEntreFechas($fecha_fin, $fecha_inicio);
-	$this->registry->template->tiempo = $tiempo; 
+	$tiempo = DAOFactory::getLogsDAO()->getTiempoEntreFechas('1970-01-01 12:00:00','2012-01-01 12:00:00', 843);
+	$this->registry->template->tiempo = round($tiempo/60); 
 	$this->registry->template->show('reportes/tiempo');
 }
 

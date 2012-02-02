@@ -1,0 +1,27 @@
+URL reporte quiz2 para Sebastian:
+http://localhost/reportes/reportes/semanal?params=ncFEDwY6ekfLCyjp1G5c14rlNQMsuHyjYSFVxzsijlqTij3u9JTKpmbRo8sVqEy_C0qI8_F2Y58v8n3ztofEAQ
+
+URL reporte quiz4 para Sebastian:
+http://localhost/reportes/reportes/semanal?params=ncFEDwY6ekfLCyjp1G5c14rlNQMsuHyjYSFVxzsijlojUmF4fkOC2cTaEIIFBi_yRfcKnlg_YLEMi4-sdBoDcA
+
+URL reporte quiz4 para Francisco
+http://localhost/reportes/reportes/semanal?params=eOeK72-nps79AYyKLvpG1TmFptZgJ4EtXQPCFFQJd-iTij3u9JTKpmbRo8sVqEy_C0qI8_F2Y58v8n3ztofEAQ
+
+URL reporte quiz4 para Pablo
+http://localhost/reportes/reportes/semanal?params=ctz5Z9YizDI27wu-H3QcPbZNvRjo9zIAmvT6s24ZgZiTij3u9JTKpmbRo8sVqEy_C0qI8_F2Y58v8n3ztofEAQ
+
+URL quiz4 Sebastian Jaque
+http://localhost/reportes/reportes/semanal?params=yjd8rluzRmP9gfRpa6uiPrJOa1ZcmO1qUS0OHK65NayTij3u9JTKpmbRo8sVqEy_C0qI8_F2Y58v8n3ztofEAQ
+
+URL quiz4 Rodrigo
+http://localhost/reportes/reportes/semanal?params=XjRZckT3Pti0rX3khCm6ws17QG0_YQ6_auaTGqOXoYiTij3u9JTKpmbRo8sVqEy_C0qI8_F2Y58v8n3ztofEAQ
+
+URL quiz4 Oscar
+http://localhost/reportes/reportes/semanal?params=lp18XjNnaOf4jtrroLgs5THizf3I672h4cy5_GAD7JqTij3u9JTKpmbRo8sVqEy_C0qI8_F2Y58v8n3ztofEAQ
+
+URL quiz4 Nicol‡s
+http://localhost/reportes/reportes/semanal?params=RFUQ8MT4IgSXoNVdSCpQNskbfp4c-GcZii93RtwP20mTij3u9JTKpmbRo8sVqEy_C0qI8_F2Y58v8n3ztofEAQ
+
+URL quiz4 Claudio
+http://localhost/reportes/reportes/semanal?params=AHfzo7FvJrZ9o2-jDBs779E2Fg5x3a0feayHXRZ5HnaTij3u9JTKpmbRo8sVqEy_C0qI8_F2Y58v8n3ztofEAQ
+

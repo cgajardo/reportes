@@ -46,7 +46,7 @@ class LogsMySqlDAO implements LogsDAO{
 		for($i=0;$i<count($tab)-1;$i++){
 			$delta = $tab[$i+1]['tiempo']-$tab[$i]['tiempo'];
 			//TODO: revisar ajustar este parametro
-			if($delta <= 7200){
+			if($delta <= 3600){
 				$suma_tiempo += $delta;
 				$i++;
 			}	

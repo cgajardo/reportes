@@ -66,7 +66,8 @@ public function index()
 /* esta función es sólo un ejemplo del uso de Google Chart */
 public function semanal(){
 	//print $this->encrypter->encode("platform=utfsm&user=609&group=48&quiz=151");
-	//print $this->encrypter->encode("platform=utfsm&user=570&group=48&quiz=151");
+	//578, 586, 587, 599, 581, 574
+	//print $this->encrypter->encode("platform=utfsm&user=574&group=48&quiz=151");
 	$PARAMS = $this->encrypter->decodeURL($_GET['params']);
 	
 	$user_id_in_moodle = $PARAMS['user'];

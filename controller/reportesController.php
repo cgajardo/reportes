@@ -14,6 +14,21 @@ public function index()
 	$cursos_usuarios = DAOFactory::getCursosDAO()->getCursosByUsuario($usuario->id);
 	
 	// redireccionamos al 404 si usuario no existe
+	if($usuario == null){
+		$this->registry->template->mesaje_personalizado = "Debes ser un usuario de Galyleo para visitar esta p&aacute;gina.</br>".
+				"Si tu cuenta fue creada recientemente debes esperar un par de minutos a que nuestros sistemas se actualicen.";
+		//finally
+		$this->registry->template->show('error404');
+		return;
+	}
+	
+	if ($cursos_usuarios == null){
+		$this->registry->template->mesaje_personalizado = "Tu cuenta no est&aacute; asociada a ning&uacute;n curso.</br>".
+				"Probablemente llegaste hasta ac&aacute; por error.";
+		//finally
+		$this->registry->template->show('error404');
+		return;
+	}
 	 
 	
 	if(isset($PARAMS['quiz'])){

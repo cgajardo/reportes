@@ -7,7 +7,6 @@
 */
 class LogsMySqlDAO implements LogsDAO{
 	
-	
 	/**
 	 * cgajardo: esta funcion calculará el tiempo que el usuario trabajando en el sistema
 	 * entre dos fechas indicadas

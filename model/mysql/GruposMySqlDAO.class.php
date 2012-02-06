@@ -9,6 +9,24 @@ class GruposMySqlDAO implements GruposDAO{
 	
 	
 	/**
+	 * Devuelve una lista de Grupos asociados a un Curso
+	 * 
+	 * @author cgajardo
+	 * @param int $curso_id
+	 */
+	public function getGruposInCurso($curso_id){
+		$sql = 'SELECT g.* '.
+			'FROM grupos as g, cursos_has_grupos as cg '.
+			'WHERE g.id = cg.id_grupo AND cg.id_curso = ? ';
+		
+		$sqlQuery = new SqlQuery($sql);
+		$sqlQuery->setNumber($curso_id);
+		
+		return $this->getList($sqlQuery);
+	}
+	
+	
+	/**
 	 * Esta función devuelve el grupo asociado a un curso y un estudiante
 	 * 
 	 * @author cgajardo

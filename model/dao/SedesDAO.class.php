@@ -6,6 +6,14 @@
  * @date: 2012-01-18 16:29
  */
 interface SedesDAO{
+	
+	/**
+	 * Esta función devuelve la lista de sedes en las cuales una persona es director
+	 *
+	 * @author cgajardo
+	 * @param int $director_id
+	 */
+	public function getSedesByDirector($director_id);
 
 	/**
 	 * Get Domain object by primry key

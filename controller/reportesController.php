@@ -31,6 +31,7 @@ public function index() {
 		return;
 	}
 	
+	// o si no tiene cursos asociados
 	elseif ($cursos_usuarios == null){
 		$this->registry->template->mesaje_personalizado = "Tu cuenta no est&aacute; asociada a ning&uacute;n curso.</br>".
 				"Probablemente llegaste hasta ac&aacute; por error.";
@@ -38,7 +39,7 @@ public function index() {
 		$this->registry->template->show('error404');
 		return;
 	}
-	
+	/* caso en que el usuario ya selecciono el curso desde la plataforma galyleo */
 	elseif (isset($PARAMS['curso'])){
 		$id_curso = $PARAMS['curso'];
 		
@@ -51,21 +52,16 @@ public function index() {
 		$this->registry->template->quizes = $quizes;
 		$this->registry->template->id_curso = $id_curso;
 		$this->registry->template->retorno = $this->encrypter->encode('&plataforma='.$platform.'&usuario='.$usuario->id);
-		
 		//finally
 		$this->registry->template->show('reportes/index_quizes');
-		
 		return;
 	}
 	
 	/* caso en que el usuario ya selecciono el curso desde la plataforma moodle */
 	elseif (isset($PARAMS['course'])){
 		$curso_moodle = $PARAMS['course'];
-		$curso = DAOFactory::getCursosDAO()->queryByIdentificadorMoodle($platform.'_'.$curso_moodle);
-		//sabemos que el identificador_moodle es único, por lo tanto recibiremos sólo 1 respuesta
-		
+		$curso = DAOFactory::getCursosDAO()->queryByIdentificadorMoodle($platform.'_'.$curso_moodle);	
 		$quizes = DAOFactory::getQuizesDAO()->queryEvaluacionesByIdCurso($curso->id);
-		
 		$this->registry->template->usuario = $usuario;
 		$this->registry->template->cursos = $cursos_usuarios;
 		$this->registry->template->origen = '&plataforma='.$platform.'&usuario='.$usuario->id;
@@ -73,10 +69,8 @@ public function index() {
 		$this->registry->template->quizes = $quizes;
 		$this->registry->template->id_curso = $curso->id;
 		$this->registry->template->retorno = $this->encrypter->encode('&plataforma='.$platform.'&usuario='.$usuario->id);
-		
 		//finally
 		$this->registry->template->show('reportes/index_quizes');
-		
 		return;
 	}
 	
@@ -88,7 +82,6 @@ public function index() {
     $this->registry->template->show('reportes/index_cursos');
 }
 
-/* esta función es sólo un ejemplo del uso de Google Chart */
 public function semanal(){
 	//print $this->encrypter->encode("platform=utfsm&user=609&course=6&quiz=151")."</br>";
 	//print $this->encrypter->encode("plataforma=utfsm&usuario=848&curso=6&quiz=21")."</br>";
@@ -135,8 +128,7 @@ public function semanal(){
 			$matriz_desempeño[$quiz_en_curso->nombre] = DAOFactory::getContenidosDAO()->getContenidosByQuiz($quiz_en_curso->id);
 		}else{
 			$matriz_desempeño[$quiz_en_curso->nombre] = $logro_contenido;
-		}
-			
+		}			
 	}
 	
 	//calculamos el tiempo que paso el usuario entre quizes
@@ -207,7 +199,7 @@ public function profesor(){
 	$quizes_en_curso = DAOFactory::getQuizesDAO()->queryCerradosByIdCurso($curso->id);
 	$matriz_desempeno = array();
 	foreach ($quizes_en_curso as $quiz_en_curso){
-                $contenidos=DAOFactory::getIntentosDAO()->getLogroPorContenidoGrupo($quiz_en_curso->id);
+    	$contenidos=DAOFactory::getIntentosDAO()->getLogroPorContenidoGrupo($quiz_en_curso->id);
 		$matriz_desempeno[$quiz_en_curso->nombre] = promedio_grupo($contenidos,count($estudiantes_en_grupo));
 	}
 	
@@ -219,14 +211,7 @@ public function profesor(){
 	printf("tiempo dedicado: %s </br>",$tiempo_decicado);
 	
 	//finally
-	$this->registry->template->show('reportes/profesor');
-	
-}
-
-//cgajardo: función para probar el handler de google chart
-public function ensayo(){							
-										
-	$this->registry->template->show('reportes/ensayo');
+	$this->registry->template->show('reportes/profesor');	
 }
 
 //cgajardo: función mostrar el tiempo que pasa un alumno entre dos fechas

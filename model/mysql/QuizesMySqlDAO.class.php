@@ -28,8 +28,9 @@ class QuizesMySqlDAO implements QuizesDAO{
 	}
 	
 	/**
-	 * Esta funcion entrega un listado de actividades evaluadas asociadas a un curso moodle
+	 * DEPRECATED
 	 * 
+	 * Esta funcion entrega un listado de actividades evaluadas asociadas a un curso moodle
 	 * @author cgajardo
 	 * @param string $identificador_moodle_curso
 	 */

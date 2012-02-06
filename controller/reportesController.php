@@ -102,22 +102,38 @@ public function index()
 
 /* esta función es sólo un ejemplo del uso de Google Chart */
 public function semanal(){
-	//print $this->encrypter->encode("platform=utfsm&user=609&group=48&quiz=151");
+	print $this->encrypter->encode("platform=utfsm&user=609&course=6&quiz=151")."</br>";
+	print $this->encrypter->encode("plataforma=utfsm&usuario=848&curso=6&quiz=21");
 	//578, 586, 587, 599, 581, 574
-	//print $this->encrypter->encode("platform=utfsm&user=574&group=48&quiz=151");
+	
 	$PARAMS = $this->encrypter->decodeURL($_GET['params']);
 	
-	$user_id_in_moodle = $PARAMS['user'];
-	$platform = $PARAMS['platform'];
-	$grupo_id_in_moodle = $PARAMS['group'];
-	$quiz_id_in_moodle = $PARAMS['quiz'];
+	if(isset($PARAMS['platform'])){
+		$user_id_in_moodle = $PARAMS['user'];
+		$platform = $PARAMS['platform'];
+		$course_id_in_moodle = $PARAMS['course'];
+		$quiz_id_in_moodle = $PARAMS['quiz'];
+		
+		//recuperamos los objetos que nos interesan
+		$usuario = DAOFactory::getPersonasDAO()->getUserInPlatform($platform,$user_id_in_moodle);
+		$curso = DAOFactory::getCursosDAO()->queryByIdentificadorMoodle($platform.'_'.$course_id_in_moodle);
+		$quiz = DAOFactory::getQuizesDAO()->getGalyleoQuizByMoodleId($platform, $quiz_id_in_moodle);
 	
-	//recuperamos los objetos que nos interesan
-	$usuario = DAOFactory::getPersonasDAO()->getUserInPlatform($platform,$user_id_in_moodle);
-	$grupo = DAOFactory::getGruposDAO()->getGrupoByIdEnMoodle($platform,$grupo_id_in_moodle);
-	$curso = DAOFactory::getCursosDAO()->getCursoByGrupoId($grupo->id);
+	}
+	elseif(isset($PARAMS['plataforma'])){
+		$user_id = $PARAMS['usuario'];
+		$platform = $PARAMS['plataforma'];
+		$course_id = $PARAMS['curso'];
+		$quiz_id = $PARAMS['quiz'];
+		
+		//recuperamos los objetos que nos interesan
+		$usuario = DAOFactory::getPersonasDAO()->load($user_id);
+		$curso = DAOFactory::getCursosDAO()->load($course_id);
+		$quiz = DAOFactory::getQuizesDAO()->load($quiz_id);
+	}
+	
+	$grupo = DAOFactory::getGruposDAO()->getGrupoByCursoAndUser($usuario->id, $curso->id);
 	$estudiantes_en_grupo = DAOFactory::getPersonasDAO()->getEstudiantesInGroup($grupo->id);
-	$quiz = DAOFactory::getQuizesDAO()->getGalyleoQuizByMoodleId($platform, $quiz_id_in_moodle);
 	$notas_grupo = DAOFactory::getIntentosDAO()->getNotasGrupo($quiz->id,$grupo->id);
 	$nota_alumno = DAOFactory::getIntentosDAO()->getNotaInQuizByPersona($quiz->id, $usuario->id);
 	$contenido_logro = DAOFactory::getIntentosDAO()->getLogroPorContenido($quiz->id, $usuario->id);

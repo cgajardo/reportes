@@ -39,15 +39,13 @@ class PersonasMySqlDAO implements PersonasDAO{
 	 * Get Domain object by primry key
 	 *
 	 * @param String $id primary key
-	 * @return PersonasMySql 
+	 * @return Personas
 	 */
-	public function load($id, $nombre, $apellido){
-		$sql = 'SELECT * FROM personas WHERE id = ?  AND nombre = ?  AND apellido = ? ';
+	public function load($id){
+		$sql = 'SELECT * FROM personas WHERE id = ? ';
 		$sqlQuery = new SqlQuery($sql);
 		$sqlQuery->setNumber($id);
-		$sqlQuery->setNumber($nombre);
-		$sqlQuery->setNumber($apellido);
-
+		
 		return $this->getRow($sqlQuery);
 	}
 

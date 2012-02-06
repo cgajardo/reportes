@@ -17,7 +17,7 @@ foreach($quizes as $quiz){
 	}
 } 
 echo '</br>';
-echo '<a href="'.$_SERVER['PHP_SELF'].'?rt=reportes/index&params='.$encrypter->encode($origen).'">Volver</a>';
+echo '<a href="'.$_SERVER['PHP_SELF'].'?rt=reportes/index&params='.$retorno.'">&lt;-Todos tus cursos</a>';
 
 ?>
 </body>

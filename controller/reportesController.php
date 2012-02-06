@@ -2,16 +2,25 @@
 
 Class reportesController Extends baseController {
 
-public function index() 
-{
+public function index() {
 	//print $this->encrypter->encode("platform=utfsm&user=609&course=6");
 	$PARAMS = $this->encrypter->decodeURL($_GET['params']);
 	
-	$user_id_in_moodle = $PARAMS['user'];
-	$platform = $PARAMS['platform'];
+	if(isset($PARAMS['platform'])){
+		$user_id_in_moodle = $PARAMS['user'];
+		$platform = $PARAMS['platform'];
+		
+		$usuario = DAOFactory::getPersonasDAO()->getUserInPlatform($platform,$user_id_in_moodle);
+	}
+	elseif(isset($PARAMS['plataforma'])){
+		$user_id = $PARAMS['usuario'];
+		$platform = $PARAMS['plataforma'];
+		
+		$usuario = DAOFactory::getPersonasDAO()->load($user_id);
+	}
 	
-	$usuario = DAOFactory::getPersonasDAO()->getUserInPlatform($platform,$user_id_in_moodle);
 	$cursos_usuarios = DAOFactory::getCursosDAO()->getCursosByUsuario($usuario->id);
+	
 	
 	// redireccionamos al 404 si usuario no existe
 	if($usuario == null){
@@ -29,28 +38,6 @@ public function index()
 		$this->registry->template->show('error404');
 		return;
 	}
-	 
-	
-	elseif (isset($PARAMS['quiz'])){
-		$id_quiz = $PARAMS['quiz'];
-		
-		$quiz = DAOFactory::getQuizesDAO()->load($id_quiz);
-		$nota_alumno = DAOFactory::getIntentosDAO()->getNotaInQuizByPersona($quiz->id, $usuario->id);
-		$contenido_logro = DAOFactory::getIntentosDAO()->getLogroPorContenido($quiz->id, $usuario->id);
-		
-		$this->registry->template->usuario = $usuario;
-		$this->registry->template->quiz = $quiz;
-		$this->registry->template->nota = $nota_alumno;
-		$this->registry->template->contenido_logro=$contenido_logro;
-		$this->registry->template->origen = '&platform='.$platform.'&user='.$user_id_in_moodle.'&curso='.$PARAMS['curso'];
-		$this->registry->template->encrypter = $this->encrypter;
-		
-		//finally
-		$this->registry->template->show('reportes/index_detalle');
-		
-		return;
-		
-	}
 	
 	elseif (isset($PARAMS['curso'])){
 		$id_curso = $PARAMS['curso'];
@@ -63,6 +50,7 @@ public function index()
 		$this->registry->template->encrypter = $this->encrypter;
 		$this->registry->template->quizes = $quizes;
 		$this->registry->template->id_curso = $id_curso;
+		$this->registry->template->retorno = $this->encrypter->encode('&plataforma='.$platform.'&usuario='.$usuario->id);
 		
 		//finally
 		$this->registry->template->show('reportes/index_quizes');
@@ -75,16 +63,16 @@ public function index()
 		$curso_moodle = $PARAMS['course'];
 		$curso = DAOFactory::getCursosDAO()->queryByIdentificadorMoodle($platform.'_'.$curso_moodle);
 		//sabemos que el identificador_moodle es único, por lo tanto recibiremos sólo 1 respuesta
-		$curso = $curso[0];
 		
 		$quizes = DAOFactory::getQuizesDAO()->queryEvaluacionesByIdCurso($curso->id);
 		
 		$this->registry->template->usuario = $usuario;
 		$this->registry->template->cursos = $cursos_usuarios;
-		$this->registry->template->origen = '&platform='.$platform.'&user='.$user_id_in_moodle;
+		$this->registry->template->origen = '&plataforma='.$platform.'&usuario='.$usuario->id;
 		$this->registry->template->encrypter = $this->encrypter;
 		$this->registry->template->quizes = $quizes;
 		$this->registry->template->id_curso = $curso->id;
+		$this->registry->template->retorno = $this->encrypter->encode('&plataforma='.$platform.'&usuario='.$usuario->id);
 		
 		//finally
 		$this->registry->template->show('reportes/index_quizes');
@@ -94,7 +82,7 @@ public function index()
 	
 	$this->registry->template->usuario = $usuario;
 	$this->registry->template->cursos = $cursos_usuarios;
-	$this->registry->template->origen = '&platform='.$platform.'&user='.$user_id_in_moodle;
+	$this->registry->template->origen = '&plataforma='.$platform.'&usuario='.$usuario->id;
 	$this->registry->template->encrypter = $this->encrypter;
     //finally
     $this->registry->template->show('reportes/index_cursos');
@@ -102,8 +90,8 @@ public function index()
 
 /* esta función es sólo un ejemplo del uso de Google Chart */
 public function semanal(){
-	print $this->encrypter->encode("platform=utfsm&user=609&course=6&quiz=151")."</br>";
-	print $this->encrypter->encode("plataforma=utfsm&usuario=848&curso=6&quiz=21");
+	//print $this->encrypter->encode("platform=utfsm&user=609&course=6&quiz=151")."</br>";
+	//print $this->encrypter->encode("plataforma=utfsm&usuario=848&curso=6&quiz=21")."</br>";
 	//578, 586, 587, 599, 581, 574
 	
 	$PARAMS = $this->encrypter->decodeURL($_GET['params']);

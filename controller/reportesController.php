@@ -4,7 +4,7 @@ Class reportesController Extends baseController {
 
 public function index() 
 {
-	//print $this->encrypter->encode("platform=utfsm&user=609");
+	//print $this->encrypter->encode("platform=utfsm&user=609&course=6");
 	$PARAMS = $this->encrypter->decodeURL($_GET['params']);
 	
 	$user_id_in_moodle = $PARAMS['user'];
@@ -22,7 +22,7 @@ public function index()
 		return;
 	}
 	
-	if ($cursos_usuarios == null){
+	elseif ($cursos_usuarios == null){
 		$this->registry->template->mesaje_personalizado = "Tu cuenta no est&aacute; asociada a ning&uacute;n curso.</br>".
 				"Probablemente llegaste hasta ac&aacute; por error.";
 		//finally
@@ -31,7 +31,7 @@ public function index()
 	}
 	 
 	
-	if(isset($PARAMS['quiz'])){
+	elseif (isset($PARAMS['quiz'])){
 		$id_quiz = $PARAMS['quiz'];
 		
 		$quiz = DAOFactory::getQuizesDAO()->load($id_quiz);
@@ -52,7 +52,7 @@ public function index()
 		
 	}
 	
-	if(isset($PARAMS['curso'])){
+	elseif (isset($PARAMS['curso'])){
 		$id_curso = $PARAMS['curso'];
 		
 		$quizes = DAOFactory::getQuizesDAO()->queryEvaluacionesByIdCurso($id_curso);
@@ -63,6 +63,28 @@ public function index()
 		$this->registry->template->encrypter = $this->encrypter;
 		$this->registry->template->quizes = $quizes;
 		$this->registry->template->id_curso = $id_curso;
+		
+		//finally
+		$this->registry->template->show('reportes/index_quizes');
+		
+		return;
+	}
+	
+	/* caso en que el usuario ya selecciono el curso desde la plataforma moodle */
+	elseif (isset($PARAMS['course'])){
+		$curso_moodle = $PARAMS['course'];
+		$curso = DAOFactory::getCursosDAO()->queryByIdentificadorMoodle($platform.'_'.$curso_moodle);
+		//sabemos que el identificador_moodle es único, por lo tanto recibiremos sólo 1 respuesta
+		$curso = $curso[0];
+		
+		$quizes = DAOFactory::getQuizesDAO()->queryEvaluacionesByIdCurso($curso->id);
+		
+		$this->registry->template->usuario = $usuario;
+		$this->registry->template->cursos = $cursos_usuarios;
+		$this->registry->template->origen = '&platform='.$platform.'&user='.$user_id_in_moodle;
+		$this->registry->template->encrypter = $this->encrypter;
+		$this->registry->template->quizes = $quizes;
+		$this->registry->template->id_curso = $curso->id;
 		
 		//finally
 		$this->registry->template->show('reportes/index_quizes');

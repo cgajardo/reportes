@@ -28,6 +28,24 @@ class QuizesMySqlDAO implements QuizesDAO{
 	}
 	
 	/**
+	 * Esta funcion entrega un listado de actividades evaluadas asociadas a un curso moodle
+	 * 
+	 * @author cgajardo
+	 * @param string $identificador_moodle_curso
+	 */
+	public function queryEvaluacionesByIdCursoMoodle($identificador_moodle_curso){
+		$sql = 'SELECT q.* '.
+				'FROM quizes AS q, cursos as c '.
+				'WHERE id_curso = c.id AND q.nombre LIKE "%evalua%" AND c.identificador_moodle=? '.
+				'ORDER BY fecha_cierre ASC';
+		
+		$sqlQuery = new SqlQuery($sql);
+		$sqlQuery->setString($identificador_moodle_curso);
+		
+		return $this->getList($sqlQuery);
+	}
+	
+	/**
 	 * Devuelve la lista de quizes evaluados cerrados hasta este momento.
 	 * 
 	 * @author cgajardo 
@@ -41,7 +59,7 @@ class QuizesMySqlDAO implements QuizesDAO{
 	}
 	
 	/**
-	 * Devuelve el quiz correspondiente en galyleo segœn el id de quiz en moodle
+	 * Devuelve el quiz correspondiente en galyleo segï¿½n el id de quiz en moodle
 	 * @param string $plataforma
 	 * @param int $quiz_id_in_moodle
 	 */

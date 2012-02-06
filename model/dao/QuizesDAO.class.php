@@ -17,6 +17,14 @@ interface QuizesDAO{
 	public function queryEvaluacionesByIdCurso($id_curso);
 	
 	/**
+	 * Esta funcion entrega un listado de actividades evaluadas asociadas a un curso moodle
+	 *
+	 * @author cgajardo
+	 * @param string $identificador_moodle_curso
+	 */
+	public function queryEvaluacionesByIdCursoMoodle($identificador_moodle_curso);
+	
+	/**
 	 * Devuelve la lista de quizes evaluados cerrados hasta este momento.
 	 *
 	 * @author cgajardo
@@ -25,7 +33,7 @@ interface QuizesDAO{
 	public function queryCerradosByIdCurso($curso_id);
 	
 	/**
-	 * Devuelve el quiz correspondiente en galyleo segœn el id de quiz en moodle
+	 * Devuelve el quiz correspondiente en galyleo segï¿½n el id de quiz en moodle
 	 * @param string $plataforma
 	 * @param int $quiz_id_in_moodle
 	 */

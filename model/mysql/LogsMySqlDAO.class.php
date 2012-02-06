@@ -23,6 +23,8 @@ class LogsMySqlDAO implements LogsDAO{
 				'FROM logs '. 
 				'WHERE tiempo BETWEEN ? AND ? '.
 					'AND id_persona = ? '.
+                                        'AND (accion=\'login\' OR accion=\'logout\')'.
+                                'GROUP BY tiempo,modulo,accion,id_modulo'.
 				'ORDER BY tiempo ASC';
 		
 		$sqlQuery = new SqlQuery($sql);
@@ -44,12 +46,15 @@ class LogsMySqlDAO implements LogsDAO{
 		$suma_tiempo = 0;
 		
 		for($i=0;$i<count($tab)-1;$i++){
-			$delta = $tab[$i+1]['tiempo']-$tab[$i]['tiempo'];
-			//TODO: revisar ajustar este parametro
-			if($delta <= 3600){
-				$suma_tiempo += $delta;
-				$i++;
-			}	
+                        if($tab[$i]['accion']!='logout'){
+                            $delta = $tab[$i+1]['tiempo']-$tab[$i]['tiempo'];
+                            //TODO: revisar ajustar este parametro
+                            if($delta <= 3600){
+                                    $suma_tiempo += $delta;
+                            }else{
+                                $suma_tiempo+= 3600;
+                            }
+                        }
 		}
 		
 		return $suma_tiempo;

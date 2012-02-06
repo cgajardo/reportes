@@ -9,7 +9,7 @@ class ContenidosMySqlDAO implements ContenidosDAO{
 	
 	/**
 	 * Retornar todos los contenidos asociado a un quiz.
-	 * Se utiliza principalmente para la matriz de desempe–o
+	 * Se utiliza principalmente para la matriz de desempeï¿½o
 	 * 
 	 * @author cgajardo
 	 * @param int $quiz_id
@@ -30,8 +30,8 @@ class ContenidosMySqlDAO implements ContenidosDAO{
 	}
 	
 	/**
-	 * Esta funci—n permite mantener la compatibilidad con la misma funcion de IntentodDAO
-	 * que permite mostrar los quizes no rendidos en la matriz de desempe–o
+	 * Esta funciï¿½n permite mantener la compatibilidad con la misma funcion de IntentodDAO
+	 * que permite mostrar los quizes no rendidos en la matriz de desempeï¿½o
 	 * 
 	 * @author cgajardo
 	 * @param SqlQuery $sqlQuery
@@ -40,7 +40,7 @@ class ContenidosMySqlDAO implements ContenidosDAO{
 		$contenidos = $this->getList($sqlQuery);
 		$ret = array();
 		foreach ($contenidos as $id => $contenido){
-			$ret[$id] = array('contenido' => $contenido, 'logro'=> -1);
+			$ret[$id] = array('contenido' => $contenido, 'logro'=> -1, 'numero_preguntas'=>'0');
 		}
 		return $ret;
 	}

@@ -13,7 +13,7 @@ foreach($quizes as $quiz){
 	if($quiz->fechaCierre > date("Y-m-f H:m:s")){
 		echo $quiz->nombre.' (no finalizada)</br>';
 	} else {
-		echo '<a href="'.$_SERVER['PHP_SELF'].'?rt=reportes/index&params='.$encrypter->encode($origen.'&curso='.$id_curso.'&quiz='.$quiz->id).'">'.$quiz->nombre.'</a></br>';
+		echo '<a href="'.$_SERVER['PHP_SELF'].'?rt=reportes/semanal&params='.$encrypter->encode($origen.'&curso='.$id_curso.'&quiz='.$quiz->id).'">'.$quiz->nombre.'</a></br>';
 	}
 } 
 echo '</br>';

@@ -59,7 +59,7 @@ public function index()
 		
 		$this->registry->template->usuario = $usuario;
 		$this->registry->template->cursos = $cursos_usuarios;
-		$this->registry->template->origen = '&platform='.$platform.'&user='.$user_id_in_moodle;
+		$this->registry->template->origen = '&plataforma='.$platform.'&usuario='.$usuario->id;
 		$this->registry->template->encrypter = $this->encrypter;
 		$this->registry->template->quizes = $quizes;
 		$this->registry->template->id_curso = $id_curso;

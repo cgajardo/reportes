@@ -1,6 +1,6 @@
 <?php
 	/**
-	 * Representa un par de nota-logro, se utiliza principalmente en los gr�ficos
+	 * Representa un par de nota-logro, se utiliza principalmente en los gráficos
 	 *
      * @author: cgajardo
      * @date: 2012-01-24	 
@@ -13,9 +13,9 @@
 		
 		var $logro;
                 
-                var $nombre;
+        var $nombre;
                 
-                var $apellido;
+        var $apellido;
 		
 	}
 ?>

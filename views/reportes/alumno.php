@@ -137,7 +137,12 @@
     		
     		echo '<table class="matriz">';
     		echo '<tr><td class="header">';
-    		echo $quiz.' ('.round($logro_quiz/$total_preguntas).'%)';
+    		// caso de quiz no rendido
+    		if ($total_preguntas == 0){
+    			echo $quiz.' (-)';
+    		}else{
+    			echo $quiz.' ('.round($logro_quiz/$total_preguntas).'%)';
+    		}
     		echo '</td></td>';
     		echo $celdas;
     		echo '</table>';	

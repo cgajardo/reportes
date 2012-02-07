@@ -61,7 +61,37 @@ public function data(){
 	
 	$arbol_tiempo = array();
 	
-	if(isset($_GET['curso'])){
+	if(isset($_GET['grupo'])){
+		/* árbol de tiempo para un curso */
+		$id_director = $_GET['director'];
+		$nombre_sede = $_GET['sede'];
+		$nombre_curso = $_GET['curso'];
+		$nombre_grupo =  $_GET['grupo'];
+		
+		$sede = DAOFACTORY::getSedesDAO()->getByDirectorAndNombre($id_director, $nombre_sede);
+		$curso = DAOFactory::getCursosDAO()->getCursoBySedeAndNombre($sede->id, $nombre_curso);
+		$grupo = DAOFactory::getGruposDAO()->getGrupoByCursoAndNombre($curso->id, $nombre_grupo);
+		
+		$arbol_tiempo['nombre'] = $grupo->nombre;
+	
+		$suma_grupos = 0;
+		//buscamos todos todos grupos en un curso
+		
+		$alumnos = DAOFactory::getPersonasDAO()->getEstudiantesInGroup($grupo->id);
+		$suma_alumnos = 0;
+		//buscamos todos los alumnos de un grupo (sumamos su tiempo)
+		foreach ($alumnos as $alumno){
+			$arbol_tiempo['detalle'][$alumno->nombre]['nombre'] = $alumno->nombre.' '.$alumno->apellido;
+			//desde el inicio de los tiempos hasta hoy
+			$tiempo = DAOFactory::getLogsDAO()->getTiempoEntreFechas(0, time(), $alumno->id);
+			$arbol_tiempo['detalle'][$alumno->nombr]['tiempo'] = $tiempo;
+			$suma_alumnos += $tiempo;
+		}
+		$arbol_tiempo['tiempo'] = $suma_alumnos;
+		
+	}//termina el if
+	
+	elseif(isset($_GET['curso'])){
 		/* árbol de tiempo para un curso */
 		$id_director = $_GET['director'];
 		$nombre_sede = $_GET['sede'];

@@ -44,7 +44,13 @@ public function index() {
 	}
 	$arbol_tiempo['tiempo'] = $suma_sedes;
 	
-	$this->registry->template->arbol = $arbol_tiempo;
+	//FIX
+	$cadena = '[';
+	foreach ($arbol_tiempo['detalle'] as $nombre => $nodo){
+		$cadena .= '["'.$nombre.'",'.$nodo['tiempo'].'],';
+	}
+	
+	$this->registry->template->arbol = substr($cadena, 0, -1).']';
 	$this->registry->template->director = $director;
 	$this->registry->template->sedes = $sedes;
 	$this->registry->template->show('director/index');
@@ -55,10 +61,18 @@ public function data(){
 	
 	$arbol_tiempo = array();
 	
+	if(isset($_GET['curso'])){
+		/* árbol de tiempo para un curso */
+		$id_director = $_GET['director'];
+		$nombre_curso = $_GET['sede'];
+	}
+	
 	if(isset($_GET['sede'])){
+		/* árbol de tiempo para una sede */
+		$id_director = $_GET['director'];
+		$nombre_sede = $_GET['sede'];
 		
-		$id_sede = $_GET['sede'];
-		$sede = DAOFactory::getSedesDAO()->load($id_sede);
+		$sede = DAOFACTORY::getSedesDAO()->getByDirectorAndNombre($id_director, $nombre_sede);
 		$arbol_tiempo['nombre'] = $sede->nombre;
 		//comienza iteración
 		$cursos = DAOFactory::getCursosDAO()->getCursosInSede($sede->id);

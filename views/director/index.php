@@ -4,18 +4,29 @@
      <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
      <link rel="stylesheet" type="text/css" href="/reportes/views/styles/galyleo.css" />
      <script type="text/javascript" src="/reportes/views/js/json.js"></script>
-     <script type="text/javascript" src="/reportes/views/js/directorchart.js"></script>
+  	<script type="text/javascript" src="/reportes/views/js/directorchart.js"></script>
+     <script type="text/javascript">
+     var chart;
+     var data;
+     function drawChart() {
+   	    data = new google.visualization.DataTable();
+   	    data.addColumn('string', 'Sede');
+   	    data.addColumn('number', 'Tiempo');
+   	    data.addRows(<?php echo $arbol;?>);
+
+   	    var options = {
+   	      width: 400, height: 240,
+   	      title: 'Tiempo de uso de la plataforma por sede',
+   	      hAxis: {title: 'Minutos', titleTextStyle: {color: 'blue'}}
+   	    };
+
+   	    chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+   	    chart.draw(data, options);
+   	    google.visualization.events.addListener(chart, 'select', loadCursos);
+   	    
+   	  }
+     </script>
      <title>Informe para directores</title>
-     <script type="php">
-	 <?php
-	 	$data_sedes = '[';
-		foreach ($arbol['detalle'] as $key => $value){
-			$data_sedes .= '["'.$key.'", '.$value['tiempo'].'],';
-		}
-		//quitamos el último caracter para evitarnos el , final
-		$data_sedes = substr($data_sedes, 0, -1).']';
-	 ?>	
-	 </script>
      <script type="text/javascript" src="https://www.google.com/jsapi"></script>
      <script type="text/javascript">
      google.load("visualization", "1", {packages:["corechart"]});

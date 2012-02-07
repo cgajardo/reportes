@@ -17,7 +17,8 @@ class GruposMySqlDAO implements GruposDAO{
 	public function getGruposInCurso($curso_id){
 		$sql = 'SELECT g.* '.
 			'FROM grupos as g, cursos_has_grupos as cg '.
-			'WHERE g.id = cg.id_grupo AND cg.id_curso = ? ';
+			'WHERE g.id = cg.id_grupo AND cg.id_curso = ? '.
+			'ORDER BY LENGTH(g.nombre), g.nombre ';
 		
 		$sqlQuery = new SqlQuery($sql);
 		$sqlQuery->setNumber($curso_id);

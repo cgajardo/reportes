@@ -7,6 +7,17 @@
  */
 interface SedesDAO{
 	
+	
+	/**
+	 * Esta función entrega la asociada a un director
+	 * para un nombre de sede dado.
+	 *
+	 * @author cgajardo
+	 * @param int $id_director
+	 * @param string $nombre_sede
+	 */
+	public function getByDirectorAndNombre($id_director, $nombre_sede);
+	
 	/**
 	 * Esta función devuelve la lista de sedes en las cuales una persona es director
 	 *

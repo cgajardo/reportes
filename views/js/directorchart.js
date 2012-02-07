@@ -63,7 +63,6 @@ function loadGrupo(){
    //recuperamos la id del director
    	id_director = gup('id');
    	var xmlhttp;
-   	sede = '';
    	var selection = chart.getSelection();
    	for (var i = 0; i < selection.length; i++) {
    		var item = selection[i]; 
@@ -105,7 +104,7 @@ function loadGrupo(){
                google.visualization.events.addListener(chart, 'select', loadXMLDoc);
      		}
      	};
-   	xmlhttp.open("GET","director/data?director="+id_director+"&curso="+curso,true);
+   	xmlhttp.open("GET","director/data?director="+id_director+"&sede="+sede+"&curso="+curso,true);
    	xmlhttp.send();
 }
 

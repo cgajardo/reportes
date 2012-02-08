@@ -1,7 +1,7 @@
 	
 /**
- * Esta funci—n se encarga de responder din‡micamente los pedidos que
- * se realizan sobre el gr‡fico para directores.
+ * Esta funciï¿½n se encarga de responder dinï¿½micamente los pedidos que
+ * se realizan sobre el grï¿½fico para directores.
  * 
  * @author cgajardo
  * @date 2012-02-07
@@ -12,6 +12,7 @@ var curso;
 var grupo;
 
 function loadCursos(){
+	document.getElementById("chart_div").innerHTML='<img class="loading-gif" border="0" src="/reportes/views/images/loading.gif" alt="cargando"/>';
     //recuperamos la id del director
     	id_director = gup('id');
     	var xmlhttp;
@@ -40,7 +41,7 @@ function loadCursos(){
       			//document.getElementById("myDiv").innerHTML=xmlhttp.responseText;
       			var j = JSON.parse(xmlhttp.responseText);
       			last_data = j;
-            	//se sobreescribe el gr‡fico 
+            	//se sobreescribe el grï¿½fico 
       			chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
 
             	data = new google.visualization.DataTable();
@@ -50,7 +51,9 @@ function loadCursos(){
                options = {
                		width: 400, height: 240,
                      title: 'Tiempo de uso de la plataforma en Cursos',
-                     hAxis: {title: 'Minutos', titleTextStyle: {color: 'blue'}}
+                     hAxis: {title: 'Cursos', titleTextStyle: {color: 'blue'}},
+                     vAxis: {title: 'minutos', titleTextStyle: {color: 'blue'}}
+
                 };
                 
                 chart.draw(data, options);
@@ -62,6 +65,7 @@ function loadCursos(){
  }
 
 function loadGrupos(){
+		document.getElementById("chart_div").innerHTML='<img class="loading-gif" border="0" src="/reportes/views/images/loading.gif" alt="cargando"/>';
    	var xmlhttp;
    	var selection = chart.getSelection();
    	for (var i = 0; i < selection.length; i++) {
@@ -87,7 +91,7 @@ function loadGrupos(){
      			//document.getElementById("myDiv").innerHTML=xmlhttp.responseText;
      			var j = JSON.parse(xmlhttp.responseText);
      			last_data = j;
-           	//se sobreescribe el gr‡fico 
+           	//se sobreescribe el grï¿½fico 
      			chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
 
            	data = new google.visualization.DataTable();
@@ -97,7 +101,8 @@ function loadGrupos(){
               options = {
               		width: 500, height: 240,
                     title: 'Tiempo de uso de la plataforma en Grupos',
-                    hAxis: {title: 'Minutos', titleTextStyle: {color: 'blue'}}
+                    hAxis: {title: 'Cursos', titleTextStyle: {color: 'blue'}},
+                    vAxis: {title: 'minutos', titleTextStyle: {color: 'blue'}}
                };
                
                chart.draw(data, options);
@@ -109,6 +114,7 @@ function loadGrupos(){
 }
 
 function loadAlumnos(){
+		document.getElementById("chart_div").innerHTML='<img class="loading-gif" border="0" src="/reportes/views/images/loading.gif" alt="cargando"/>';
    	var xmlhttp;
    	var selection = chart.getSelection();
    	for (var i = 0; i < selection.length; i++) {
@@ -134,7 +140,7 @@ function loadAlumnos(){
      			//document.getElementById("myDiv").innerHTML=xmlhttp.responseText;
      			var j = JSON.parse(xmlhttp.responseText);
      			last_data = j;
-           	//se sobreescribe el gr‡fico 
+           	//se sobreescribe el grï¿½fico 
      			chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
 
            	data = new google.visualization.DataTable();
@@ -143,8 +149,9 @@ function loadAlumnos(){
               data.addRows(j);
               options = {
               		width: 700, height: 240,
-                    title: 'Tiempo de uso de la plataforma por alumnos',
-                    hAxis: {title: 'Minutos', titleTextStyle: {color: 'blue'}}
+              	 hAxis: {title: 'Alumnos', titleTextStyle: {color: 'blue'}},
+              	 vAxis: {title: 'minutos', titleTextStyle: {color: 'blue'}}
+
                };
                
                chart.draw(data, options);

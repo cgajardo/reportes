@@ -84,7 +84,7 @@ public function data(){
 			$arbol_tiempo['detalle'][$alumno->nombre]['nombre'] = $alumno->nombre.' '.$alumno->apellido;
 			//desde el inicio de los tiempos hasta hoy
 			$tiempo = DAOFactory::getLogsDAO()->getTiempoEntreFechas(0, time(), $alumno->id);
-			$arbol_tiempo['detalle'][$alumno->nombr]['tiempo'] = $tiempo;
+			$arbol_tiempo['detalle'][$alumno->nombre]['tiempo'] = $tiempo;
 			$suma_alumnos += $tiempo;
 		}
 		$arbol_tiempo['tiempo'] = $suma_alumnos;

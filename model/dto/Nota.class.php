@@ -11,6 +11,5 @@
 		var $idQuiz;
 		var $idPregunta;
 		var $puntajePregunta;
-		
 	}
 ?>

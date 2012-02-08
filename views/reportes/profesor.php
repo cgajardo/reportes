@@ -285,7 +285,7 @@ foreach ($notas_grupo as $id => $nota) {
     		
     		
     		
-    		echo '<table class="matriz">';
+    		echo '<table border="1" class="matriz">';
     		echo '<tr><td class="header">';
     		echo $contenido;
     		echo '</td></td>';
@@ -297,7 +297,6 @@ foreach ($notas_grupo as $id => $nota) {
         
     ?>
     </div>
-        <br>
         <div id="logro_por_contenido"></div>
         <div>
         <div id="comparacion_grupo"></div>

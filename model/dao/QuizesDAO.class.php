@@ -25,7 +25,7 @@ interface QuizesDAO{
 	public function queryCerradosByIdCurso($curso_id);
 	
 	/**
-	 * Devuelve el quiz correspondiente en galyleo segœn el id de quiz en moodle
+	 * Devuelve el quiz correspondiente en galyleo segï¿½n el id de quiz en moodle
 	 * @param string $plataforma
 	 * @param int $quiz_id_in_moodle
 	 */

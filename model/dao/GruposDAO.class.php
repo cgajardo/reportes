@@ -8,6 +8,23 @@
 interface GruposDAO{
 	
 	/**
+	 * Devuelve una lista de Grupos asociados a un Curso
+	 *
+	 * @author cgajardo
+	 * @param int $curso_id
+	 */
+	public function getGruposInCurso($curso_id);
+	
+	/**
+	 * Esta función devuelve el grupo asociado a un curso y un estudiante
+	 *
+	 * @author cgajardo
+	 * @param int $usuario_id
+	 * @param int $curso_id
+	 */
+	public function getGrupoByCursoAndUser($usuario_id, $curso_id);
+	
+	/**
 	 * Devuelve el grupo-galyleo correspondiente al grupo-moodle
 	 * @param unknown_type $grupo_id_in_moodle
 	 */

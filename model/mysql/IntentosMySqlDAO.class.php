@@ -405,7 +405,7 @@ class IntentosMySqlDAO implements IntentosDAO{
 			$notaLogro->id = $tab[$i]['id_persona'];
 			$notaLogro->nota = round($tab[$i]['nota']);
 			$notaLogro->logro =  round($tab[$i]['nota']*100/$tab[$i]['nota_maxima']);
-                        $ret[$i] = $notaLogro;
+            $ret[$i] = $notaLogro;
 		}
 		return $ret;
 	}
@@ -427,7 +427,7 @@ class IntentosMySqlDAO implements IntentosDAO{
                         $notaLogro->nombre = $tab[$i]['nombre'];
                         $notaLogro->apellido = $tab[$i]['apellido'];
                         $ret[$i] = $notaLogro;
-		}
+            }
 		return $ret;
 	}
 	

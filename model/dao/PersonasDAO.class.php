@@ -25,11 +25,11 @@ interface PersonasDAO{
 	/**
 	 * Get Domain object by primry key
 	 *
-	 * @param String $id primary key
-	 * @Return Personas 
+	 * @param int $id
+	 * @return Persona 
 	 */
-	public function load($id, $nombre, $apellido);
-
+	public function load($id);
+	
 	/**
 	 * Get all records from table
 	 */

@@ -97,7 +97,7 @@
   </head>
   <body>
   	<div class="header_institucion"></div>
-  	<div class="title"><h1>Informe Semanal para el Estudiante</h1></div>
+  	<div class="title"><h1>Informe para el Estudiante</h1></div>
   	<div class="fecha_reporte"><?php echo fecha_hoy();?></div>
   	<div class="datos_alumno">
   		<b>Curso: </b><?php echo $nombre_curso ?></br>
@@ -137,7 +137,12 @@
     		
     		echo '<table class="matriz">';
     		echo '<tr><td class="header">';
-    		echo $quiz.' ('.round($logro_quiz/$total_preguntas).'%)';
+    		// caso de quiz no rendido
+    		if ($total_preguntas == 0){
+    			echo $quiz.' (-)';
+    		}else{
+    			echo $quiz.' ('.round($logro_quiz/$total_preguntas).'%)';
+    		}
     		echo '</td></td>';
     		echo $celdas;
     		echo '</table>';	

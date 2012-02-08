@@ -5,8 +5,8 @@
 * @author: cgajardo
 * @date: 2012-01-30 10:54
 */
+
 class LogsMySqlDAO implements LogsDAO{
-	
 	
 	/**
 	 * cgajardo: esta funcion calculará el tiempo que el usuario trabajando en el sistema

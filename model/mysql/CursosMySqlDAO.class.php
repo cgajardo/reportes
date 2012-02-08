@@ -8,7 +8,24 @@
 class CursosMySqlDAO implements CursosDAO{
 	
 	/**
-	 * Entrega un listado en los cuales el usuario est‡ inscrito
+	 * Devuelve una lista de cursos asociados a una Sede
+	 * 
+	 * @authos: cgajardo
+	 * @param int $sede_id
+	 */
+	public function getCursosInSede($sede_id){
+		$sql = 'SELECT c.* '.
+			'FROM cursos AS c, sedes_has_cursos AS sc '.
+			'WHERE c.id = sc.id_curso AND sc.id_sede = ? ';
+		
+		$sqlQuery = new SqlQuery($sql);
+		$sqlQuery->set($sede_id);
+		
+		return $this->getList($sqlQuery);
+	}
+	
+	/**
+	 * Entrega un listado en los cuales el usuario estÃ¡ inscrito
 	 * 
 	 * @author: cgajardo
 	 * @param int $usuario_id
@@ -150,8 +167,8 @@ class CursosMySqlDAO implements CursosDAO{
 	public function queryByIdentificadorMoodle($value){
 		$sql = 'SELECT * FROM cursos WHERE identificador_moodle = ?';
 		$sqlQuery = new SqlQuery($sql);
-		$sqlQuery->set($value);
-		return $this->getList($sqlQuery);
+		$sqlQuery->setString($value);
+		return $this->getRow($sqlQuery);
 	}
 
 

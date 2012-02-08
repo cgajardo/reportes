@@ -8,6 +8,22 @@
 class SedesMySqlDAO implements SedesDAO{
 
 	/**
+	 * Esta función devuelve la lista de sedes en las cuales una persona es director
+	 * 
+	 * @author cgajardo
+	 * @param int $director_id
+	 */
+	public function getSedesByDirector($director_id){
+		$sql = 'SELECT s.* '.
+			'FROM sedes as s, sedes_has_directoressede as sd '.
+			'WHERE s.id = sd.id_sede AND sd.id_persona = ? ';
+		
+		$sqlQuery = new SqlQuery($sql);
+		$sqlQuery->set($director_id);
+		
+		return $this->getList($sqlQuery);
+	}
+	/**
 	 * Get Domain object by primry key
 	 *
 	 * @param String $id primary key

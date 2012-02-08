@@ -8,7 +8,15 @@
 interface CursosDAO{
 	
 	/**
-	 * Entrega un listado en los cuales el usuario está inscrito
+	 * Devuelve una lista de cursos asociados a una Sede
+	 *
+	 * @authos: cgajardo
+	 * @param int $sede_id
+	 */
+	public function getCursosInSede($sede_id);
+	
+	/**
+	 * Entrega un listado en los cuales el usuario est√° inscrito
 	 *
 	 * @author: cgajardo
 	 * @param int $usuario_id

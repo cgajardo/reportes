@@ -145,7 +145,7 @@ public function semanal(){
 	
 	//enviamos los siguientes valores a la vista
 	$this->registry->template->titulo = 'Reporte Estudiante';
-	$this->registry->template->usuario = $usuario;
+	//$this->registry->template->usuario = $usuario;
 	$this->registry->template->notas_grupo = $notas_grupo;
 	$this->registry->template->promedio_grupo = promedio_grupo($notas_grupo,count($estudiantes_en_grupo));
 	$this->registry->template->nota_alumno = $nota_alumno[0];
@@ -183,12 +183,12 @@ public function profesor(){
 	
 	//enviamos los siguientes valores a la vista
 	$this->registry->template->titulo = 'Reporte Profesor';
-	$this->registry->template->usuario = $usuario;
+	//$this->registry->template->usuario = $usuario;
 	$this->registry->template->notas_grupo = $notas_grupo;
 	$this->registry->template->nota_maxima = 100;
 	$this->registry->template->promedio_grupo = promedio_grupo($notas_grupo,count($estudiantes_en_grupo));
 	$this->registry->template->estudiantes =$estudiantes_en_grupo;
-    $this->registry->template->total_estudiantes_grupo = count($estudiantes_en_grupo);
+        $this->registry->template->total_estudiantes_grupo = count($estudiantes_en_grupo);
 	$this->registry->template->nombre_actividad = $quiz->nombre;
 	$this->registry->template->fecha_cierre = $quiz->fechaCierre;
 	$this->registry->template->contenido_logro = $contenido_logro;
@@ -200,15 +200,19 @@ public function profesor(){
 	$matriz_desempeno = array();
 	foreach ($quizes_en_curso as $quiz_en_curso){
     	$contenidos=DAOFactory::getIntentosDAO()->getLogroPorContenidoGrupo($quiz_en_curso->id);
-		$matriz_desempeno[$quiz_en_curso->nombre] = promedio_grupo($contenidos,count($estudiantes_en_grupo));
+		$matriz_desempeno[$quiz_en_curso->nombre] = DAOFactory::getIntentosDAO()->getPromedioLogroPorContenido($quiz->id, $grupo->id);
 	}
-	
+        $matriz_contenidos = array();
+	foreach($matriz_desempeno[$quiz->nombre] as $contenido){
+            $matriz_contenidos[$contenido['contenido']->nombre] = DAOFactory::getIntentosDAO()->getLogroPorContenido2($grupo->id, $quiz->id, $contenido['contenido']->id);
+        }
+        
+        $tiempo = DAOFactory::getLogsDAO()->getTiempoTarea($quiz->fechaCierre, $grupo->id);
 	//enviamos estos elementos a la vista
-	$this->registry->template->matriz_desempeno = $matriz_desempeno;
-	
+        $this->registry->template->matriz_desempeño = $matriz_desempeno;
+	$this->registry->template->matriz_contenidos = $matriz_contenidos;
+	$this->registry->template->tiempos = $tiempo;        
 	//tiempo dedicado frente a cada quiz
-	$tiempo_decicado = DAOFactory::getLogsDAO()->getTiempoEntreFechas($fecha_fin);
-	printf("tiempo dedicado: %s </br>",$tiempo_decicado);
 	
 	//finally
 	$this->registry->template->show('reportes/profesor');	

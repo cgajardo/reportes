@@ -23,19 +23,48 @@ class LogsMySqlDAO implements LogsDAO{
 				'FROM logs '. 
 				'WHERE tiempo BETWEEN ? AND ? '.
 					'AND id_persona = ? '.
-                                        'AND (accion=\'login\' OR accion=\'logout\')'.
-                                'GROUP BY tiempo,modulo,accion,id_modulo'.
+                                'GROUP BY tiempo,modulo,accion,id_modulo '.
 				'ORDER BY tiempo ASC';
 		
 		$sqlQuery = new SqlQuery($sql);
-		$sqlQuery->setNumber($fecha_inicio);
-		$sqlQuery->setNumber($fecha_fin);
+		$sqlQuery->setString($fecha_inicio);
+		$sqlQuery->setString($fecha_fin);
 		$sqlQuery->setNumber($usuario_id);
 		
 		return $this->contadorDeTiempo($sqlQuery);
 	}
-	
-	 
+
+	public function getTiempoEntreFechas2($fecha_fin, $usuario_id){
+		//UNIX_TIMESTAMP
+		$sql = 'SELECT tiempo, modulo, accion, id_modulo '.
+				'FROM logs '. 
+				'WHERE FROM_UNIXTIME(tiempo) BETWEEN DATE_SUB( ? ,INTERVAL 1 MONTH) AND ? '.
+					'AND id_persona = ? '.
+                                'GROUP BY tiempo,modulo,accion,id_modulo '.
+				'ORDER BY tiempo ASC';
+		
+		$sqlQuery = new SqlQuery($sql);
+		$sqlQuery->setString($fecha_fin);
+		$sqlQuery->setString($fecha_fin);
+		$sqlQuery->setNumber($usuario_id);
+
+		return $this->contadorDeTiempo($sqlQuery);
+	}
+
+        public function getTiempoTarea($fecha_fin, $grupo){
+            $sql = 'SELECT id_persona FROM grupos_has_estudiantes '.
+                   'WHERE id_grupo=?';
+            
+            $sqlQuery = new SqlQuery($sql);
+            $sqlQuery->setNumber($grupo);
+            $tab = QueryExecutor::execute($sqlQuery);
+            $tiempos=array();
+            for($i=0;$i<count($tab);$i++){
+                $tiempos[$tab[$i]['id_persona']]= $this->getTiempoEntreFechas2($fecha_fin,$tab[$i]['id_persona']);
+            }
+            
+            return $tiempos;
+        }	 
 	/**
 	 * Esta funcion cuenta el tiempo
 	 * @author cgajardo

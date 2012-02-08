@@ -17,7 +17,8 @@
    	    var options = {
    	      width: 400, height: 240,
    	      title: 'Tiempo de uso de la plataforma por sede',
-   	      hAxis: {title: 'Minutos', titleTextStyle: {color: 'blue'}}
+   	      hAxis: {title: 'Sedes', titleTextStyle: {color: 'blue'}},
+      	  vAxis: {title: 'minutos', titleTextStyle: {color: 'blue'}}
    	    };
 
    	    chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));

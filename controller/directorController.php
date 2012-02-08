@@ -27,16 +27,12 @@ public function index() {
 				$suma_alumnos = 0;
 				//buscamos todos los alumnos de un grupo (sumamos su tiempo)
 				foreach ($alumnos as $alumno){
-					$arbol_tiempo['detalle'][$sede->nombre]['detalle'][$curso->nombre]['detalle'][$grupo->nombre]['detalle'][$alumno->id]['nombre'] = $alumno->nombre.' '.$alumno->apellido;
 					//desde el inicio de los tiempos hasta hoy
 					$tiempo = DAOFactory::getLogsDAO()->getTiempoEntreFechas(0, time(), $alumno->id);
-					$arbol_tiempo['detalle'][$sede->nombre]['detalle'][$curso->nombre]['detalle'][$grupo->nombre]['detalle'][$alumno->id]['tiempo'] = $tiempo;
-					$suma_alumnos += $tiempo;
+					$suma_alumnos += round($tiempo/60);
 				}
-				$arbol_tiempo['detalle'][$sede->nombre]['detalle'][$curso->nombre]['detalle'][$grupo->nombre]['tiempo'] = $suma_alumnos;
 				$suma_grupos += $suma_alumnos;
 			}
-			$arbol_tiempo['detalle'][$sede->nombre]['detalle'][$curso->nombre]['tiempo'] = $suma_grupos; 
 			$suma_cursos += $suma_grupos;
 		}
 		$arbol_tiempo['detalle'][$sede->nombre]['tiempo'] = $suma_cursos;
@@ -84,8 +80,8 @@ public function data(){
 			$arbol_tiempo['detalle'][$alumno->nombre]['nombre'] = $alumno->nombre.' '.$alumno->apellido;
 			//desde el inicio de los tiempos hasta hoy
 			$tiempo = DAOFactory::getLogsDAO()->getTiempoEntreFechas(0, time(), $alumno->id);
-			$arbol_tiempo['detalle'][$alumno->nombr]['tiempo'] = $tiempo;
-			$suma_alumnos += $tiempo;
+			$arbol_tiempo['detalle'][$alumno->nombre]['tiempo'] = round($tiempo/60);
+			$suma_alumnos += round($tiempo/60);
 		}
 		$arbol_tiempo['tiempo'] = $suma_alumnos;
 		
@@ -110,11 +106,9 @@ public function data(){
 			$suma_alumnos = 0;
 			//buscamos todos los alumnos de un grupo (sumamos su tiempo)
 			foreach ($alumnos as $alumno){
-				$arbol_tiempo['detalle'][$grupo->nombre]['detalle'][$alumno->id]['nombre'] = $alumno->nombre.' '.$alumno->apellido;
 				//desde el inicio de los tiempos hasta hoy
 				$tiempo = DAOFactory::getLogsDAO()->getTiempoEntreFechas(0, time(), $alumno->id);
-				$arbol_tiempo['detalle'][$grupo->nombre]['detalle'][$alumno->id]['tiempo'] = $tiempo;
-				$suma_alumnos += $tiempo;
+				$suma_alumnos += round($tiempo/60);
 			}
 			$arbol_tiempo['detalle'][$grupo->nombre]['tiempo'] = $suma_alumnos;
 			$suma_grupos += $suma_alumnos;
@@ -142,13 +136,10 @@ public function data(){
 				$suma_alumnos = 0;
 				//buscamos todos los alumnos de un grupo (sumamos su tiempo)
 				foreach ($alumnos as $alumno){
-					$arbol_tiempo['detalle'][$curso->nombre]['detalle'][$grupo->nombre]['detalle'][$alumno->id]['nombre'] = $alumno->nombre.' '.$alumno->apellido;
 					//desde el inicio de los tiempos hasta hoy
 					$tiempo = DAOFactory::getLogsDAO()->getTiempoEntreFechas(0, time(), $alumno->id);
-					$arbol_tiempo['detalle'][$curso->nombre]['detalle'][$grupo->nombre]['detalle'][$alumno->id]['tiempo'] = $tiempo;
-					$suma_alumnos += $tiempo;
+					$suma_alumnos += round($tiempo/60);
 				}
-				$arbol_tiempo['detalle'][$curso->nombre]['detalle'][$grupo->nombre]['tiempo'] = $suma_alumnos;
 				$suma_grupos += $suma_alumnos;
 			}
 			$arbol_tiempo['detalle'][$curso->nombre]['tiempo'] = $suma_grupos;

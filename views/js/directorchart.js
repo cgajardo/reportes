@@ -13,6 +13,7 @@ var grupo;
 
 function loadCursos(){
     //recuperamos la id del director
+		document.getElementById("chart_div").innerHTML='<img class="loading-gif" border="0" src="/reportes/views/images/loading.gif" alt="cargando"/>';
     	id_director = gup('id');
     	var xmlhttp;
     	sede = '';
@@ -50,7 +51,8 @@ function loadCursos(){
                options = {
                		width: 400, height: 240,
                      title: 'Tiempo de uso de la plataforma en Cursos',
-                     hAxis: {title: 'Minutos', titleTextStyle: {color: 'blue'}}
+                     hAxis: {title: 'Cursos', titleTextStyle: {color: 'blue'}},
+               		vAxis: {title: 'minutos', titleTextStyle: {color: 'blue'}}
                 };
                 
                 chart.draw(data, options);
@@ -62,6 +64,7 @@ function loadCursos(){
  }
 
 function loadGrupos(){
+		document.getElementById("chart_div").innerHTML='<img class="loading-gif" border="0" src="/reportes/views/images/loading.gif" alt="cargando"/>';
    	var xmlhttp;
    	var selection = chart.getSelection();
    	for (var i = 0; i < selection.length; i++) {
@@ -97,7 +100,8 @@ function loadGrupos(){
               options = {
               		width: 500, height: 240,
                     title: 'Tiempo de uso de la plataforma en Grupos',
-                    hAxis: {title: 'Minutos', titleTextStyle: {color: 'blue'}}
+                    hAxis: {title: 'Cursos', titleTextStyle: {color: 'blue'}},
+              		  vAxis: {title: 'minutos', titleTextStyle: {color: 'blue'}}
                };
                
                chart.draw(data, options);
@@ -109,6 +113,7 @@ function loadGrupos(){
 }
 
 function loadAlumnos(){
+	document.getElementById("chart_div").innerHTML='<img class="loading-gif" border="0" src="/reportes/views/images/loading.gif" alt="cargando"/>';
    	var xmlhttp;
    	var selection = chart.getSelection();
    	for (var i = 0; i < selection.length; i++) {
@@ -142,9 +147,10 @@ function loadAlumnos(){
               data.addColumn('number', 'Tiempo');
               data.addRows(j);
               options = {
-              		width: 700, height: 240,
+              		width: 800, height: 400,
                     title: 'Tiempo de uso de la plataforma por alumnos',
-                    hAxis: {title: 'Minutos', titleTextStyle: {color: 'blue'}}
+                    hAxis: {title: 'Alumnos', titleTextStyle: {color: 'blue'}},
+              		  vAxis: {title: 'minutos', titleTextStyle: {color: 'blue'}}
                };
                
                chart.draw(data, options);

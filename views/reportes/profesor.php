@@ -224,6 +224,7 @@ foreach ($notas_grupo as $id => $nota) {
     <body>
         <div id="matriz_desempeno">           
     <?php
+    //holas
     	foreach($matriz_desempeño as $quiz => $columna){
     		$celdas = '';
     		$logro_quiz = 0;
@@ -270,7 +271,7 @@ foreach ($notas_grupo as $id => $nota) {
     	</tr>
     	</table>
     </div>
-            <div id="lista_reforzamiento">           
+    <div id="lista_reforzamiento">           
     <?php
     	foreach($matriz_contenidos as $contenido=>$quiz){
     		$celdas = '';
@@ -285,7 +286,7 @@ foreach ($notas_grupo as $id => $nota) {
     		
     		
     		
-    		echo '<table border="1" class="matriz">';
+    		echo '<table class="matriz">';
     		echo '<tr><td class="header">';
     		echo $contenido;
     		echo '</td></td>';

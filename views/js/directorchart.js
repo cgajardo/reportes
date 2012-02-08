@@ -49,10 +49,9 @@ function loadCursos(){
                data.addColumn('number', 'Tiempo');
                data.addRows(j);
                options = {
-               		width: 400, height: 240,
                      title: 'Tiempo de uso de la plataforma en Cursos',
-                     hAxis: {title: 'Cursos', titleTextStyle: {color: 'blue'}},
-                     vAxis: {title: 'minutos', titleTextStyle: {color: 'blue'}}
+                     hAxis: {title: 'Cursos', titleTextStyle: {color: 'blue'},viewWindowMode:'maximized'},
+                     vAxis: {title: 'minutos/alumnos', titleTextStyle: {color: 'blue'}}
 
                 };
                 
@@ -96,14 +95,13 @@ function loadGrupos(){
      			chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
 
            	data = new google.visualization.DataTable();
-              data.addColumn('string', 'Curso');
+              data.addColumn('string', 'Grupo');
               data.addColumn('number', 'Tiempo');
               data.addRows(j);
               options = {
-              		width: 500, height: 240,
                     title: 'Tiempo de uso de la plataforma en Grupos',
-                    hAxis: {title: 'Cursos', titleTextStyle: {color: 'blue'}},
-                    vAxis: {title: 'minutos', titleTextStyle: {color: 'blue'}}
+                    hAxis: {title: 'Cursos', titleTextStyle: {color: 'blue'}, viewWindowMode:'maximized'},
+                    vAxis: {title: 'minutos/alumnos', titleTextStyle: {color: 'blue'}}
                };
                
                chart.draw(data, options);
@@ -146,12 +144,11 @@ function loadAlumnos(){
      			chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
 
            	data = new google.visualization.DataTable();
-              data.addColumn('string', 'Curso');
+              data.addColumn('string', 'Alumnos');
               data.addColumn('number', 'Tiempo');
               data.addRows(j);
               options = {
-              		width: 700, height: 240,
-              	 hAxis: {title: 'Alumnos', titleTextStyle: {color: 'blue'}},
+              	 hAxis: {title: 'Alumnos', titleTextStyle: {color: 'blue'}, viewWindowMode:'maximized'},
               	 vAxis: {title: 'minutos', titleTextStyle: {color: 'blue'}}
 
                };

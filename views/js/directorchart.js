@@ -9,11 +9,8 @@
 var id_director;
 var sede;
 var curso;
-var grupo;
-
 function loadCursos(){
     //recuperamos la id del director
-		document.getElementById("chart_div").innerHTML='<img class="loading-gif" border="0" src="/reportes/views/images/loading.gif" alt="cargando"/>';
     	id_director = gup('id');
     	var xmlhttp;
     	sede = '';
@@ -50,21 +47,21 @@ function loadCursos(){
                data.addRows(j);
                options = {
                		width: 400, height: 240,
-                     title: 'Tiempo de uso de la plataforma en Cursos',
-                     hAxis: {title: 'Cursos', titleTextStyle: {color: 'blue'}},
-               		vAxis: {title: 'minutos', titleTextStyle: {color: 'blue'}}
+                     title: 'Tiempo de uso de la plataforma en Curso',
+                     hAxis: {title: 'Minutos', titleTextStyle: {color: 'blue'}}
                 };
                 
                 chart.draw(data, options);
-                google.visualization.events.addListener(chart, 'select', loadGrupos);
+                google.visualization.events.addListener(chart, 'select', loadGrupo);
       		}
       	};
     	xmlhttp.open("GET","director/data?director="+id_director+"&sede="+sede,true);
     	xmlhttp.send();
  }
 
-function loadGrupos(){
-		document.getElementById("chart_div").innerHTML='<img class="loading-gif" border="0" src="/reportes/views/images/loading.gif" alt="cargando"/>';
+function loadGrupo(){
+   //recuperamos la id del director
+   	id_director = gup('id');
    	var xmlhttp;
    	var selection = chart.getSelection();
    	for (var i = 0; i < selection.length; i++) {
@@ -98,66 +95,16 @@ function loadGrupos(){
               data.addColumn('number', 'Tiempo');
               data.addRows(j);
               options = {
-              		width: 500, height: 240,
-                    title: 'Tiempo de uso de la plataforma en Grupos',
-                    hAxis: {title: 'Cursos', titleTextStyle: {color: 'blue'}},
-              		  vAxis: {title: 'minutos', titleTextStyle: {color: 'blue'}}
+              		width: 400, height: 240,
+                    title: 'Tiempo de uso de la plataforma en Curso',
+                    hAxis: {title: 'Minutos', titleTextStyle: {color: 'blue'}}
                };
                
                chart.draw(data, options);
-               google.visualization.events.addListener(chart, 'select', loadAlumnos);
+               google.visualization.events.addListener(chart, 'select', loadXMLDoc);
      		}
      	};
    	xmlhttp.open("GET","director/data?director="+id_director+"&sede="+sede+"&curso="+curso,true);
-   	xmlhttp.send();
-}
-
-function loadAlumnos(){
-	document.getElementById("chart_div").innerHTML='<img class="loading-gif" border="0" src="/reportes/views/images/loading.gif" alt="cargando"/>';
-   	var xmlhttp;
-   	var selection = chart.getSelection();
-   	for (var i = 0; i < selection.length; i++) {
-   		var item = selection[i]; 
-   	    if (item.row != null) {
-   	   	 grupo = data['G'][item.row]['c'][0]['v'];
-   	    } else {
-   	    	alert("error");
-   	    }
-   	}
-   	
-   	if (window.XMLHttpRequest){
-       	// code for IE7+, Firefox, Chrome, Opera, Safari
-     		xmlhttp=new XMLHttpRequest();
-     	}
-   	else{
-       	// code for IE6, IE5
-     		xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-     	}
-     	
-   	xmlhttp.onreadystatechange=function() { 
-     		if (xmlhttp.readyState==4 && xmlhttp.status==200){
-     			//document.getElementById("myDiv").innerHTML=xmlhttp.responseText;
-     			var j = JSON.parse(xmlhttp.responseText);
-     			last_data = j;
-           	//se sobreescribe el gr‡fico 
-     			chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
-
-           	data = new google.visualization.DataTable();
-              data.addColumn('string', 'Curso');
-              data.addColumn('number', 'Tiempo');
-              data.addRows(j);
-              options = {
-              		width: 800, height: 400,
-                    title: 'Tiempo de uso de la plataforma por alumnos',
-                    hAxis: {title: 'Alumnos', titleTextStyle: {color: 'blue'}},
-              		  vAxis: {title: 'minutos', titleTextStyle: {color: 'blue'}}
-               };
-               
-               chart.draw(data, options);
-               google.visualization.events.addListener(chart, 'select', loadAlumnos);
-     		}
-     	};
-   	xmlhttp.open("GET","director/data?director="+id_director+"&sede="+sede+"&curso="+curso+"&grupo="+grupo,true);
    	xmlhttp.send();
 }
 

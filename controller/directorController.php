@@ -27,12 +27,16 @@ public function index() {
 				$suma_alumnos = 0;
 				//buscamos todos los alumnos de un grupo (sumamos su tiempo)
 				foreach ($alumnos as $alumno){
+					$arbol_tiempo['detalle'][$sede->nombre]['detalle'][$curso->nombre]['detalle'][$grupo->nombre]['detalle'][$alumno->id]['nombre'] = $alumno->nombre.' '.$alumno->apellido;
 					//desde el inicio de los tiempos hasta hoy
 					$tiempo = DAOFactory::getLogsDAO()->getTiempoEntreFechas(0, time(), $alumno->id);
-					$suma_alumnos += round($tiempo/60);
+					$arbol_tiempo['detalle'][$sede->nombre]['detalle'][$curso->nombre]['detalle'][$grupo->nombre]['detalle'][$alumno->id]['tiempo'] = $tiempo;
+					$suma_alumnos += $tiempo;
 				}
+				$arbol_tiempo['detalle'][$sede->nombre]['detalle'][$curso->nombre]['detalle'][$grupo->nombre]['tiempo'] = $suma_alumnos;
 				$suma_grupos += $suma_alumnos;
 			}
+			$arbol_tiempo['detalle'][$sede->nombre]['detalle'][$curso->nombre]['tiempo'] = $suma_grupos; 
 			$suma_cursos += $suma_grupos;
 		}
 		$arbol_tiempo['detalle'][$sede->nombre]['tiempo'] = $suma_cursos;
@@ -57,37 +61,7 @@ public function data(){
 	
 	$arbol_tiempo = array();
 	
-	if(isset($_GET['grupo'])){
-		/* árbol de tiempo para un curso */
-		$id_director = $_GET['director'];
-		$nombre_sede = $_GET['sede'];
-		$nombre_curso = $_GET['curso'];
-		$nombre_grupo =  $_GET['grupo'];
-		
-		$sede = DAOFACTORY::getSedesDAO()->getByDirectorAndNombre($id_director, $nombre_sede);
-		$curso = DAOFactory::getCursosDAO()->getCursoBySedeAndNombre($sede->id, $nombre_curso);
-		$grupo = DAOFactory::getGruposDAO()->getGrupoByCursoAndNombre($curso->id, $nombre_grupo);
-		
-		$arbol_tiempo['nombre'] = $grupo->nombre;
-	
-		$suma_grupos = 0;
-		//buscamos todos todos grupos en un curso
-		
-		$alumnos = DAOFactory::getPersonasDAO()->getEstudiantesInGroup($grupo->id);
-		$suma_alumnos = 0;
-		//buscamos todos los alumnos de un grupo (sumamos su tiempo)
-		foreach ($alumnos as $alumno){
-			$arbol_tiempo['detalle'][$alumno->nombre]['nombre'] = $alumno->nombre.' '.$alumno->apellido;
-			//desde el inicio de los tiempos hasta hoy
-			$tiempo = DAOFactory::getLogsDAO()->getTiempoEntreFechas(0, time(), $alumno->id);
-			$arbol_tiempo['detalle'][$alumno->nombre]['tiempo'] = round($tiempo/60);
-			$suma_alumnos += round($tiempo/60);
-		}
-		$arbol_tiempo['tiempo'] = $suma_alumnos;
-		
-	}//termina el if
-	
-	elseif(isset($_GET['curso'])){
+	if(isset($_GET['curso'])){
 		/* árbol de tiempo para un curso */
 		$id_director = $_GET['director'];
 		$nombre_sede = $_GET['sede'];
@@ -106,9 +80,11 @@ public function data(){
 			$suma_alumnos = 0;
 			//buscamos todos los alumnos de un grupo (sumamos su tiempo)
 			foreach ($alumnos as $alumno){
+				$arbol_tiempo['detalle'][$grupo->nombre]['detalle'][$alumno->id]['nombre'] = $alumno->nombre.' '.$alumno->apellido;
 				//desde el inicio de los tiempos hasta hoy
 				$tiempo = DAOFactory::getLogsDAO()->getTiempoEntreFechas(0, time(), $alumno->id);
-				$suma_alumnos += round($tiempo/60);
+				$arbol_tiempo['detalle'][$grupo->nombre]['detalle'][$alumno->id]['tiempo'] = $tiempo;
+				$suma_alumnos += $tiempo;
 			}
 			$arbol_tiempo['detalle'][$grupo->nombre]['tiempo'] = $suma_alumnos;
 			$suma_grupos += $suma_alumnos;
@@ -136,10 +112,13 @@ public function data(){
 				$suma_alumnos = 0;
 				//buscamos todos los alumnos de un grupo (sumamos su tiempo)
 				foreach ($alumnos as $alumno){
+					$arbol_tiempo['detalle'][$curso->nombre]['detalle'][$grupo->nombre]['detalle'][$alumno->id]['nombre'] = $alumno->nombre.' '.$alumno->apellido;
 					//desde el inicio de los tiempos hasta hoy
 					$tiempo = DAOFactory::getLogsDAO()->getTiempoEntreFechas(0, time(), $alumno->id);
-					$suma_alumnos += round($tiempo/60);
+					$arbol_tiempo['detalle'][$curso->nombre]['detalle'][$grupo->nombre]['detalle'][$alumno->id]['tiempo'] = $tiempo;
+					$suma_alumnos += $tiempo;
 				}
+				$arbol_tiempo['detalle'][$curso->nombre]['detalle'][$grupo->nombre]['tiempo'] = $suma_alumnos;
 				$suma_grupos += $suma_alumnos;
 			}
 			$arbol_tiempo['detalle'][$curso->nombre]['tiempo'] = $suma_grupos;

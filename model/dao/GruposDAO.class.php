@@ -8,15 +8,6 @@
 interface GruposDAO{
 	
 	/**
-	 * Devuelve el grupo de un curso para un nombre dado
-	 *
-	 * @author cgajardo
-	 * @param int $curso_id
-	 * @param string $nombre_grupo
-	 */
-	public function getGrupoByCursoAndNombre($curso_id, $nombre_grupo);
-	
-	/**
 	 * Devuelve una lista de Grupos asociados a un Curso
 	 *
 	 * @author cgajardo

@@ -224,7 +224,7 @@ foreach ($notas_grupo as $id => $nota) {
     <body>
         <div id="matriz_desempeno">           
     <?php
-    //holas
+
     	foreach($matriz_desempeño as $quiz => $columna){
     		$celdas = '';
     		$logro_quiz = 0;

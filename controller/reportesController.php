@@ -167,23 +167,51 @@ public function semanal(){
 }
 
 public function profesor(){
-	$user_id_in_moodle = $_GET['user'];
-	$platform = $_GET['platform'];
-	$grupo_id_in_moodle = $_GET['group'];
-	$quiz_id_in_moodle = $_GET['quiz'];
+        //print $this->encrypter->encode("plataforma=utfsm&usuario=1104&grupo=24&quiz=71")."</br>";
+        $PARAMS = $this->encrypter->decodeURL($_GET['params']);
 	
+        
+	if(isset($PARAMS['platform'])){
+		$user_id_in_moodle = $PARAMS['user'];
+		$platform = $PARAMS['platform'];
+                $grupo_id_in_moodle=$PARAMS['group'];
+                $grupo = DAOFactory::getGruposDAO()->getGrupoByIdEnMoodle($platform,$grupo_id_in_moodle);
+		$quiz_id_in_moodle = $PARAMS['quiz'];
+		
+		//recuperamos los objetos que nos interesan
+		$usuario = DAOFactory::getPersonasDAO()->getUserInPlatform($platform,$user_id_in_moodle);
+		$quiz = DAOFactory::getQuizesDAO()->getGalyleoQuizByMoodleId($platform, $quiz_id_in_moodle);
+	
+	}
+	elseif(isset($PARAMS['plataforma'])){
+		$user_id = $PARAMS['usuario'];
+		$platform = $PARAMS['plataforma'];
+                $grupo_id=$PARAMS['grupo'];
+                $quiz_id = $PARAMS['quiz'];
+		
+		//recuperamos los objetos que nos interesan
+                $grupo = DAOFactory::getGruposDAO()->load($grupo_id);
+		$usuario = DAOFactory::getPersonasDAO()->load($user_id);
+		$quiz = DAOFactory::getQuizesDAO()->load($quiz_id);
+	}
+        if(DAOFactory::getGruposHasProfesoresDAO()->load($user_id,$grupo_id)==NULL){
+            $this->registry->template->mesaje_personalizado="<h1>Usted no es Profesor</h1>";
+            $this->registry->template->show('error404');
+            return;
+            
+        }
+        
 	//recuperamos los objetos que nos interesan
-	$grupo = DAOFactory::getGruposDAO()->getGrupoByIdEnMoodle($platform,$grupo_id_in_moodle);
+	
 	$curso = DAOFactory::getCursosDAO()->getCursoByGrupoId($grupo->id);
 	$estudiantes_en_grupo = DAOFactory::getPersonasDAO()->getEstudiantesInGroup($grupo->id);
-	$quiz = DAOFactory::getQuizesDAO()->getGalyleoQuizByMoodleId($platform, $quiz_id_in_moodle);
 	$notas_grupo = DAOFactory::getIntentosDAO()->getNotasNombreGrupo($quiz->id,$grupo->id);
 	$contenido_logro = DAOFactory::getIntentosDAO()->getLogroPorContenidoGrupo($quiz->id);
         //$nota_maxima= DAOFactory::getNotasDAO()->getMaxNotaInQuiz($quiz->id);
 	
 	//enviamos los siguientes valores a la vista
 	$this->registry->template->titulo = 'Reporte Profesor';
-	//$this->registry->template->usuario = $usuario;
+	$this->registry->template->usuario = $usuario;
 	$this->registry->template->notas_grupo = $notas_grupo;
 	$this->registry->template->nota_maxima = 100;
 	$this->registry->template->promedio_grupo = promedio_grupo($notas_grupo,count($estudiantes_en_grupo));
@@ -194,13 +222,14 @@ public function profesor(){
 	$this->registry->template->contenido_logro = $contenido_logro;
 	$this->registry->template->nombre_curso = $curso->nombre;
 	$this->registry->template->nombre_grupo = $grupo->nombre;
+        $this->registry->template->institucion = $platform;
 	
 	// esto es lo necesario para la matriz de desempe�o, TODO: deber�a tener su vista propia?
 	$quizes_en_curso = DAOFactory::getQuizesDAO()->queryCerradosByIdCurso($curso->id);
 	$matriz_desempeno = array();
 	foreach ($quizes_en_curso as $quiz_en_curso){
     	$contenidos=DAOFactory::getIntentosDAO()->getLogroPorContenidoGrupo($quiz_en_curso->id);
-		$matriz_desempeno[$quiz_en_curso->nombre] = DAOFactory::getIntentosDAO()->getPromedioLogroPorContenido($quiz->id, $grupo->id);
+		$matriz_desempeno[$quiz_en_curso->nombre] = DAOFactory::getIntentosDAO()->getPromedioLogroPorContenido($quiz_en_curso->id, $grupo->id);
 	}
         $matriz_contenidos = array();
 	foreach($matriz_desempeno[$quiz->nombre] as $contenido){

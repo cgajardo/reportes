@@ -3,7 +3,16 @@
         <title><?php echo $titulo; ?></title>
         <link rel="stylesheet" type="text/css" href="/reportes/views/styles/galyleo.css" />
   	<style type="text/css">
-  	.header_institucion {
+            .border{
+                border:1px solid;
+            }
+            .grafico{
+                width: 48%;
+                position:relative;
+                margin:1%;
+                float:left;
+            }
+            .header_institucion {
 		background-image: url("/reportes/views/images/logos/<?php echo $institucion;?>-header.png");
 		background-position: center;
 		background-repeat: no-repeat;
@@ -41,7 +50,6 @@ foreach ($notas_grupo as $id => $nota) {
                       ]);
 
                       var options = {
-                          width: 1400, height: 240,
                           title: 'Ranking del Curso',
                           hAxis: {showTextEvery: 1,gridlines:{count:10}, slantedText:'True', slantedTextAngle: 90,textStyle:{fontSize:10},viewWindowMode:'maximized'},
                           vAxis: {showTextEvery: 1,viewindow: {min: 0},format:'# %'},
@@ -53,7 +61,8 @@ foreach ($notas_grupo as $id => $nota) {
                       
                   }
         </script>
-                <script type="text/javascript">
+        <!-- javascript for ranking_curso2 -->
+        <script type="text/javascript">
             google.load("visualization", "1", {packages:["corechart"]});
             google.setOnLoadCallback(drawChart);
             function drawChart() {
@@ -73,9 +82,8 @@ foreach ($notas_grupo as $id => $nota) {
                       ]);
 
                       var options = {
-                          width: 1400, height: 240,
                           title: 'Ranking del Curso',
-                          hAxis: {showTextEvery: 1,gridlines:{count:10}, slantedText:'True', slantedTextAngle: 90,textStyle:{fontSize:10},viewWindowMode:'maximized',baseline:-10},
+                          hAxis: {showTextEvery: 1,gridlines:{count:10}, slantedText:'True', slantedTextAngle: 90,textStyle:{fontSize:10},viewWindowMode:'maximized'},
                           vAxis: {showTextEvery: 1,viewindow: {min: 0}},
                           pointSize:5
                       };
@@ -85,7 +93,7 @@ foreach ($notas_grupo as $id => $nota) {
                       
                   }
         </script>
-        <!-- javascript for comparacion promedio -->
+        <!-- javascript for comparacion_promedio -->
         <script type="text/javascript">
             google.load("visualization", "1", {packages:["corechart"]});
             google.setOnLoadCallback(drawChart);
@@ -99,7 +107,6 @@ foreach ($notas_grupo as $id => $nota) {
 
                 var options = {
                     title:'Promedio Curso',
-                    width: 400, height: 240,
                     vAxis: {showTextEvery: 1,viewWindow: {min: 0}}
                 };
 
@@ -108,7 +115,7 @@ foreach ($notas_grupo as $id => $nota) {
             }
             
         </script>  
-        
+        <!-- javascript for histograma -->
         <script type="text/javascript">
             <?php
                 $conj_notas=array(0,0,0,0,0);
@@ -144,7 +151,6 @@ foreach ($notas_grupo as $id => $nota) {
 
                 var options = {
                     title:'Histograma de Notas',
-                    width: 400, height: 240,
                     vAxis: {title:'Frecuencia',showTextEvery: 1,viewWindow: {min: 0}},
                     hAxis:{title:'Notas'}
                 };
@@ -153,6 +159,7 @@ foreach ($notas_grupo as $id => $nota) {
                 chart.draw(data, options);
             }
         </script> 
+        <!-- javascript for aprobados -->
         <script type="text/javascript">
             <?php
                 $ausentes=0;
@@ -181,14 +188,14 @@ foreach ($notas_grupo as $id => $nota) {
         ]);
 
         var options = {
-          width: 450, height: 300
         };
 
         var chart = new google.visualization.PieChart(document.getElementById('aprobados'));
         chart.draw(data, options);
       }
     </script>
-    <script>
+        <!-- javascript for logro_por_contenido -->
+        <script>
       google.load("visualization", "1", {packages:["corechart"]});
       google.setOnLoadCallback(drawChart);
       function drawChart() {
@@ -210,7 +217,6 @@ foreach ($notas_grupo as $id => $nota) {
         ]);
 
         var options = {
-          width: 400, height: 240,
           title: '% Logro de Contenidos',
           hAxis:{minValue:0,format:'#%'}
         };
@@ -221,11 +227,30 @@ foreach ($notas_grupo as $id => $nota) {
     </script>
     
     </head>
-    <body>
+    <body class="center">
+        <div class="header_institucion"></div>
+        <h1 style="{text_align:center;}">Informe de Gesti&oacuten para el Docente</h1>
+        <span>
+            <?php 
+                echo fecha_hoy();
+                //var_dump($matriz_desempeño);
+            ?>
+        </span><br/>
+        <b>EVALUACI&Oacute;N </b> <?php echo $nombre_actividad; ?><br/>
+        <b>CURSO </b> <?php echo $nombre_curso." - ".$nombre_grupo; ?><br/>
+        <b>DOCENTE </b> <?php echo $usuario->nombre." ".$usuario->apellido; ?><br/>
+        <hr/>
+        <div class="center">
+            Estimado Docente:<br/>
+            A continuaci&oacute;n podr&aacute; ver la Matriz de Desempe&ntilde;o de las evaluaciones
+            rendidas a la fecha y en las p&aacute;ginas siguientes encontrar&aacute;
+            los resultados de la &uacute;ltima actividad rendida.
         <div id="matriz_desempeno">           
+            <div class="center">
     <?php
         //hola mundo
     	foreach($matriz_desempeño as $quiz => $columna){
+            echo "<td>";
     		$celdas = '';
     		$logro_quiz = 0;
     		$total_preguntas = 0;
@@ -244,36 +269,78 @@ foreach ($notas_grupo as $id => $nota) {
     			}else{
     				$celdas .= '<td class="no_rendido">'.$celda['contenido']->nombre.' ('.round($celda['logro']).'%)</td>';
     			}
-    			$celdas .= '</td>';
+    			$celdas .= '</tr>';
     			$logro_quiz += $celda['logro']*$celda['numero_preguntas'];
     			$total_preguntas += $celda['numero_preguntas'];
     		}
     		
-    		echo '<table class="matriz">';
+    		echo '<table class="matriz" border="1">';
     		echo '<tr><td class="header">';
     		echo $quiz.' ('.round($logro_quiz/$total_preguntas).'%)';
     		echo '</td></td>';
     		echo $celdas;
-    		echo '</table>';
+    		echo '</table></td>';
 
     	} 
         
     ?>
+            </div>
     </div>
 
-    <div>
-    	<table class="leyenda">
-    	<tr>
-    		<td class="destacado">Logro &gt;= 55%</td>
-    		<td class="suficiente">45% &lt; Logro &lt;55%</td>
-    		<td class="insuficiente">Logro &lt;= 45%</td>
-    		<td class="no_rendido">A&uacute;n no rendido</td>
-    	</tr>
-    	</table>
-    </div>
-    <div id="lista_reforzamiento">           
+            <div>
+                <table class="leyenda" border="1">
+                <tr>
+                        <td class="destacado">Logro &gt;= 55%</td>
+                        <td class="suficiente">45% &lt; Logro &lt;55%</td>
+                        <td class="insuficiente">Logro &lt;= 45%</td>
+                        <td class="no_rendido">A&uacute;n no rendido</td>
+                </tr>
+                </table>
+            </div>
+        </div>
+        <hr/>
+        Seg&uacute;n lo que sus alumnos respondieron en la actividad '<?php echo $nombre_actividad ?>',
+        sus resultados son los siguientes:<br/>
+        <div>
+            <div class="grafico">
+                <div class="border" id="logro_por_contenido"></div>
+                El gr&aacute;fico representa el promedio de logro por contenido 
+                respecto al total de estudiantes que rindieron la actividad '<?php echo $nombre_actividad;?>'.
+            </div>
+            <div class="grafico">
+                <div class="border" id="promedio_grupo"></div>
+                El promedio del curso fue <?php echo $promedio_grupo; ?> considerando solo a los estudiantes que rindieron la actividad.
+            </div>
+            <div class="grafico">
+                <div class="border" id="histograma"></div>
+                El eje vertical representa la frecuencia, mientras que el eje horizontal intervalos de las notas.
+            </div>
+            <div class="grafico">
+                <div class="border" id="aprobados"></div>
+                Del total de estudiantes, el <?php echo intval(($aprobados/($aprobados+$reprobados+$ausentes))*100); ?>% aprob&oacute y el <?php echo intval(($reprobados/($aprobados+$reprobados+$ausentes))*100); ?>% reprob&oacute,
+                mientras que un <?php echo intval(($ausentes/($aprobados+$reprobados+$ausentes))*100); ?>% no realiz&oacute la actividad y, por lo tanto,
+                reprob&oacute.
+            </div>
+        </div>
+        <div>
+        <div>
+            El siguiente gr&aacutefico muestra el ranking general del curso, despu&eacutes de realizada la actividad <?php echo $nombre_actividad; ?>:
+            <div class="border" id="ranking_curso"></div>
+        </div>
+        <br/>
+        <div>
+            El siguiente gr&aacutefico muestra el tiempo que cada alumno estuvo en la plataforma desde un mes antes que terminara la actividad '<?php echo $nombre_actividad; ?>' del curso:
+             <div class="border" id="ranking_curso_2"></div>        
+        </div>
+        </div>
+        <hr/>
+    <div id="lista_reforzamiento" class="matriz">           
+        Listado de alumnos que deben reforzar cada uno de los contenidos evaluados
+        en '<?php echo $nombre_actividad;?>':
+        <table class="center">
     <?php
     	foreach($matriz_contenidos as $contenido=>$quiz){
+            echo "<td>";
     		$celdas = '';
     		$logro_quiz = 0;
     		$total_preguntas = 0;
@@ -286,52 +353,26 @@ foreach ($notas_grupo as $id => $nota) {
     		
     		
     		
-    		echo '<table class="matriz">';
+    		echo '<table border="1">';
     		echo '<tr><td class="header">';
     		echo $contenido;
     		echo '</td></td>';
     		echo $s;
-    		echo '</table>';
+    		echo '</table></td>';
                 
 
     	} 
         
     ?>
+        </table>
     </div>
-        <div id="logro_por_contenido"></div>
-        <div>
-        <div id="comparacion_grupo"></div>
-        <p>El siguiente gr&aacutefico muestra el ranking general del curso, despu&eacutes de realizada la actividad <?php echo $nombre_actividad; ?>:</p>
-        </div>
-        <div>
-        <div id="ranking_curso"></div>
-        </div>
-        <div>
-        <div id="ranking_curso_2"></div>        
-        </div>
         <hr/>
-        <div>
-        <div id="promedio_grupo"></div>
-        <p>El promedio del curso fue <?php echo $promedio_grupo; ?> considerando solo a los estudiantes que rindieron la actividad.</p>
-        </div>
-        <hr/>
-        <div>
-        <div id="histograma"></div>
-        <p>El eje vertical representa la frecuencia, mientras que el eje horizontal intervalos de las notas.</p>
-        </div>
-        <hr/>
-        <div>
-        <div id="aprobados"></div>
-        <p>Del total de estudiantes, el <?php echo intval(($aprobados/($aprobados+$reprobados+$ausentes))*100); ?>% aprob&oacute y el <?php echo intval(($reprobados/($aprobados+$reprobados+$ausentes))*100); ?>% reprob&oacute,
-            mientras que un <?php echo intval(($ausentes/($aprobados+$reprobados+$ausentes))*100); ?>% no realiz&oacute la actividad y, por lo tanto,
-            reprob&oacute.
-        </p>
-        </div>
-        <hr/>
+        La siguiente tabla muestra la lista del curso y sus resultados generales: 
         <div id="tabla_notas"></div>
     <script>
         <?php
-            $s='<table border=\"1\"><tr><th><b>Nombre</b></th><th><b>Nota '.$nombre_actividad.'</b></th><th>Minutos en la Plataforma</th></tr>';
+            
+            $s='<table border=\"1\" class=\"center\"><tr><th><b>Nombre</b></th><th><b>Nota '.$nombre_actividad.'</b></th><th>Minutos en la Plataforma</th></tr>';
             foreach($notas_grupo as $nota){
                 $s=$s.'<tr><td>'.$nota->apellido.', '.$nota->nombre.'</td><td>';
                 if($nota->logro!=NULL){
@@ -347,4 +388,6 @@ foreach ($notas_grupo as $id => $nota) {
         document.getElementById("tabla_notas").innerHTML= "<?php echo $s; ?>";
         
     </script>
+    <br/><br/>
+    <div class="footer"></div>
     </body>

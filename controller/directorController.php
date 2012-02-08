@@ -14,17 +14,21 @@ public function index() {
 	
 	/* árbol de tiempo para una institución */
 	$arbol_tiempo = array();
-	$suma_sedes = 0;
+	$suma_tiempo_sedes = 0;
+	$suma_alumnos_sedes = 0;
 	foreach ($sedes as $sede){
 		$cursos = DAOFactory::getCursosDAO()->getCursosInSede($sede->id);
-		$suma_cursos = 0;
+		$suma_tiempo_cursos = 0;
+		$suma_alumnos_cursos = 0;
 		//buscamos todos los cursos en una sede
 		foreach ($cursos as $curso){
 			$grupos = DAOFactory::getGruposDAO()->getGruposInCurso($curso->id);
-			$suma_grupos = 0;
+			$suma_tiempo_grupos = 0;
+			$suma_alumnos_grupos = 0;
 			//buscamos todos todos grupos en un curso
 			foreach ($grupos as $grupo){
 				$alumnos = DAOFactory::getPersonasDAO()->getEstudiantesInGroup($grupo->id);
+				$suma_tiempo_alumnos = 0;
 				$suma_alumnos = 0;
 				//buscamos todos los alumnos de un grupo (sumamos su tiempo)
 				foreach ($alumnos as $alumno){
@@ -32,18 +36,27 @@ public function index() {
 					//desde el inicio de los tiempos hasta hoy
 					$tiempo = DAOFactory::getLogsDAO()->getTiempoEntreFechas(0, time(), $alumno->id);
 					$arbol_tiempo['detalle'][$sede->nombre]['detalle'][$curso->nombre]['detalle'][$grupo->nombre]['detalle'][$alumno->id]['tiempo'] = $tiempo;
-					$suma_alumnos += $tiempo;
+					$arbol_tiempo['detalle'][$sede->nombre]['detalle'][$curso->nombre]['detalle'][$grupo->nombre]['detalle'][$alumno->id]['alumnos'] = 1;
+					$suma_tiempo_alumnos += $tiempo;
+					$suma_alumnos++;
 				}
-				$arbol_tiempo['detalle'][$sede->nombre]['detalle'][$curso->nombre]['detalle'][$grupo->nombre]['tiempo'] = $suma_alumnos;
-				$suma_grupos += $suma_alumnos;
+				$arbol_tiempo['detalle'][$sede->nombre]['detalle'][$curso->nombre]['detalle'][$grupo->nombre]['tiempo'] = $suma_tiempo_alumnos;
+				$arbol_tiempo['detalle'][$sede->nombre]['detalle'][$curso->nombre]['detalle'][$grupo->nombre]['alumnos'] = $suma_alumnos;
+				$suma_tiempo_grupos += $suma_tiempo_alumnos;
+				$suma_alumnos_grupos += $suma_alumnos;
 			}
-			$arbol_tiempo['detalle'][$sede->nombre]['detalle'][$curso->nombre]['tiempo'] = $suma_grupos; 
-			$suma_cursos += $suma_grupos;
+			$arbol_tiempo['detalle'][$sede->nombre]['detalle'][$curso->nombre]['tiempo'] = $suma_tiempo_grupos;
+			$arbol_tiempo['detalle'][$sede->nombre]['detalle'][$curso->nombre]['alumnos'] = $suma_alumnos_grupos;
+			$suma_tiempo_cursos += $suma_tiempo_grupos;
+			$suma_alumnos_cursos += $suma_alumnos_grupos;
 		}
-		$arbol_tiempo['detalle'][$sede->nombre]['tiempo'] = $suma_cursos;
-		$suma_sedes += $suma_cursos;
+		$arbol_tiempo['detalle'][$sede->nombre]['tiempo'] = $suma_tiempo_cursos;
+		$arbol_tiempo['detalle'][$sede->nombre]['alumnos'] = $suma_alumnos_cursos;
+		$suma_tiempo_sedes += $suma_tiempo_cursos;
+		$suma_alumnos_sedes += $suma_alumnos_cursos;
 	}
-	$arbol_tiempo['tiempo'] = $suma_sedes;
+	$arbol_tiempo['tiempo'] = $suma_tiempo_sedes;
+	$arbol_tiempo['alumnos'] = $suma_alumnos_sedes;
 	
 	//TODO: deberia serializar? costo/efectividad...
 	$_SESSION['arbolTiempo'] = $arbol_tiempo;
@@ -51,7 +64,7 @@ public function index() {
 	//FIX
 	$cadena = '[';
 	foreach ($arbol_tiempo['detalle'] as $nombre => $nodo){
-		$cadena .= '["'.$nombre.'",'.$nodo['tiempo'].'],';
+		$cadena .= '["'.$nombre.'",'.($nodo['tiempo']/60/$nodo['alumnos']).'],';
 	}
 	
 	$this->registry->template->arbol = substr($cadena, 0, -1).']';
@@ -68,10 +81,10 @@ public function data(){
 	
 	if(isset($_GET['grupo'])){
 		/* árbol de tiempo para un curso */
-		$id_director = $_GET['director'];
-		$nombre_sede = $_GET['sede'];
-		$nombre_curso = $_GET['curso'];
-		$nombre_grupo =  $_GET['grupo'];
+		$id_director = utf8_decode($_GET['director']);
+		$nombre_sede = utf8_decode($_GET['sede']);
+		$nombre_curso = utf8_decode($_GET['curso']);
+		$nombre_grupo =  utf8_decode($_GET['grupo']);
 		if(isset($_SESSION['arbolTiempo'])){
 			$arbolCompleto = $_SESSION['arbolTiempo'];
 			$arbol_tiempo = $arbolCompleto['detalle'][$nombre_sede]['detalle'][$nombre_curso]['detalle'][$nombre_grupo];
@@ -81,9 +94,9 @@ public function data(){
 	
 	elseif(isset($_GET['curso'])){
 		/* árbol de tiempo para un curso */
-		$id_director = $_GET['director'];
-		$nombre_sede = $_GET['sede'];
-		$nombre_curso = $_GET['curso'];
+		$id_director = utf8_decode($_GET['director']);
+		$nombre_sede = utf8_decode($_GET['sede']);
+		$nombre_curso = utf8_decode($_GET['curso']);
 
 		if(isset($_SESSION['arbolTiempo'])){
 			$arbolCompleto = $_SESSION['arbolTiempo'];
@@ -93,8 +106,8 @@ public function data(){
 	
 	elseif(isset($_GET['sede'])){
 		/* árbol de tiempo para una sede */
-		$id_director = $_GET['director'];
-		$nombre_sede = $_GET['sede'];
+		$id_director = utf8_decode($_GET['director']);
+		$nombre_sede = utf8_decode($_GET['sede']);
 		
 		if(isset($_SESSION['arbolTiempo'])){
 			$arbolCompleto = $_SESSION['arbolTiempo'];

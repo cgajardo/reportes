@@ -7,6 +7,28 @@
  */
 class CursosMySqlDAO implements CursosDAO{
 	
+	
+	/**
+	 * Devuelve un curso en una Sede de nombre dado.
+	 * 
+	 * @author cgajardo
+	 * @param int $sede_id
+	 * @param string $nombre_curso
+	 */
+	public function getCursoBySedeAndNombre($sede_id, $nombre_curso){
+		$sql = 'SELECT c.* '. 
+			'FROM cursos AS c, sedes_has_cursos AS sc '. 
+			'WHERE c.id = sc.id_curso '. 
+			'AND sc.id_sede = ? '. 
+			'AND c.nombre = ? ';
+		
+		$sqlQuery = new SqlQuery($sql);
+		$sqlQuery->set($sede_id);
+		$sqlQuery->set($nombre_curso);
+		
+		return $this->getRow($sqlQuery);
+	}
+	
 	/**
 	 * Devuelve una lista de cursos asociados a una Sede
 	 * 

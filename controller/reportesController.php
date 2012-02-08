@@ -19,6 +19,19 @@ public function index() {
 		$usuario = DAOFactory::getPersonasDAO()->load($user_id);
 	}
 	
+	if(isset($PARAMS['platform'])){
+		$user_id_in_moodle = $PARAMS['user'];
+		$platform = $PARAMS['platform'];
+		
+		$usuario = DAOFactory::getPersonasDAO()->getUserInPlatform($platform,$user_id_in_moodle);
+	}
+	elseif(isset($PARAMS['plataforma'])){
+		$user_id = $PARAMS['usuario'];
+		$platform = $PARAMS['plataforma'];
+		
+		$usuario = DAOFactory::getPersonasDAO()->load($user_id);
+	}
+	
 	$cursos_usuarios = DAOFactory::getCursosDAO()->getCursosByUsuario($usuario->id);
 	
 	

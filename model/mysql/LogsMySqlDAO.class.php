@@ -5,7 +5,6 @@
 * @author: cgajardo
 * @date: 2012-01-30 10:54
 */
-
 class LogsMySqlDAO implements LogsDAO{
 	
 	/**

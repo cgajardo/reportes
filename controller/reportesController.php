@@ -83,7 +83,7 @@ public function index() {
 }
 
 public function semanal(){
-	//print $this->encrypter->encode("platform=utfsm&user=609&course=6&quiz=151")."</br>";
+	print $this->encrypter->encode("platform=utfsm&user=609&course=6&quiz=151")."</br>";
 	//print $this->encrypter->encode("plataforma=utfsm&usuario=848&curso=6&quiz=21")."</br>";
 	//578, 586, 587, 599, 581, 574
 	
@@ -145,7 +145,7 @@ public function semanal(){
 	
 	//enviamos los siguientes valores a la vista
 	$this->registry->template->titulo = 'Reporte Estudiante';
-	//$this->registry->template->usuario = $usuario;
+	$this->registry->template->usuario = $usuario;
 	$this->registry->template->notas_grupo = $notas_grupo;
 	$this->registry->template->promedio_grupo = promedio_grupo($notas_grupo,count($estudiantes_en_grupo));
 	$this->registry->template->nota_alumno = $nota_alumno[0];

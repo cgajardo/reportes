@@ -51,7 +51,7 @@ function loadCursos(){
                options = {
                      title: 'Tiempo de uso de la plataforma en Cursos',
                      hAxis: {title: 'Cursos', titleTextStyle: {color: 'blue'},viewWindowMode:'maximized'},
-                     vAxis: {title: 'minutos/alumnos', titleTextStyle: {color: 'blue'}}
+                     vAxis: {title: 'minutos/alumnos', titleTextStyle: {color: 'blue'}, viewWindowMode:'explicit', viewWindow: {min:0}}
 
                 };
                 
@@ -101,7 +101,7 @@ function loadGrupos(){
               options = {
                     title: 'Tiempo de uso de la plataforma en Grupos',
                     hAxis: {title: 'Cursos', titleTextStyle: {color: 'blue'}, viewWindowMode:'maximized'},
-                    vAxis: {title: 'minutos/alumnos', titleTextStyle: {color: 'blue'}}
+                    vAxis: {title: 'minutos/alumnos', titleTextStyle: {color: 'blue'}, viewWindowMode:'explicit', viewWindow: {min:0}}
                };
                
                chart.draw(data, options);
@@ -149,7 +149,7 @@ function loadAlumnos(){
               data.addRows(j);
               options = {
               	 hAxis: {title: 'Alumnos', titleTextStyle: {color: 'blue'}, viewWindowMode:'maximized'},
-              	 vAxis: {title: 'minutos', titleTextStyle: {color: 'blue'}}
+              	 vAxis: {title: 'minutos', titleTextStyle: {color: 'blue'}, viewWindowMode:'explicit', viewWindow: {min:0}}
 
                };
                

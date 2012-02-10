@@ -30,8 +30,8 @@ class ContenidosMySqlDAO implements ContenidosDAO{
 	}
 	
 	/**
-	 * Esta funci�n permite mantener la compatibilidad con la misma funcion de IntentodDAO
-	 * que permite mostrar los quizes no rendidos en la matriz de desempe�o
+	 * Esta función permite mantener la compatibilidad con la misma funcion de IntentodDAO
+	 * que permite mostrar los quizes no rendidos en la matriz de desempeño
 	 * 
 	 * @author cgajardo
 	 * @param SqlQuery $sqlQuery

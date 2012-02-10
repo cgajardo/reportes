@@ -1,1 +1,5 @@
 /nbproject/private/
+.DS_Store
+.buildpath
+.project
+.settings/*

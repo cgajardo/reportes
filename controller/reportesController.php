@@ -20,7 +20,8 @@ public function index() {
 	}
 	
 	$cursos_usuarios = DAOFactory::getCursosDAO()->getCursosByUsuario($usuario->id);
-	
+	$institucion = DAOFactory::getInstitucionesDAO()-> getInstitucionByNombrePlataforma($platform);
+	$this->registry->template->institucion = $institucion;
 	
 	// redireccionamos al 404 si usuario no existe
 	if($usuario == null){
@@ -45,6 +46,7 @@ public function index() {
 		
 		$quizes = DAOFactory::getQuizesDAO()->queryEvaluacionesByIdCurso($id_curso);
 		
+		$this->registry->template->titulo = 'Tus evaluaciones';
 		$this->registry->template->usuario = $usuario;
 		$this->registry->template->cursos = $cursos_usuarios;
 		$this->registry->template->origen = '&plataforma='.$platform.'&usuario='.$usuario->id;
@@ -62,6 +64,8 @@ public function index() {
 		$curso_moodle = $PARAMS['course'];
 		$curso = DAOFactory::getCursosDAO()->queryByIdentificadorMoodle($platform.'_'.$curso_moodle);	
 		$quizes = DAOFactory::getQuizesDAO()->queryEvaluacionesByIdCurso($curso->id);
+		
+		$this->registry->template->titulo = 'Tus evaluaciones';
 		$this->registry->template->usuario = $usuario;
 		$this->registry->template->cursos = $cursos_usuarios;
 		$this->registry->template->origen = '&plataforma='.$platform.'&usuario='.$usuario->id;
@@ -74,6 +78,7 @@ public function index() {
 		return;
 	}
 	
+	$this->registry->template->titulo = 'Tus cursos';
 	$this->registry->template->usuario = $usuario;
 	$this->registry->template->cursos = $cursos_usuarios;
 	$this->registry->template->origen = '&plataforma='.$platform.'&usuario='.$usuario->id;

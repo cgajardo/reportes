@@ -6,6 +6,29 @@
  * @date: 2012-01-18 16:29
  */
 class InstitucionesMySqlDAO implements InstitucionesDAO{
+	
+	
+	
+	/**
+	 * Esta función devuelve la institacion asociada a una plataforma
+	 * dado el nombre de la plataforma
+	 * 
+	 * @author cgajardo 
+	 * @param string $platforma
+	 */
+	public function getInstitucionByNombrePlataforma($platforma){
+		$sql = 'SELECT i.* '.
+			'FROM instituciones as i '.
+			'WHERE i.id IN ( '.
+  				'SELECT ip.id_institucion '.
+  				'FROM instituciones_has_plataformas AS ip, plataformas AS p '.
+  				'WHERE p.nombre = ? )';
+		
+		$sqlQuery = new SqlQuery($sql);
+		$sqlQuery->setString($platforma);
+		
+		return $this->getRow($sqlQuery);
+	}
 
 	/**
 	 * Get Domain object by primry key

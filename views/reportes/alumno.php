@@ -5,7 +5,7 @@
   	<link rel="stylesheet" type="text/css" href="/reportes/views/styles/galyleo.css" />
   	<style type="text/css">
   	.header_institucion {
-		background-image: url("/reportes/views/images/logos/<?php echo $institucion;?>-header.png");
+		background-image: url("/reportes/views/images/logos/<?php echo $institucion->nombreCorto;?>-header.png");
 		background-position: center;
 		background-repeat: no-repeat;
 		height: 150px;
@@ -233,7 +233,7 @@
     <p>El siguiente gr&aacute;fico muestra el tiempo que dedicaste a la plataforma durante las &uacute;ltimas 10 semanas.
     <div id="tiempo_semana"></div>
     </div>
-    <div class="author">Reporte preparado por Galyleo para <?php echo ucwords($institucion);?></div>
+    <div class="author">Reporte preparado por Galyleo para <?php echo ucwords($institucion->nombre);?></div>
     <div class="footer"></div>
   </body>
 </html>

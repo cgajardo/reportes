@@ -13,7 +13,7 @@
                 float:left;
             }
             .header_institucion {
-		background-image: url("/reportes/views/images/logos/<?php echo $institucion;?>-header.png");
+		background-image: url("/reportes/views/images/logos/<?php echo $institucion->nombreCorto;?>-header.png");
 		background-position: center;
 		background-repeat: no-repeat;
 		height: 150px;

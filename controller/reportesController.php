@@ -83,12 +83,13 @@ public function index() {
 }
 
 public function semanal(){
-	print $this->encrypter->encode("platform=utfsm&user=609&course=6&quiz=151")."</br>";
+	//print $this->encrypter->encode("platform=utfsm&user=609&course=6&quiz=151")."</br>";
 	//print $this->encrypter->encode("plataforma=utfsm&usuario=848&curso=6&quiz=21")."</br>";
 	//578, 586, 587, 599, 581, 574
 	
 	$PARAMS = $this->encrypter->decodeURL($_GET['params']);
 	
+	/* significa que trae parámetros desde una plataforma moodle */ 
 	if(isset($PARAMS['platform'])){
 		$user_id_in_moodle = $PARAMS['user'];
 		$platform = $PARAMS['platform'];
@@ -101,6 +102,7 @@ public function semanal(){
 		$quiz = DAOFactory::getQuizesDAO()->getGalyleoQuizByMoodleId($platform, $quiz_id_in_moodle);
 	
 	}
+	/* significa que trae parametros desde la plataforma de reportes */
 	elseif(isset($PARAMS['plataforma'])){
 		$user_id = $PARAMS['usuario'];
 		$platform = $PARAMS['plataforma'];
@@ -113,6 +115,7 @@ public function semanal(){
 		$quiz = DAOFactory::getQuizesDAO()->load($quiz_id);
 	}
 	
+	$institucion = DAOFactory::getInstitucionesDAO()-> getInstitucionByNombrePlataforma($platform);
 	$grupo = DAOFactory::getGruposDAO()->getGrupoByCursoAndUser($usuario->id, $curso->id);
 	$estudiantes_en_grupo = DAOFactory::getPersonasDAO()->getEstudiantesInGroup($grupo->id);
 	$notas_grupo = DAOFactory::getIntentosDAO()->getNotasGrupo($quiz->id,$grupo->id);
@@ -156,7 +159,7 @@ public function semanal(){
 	$this->registry->template->contenido_logro = $contenido_logro;
 	$this->registry->template->nombre_curso = $curso->nombre;
 	$this->registry->template->nombre_grupo = $grupo->nombre;
-	$this->registry->template->institucion = 'utfsm';
+	$this->registry->template->institucion = $institucion;
 	$this->registry->template->matriz_desempeño = $matriz_desempeño;
 	$this->registry->template->tiempos_semanas = $tiempos_semanas;
 	
@@ -202,7 +205,7 @@ public function profesor(){
         }
         
 	//recuperamos los objetos que nos interesan
-	
+	$institucion = DAOFactory::getInstitucionesDAO()-> getInstitucionByNombrePlataforma($platform);
 	$curso = DAOFactory::getCursosDAO()->getCursoByGrupoId($grupo->id);
 	$estudiantes_en_grupo = DAOFactory::getPersonasDAO()->getEstudiantesInGroup($grupo->id);
 	$notas_grupo = DAOFactory::getIntentosDAO()->getNotasNombreGrupo($quiz->id,$grupo->id);
@@ -216,15 +219,15 @@ public function profesor(){
 	$this->registry->template->nota_maxima = 100;
 	$this->registry->template->promedio_grupo = promedio_grupo($notas_grupo,count($estudiantes_en_grupo));
 	$this->registry->template->estudiantes =$estudiantes_en_grupo;
-        $this->registry->template->total_estudiantes_grupo = count($estudiantes_en_grupo);
+    $this->registry->template->total_estudiantes_grupo = count($estudiantes_en_grupo);
 	$this->registry->template->nombre_actividad = $quiz->nombre;
 	$this->registry->template->fecha_cierre = $quiz->fechaCierre;
 	$this->registry->template->contenido_logro = $contenido_logro;
 	$this->registry->template->nombre_curso = $curso->nombre;
 	$this->registry->template->nombre_grupo = $grupo->nombre;
-        $this->registry->template->institucion = $platform;
+    $this->registry->template->institucion = $institucion;
 	
-	// esto es lo necesario para la matriz de desempe�o, TODO: deber�a tener su vista propia?
+	// esto es lo necesario para la matriz de desempeño, TODO: deber�a tener su vista propia?
 	$quizes_en_curso = DAOFactory::getQuizesDAO()->queryCerradosByIdCurso($curso->id);
 	$matriz_desempeno = array();
 	foreach ($quizes_en_curso as $quiz_en_curso){

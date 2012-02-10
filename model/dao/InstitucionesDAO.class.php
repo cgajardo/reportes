@@ -6,7 +6,16 @@
  * @date: 2012-01-18 16:29
  */
 interface InstitucionesDAO{
-
+	
+	/**
+	 * Esta función devuelve la institacion asociada a una plataforma
+	 * dado el nombre de la plataforma
+	 *
+	 * @author cgajardo
+	 * @param string $platforma
+	 */
+	public function getInstitucionByNombrePlataforma($platforma);
+	
 	/**
 	 * Get Domain object by primry key
 	 *

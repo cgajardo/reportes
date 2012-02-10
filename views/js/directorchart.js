@@ -12,7 +12,7 @@ var curso;
 var grupo;
 
 function loadCursos(){
-	document.getElementById("chart_div").innerHTML='<img class="loading-gif" border="0" src="/reportes/views/images/loading.gif" alt="cargando"/>';
+	//document.getElementById("chart_div").innerHTML='<img class="loading-gif" border="0" src="/reportes/views/images/loading.gif" alt="cargando"/>';
 	document.getElementById("chart_nav").innerHTML='<input type="button" onclick="drawChart()" value="Regresar"></input>';
     //recuperamos la id del director
     	id_director = gup('id');
@@ -64,7 +64,7 @@ function loadCursos(){
  }
 
 function loadGrupos(){
-		document.getElementById("chart_div").innerHTML='<img class="loading-gif" border="0" src="/reportes/views/images/loading.gif" alt="cargando"/>';
+		//document.getElementById("chart_div").innerHTML='<img class="loading-gif" border="0" src="/reportes/views/images/loading.gif" alt="cargando"/>';
 		document.getElementById("chart_nav").innerHTML='<input type="button" onclick="loadCursos()" value="Regresar"></input>';
    	var xmlhttp;
    	var selection = chart.getSelection();
@@ -113,7 +113,7 @@ function loadGrupos(){
 }
 
 function loadAlumnos(){
-		document.getElementById("chart_div").innerHTML='<img class="loading-gif" border="0" src="/reportes/views/images/loading.gif" alt="cargando"/>';
+		//document.getElementById("chart_div").innerHTML='<img class="loading-gif" border="0" src="/reportes/views/images/loading.gif" alt="cargando"/>';
 		document.getElementById("chart_nav").innerHTML='<input type="button" onclick="loadGrupos()" value="Regresar"></input>';
    	var xmlhttp;
    	var selection = chart.getSelection();

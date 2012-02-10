@@ -19,3 +19,8 @@ CREATE  TABLE IF NOT EXISTS `mydb`.`instituciones_has_plataformas` (
 
 ALTER TABLE `mydb`.`plataformas` 
 DROP PRIMARY KEY, ADD PRIMARY KEY (`id`, `nombre`) ;
+
+
+ALTER TABLE `mydb`.`instituciones_has_directores` CHANGE COLUMN `id_instituacion` `id_institucion` INT(11) NOT NULL, 
+DROP PRIMARY KEY, ADD PRIMARY KEY (`id_institucion`, `id_persona`), 
+DROP INDEX `fk_Instituciones_has_Personas_Instituciones1`, ADD INDEX `fk_Instituciones_has_Personas_Instituciones1` (`id_institucion` ASC);

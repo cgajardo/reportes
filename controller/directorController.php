@@ -12,6 +12,13 @@ public function index() {
 	$director = DAOFactory::getPersonasDAO()->load($id_director);
 	$sedes = DAOFactory::getSedesDAO()->getSedesByDirector($director->id);
 	
+	//buscamos la institución en la session
+	if(isset($_SESSION['institucion'])){
+		$institucion = $_SESSION['institucion'];
+	}else{
+		$institucion = DAOFactory::getInstitucionesDAO()->getInstitucionByDirectorId($director->id);
+	}
+	
 	/* árbol de tiempo para una institución */
 	$arbol_tiempo = array();
 	$suma_tiempo_sedes = 0;
@@ -67,9 +74,11 @@ public function index() {
 		$cadena .= '["'.$nombre.'",'.($nodo['tiempo']/60/$nodo['alumnos']).'],';
 	}
 	
+	$this->registry->template->institucion = $institucion;
 	$this->registry->template->arbol = substr($cadena, 0, -1).']';
 	$this->registry->template->director = $director;
 	$this->registry->template->sedes = $sedes;
+	$this->registry->template->titulo = 'Informe para directores';
 	$this->registry->template->show('director/index');
 }
 

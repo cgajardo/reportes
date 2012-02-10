@@ -8,6 +8,14 @@
 interface InstitucionesDAO{
 	
 	/**
+	 * Esta función entrega la institución en la cual el usuario es director.
+	 *
+	 * @author cgajardo
+	 * @param int $director_id
+	 */
+	public function getInstitucionByDirectorId($director_id);
+	
+	/**
 	 * Esta función devuelve la institacion asociada a una plataforma
 	 * dado el nombre de la plataforma
 	 *

@@ -3,20 +3,29 @@
 Class reportesController Extends baseController {
 
 public function index() {
+	session_start();
 	//print $this->encrypter->encode("platform=utfsm&user=609&course=6");
 	$PARAMS = $this->encrypter->decodeURL($_GET['params']);
 	
-	if(isset($PARAMS['platform'])){
+	if(isset($_SESSION['usuario'])){
+		$usuario = $_SESSION['usuario'];
+		$platform = $_SESSION['plataforma'];
+	}
+	elseif(isset($PARAMS['platform'])){
 		$user_id_in_moodle = $PARAMS['user'];
 		$platform = $PARAMS['platform'];
-		
 		$usuario = DAOFactory::getPersonasDAO()->getUserInPlatform($platform,$user_id_in_moodle);
+		//lo agregamos a la session
+		$_SESSION['usuario'] = $usuario;
+		$_SESSION['plataforma'] = $platform;
 	}
 	elseif(isset($PARAMS['plataforma'])){
 		$user_id = $PARAMS['usuario'];
 		$platform = $PARAMS['plataforma'];
-		
 		$usuario = DAOFactory::getPersonasDAO()->load($user_id);
+		//lo agregamos a la session
+		$_SESSION['usuario'] = $usuario;
+		$_SESSION['plataforma'] = $platform;
 	}
 	
 	$cursos_usuarios = DAOFactory::getCursosDAO()->getCursosByUsuario($usuario->id);

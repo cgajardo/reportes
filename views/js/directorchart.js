@@ -148,6 +148,7 @@ function loadAlumnos(){
               data.addColumn('number', 'Tiempo');
               data.addRows(j);
               options = {
+            	 title: 'Tiempo de uso por estudiante',
               	 hAxis: {title: 'Alumnos', titleTextStyle: {color: 'blue'}, viewWindowMode:'maximized'},
               	 vAxis: {title: 'minutos', titleTextStyle: {color: 'blue'}, viewWindowMode:'explicit', viewWindow: {min:0}}
 

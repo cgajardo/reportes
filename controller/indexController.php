@@ -3,10 +3,11 @@
 Class indexController Extends baseController {
 
 public function index() {
-	/*** set a template variable ***/
-        $this->registry->template->welcome = 'Welcome to PHPRO MVC';
+	session_start();
+	
+	session_destroy();
 	/*** load the index template ***/
-        $this->registry->template->show('index');
+     $this->registry->template->show('index');
 }
 
 }

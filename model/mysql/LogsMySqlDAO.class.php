@@ -52,7 +52,8 @@ class LogsMySqlDAO implements LogsDAO{
 
         public function getTiempoTarea($fecha_fin, $grupo){
             $sql = 'SELECT id_persona FROM grupos_has_estudiantes '.
-                   'WHERE id_grupo=?';
+                    'JOIN personas ON id_persona=id '.
+                    'WHERE id_grupo=? ORDER BY apellido,nombre;';
             
             $sqlQuery = new SqlQuery($sql);
             $sqlQuery->setNumber($grupo);

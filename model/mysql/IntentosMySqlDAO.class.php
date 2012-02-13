@@ -426,7 +426,7 @@ class IntentosMySqlDAO implements IntentosDAO{
                         }
                         $notaLogro->nombre = $tab[$i]['nombre'];
                         $notaLogro->apellido = $tab[$i]['apellido'];
-                        $ret[$i] = $notaLogro;
+                        $ret[$tab[$i]['id_persona']] = $notaLogro;
             }
 		return $ret;
 	}

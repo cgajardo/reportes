@@ -164,7 +164,7 @@ class DAOFactory{
 	public static function getSedesHasDirectoressedeDAO(){
 		return new SedesHasDirectoressedeMySqlExtDAO();
 	}
-
-
+        
+        
 }
 ?>

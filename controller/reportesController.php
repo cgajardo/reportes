@@ -4,7 +4,8 @@ Class reportesController Extends baseController {
 
 public function index() {
 	session_start();
-	//print $this->encrypter->encode("platform=utfsm&user=609&course=6");
+	//print $this->encrypter->encode("platform=utfsm&user=574&course=6");
+	//578, 586, 587, 599, 581, 574
 	$PARAMS = $this->encrypter->decodeURL($_GET['params']);
 	
 	if(isset($_SESSION['usuario'])){
@@ -97,7 +98,7 @@ public function index() {
 }
 
 public function semanal(){
-	//print $this->encrypter->encode("platform=utfsm&user=609&course=6&quiz=151")."</br>";
+	//print $this->encrypter->encode("platform=utfsm&user=586&course=6&quiz=151")."</br>";
 	//print $this->encrypter->encode("plataforma=utfsm&usuario=848&curso=6&quiz=21")."</br>";
 	//578, 586, 587, 599, 581, 574
 	

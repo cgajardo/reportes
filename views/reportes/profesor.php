@@ -35,6 +35,7 @@
 	}
 	</style>
         <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+
         <!-- javascript for ranking_curso -->
         <?php
             ranking_notas()
@@ -156,27 +157,8 @@
             tabla_notas();
         ?>  
         </div>
-        </div>
+    </div>
         <br/><br/>
-        <script>
-            function asd(){
-                if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
-                        xmlhttp=new XMLHttpRequest();
-                } else {// code for IE6, IE5
-                        xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-                }
-
-                xmlhttp.onreadystatechange = function(){
-
-                        if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                        xmlhttp.responseText;
-                        }
-                }
-                xmlhttp.open("GET","quiz_profesor?plataforma=utfsm&usuario=1104&grupo=24&quiz=61",true);
-                xmlhttp.send();
-            }
-        
-        </script>
-    <button onclick="asd()"></button>
-    <div class="footer"></div>
+        <div class="footer"></div>
     </body>
+</html>

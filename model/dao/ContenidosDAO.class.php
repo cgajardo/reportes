@@ -6,6 +6,14 @@
  * @date: 2012-01-18 16:29
  */
 interface ContenidosDAO{
+	
+	/**
+	 * Devuelve los contenidos cuyo nombre es similar al parametro $likeString
+	 *
+	 * @author cgajardo
+	 * @param string $likeString
+	 */
+	public function getLike($likeString);
 
 	/**
 	 * Get Domain object by primry key

@@ -9,7 +9,7 @@
 		
 		var $id;
 		var $identificadorMoodle;
-		var $idContenido;
+		var $contenido;
 		
 		var $categoria;
 		

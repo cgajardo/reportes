@@ -8,6 +8,24 @@
 class ContenidosMySqlDAO implements ContenidosDAO{
 	
 	/**
+	 * Devuelve los contenidos cuyo nombre es similar al parametro $likeString
+	 * 
+	 * @author cgajardo
+	 * @param string $likeString
+	 */
+	public function getLike($likeString){
+		$sql = 'SELECT * '.
+		'FROM contenidos '.
+		'WHERE nombre LIKE ? '.
+		'LIMIT 10';
+		
+		$sqlQuery = new SqlQuery($sql);
+		$sqlQuery->setString($likeString.'%');
+		
+		return $this->getList($sqlQuery);
+	}
+	
+	/**
 	 * Retornar todos los contenidos asociado a un quiz.
 	 * Se utiliza principalmente para la matriz de desempe�o
 	 * 

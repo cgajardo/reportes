@@ -29,6 +29,7 @@ foreach ($contenidos as $contenido){
 
 </table>
 <br/>
-<a href="<?php print($_SERVER['PHP_SELF']);?>?rt=contenidos/agregar">Nuevo Contenido</a>
+<a href="<?php echo str_replace("index.php","",$_SERVER['PHP_SELF']);?>contenidos/agregar">Nuevo Contenido</a><br/>
+<a href="<?php echo str_replace("index.php","",$_SERVER['PHP_SELF']);?>contenidos/asociar">Asociar Contenido a Preguntas</a>
 </body>
 </html>

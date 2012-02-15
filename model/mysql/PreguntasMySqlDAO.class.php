@@ -179,7 +179,7 @@ class PreguntasMySqlDAO implements PreguntasDAO{
 		
 		$pregunta->id = $row['id'];
 		$pregunta->identificadorMoodle = $row['identificador_moodle'];
-		$pregunta->idContenido = $row['id_contenido'];
+		$pregunta->contenido = DAOFactory::getContenidosDAO()->load($row['id_contenido']);
 		$pregunta->categoria = DAOFactory::getCategoriasDAO()->load($row['id_categoria']);
 
 		return $pregunta;

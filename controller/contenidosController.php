@@ -50,6 +50,7 @@ public function editar($contenido = null){
 }
 
 public function asociar(){
+	session_start();
 	$todas_las_preguntas = DAOFactory::getPreguntasDAO()->queryAll();
 	
 	$this->registry->template->preguntas_sin_asociar = $preguntas_sin_asociar;
@@ -83,6 +84,10 @@ public function eliminar(){
 	
 	//TODO enviar mensajes de 'eliminacion correcta'
 	$this->index();
+}
+
+public function autocompletar(){
+	$this->registry->template->show('contenidos/autocomplete');
 }
 
 }

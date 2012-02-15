@@ -37,7 +37,7 @@ class Encrypter {
 		$ret = array();
 		foreach ($key_values as $key_value){
 			$values = explode('=', $key_value);
-			$ret[$values[0]] = $values[1];
+			@$ret[$values[0]] = $values[1];
 		}
 		
 		return $ret;

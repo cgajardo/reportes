@@ -18,7 +18,7 @@ public function index()
     $this->registry->template->contenidos = $contenidos;
     
     //finally
-    $this->registry->template->show('contenidos_index');
+    $this->registry->template->show('contenidos/index');
 }
 
 public function agregar(){
@@ -73,7 +73,7 @@ public function asociar(){
 	$this->registry->template->total = DAOFactory::getPreguntasDAO()->count();
 	$this->registry->template->page = $page;
 	//finally
-	$this->registry->template->show('contenidos/contenidos_asociar');
+	$this->registry->template->show('contenidos/asociar');
 }
 
 public function eliminar(){

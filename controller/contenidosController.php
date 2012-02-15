@@ -18,7 +18,7 @@ public function index()
     $this->registry->template->contenidos = $contenidos;
     
     //finally
-    $this->registry->template->show('contenidos_index');
+    $this->registry->template->show('contenidos/index');
 }
 
 public function agregar(){
@@ -50,6 +50,7 @@ public function editar($contenido = null){
 }
 
 public function asociar(){
+	session_start();
 	$todas_las_preguntas = DAOFactory::getPreguntasDAO()->queryAll();
 	
 	$this->registry->template->preguntas_sin_asociar = $preguntas_sin_asociar;
@@ -59,7 +60,7 @@ public function asociar(){
 		$page = $_GET['page'];
 	}
 	
-	$this->registry->template->todas_las_preguntas = DAOFactory::getPreguntasDAO()->getFromTo(($page-1)*10,10);
+	$this->registry->template->todas_las_preguntas = DAOFactory::getPreguntasDAO()->getFrom(($page-1)*20,20);
 	
 	$this->registry->template->total_preguntas_sin_asociar = count($preguntas_sin_asociar);
 	
@@ -70,10 +71,10 @@ public function asociar(){
 		$_SESSION['contenidos']  = $this->registry->template->contenidos;
 	}
 	
-	$this->registry->template->total = 100;
+	$this->registry->template->total = DAOFactory::getPreguntasDAO()->count();
 	$this->registry->template->page = $page;
 	//finally
-	$this->registry->template->show('contenidos/contenidos_asociar');
+	$this->registry->template->show('contenidos/asociar');
 }
 
 public function eliminar(){
@@ -83,6 +84,10 @@ public function eliminar(){
 	
 	//TODO enviar mensajes de 'eliminacion correcta'
 	$this->index();
+}
+
+public function autocompletar(){
+	$this->registry->template->show('contenidos/autocomplete');
 }
 
 }

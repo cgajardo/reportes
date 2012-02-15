@@ -8,13 +8,26 @@
 class PreguntasMySqlDAO implements PreguntasDAO{
 	
 	/**
+	 * Devuelve el total de preguntas existentes en las base de datos
+	 * @author cgajardo
+	 */
+	public function count(){
+		$sql = 'SELECT COUNT(id) AS total '.
+			'FROM preguntas';
+		
+		$sqlQuery = new SqlQuery($sql);
+		
+		return $this->getCount($sqlQuery);
+	}
+	
+	/**
 	 * Esta funcion devuelve un grupo de preguntas, útil para la paginación
 	 * 
 	 * @author cgajardo
 	 * @param int $from
 	 * @param int $delta
 	 */
-	public function getFromTo($from, $delta){
+	public function getFrom($from, $delta){
 		$sql = 'SELECT * '.
 			'FROM preguntas '.
 			'ORDER BY  id_contenido '.
@@ -166,7 +179,7 @@ class PreguntasMySqlDAO implements PreguntasDAO{
 		
 		$pregunta->id = $row['id'];
 		$pregunta->identificadorMoodle = $row['identificador_moodle'];
-		$pregunta->idContenido = $row['id_contenido'];
+		$pregunta->contenido = DAOFactory::getContenidosDAO()->load($row['id_contenido']);
 		$pregunta->categoria = DAOFactory::getCategoriasDAO()->load($row['id_categoria']);
 
 		return $pregunta;
@@ -192,6 +205,16 @@ class PreguntasMySqlDAO implements PreguntasDAO{
 			return null;
 		}
 		return $this->readRow($tab[0]);		
+	}
+	
+	protected function getCount($sqlQuery){
+		$tab = QueryExecutor::execute($sqlQuery);
+		
+		if(count($tab)==0){
+			return 0;
+		}
+		
+		return $tab[0]['total'];
 	}
 	
 	/**

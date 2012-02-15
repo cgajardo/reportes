@@ -28,6 +28,11 @@ table{
 	overflow:hidden;
 }
 
+#matriz_resago {
+    width : 100%;
+    margin:0px;
+}
+
 td{
     margin-top:0px;
 }
@@ -77,6 +82,14 @@ td.no_rendido{
 }
 
 table.leyenda {
+	margin-top: 30px;
+	margin-bottom: 30px;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+}
+
+.leyenda {
 	margin-top: 30px;
 	margin-bottom: 30px;
 	margin-left: auto;

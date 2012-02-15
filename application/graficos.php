@@ -325,28 +325,32 @@ foreach ($notas_grupo as $id => $nota) {
         
         $matriz_contenidos = $_SESSION['matriz_contenidos'];
         
-        echo "<table class=\"center\">";
+        $s = '';
     	foreach($matriz_contenidos as $contenido=>$quiz){
-            echo "<td>";
-                $s='';
+                $aux='';
                 foreach($quiz as $celda){
-                    if($celda['logro']==NULL || $celda<45){
-                        $s.= '<tr><td>'.$celda['apellido'].', '.$celda['nombre'].'</td></tr>';
+                    if($celda['logro']==NULL || $celda['logro']<45){
+                        $aux.= '<tr><td>'.$celda['apellido'].', '.$celda['nombre'].'</td></tr>';
                     }
                 }
     		
     		
     		
-    		echo '<table border="1">';
-    		echo '<tr><td class="header">';
-    		echo $contenido;
-    		echo '</td></td>';
-    		echo $s;
-    		echo '</table></td>';
+    		$s.= '<table class=\"matriz\" border=\"1\" style=\"width:25%;\">';
+    		$s.= '<tr><th>';
+    		$s.= $contenido;
+    		$s.= '</th>';
+    		$s.= $aux;
+    		$s.= '</table>';
                 
 
     	} 
-        echo "</table>";
+        ?>
+        <script>
+            document.getElementById("matriz_resago").innerHTML = "<?php echo $s;?>";
+        </script>
+            
+        <?php
         
     }
     
@@ -356,17 +360,22 @@ foreach ($notas_grupo as $id => $nota) {
         $nombre_actividad = $_SESSION['nombre_actividad'];
         $notas_grupo = $_SESSION['notas_grupo'];
         
-        echo '<table border="1" class="center"><tr><th><b>Nombre</b></th><th><b>Nota '.$nombre_actividad.'</b></th><th>Minutos en la Plataforma</th></tr>';
+        $s = '<table border=\"1\" class=\"center\"><tr><th><b>Nombre</b></th><th><b>Nota '.$nombre_actividad.'</b></th><th>Minutos en la Plataforma</th></tr>';
         foreach($tiempos as $id=>$tiempo){
-            echo '<tr><td>'.$notas_grupo[$id]->apellido.', '.$notas_grupo[$id]->nombre.'</td><td>';
+            $s.= '<tr><td>'.$notas_grupo[$id]->apellido.', '.$notas_grupo[$id]->nombre.'</td><td>';
             if($notas_grupo[$id]->logro!=NULL){
-                echo $notas_grupo[$id]->logro;
+                $s.= $notas_grupo[$id]->logro;
             }else{
-                echo 'No Rinde';
+                $s.= 'No Rinde';
             }
-            echo '</td><td>'.(int)($tiempo/60).'</td></tr>';
+            $s.= '</td><td>'.(int)($tiempo/60).'</td></tr>';
             //$s=$s.'</td><td></td></tr>';
         }
-        echo '</table>';
+        $s.= '</table>';
+        ?>
+        <script>
+            document.getElementById("tabla_notas").innerHTML = "<?echo $s;?>";
+        </script>
+        <?php
     }
 ?>

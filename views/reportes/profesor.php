@@ -27,7 +27,7 @@
                 float:left;
             }
             .header_institucion {
-		background-image: url("views/images/logos/<?php echo $institucion->nombreCorto;?>-header.png");
+		background-image: url("../views/images/logos/<?php echo $institucion->nombreCorto;?>-header.png");
 		background-position: center;
 		background-repeat: no-repeat;
 		height: 150px;
@@ -67,7 +67,7 @@
     </head>
     <body class="center">
         <div class="header_institucion"></div>
-        <h1 style="{text_align:center;}">Informe de Gesti&oacuten para el Docente</h1>
+        <h1>Informe de Gesti&oacuten para el Docente</h1>
         <span>
             <?php 
                 echo fecha_hoy();
@@ -108,7 +108,7 @@
         <div id="reporte">
         Seg&uacute;n lo que sus alumnos respondieron en la actividad '<?php echo $nombre_actividad ?>',
         sus resultados son los siguientes:<br/>
-        <div>
+        <div style="overflow:hidden;">
             <div class="grafico">
                 <div class="border" id="logro_por_contenido"></div>
                 El gr&aacute;fico representa el promedio de logro por contenido 
@@ -129,6 +129,7 @@
                 reprob&oacute.
             </div>
         </div>
+        <hr/>
         <div>
         <div>
             El siguiente gr&aacutefico muestra el ranking general del curso, despu&eacutes de realizada la actividad <?php echo $nombre_actividad; ?>:
@@ -141,22 +142,22 @@
         </div>
         </div>
         <hr/>
-    <div id="matriz_resago" class="matriz">           
+        <div>
         Listado de alumnos que deben reforzar cada uno de los contenidos evaluados
         en '<?php echo $nombre_actividad;?>':
-        
+    <div id="matriz_resago"></div>    
     <?php
         matriz_resago();
     ?>
         
     </div>
+        
         <hr/>
-        La siguiente tabla muestra la lista del curso y sus resultados generales: 
-        <div id="tabla_notas">
+        <p  class="leyenda">La siguiente tabla muestra la lista del curso y sus resultados generales: </p>
+        <div id="tabla_notas"></div>
         <?php
             tabla_notas();
         ?>  
-        </div>
     </div>
         <br/><br/>
         <div class="footer"></div>

@@ -231,11 +231,13 @@ public function profesor(){
 	//enviamos los siguientes valores a la vista
 	$this->registry->template->titulo = 'Reporte Profesor';
 	$_SESSION['usuario'] = $usuario;
-        $_SESSION['grupo'] = $curso;
+        $_SESSION['curso'] = $curso;
+        $_SESSION['grupo'] = $grupo;
         $_SESSION['platform'] = $platform;
 	$_SESSION['notas_grupo'] = $notas_grupo;
 	$_SESSION['nota_maxima'] = 100;
 	$_SESSION['promedio_grupo'] = promedio_grupo($notas_grupo,count($estudiantes_en_grupo));
+        $_SESSION['quiz']=$quiz;
 	$this->registry->template->estudiantes =$estudiantes_en_grupo;
         $this->registry->template->total_estudiantes_grupo = count($estudiantes_en_grupo);
 	$_SESSION['nombre_actividad'] = $quiz->nombre;
@@ -271,31 +273,12 @@ public function profesor(){
 public function quiz_profesor(){
         //print $this->encrypter->encode("plataforma=utfsm&usuario=1104&grupo=24&quiz=71")."</br>";
         //$PARAMS = $this->encrypter->decodeURL($_GET['params']);
-	
-        $PARAMS=$_GET;
-	if(isset($PARAMS['platform'])){
-		$user_id_in_moodle = $PARAMS['user'];
-		$platform = $PARAMS['platform'];
-                $grupo_id_in_moodle=$PARAMS['group'];
-                $grupo = DAOFactory::getGruposDAO()->getGrupoByIdEnMoodle($platform,$grupo_id_in_moodle);
-		$quiz_id_in_moodle = $PARAMS['quiz'];
-		
-		//recuperamos los objetos que nos interesan
-		$usuario = DAOFactory::getPersonasDAO()->getUserInPlatform($platform,$user_id_in_moodle);
-		$quiz = DAOFactory::getQuizesDAO()->getGalyleoQuizByMoodleId($platform, $quiz_id_in_moodle);
-	
-	}
-	elseif(isset($PARAMS['plataforma'])){
-		$user_id = $PARAMS['usuario'];
-		$platform = $PARAMS['plataforma'];
-                $grupo_id=$PARAMS['grupo'];
-                $quiz_id = $PARAMS['quiz'];
-		
-		//recuperamos los objetos que nos interesan
-                $grupo = DAOFactory::getGruposDAO()->load($grupo_id);
-		$usuario = DAOFactory::getPersonasDAO()->load($user_id);
-		$quiz = DAOFactory::getQuizesDAO()->load($quiz_id);
-	}
+	session_start();
+        
+        $platform = $_SESSION['platform'];
+        $usuario = $_SESSION['usuario'];
+        $grupo = $_SESSION['grupo'];
+        $quiz = $_SESSION['quiz'];
         if(DAOFactory::getGruposHasProfesoresDAO()->load($usuario->id,$grupo->id)==NULL){
             $this->registry->template->mesaje_personalizado="<h1>Usted no es Profesor</h1>";
             $this->registry->template->show('error404');
@@ -303,7 +286,6 @@ public function quiz_profesor(){
             
         }
         
-        session_start();
 	//recuperamos los objetos que nos interesan
 	$institucion = DAOFactory::getInstitucionesDAO()-> getInstitucionByNombrePlataforma($platform);
 	$curso = DAOFactory::getCursosDAO()->getCursoByGrupoId($grupo->id);

@@ -59,7 +59,7 @@ public function asociar(){
 		$page = $_GET['page'];
 	}
 	
-	$this->registry->template->todas_las_preguntas = DAOFactory::getPreguntasDAO()->getFromTo(($page-1)*10,10);
+	$this->registry->template->todas_las_preguntas = DAOFactory::getPreguntasDAO()->getFrom(($page-1)*20,20);
 	
 	$this->registry->template->total_preguntas_sin_asociar = count($preguntas_sin_asociar);
 	
@@ -70,7 +70,7 @@ public function asociar(){
 		$_SESSION['contenidos']  = $this->registry->template->contenidos;
 	}
 	
-	$this->registry->template->total = 100;
+	$this->registry->template->total = DAOFactory::getPreguntasDAO()->count();
 	$this->registry->template->page = $page;
 	//finally
 	$this->registry->template->show('contenidos/contenidos_asociar');

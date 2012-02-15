@@ -7,7 +7,7 @@
 function pagination($page, $total){
         $adjacents = "2"; 
         $url= './asociar?';
-        $per_page = 10;
+        $per_page = 20;
     	$page = ($page == 0 ? 1 : $page);  
     	$start = ($page - 1) * $per_page;								
 		
@@ -25,7 +25,7 @@ function pagination($page, $total){
     		$pagination .= "<li class='details'>Page $page of $lastpage</li>";
     		
     		if($prev > 0){
-    			$pagination.= "<li><a href='{$url}page=$next'>Anterior</a></li>";
+    			$pagination.= "<li><a href='{$url}page=$prev'>Anterior</a></li>";
     		}
     		
     		if ($lastpage < 7 + ($adjacents * 2))

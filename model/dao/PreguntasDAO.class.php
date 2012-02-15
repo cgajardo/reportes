@@ -8,19 +8,25 @@
 interface PreguntasDAO{
 	
 	/**
+	 * Devuelve el total de preguntas existentes en las base de datos
+	 * @author cgajardo
+	 */
+	public function count();
+	
+	/**
 	 * Esta funcion devuelve un grupo de preguntas, útil para la paginación
 	 *
 	 * @author cgajardo
 	 * @param int $from
 	 * @param int $delta
 	 */
-	public function getFromTo($from, $delta);
+	public function getFrom($from, $delta);
 	
 	
 	/**
 	 * @author: cgajardo
 	 *
-	 * Esta funci�n devuelve todas las preguntas que aun no se han asociado a un contenido
+	 * Devuelve todas las preguntas que aun no se han asociado a un contenido
 	 */
 	public function getAllSinContenido();
 

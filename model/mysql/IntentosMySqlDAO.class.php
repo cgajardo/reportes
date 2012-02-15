@@ -16,14 +16,24 @@ class IntentosMySqlDAO implements IntentosDAO{
 	 */
 	public function getLogroPorContenido($id_quiz, $id_usuario){
 		
-		$sql = 'SELECT p.id_contenido as contenido, floor(sum(i.puntaje_alumno)/sum(i.maximo_puntaje)*100) as logro, count(qp.id_pregunta) as numero_preguntas '.
-				'FROM intentos  AS i, preguntas as p, quizes_has_preguntas as qp '.
-				'WHERE p.id = i.id_pregunta AND i.id_persona = ? AND i.id_quiz = ? AND p.id = qp.id_pregunta '.
-				'GROUP BY p.id_contenido';
+		$sql = 'SELECT p.id_contenido as contenido, floor(sum(i.puntaje_alumno)/sum(i.maximo_puntaje)*100) as logro, count(qp.id_pregunta) as numero_preguntas '. 
+				'FROM intentos  AS i, preguntas as p, quizes_has_preguntas as qp, '.
+    				'(SELECT max(por_intento.logro), por_intento.intento as intento '.
+    					'FROM (SELECT i.numero_intento as intento, i.id_pregunta as pregunta, '.
+            			'floor(sum(i.puntaje_alumno)/sum(i.maximo_puntaje)*100) as logro, '. 
+            			'count(qp.id_pregunta) as numero_preguntas '. 
+            		'FROM intentos  AS i, preguntas as p, quizes_has_preguntas as qp '. 
+            		'WHERE p.id = i.id_pregunta AND i.id_persona = ? AND i.id_quiz = ? AND p.id = qp.id_pregunta '. 
+            	'GROUP BY i.numero_intento ) AS por_intento) as precalculo '. 
+				'WHERE p.id = i.id_pregunta AND i.id_persona = ? AND i.id_quiz = ? AND p.id = qp.id_pregunta '. 
+				'AND i.numero_intento = precalculo.intento '.
+				'GROUP BY p.id_contenido ';
 		
 		$sqlQuery = new SqlQuery($sql);
-		$sqlQuery->set($id_usuario);
-		$sqlQuery->set($id_quiz);
+		$sqlQuery->setNumber($id_usuario);
+		$sqlQuery->setNumber($id_quiz);
+		$sqlQuery->setNumber($id_usuario);
+		$sqlQuery->setNumber($id_quiz);
 		
 		return $this->getContenidoLogroArray($sqlQuery);
 	}

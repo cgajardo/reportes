@@ -15,14 +15,21 @@
 </head>
 <body>
 	<div class="header_institucion"></div>
-	<h1>Todos tus cursos</h1>
+	<h1>Todos tus cursos!!!</h1>
 	<p> Bienvenido <?php echo ucwords(strtolower($usuario->nombre));?> 
 	a continuaci&oacute;n podr&aacute;s revisar tu historial de evaluaciones y notas. </br>
 	Por favor selecciona el curso que deseas revisar </p>
 	  
 	<?php
 	foreach($cursos as $curso){
-		echo '<a href="'.$_SERVER['PHP_SELF'].'?rt=reportes/profesor2&params='.$encrypter->encode($origen.'&curso='.$curso->id).'">'.$curso->nombre.'</a></br>';	
+            $grupos =  DAOFactory::getGruposDAO()->getGrupoByCursoAndProfesor($usuario->id, $curso->id);
+            //var_dump($grupos);
+            foreach($grupos as $grupo){
+                
+                //var_dump($_SERVER['PHP_SELF']);
+		echo '<a href="'. str_replace("index.php","",$_SERVER['PHP_SELF']).'profesores/index?params='.$encrypter->encode($origen.'&curso='.$curso->id.'&grupo='.$grupo->id).'">'.$curso->nombre.'-'.$grupo->nombre.'</a></br>';	
+                
+            }
 	} 
 	echo '</br>';
 	?>

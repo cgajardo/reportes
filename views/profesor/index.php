@@ -21,7 +21,7 @@
 	  
 	<?php
 	foreach($cursos as $curso){
-		echo '<a href="'.$_SERVER['PHP_SELF'].'?rt=reportes/profesor2&params='.$encrypter->encode($origen.'&curso='.$curso->id).'">'.$curso->nombre.'</a></br>';	
+		echo '<a href="'.$_SERVER['PHP_SELF'].'?rt=profesor/index&params='.$encrypter->encode($origen.'&curso='.$curso->id).'">'.$curso->nombre.'</a></br>';	
 	} 
 	echo '</br>';
 	?>

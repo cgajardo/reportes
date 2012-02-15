@@ -2,12 +2,6 @@
 
 Class profesoresController Extends baseController {
 
-public function index() 
-{
-        $this->registry->template->blog_heading = 'This is the blog Index';
-        $this->registry->template->show('blog_index');
-}
-
 
 public function view(){
 
@@ -20,10 +14,9 @@ public function view(){
 
 public function reporte(){
 	//print $this->encrypter->encode("plataforma=utfsm&usuario=1104&grupo=24&quiz=71")."</br>";
-	print $this->encrypter->encode("platform=utfsm&user=618")."</br>";
+        //print $this->encrypter->encode("platform=utfsm&user=618")."</br>";
 
 	$PARAMS = $this->encrypter->decodeURL($_GET['params']);
-
 	//$PARAMS=$_GET;
 	if(isset($PARAMS['platform'])){
 		$user_id_in_moodle = $PARAMS['user'];
@@ -165,6 +158,109 @@ public function quiz_profesor(){
 
 	$this->registry->template->show('profesor/quiz_profesor');
 
+}
+
+public function index(){
+	session_start();
+	//print $this->encrypter->encode("platform=utfsm&user=618");
+	//578, 586, 587, 599, 581, 574
+	$PARAMS = $this->encrypter->decodeURL($_GET['params']);
+	//var_dump($PARAMS);
+	if(isset($_SESSION['usuario'])){
+		$usuario = $_SESSION['usuario'];
+		$platform = $_SESSION['plataforma'];
+	}
+	elseif(isset($PARAMS['platform'])){
+		$user_id_in_moodle = $PARAMS['user'];
+		$platform = $PARAMS['platform'];
+		$usuario = DAOFactory::getPersonasDAO()->getUserInPlatform($platform,$user_id_in_moodle);
+		//lo agregamos a la session
+		$_SESSION['usuario'] = $usuario;
+		$_SESSION['plataforma'] = $platform;
+	}
+	elseif(isset($PARAMS['plataforma'])){
+		$user_id = $PARAMS['usuario'];
+		$platform = $PARAMS['plataforma'];
+		$usuario = DAOFactory::getPersonasDAO()->load($user_id);
+		//lo agregamos a la session
+		$_SESSION['usuario'] = $usuario;
+		$_SESSION['plataforma'] = $platform;
+	}
+	
+	$cursos_usuarios = DAOFactory::getCursosDAO()->getCursosByProfesor($usuario->id);
+	$institucion = DAOFactory::getInstitucionesDAO()-> getInstitucionByNombrePlataforma($platform);
+	$this->registry->template->institucion = $institucion;
+	
+	// redireccionamos al 404 si usuario no existe
+	if($usuario == null){
+		$this->registry->template->mesaje_personalizado = "Debes ser un usuario de Galyleo para visitar esta p&aacute;gina.</br>".
+				"Si tu cuenta fue creada recientemente debes esperar un par de minutos a que nuestros sistemas se actualicen.";
+		//finally
+		$this->registry->template->show('error404');
+		return;
+	}
+	
+	// o si no tiene cursos asociados
+	elseif ($cursos_usuarios == null){
+		$this->registry->template->mesaje_personalizado = "Tu cuenta no est&aacute; asociada a ning&uacute;n curso.</br>".
+				"Probablemente llegaste hasta ac&aacute; por error.";
+		//finally
+		$this->registry->template->show('error404');
+		return;
+	}
+	/* caso en que el usuario ya selecciono el curso desde la plataforma galyleo */
+	elseif (isset($PARAMS['grupo'])){
+		$id_grupo = $PARAMS['grupo'];
+		$id_curso = $PARAMS['curso'];
+		$quizes = DAOFactory::getQuizesDAO()->queryEvaluacionesByIdCurso($id_curso);
+		
+		$this->registry->template->titulo = 'Tus evaluaciones';
+		$this->registry->template->usuario = $usuario;
+	
+                $this->registry->template->cursos = $cursos_usuarios;
+		$this->registry->template->origen = '&plataforma='.$platform.'&usuario='.$usuario->id;
+		$this->registry->template->encrypter = $this->encrypter;
+		$this->registry->template->quizes = $quizes;
+		$this->registry->template->id_curso = $id_curso;
+		$this->registry->template->id_grupo = $id_grupo;
+		$this->registry->template->retorno = $this->encrypter->encode('&plataforma='.$platform.'&usuario='.$usuario->id);
+		//finally
+		$this->registry->template->show('profesor/index_quizes');
+		return;
+	}
+	
+	/* caso en que el usuario ya selecciono el curso desde la plataforma moodle */
+	elseif (isset($PARAMS['group'])){
+                $grupo_moodle = $PARAMS['group'];
+		$curso_moodle = $PARAMS['course'];
+                $grupo = DAOFactory::getGruposDAO()->queryByIdentificadorMoodle($platform.'_'.$grupo_moodle);
+		$curso = DAOFactory::getCursosDAO()->queryByIdentificadorMoodle($platform.'_'.$curso_moodle);	
+		$quizes = DAOFactory::getQuizesDAO()->queryEvaluacionesByIdCurso($curso->id);
+		
+		$this->registry->template->titulo = 'Tus evaluaciones';
+		$this->registry->template->usuario = $usuario;
+		$this->registry->template->cursos = $cursos_usuarios;
+		$this->registry->template->origen = '&plataforma='.$platform.'&usuario='.$usuario->id;
+		$this->registry->template->encrypter = $this->encrypter;
+		$this->registry->template->quizes = $quizes;
+		$this->registry->template->id_curso = $curso->id;
+		$this->registry->template->id_grupo = $id_grupo;
+		$this->registry->template->retorno = $this->encrypter->encode('&plataforma='.$platform.'&usuario='.$usuario->id);
+		//finally
+		$this->registry->template->show('profesor/index_quizes');
+		return;
+	}
+        
+	
+	$this->registry->template->titulo = 'Tus cursos';
+	$this->registry->template->usuario = $usuario;
+	$this->registry->template->cursos = $cursos_usuarios;
+	$this->registry->template->origen = '&plataforma='.$platform.'&usuario='.$usuario->id;
+	$this->registry->template->encrypter = $this->encrypter;
+    //finally
+    
+    
+    $this->registry->template->show('profesor/index_cursos');
 }
 
 }

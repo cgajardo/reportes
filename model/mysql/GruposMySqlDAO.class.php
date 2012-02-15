@@ -65,6 +65,19 @@ class GruposMySqlDAO implements GruposDAO{
 		
 		return $this->getRow($sqlQuery);
 	}
+        
+        	public function getGrupoByCursoAndProfesor($usuario_id, $curso_id){
+		$sql = 'SELECT g.* '.
+		'FROM grupos as g, grupos_has_profesores as ge, cursos_has_grupos as cg '.
+		'WHERE ge.id_grupo = g.id AND cg.id_grupo = g.id AND ge.id_persona = ? AND cg.id_curso = ? ';
+		
+		$sqlQuery = new SqlQuery($sql);
+		$sqlQuery->setNumber($usuario_id);
+		$sqlQuery->setNumber($curso_id);
+		
+		return $this->getList($sqlQuery);
+	}
+
 	
 
 	

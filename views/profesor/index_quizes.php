@@ -25,11 +25,11 @@
 		if($quiz->fechaCierre > date("Y-m-f H:m:s")){
 			echo $quiz->nombre.' (no finalizada)</br>';
 		} else {
-			echo '<a href="'.$_SERVER['PHP_SELF'].'?rt=reportes/profesor&params='.$encrypter->encode($origen.'&curso='.$id_curso.'&quiz='.$quiz->id).'">'.$quiz->nombre.'</a></br>';
+			echo '<a href="'. str_replace("index.php","",$_SERVER['PHP_SELF']).'profesores/reporte?params='.$encrypter->encode($origen.'&grupo='.$id_grupo.'&quiz='.$quiz->id).'">'.$quiz->nombre.'</a></br>';
 		}
 	} 
 	echo '</br>';
-	echo '<a href="'.$_SERVER['PHP_SELF'].'?rt=reportes/profesor2&params='.$retorno.'">&lt;-Todos tus cursos</a>';
+	echo '<a href="'.$_SERVER['PHP_SELF'].'?rt=profesor/index&params='.$retorno.'">&lt;-Todos tus cursos</a>';
 	
 	?>
 	<div class="footer"></div>

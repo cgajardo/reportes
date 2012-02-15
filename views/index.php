@@ -10,7 +10,7 @@
 <br/>
 <h4>Profesores:</h4>
 <ul>
-  <li><a href="./reportes/profesor2?params=lnFtbVjp2gmDCYidkYAPdmeiofo3GcAH">Leonelo Iturriaga</a></li>
+  <li><a href="./profesores/index?params=lnFtbVjp2gmDCYidkYAPdnF7J3QHE3yH">Leonelo Iturriaga</a></li>
 </ul>
 <h4>Directores:</h4>
 <ul>

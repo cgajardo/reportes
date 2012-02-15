@@ -61,7 +61,7 @@ class IntentosMySqlDAO implements IntentosDAO{
                 'GROUP BY p.id_contenido,e.apellido,e.nombre,e.id '.
                 'ORDER BY logro) AS t '.
                 'RIGHT JOIN (SELECT p.apellido,p.nombre,id_persona FROM personas p JOIN grupos_has_estudiantes ON p.id=id_persona WHERE id_grupo=?) AS t2 ON t2.id_persona=t.id '.
-                'ORDER BY logro,apellido ';
+                'ORDER BY apellido,nombre ';
 
                 $sqlQuery = new SqlQuery($sql);
 		$sqlQuery->set($id_quiz);

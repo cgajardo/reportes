@@ -33,6 +33,10 @@ table{
     margin:0px;
 }
 
+.ancho{
+    width:100%;
+}
+
 td{
     margin-top:0px;
 }

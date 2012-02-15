@@ -8,6 +8,10 @@
   <li><a href="./reportes/index&params=zy51F6T-KU60Qn6E-LCJKM-Wj7fBEBPAlYukTYU1q0g">Claudio Burgos</a></li>
 </ul>
 <br/>
+<h4>Profesores:</h4>
+<ul>
+  <li><a href="./reportes/profesor2?params=lnFtbVjp2gmDCYidkYAPdmeiofo3GcAH">Leonelo Iturriaga</a></li>
+</ul>
 <h4>Directores:</h4>
 <ul>
   <li><a href="./director?id=8292">Director Santa Maria</a></li>

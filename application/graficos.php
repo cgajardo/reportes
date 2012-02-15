@@ -360,7 +360,7 @@ foreach ($notas_grupo as $id => $nota) {
         $nombre_actividad = $_SESSION['nombre_actividad'];
         $notas_grupo = $_SESSION['notas_grupo'];
         
-        $s = '<table border=\"1\" class=\"center\"><tr><th><b>Nombre</b></th><th><b>Nota '.$nombre_actividad.'</b></th><th>Minutos en la Plataforma</th></tr>';
+        $s = '<table border=\"1\"><tr><th><b>Nombre</b></th><th><b>Nota '.$nombre_actividad.'</b></th><th>Minutos en la Plataforma</th></tr>';
         foreach($tiempos as $id=>$tiempo){
             $s.= '<tr><td>'.$notas_grupo[$id]->apellido.', '.$notas_grupo[$id]->nombre.'</td><td>';
             if($notas_grupo[$id]->logro!=NULL){

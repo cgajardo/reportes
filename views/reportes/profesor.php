@@ -68,12 +68,11 @@
     <body class="center">
         <div class="header_institucion"></div>
         <h1>Informe de Gesti&oacuten para el Docente</h1>
-        <span>
-            <?php 
-                echo fecha_hoy();
-                //var_dump($matriz_desempeño);
-            ?>
-        </span><br/>
+        <?php 
+            echo fecha_hoy();
+            //var_dump($matriz_desempeño);
+        ?>
+        <br/>
         <b>EVALUACI&Oacute;N </b> <?php echo $nombre_actividad; ?><br/>
         <b>CURSO </b> <?php echo $nombre_curso." - ".$nombre_grupo; ?><br/>
         <b>DOCENTE </b> <?php echo $usuario->nombre." ".$usuario->apellido; ?><br/>
@@ -90,6 +89,7 @@
     	 matriz_desempeño();
         
     ?>
+            <hr/>
             </div>
     </div>
 
@@ -151,9 +151,10 @@
     ?>
         
     </div>
+        <br class="ancho"/>
+        <hr class="ancho"/>
         
-        <hr/>
-        <p  class="leyenda">La siguiente tabla muestra la lista del curso y sus resultados generales: </p>
+        <p>La siguiente tabla muestra la lista del curso y sus resultados generales: </p>
         <div id="tabla_notas"></div>
         <?php
             tabla_notas();

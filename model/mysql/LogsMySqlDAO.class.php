@@ -37,7 +37,7 @@ class LogsMySqlDAO implements LogsDAO{
 		//UNIX_TIMESTAMP
 		$sql = 'SELECT tiempo, modulo, accion, id_modulo '.
 				'FROM logs '. 
-				'WHERE FROM_UNIXTIME(tiempo) BETWEEN DATE_SUB( ? ,INTERVAL 1 MONTH) AND ? '.
+				'WHERE FROM_UNIXTIME(tiempo) BETWEEN DATE_SUB( ? ,INTERVAL 7 DAY) AND ? '.
 					'AND id_persona = ? '.
                                 'GROUP BY tiempo,modulo,accion,id_modulo '.
 				'ORDER BY tiempo ASC';
@@ -81,7 +81,7 @@ class LogsMySqlDAO implements LogsDAO{
                             if($delta <= 3600){
                                     $suma_tiempo += $delta;
                             }else{
-                                $suma_tiempo+= 3600;
+                                $suma_tiempo+= 1800;
                             }
                         }
 		}

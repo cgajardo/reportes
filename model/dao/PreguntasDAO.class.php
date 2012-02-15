@@ -7,11 +7,20 @@
  */
 interface PreguntasDAO{
 	
+	/**
+	 * Esta funcion devuelve un grupo de preguntas, útil para la paginación
+	 *
+	 * @author cgajardo
+	 * @param int $from
+	 * @param int $delta
+	 */
+	public function getFromTo($from, $delta);
+	
 	
 	/**
 	 * @author: cgajardo
 	 *
-	 * Esta funci�n devuelve todas las preguntas que aun no se han asociado a un contenido
+	 * Esta funci�n devuelve todas las preguntas que aun no se han asociado a un contenido
 	 */
 	public function getAllSinContenido();
 

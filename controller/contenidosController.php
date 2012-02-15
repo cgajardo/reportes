@@ -46,27 +46,43 @@ public function editar($contenido = null){
 	$this->registry->template->contenido = $contenido;
 	//finally
 	$this->registry->template->show('contenidos/editar');
-
+	
 }
 
 public function asociar(){
+	$todas_las_preguntas = DAOFactory::getPreguntasDAO()->queryAll();
 	
-	$preguntas_sin_asociar = DAOFactory::getPreguntasDAO()->getAllSinContenido();
 	$this->registry->template->preguntas_sin_asociar = $preguntas_sin_asociar;
-	$this->registry->template->total_preguntas_sin_asociar = count($preguntas_sin_asociar);
-	$this->registry->template->contenidos = DAOFactory::getContenidosDAO()->queryAll();
+	if(!isset($_GET['page'])){
+		$page = 1;
+	}else{
+		$page = $_GET['page'];
+	}
 	
+	$this->registry->template->todas_las_preguntas = DAOFactory::getPreguntasDAO()->getFromTo(($page-1)*10,10);
+	
+	$this->registry->template->total_preguntas_sin_asociar = count($preguntas_sin_asociar);
+	
+	if(isset($_SESSION['contenidos'])){
+		$this->registry->template->contenidos = $_SESSION['contenidos'];
+	} else{
+		$this->registry->template->contenidos = DAOFactory::getContenidosDAO()->queryAll();
+		$_SESSION['contenidos']  = $this->registry->template->contenidos;
+	}
+	
+	$this->registry->template->total = 100;
+	$this->registry->template->page = $page;
 	//finally
 	$this->registry->template->show('contenidos/contenidos_asociar');
 }
 
 public function eliminar(){
+	
 	$id_contenido = $_GET['id'];
 	DAOFactory::getContenidosDAO()->delete($id_contenido);
 	
 	//TODO enviar mensajes de 'eliminacion correcta'
 	$this->index();
-	
 }
 
 }

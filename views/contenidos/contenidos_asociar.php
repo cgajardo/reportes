@@ -1,7 +1,7 @@
 <html>
 <head>
-<!-- <link rel="stylesheet" type="text/css" href="/galyleo/views/styles/layout.css"/>  -->
-
+<link rel="stylesheet" type="text/css" href="/reportes/views/styles/pagination.css" />
+<?php include 'pagination.php';?>
 <script type="text/javascript">
 function loadXMLDoc($id_contenido, $id_pregunta){
 	var xmlhttp;
@@ -20,9 +20,10 @@ function loadXMLDoc($id_contenido, $id_pregunta){
 	xmlhttp.send();
 }
 </script>
+<title>Asociar contenidos</title>
 </head>
 <body>
-<div id="myDiv"/>
+<div id="sin_cotenido"/>
 <table>
 <?php
 $combo = 'name="contenido" onchange="loadXMLDoc(this.value, this.id)">';
@@ -33,7 +34,6 @@ foreach ($contenidos as $contenido){
 $combo.='</select>';
 ?>
 <?php 
-//TODO: mucho trabajo se necesita en esta vista
 foreach($preguntas_sin_asociar as $pregunta){
 	echo '<tr>';
 	echo '<td>'.$pregunta->categoria->nombre.'</td>';
@@ -42,5 +42,20 @@ foreach($preguntas_sin_asociar as $pregunta){
 }
 ?>
 </table>
+
+</div>
+<div id="con_contenido">
+<table>
+<?php 
+foreach($todas_las_preguntas as $pregunta){
+	echo '<tr>';
+	echo '<td>'.$pregunta->categoria->nombre.'</td>';
+	echo '<td>'.'<select id="'.$pregunta->id.'" '.$combo.'</td>';
+	echo '</tr>';
+}
+?>
+</table>
+<?php print pagination($page, $total);?>
+</div>
 </body>
 </html>

@@ -138,10 +138,11 @@ public function semanal(){
 	$contenido_logro = DAOFactory::getIntentosDAO()->getLogroPorContenido($quiz->id, $usuario->id);
 	
 	// esto es lo necesario para la matriz de desempeño, TODO: debería tener su vista propia?
+	session_start();
 	$matriz_desempeño = array();
 	$quizes_en_curso = DAOFactory::getQuizesDAO()->queryCerradosByIdCurso($curso->id);
 	if(isset($_SESSION['matriz_desempeno'])){
-		$quizes_en_curso = $_SESSION['matriz_desempeno'];
+		$matriz_desempeño = $_SESSION['matriz_desempeno'];
 	}
 	else{
 		foreach ($quizes_en_curso as $quiz_en_curso){
@@ -152,7 +153,7 @@ public function semanal(){
 				$matriz_desempeño[$quiz_en_curso->nombre] = $logro_contenido;
 			}			
 		}
-		$_SESSION['matriz_desempeno'] = $quizes_en_curso;
+		$_SESSION['matriz_desempeno'] = $matriz_desempeño;
 	}
 	//calculamos el tiempo que paso el usuario entre quizes
 	//$inicio = '1970-01-01 12:00:00';

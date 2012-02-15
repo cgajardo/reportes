@@ -6,11 +6,31 @@
  * @date: 2012-01-18 16:29
  */
 class PreguntasMySqlDAO implements PreguntasDAO{
+	
+	/**
+	 * Esta funcion devuelve un grupo de preguntas, útil para la paginación
+	 * 
+	 * @author cgajardo
+	 * @param int $from
+	 * @param int $delta
+	 */
+	public function getFromTo($from, $delta){
+		$sql = 'SELECT * '.
+			'FROM preguntas '.
+			'ORDER BY  id_contenido '.
+			'LIMIT ? , ?';
+		
+		$sqlQuery = new SqlQuery($sql);
+		$sqlQuery->setNumber($from);
+		$sqlQuery->setNumber($delta);
+		
+		return $this->getList($sqlQuery);
+	}
 
 	/**
 	 * @author: cgajardo
 	 * 
-	 * Esta funci�n devuelve todas las preguntas que aun no se han asociado a un contenido 
+	 * Esta función devuelve todas las preguntas que aun no se han asociado a un contenido 
 	 */
 	public function getAllSinContenido(){
 		$sql = 'SELECT * FROM preguntas WHERE id_contenido IS NULL';

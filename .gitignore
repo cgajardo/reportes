@@ -3,3 +3,4 @@
 .buildpath
 .project
 .settings/*
+model/sql/ConnectionProperty.class.php

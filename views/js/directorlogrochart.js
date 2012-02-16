@@ -46,12 +46,12 @@ function loadCursos(){
 
             	data = new google.visualization.DataTable();
                data.addColumn('string', 'Curso');
-               data.addColumn('number', 'Tiempo');
+               data.addColumn('number', 'Promedio');
                data.addRows(j);
                options = {
-                     title: 'Tiempo de uso de la plataforma en Cursos',
+                     title: 'Nota promedio en Cursos',
                      hAxis: {title: 'Cursos', titleTextStyle: {color: 'blue'},viewWindowMode:'maximized'},
-                     vAxis: {title: 'minutos/alumnos', titleTextStyle: {color: 'blue'}, viewWindowMode:'explicit', viewWindow: {min:0}}
+                     vAxis: {title: 'promedio curso', titleTextStyle: {color: 'blue'}, viewWindowMode:'explicit', viewWindow: {min:0}}
 
                 };
                 
@@ -96,13 +96,13 @@ function loadGrupos(){
      			chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
 
            	data = new google.visualization.DataTable();
-              data.addColumn('string', 'Grupo');
+              data.addColumn('string', 'Grupos');
               data.addColumn('number', 'Tiempo');
               data.addRows(j);
               options = {
-                    title: 'Tiempo de uso de la plataforma en Grupos',
-                    hAxis: {title: 'Cursos', titleTextStyle: {color: 'blue'}, viewWindowMode:'maximized'},
-                    vAxis: {title: 'minutos/alumnos', titleTextStyle: {color: 'blue'}, viewWindowMode:'explicit', viewWindow: {min:0}}
+                    title: 'Nota promedio en Grupos',
+                    hAxis: {title: 'Grupo', titleTextStyle: {color: 'blue'}, viewWindowMode:'maximized'},
+                    vAxis: {title: 'promedio grupo', titleTextStyle: {color: 'blue'}, viewWindowMode:'explicit', viewWindow: {min:0}}
                };
                
                chart.draw(data, options);
@@ -149,9 +149,9 @@ function loadAlumnos(){
               data.addColumn('number', 'Tiempo');
               data.addRows(j);
               options = {
-            	 title: 'Tiempo de uso por estudiante',
+            	 title: 'Nota promedio por estudiante',
               	 hAxis: {title: 'Alumnos', titleTextStyle: {color: 'blue'}, viewWindowMode:'maximized'},
-              	 vAxis: {title: 'minutos', titleTextStyle: {color: 'blue'}, viewWindowMode:'explicit', viewWindow: {min:0}}
+              	 vAxis: {title: 'nota promedio', titleTextStyle: {color: 'blue'}, viewWindowMode:'explicit', viewWindow: {min:0}}
 
                };
                
@@ -191,7 +191,7 @@ function loadAlumno(){
   		}
   	};
 	//xmlhttp.open("GET","directores/matriz?director="+id_director+"&sede="+sede+"&curso="+curso+"&grupo="+grupo,true);
-  	var scapedURL = "matriz?director="+id_director+"&sede="+sede+"&curso="+curso+"&grupo="+grupo+"&alumno="+alumno;
+  	var scapedURL = "matrizLogro?director="+id_director+"&sede="+sede+"&curso="+curso+"&grupo="+grupo+"&alumno="+alumno;
   	xmlhttp.open("GET", scapedURL, true);
 	xmlhttp.send();
 }

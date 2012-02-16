@@ -26,7 +26,7 @@ class CursosMySqlDAO implements CursosDAO{
 						'FROM grupos_has_estudiantes '.
 						'WHERE id_persona = ?)'.
 					') '.
-				'WHERE c.nombre = ? ';
+				'AND c.nombre = ? ';
 		
 		$sqlQuery = new SqlQuery($sql);
 		$sqlQuery->setNumber($usuario_id);

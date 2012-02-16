@@ -20,9 +20,9 @@
     	<h1>Bienvenido <?php echo $usuario->nombre;?>:</h1>
     	<h4>Selecciona a continuación alguna de las herramientas que tenemos disponibles:</h4>
 		<ul>
-		  <li><a href="./directores/tiempo?id=<?php echo $usuario->id?>"><b>Comparaci&oacute;n tiempos de uso</b></a>
+		  <li><a href="./tiempo?id=<?php echo $usuario->id?>"><b>Comparaci&oacute;n tiempos de uso</b></a>
 		 	 <br/> permite visualizar los tiempos de uso agrupados por sede, curso e instituci&oacute;n</li>
-		  <li><a href="./directores/logro?id=<?php echo $usuario->id?>"><b>Comparaci&oacute;n logro promedio</b></a>
+		  <li><a href="./logro?id=<?php echo $usuario->id?>"><b>Comparaci&oacute;n logro promedio</b></a>
 		  	<br/> permite visualizar el nivel de logro promedio agrupado por sede, curso e instituaci&oacute;n</li>
 		</ul>
     </div>

@@ -142,10 +142,11 @@ public function reporte(){
         }*/
 	$matriz_desempeño = array();
 	$quizes_en_curso = DAOFactory::getQuizesDAO()->queryCerradosByIdCurso($curso->id);
-	if(isset($_SESSION['matriz_desempeno'])){
-		$matriz_desempeño = $_SESSION['matriz_desempeno'];
-	}
-	else{
+	
+// 	if(isset($_SESSION['matriz_desempeno'])){
+// 		$matriz_desempeño = $_SESSION['matriz_desempeno'];
+// 	}
+// 	else{
 		foreach ($quizes_en_curso as $quiz_en_curso){
 			$logro_contenido = DAOFactory::getIntentosDAO()->getLogroPorContenido($quiz_en_curso->id, $usuario->id);
 			if(empty($logro_contenido)){
@@ -155,7 +156,7 @@ public function reporte(){
 			}
 		}
 		$_SESSION['matriz_desempeno'] = $matriz_desempeño;
-	}
+// 	}
 	//calculamos el tiempo que paso el usuario entre quizes
 	//$inicio = '1970-01-01 12:00:00';
 	//hoy será hace 1 mes atrás

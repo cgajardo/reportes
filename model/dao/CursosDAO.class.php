@@ -8,6 +8,15 @@
 interface CursosDAO{
 	
 	/**
+	 * Devuelve un curso para un nombre y un usuario dado
+	 *
+	 * @author cgajardo
+	 * @param int $usuario_id
+	 * @param string $nombre_curso
+	 */
+	public function getCursosByUsuarioAndNombre($usuario_id, $nombre_curso);
+	
+	/**
 	 * Devuelve un curso en una Sede de nombre dado.
 	 *
 	 * @author cgajardo

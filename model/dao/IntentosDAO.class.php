@@ -8,6 +8,14 @@
 interface IntentosDAO{
 	
 	/**
+	 * Retorna el logro por quiz para un alumno
+	 *
+	 * @author cgajardo
+	 * @param int $alumno_id
+	 */
+	public function getLogroPorQuiz($alumno_id);
+	
+	/**
 	 * Esta funcion devuelve un par: contenido-porcentaje para un usuario en un quiz dado
 	 *
 	 * @author cgajardo

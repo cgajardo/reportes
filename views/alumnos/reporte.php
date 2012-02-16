@@ -122,13 +122,13 @@
     			if($celda['logro'] == -1){
     				$celdas .= '<td class="no_rendido">'.$celda['contenido']->nombre.'</td>';
     			}elseif($celda['logro'] <= 45){
-    				$celdas .= '<td class="insuficiente">'.$celda['contenido']->nombre.' ('.$celda['logro'].'%)</td>';
+    				$celdas .= '<td class="insuficiente">'.$celda['contenido']->nombre.' ('.round($celda['logro']).'%)</td>';
     			}elseif($celda['logro'] > 45 && $celda['logro'] < 55 ){
-    				$celdas .= '<td class="suficiente">'.$celda['contenido']->nombre.' ('.$celda['logro'].'%)</td>';
+    				$celdas .= '<td class="suficiente">'.$celda['contenido']->nombre.' ('.round($celda['logro']).'%)</td>';
     			}elseif ($celda['logro'] >= 55){
-    				$celdas .= '<td class="destacado">'.$celda['contenido']->nombre.' ('.$celda['logro'].'%)</td>';
+    				$celdas .= '<td class="destacado">'.$celda['contenido']->nombre.' ('.round($celda['logro']).'%)</td>';
     			}else{
-    				$celdas .= '<td class="no_rendido">'.$celda['contenido']->nombre.' ('.$celda['logro'].'%)</td>';
+    				$celdas .= '<td class="no_rendido">'.$celda['contenido']->nombre.' ('.round($celda['logro']).'%)</td>';
     			}
     			$celdas .= '</td>';
     			$logro_quiz += $celda['logro']*$celda['numero_preguntas'];

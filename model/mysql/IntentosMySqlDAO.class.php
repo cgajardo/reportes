@@ -7,10 +7,14 @@
  */
 class IntentosMySqlDAO implements IntentosDAO{
 	
-	
+	/**
+	 * Retorna el logro por quiz para un alumno
+	 * 
+	 * @author cgajardo
+	 * @param int $alumno_id
+	 */
 	public function getLogroPorQuiz($alumno_id){
-		
-		$sql = 'SELECT q.nombre, round(max(m.logro)) '. 
+		$sql = 'SELECT q.nombre AS nombre, round(max(m.logro)) AS logro '. 
 				'FROM('.
     				'SELECT i.id_quiz, i.numero_intento as intento, '. 
     				'sum(i.puntaje_alumno)/sum(i.maximo_puntaje)*100 as logro '. 
@@ -22,9 +26,9 @@ class IntentosMySqlDAO implements IntentosDAO{
 				'GROUP BY m.id_quiz ';
 		
 		$sqlQuery = new SqlQuery($sql);
-		$sqlQuery->setNumber($id_usuario);
-		//todo: esto
-		//return $this->getQuizLogroArray($sqlQuery);
+		$sqlQuery->setNumber($alumno_id);
+		
+		return $this->getQuizLogroArray($sqlQuery);
 	}
 	
 	/**
@@ -558,6 +562,16 @@ class IntentosMySqlDAO implements IntentosDAO{
 			$ret[$i] = array('contenido' => $contenido, 'logro'=> $tab[$i]['logro'], 'numero_preguntas' => $tab[$i]['numero_preguntas']);
 		}
 		return $ret;
+	}
+	
+	protected function getQuizLogroArray($sqlQuery) {
+		$tab = QueryExecutor::execute($sqlQuery);
+		$ret = array();
+		for($i=0;$i<count($tab);$i++){
+			$ret[$i] = array('quiz' => $tab[$i]['nombre'], 'logro'=> $tab[$i]['logro']);
+		}
+		return $ret;
+		
 	}
 	
 	protected function getContenidoLogroGrupoArray($sqlQuery){

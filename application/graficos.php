@@ -351,8 +351,44 @@ foreach ($notas_grupo as $nota) {
 
                       var chart = new google.visualization.ColumnChart(document.getElementById('ranking_curso_2'));
                       chart.draw(data, options);
-                      //google.visualization.events.addListener(chart, 'select', loadAlumno);
-                  }
+                      google.visualization.events.addListener(chart, 'select', loadAlumno);
+                  
+                  
+                  function loadAlumno(){
+
+
+                        //document.getElementById("chart_div").innerHTML='<img class="loading-gif" border="0" src="/reportes/views/images/loading.gif" alt="cargando"/>';
+                        //recuperamos la id del director
+                        var xmlhttp;
+                        var selection = chart.getSelection();
+                        for (var i = 0; i < selection.length; i++) {
+                                var item = selection[i];
+                            if (item.row != null) {
+                                alumno = data['G'][item.row]['c'][0]['v'];
+                            } else {
+                                alert("error");
+                            }
+                        }
+                        
+                        if (window.XMLHttpRequest){
+                                // code for IE7+, Firefox, Chrome, Opera, Safari
+                                xmlhttp=new XMLHttpRequest();
+                        }
+                        else{
+                                // code for IE6, IE5
+                                xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+                        }
+                        xmlhttp.onreadystatechange=function() { 
+                                if (xmlhttp.readyState==4 && xmlhttp.status==200){
+                                        //document.getElementById("myDiv").innerHTML=xmlhttp.responseText;
+                                        //alert(xmlhttp.responseText);
+                                        location.href='../alumnos/reporte?params='+xmlhttp.responseText;
+                        }
+                        }
+                        xmlhttp.open("GET","data?alumno="+alumno,true);
+                        xmlhttp.send();
+                    }      
+                }
         </script>
         <?        
     }

@@ -137,6 +137,9 @@ public function reporte(){
 
 	// esto es lo necesario para la matriz de desempeño, TODO: debería tener su vista propia?
 	session_start();
+        /*foreach($_SESSION as $id=>$x){
+            print $id.'<br/>';
+        }*/
 	$matriz_desempeño = array();
 	$quizes_en_curso = DAOFactory::getQuizesDAO()->queryCerradosByIdCurso($curso->id);
 	if(isset($_SESSION['matriz_desempeno'])){

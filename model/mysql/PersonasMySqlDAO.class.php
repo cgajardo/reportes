@@ -297,5 +297,19 @@ class PersonasMySqlDAO implements PersonasDAO{
             return $this->getRow($sqlQuery);
 
         }
+
+    public function getEstudiantesInQuiz($id_quiz, $id_grupo) {
+        
+        $sql = 'SELECT p.* FROM intentos i JOIN personas p ON i.id_persona=p.id '.
+               'JOIN grupos_has_estudiantes ge ON p.id=ge.id_persona '.
+               'WHERE id_quiz=? AND ge.id_grupo=? GROUP BY p.id';
+        
+        $sqlQuery = new SqlQuery($sql);
+        $sqlQuery->setNumber($id_quiz);
+        $sqlQuery->setNumber($id_grupo);
+        
+        return $this->getList($sqlQuery);
+        
+    }
 }
 ?>

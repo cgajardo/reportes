@@ -88,6 +88,8 @@ interface PersonasDAO{
 	public function deleteByRolMoodle($value);
         
         public function getUserByNombreApellido($nombre, $apellido);
+        
+        public function getEstudiantesInQuiz($id_quiz,$id_grupo);
 
 }
 ?>

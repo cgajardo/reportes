@@ -95,7 +95,7 @@
       }
     </script>  
   </head>
-  <body>
+  <body class="center">
   	<div class="header_institucion"></div>
   	<div class="title"><h1>Informe para el Estudiante</h1></div>
   	<div class="fecha_reporte"><?php echo fecha_hoy();?></div>

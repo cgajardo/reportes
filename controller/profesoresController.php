@@ -16,7 +16,7 @@ public function reporte(){
 	//print $this->encrypter->encode("plataforma=utfsm&usuario=1104&grupo=24&quiz=71")."</br>";
         //print $this->encrypter->encode("platform=utfsm&user=618")."</br>";
 
-        //print $this->encrypter->encode("plataforma=utfsm&usuario=603&grupo=15&quiz=21")."</br>";
+        //print $this->encrypter->encode("plataforma=utfsm&usuario=603&grupo=15&quiz=7")."</br>";
 	$PARAMS = $this->encrypter->decodeURL($_GET['params']);
 	//$PARAMS=$_GET;
 	if(isset($PARAMS['platform'])){
@@ -80,8 +80,6 @@ public function reporte(){
 	$quizes_en_curso = DAOFactory::getQuizesDAO()->queryCerradosByIdCurso($curso->id);
 	$matriz_desempeno = array();
 	foreach ($quizes_en_curso as $quiz_en_curso){
-                var_dump($quiz_en_curso);
-                echo "<hr/>";
 		$contenidos=DAOFactory::getIntentosDAO()->getLogroPorContenidoGrupo($quiz_en_curso->id);
 		$matriz_desempeno[$quiz_en_curso->nombre] = DAOFactory::getIntentosDAO()->getPromedioLogroPorContenido($quiz_en_curso->id, $grupo->id);
 	}

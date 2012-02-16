@@ -7,7 +7,6 @@ public function index() {
 	//print $this->encrypter->encode("platform=utfsm&user=574&course=6");
 	//578, 586, 587, 599, 581, 574
 	$PARAMS = $this->encrypter->decodeURL($_GET['params']);
-	print_r($PARAMS);
 // 	if(isset($_SESSION['usuario'])){
 // 		$usuario = $_SESSION['usuario'];
 // 		$platform = $_SESSION['plataforma'];
@@ -54,7 +53,7 @@ public function index() {
 	elseif (isset($PARAMS['curso'])){
 		$id_curso = $PARAMS['curso'];
 		
-		$quizes = DAOFactory::getQuizesDAO()->queryEvaluacionesByIdCurso($id_curso);
+		$quizes = DAOFactory::getQuizesDAO()->queryCerradosByIdCurso($id_curso);
 		
 		$this->registry->template->titulo = 'Tus evaluaciones';
 		$this->registry->template->usuario = $usuario;
@@ -73,7 +72,7 @@ public function index() {
 	elseif (isset($PARAMS['course'])){
 		$curso_moodle = $PARAMS['course'];
 		$curso = DAOFactory::getCursosDAO()->queryByIdentificadorMoodle($platform.'_'.$curso_moodle);	
-		$quizes = DAOFactory::getQuizesDAO()->queryEvaluacionesByIdCurso($curso->id);
+		$quizes = DAOFactory::getQuizesDAO()->queryCerradosByIdCurso($curso->id);
 		
 		$this->registry->template->titulo = 'Tus evaluaciones';
 		$this->registry->template->usuario = $usuario;
@@ -103,7 +102,6 @@ public function reporte(){
 	//578, 586, 587, 599, 581, 574
 
 	$PARAMS = $this->encrypter->decodeURL($_GET['params']);
-	var_dump($PARAMS);
 	/* significa que trae parámetros desde una plataforma moodle */
 	if(isset($PARAMS['platform'])){
 		$user_id_in_moodle = $PARAMS['user'];

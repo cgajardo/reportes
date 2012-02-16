@@ -90,7 +90,7 @@
           title: 'Tiempo por semana'
         };
 
-        var chart = new google.visualization.LineChart(document.getElementById('tiempo_semana'));
+        var chart = new google.visualization.ColumnChart(document.getElementById('tiempo_semana'));
         chart.draw(data, options);
       }
     </script>  

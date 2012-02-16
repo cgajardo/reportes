@@ -54,7 +54,7 @@ public function tiempo(){
 				$suma_alumnos = 0;
 				//buscamos todos los alumnos de un grupo (sumamos su tiempo)
 				foreach ($alumnos as $alumno){
-					$arbol_tiempo['detalle'][$sede->nombre]['detalle'][$curso->nombre]['detalle'][$grupo->nombre]['detalle'][$alumno->nombre.', '.$alumno->apellido]['nombre'] = $alumno->nombre.' '.$alumno->apellido;
+					$arbol_tiempo['detalle'][$sede->nombre]['detalle'][$curso->nombre]['detalle'][$grupo->nombre]['detalle'][$alumno->nombre.', '.$alumno->apellido]['nombre'] = $alumno->nombre.', '.$alumno->apellido;
 					//desde el inicio de los tiempos hasta hoy
 					$tiempo = DAOFactory::getLogsDAO()->getTiempoEntreFechas(0, time(), $alumno->id);
 					$arbol_tiempo['detalle'][$sede->nombre]['detalle'][$curso->nombre]['detalle'][$grupo->nombre]['detalle'][$alumno->nombre.', '.$alumno->apellido]['tiempo'] = $tiempo;
@@ -86,7 +86,7 @@ public function tiempo(){
 	//FIX
 	$cadena = '[';
 	foreach ($arbol_tiempo['detalle'] as $nombre => $nodo){
-		$cadena .= '["'.$nombre.'",'.round($nodo['tiempo']/60/$nodo['alumnos']).'],';
+		$cadena .= '["'.utf8_encode($nombre).'",'.round($nodo['tiempo']/60/$nodo['alumnos']).'],';
 	}
 	
 	$this->registry->template->institucion = $institucion;
@@ -204,7 +204,7 @@ public function logro(){
 
 	$cadena = '[';
 	foreach ($arbol_logro['detalle'] as $nombre => $nodo){
-		$cadena .= '["'.$nombre.'",'.round($nodo['promedio'],1).'],';
+		$cadena .= '["'.utf8_encode($nombre).'",'.round($nodo['promedio'],1).'],';
 	}
 
 	$this->registry->template->institucion = $institucion;

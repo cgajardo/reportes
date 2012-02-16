@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
- <html xmlns="http://www.w3.org/1999/xhtml">
-   <head>
-   	<title><?php echo $titulo; ?></title>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Inicio Director</title>
      <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
      <link rel="stylesheet" type="text/css" href="/reportes/views/styles/galyleo.css" />
      <style type="text/css">
@@ -13,45 +13,19 @@
 		margin-top: -8px;
 	}
 	</style>
-     <script type="text/javascript" src="/reportes/views/js/json.js"></script>
-  	 <script type="text/javascript" src="/reportes/views/js/directorchart.js"></script>
-     <script type="text/javascript">
-     var chart;
-     var data;
-     function drawChart() {
-   	  	document.getElementById("chart_div").innerHTML='';
-   	  	document.getElementById("chart_nav").innerHTML='';
-   	    data = new google.visualization.DataTable();
-   	    data.addColumn('string', 'Sede');
-   	    data.addColumn('number', 'Tiempo');
-   	    data.addRows(<?php echo $arbol;?>);
-
-   	    var options = {
-   	      title: 'Tiempo de uso de la plataforma por sede',
-   	      hAxis: {title: 'Sedes', titleTextStyle: {color: 'blue'}, viewWindowMode:'maximized'},
-   	      vAxis: {title: 'minutos/alumnos', titleTextStyle: {color: 'blue'}, viewWindowMode:'explicit', viewWindow: {min:0}}
-   	    };
-   	    chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
-   	    chart.draw(data, options);
-   	    google.visualization.events.addListener(chart, 'select', loadCursos);
-   	    
-   	  }
-     </script>
-     <title>Informe para directores</title>
-     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-     <script type="text/javascript">
-     google.load("visualization", "1", {packages:["corechart"]});
-     google.setOnLoadCallback(drawChart);
-     </script>
-     
-   </head>
-   <body style="font-family: Arial;border: 0 none;">
+</head>
+<body style="font-family: Arial;border: 0 none;">
    	<div class="header_institucion"></div>
-    <div id="chart_div" style="width: 800px; height: 400px;">
-    	<img class="loading-gif" border="0" src="/reportes/views/images/loading.gif" alt="cargando"/>
+    <div class="contenido">
+    	<h1>Bienvenido <?php echo $usuario->nombre;?>:</h1>
+    	<h4>Selecciona a continuación alguna de las herramientas que tenemos disponibles:</h4>
+		<ul>
+		  <li><a href="./directores/tiempo?id=<?php echo $usuario->id?>"><b>Comparaci&oacute;n tiempos de uso</b></a>
+		 	 <br/> permite visualizar los tiempos de uso agrupados por sede, curso e instituci&oacute;n</li>
+		  <li><a href="./directores/logro?id=<?php echo $usuario->id?>"><b>Comparaci&oacute;n logro promedio</b></a>
+		  	<br/> permite visualizar el nivel de logro promedio agrupado por sede, curso e instituaci&oacute;n</li>
+		</ul>
     </div>
-    <div id="chart_nav"></div>
-    <div id="detalleTiempo"></div>
     <div class="footer"></div>
-   </body>
+ </body>
  </html>

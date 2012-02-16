@@ -5,8 +5,23 @@
 * */
 Class directoresController Extends baseController {
 
+public function index(){
+	session_start(); //inicia una sesion
+	$id_director = $_GET['id'];
+	$director = DAOFactory::getPersonasDAO()->load($id_director);
+	//buscamos la institución en la session
+	if(isset($_SESSION['institucion'])){
+		$institucion = $_SESSION['institucion'];
+	}else{
+		$institucion = DAOFactory::getInstitucionesDAO()->getInstitucionByDirectorId($director->id);
+	}
+	
+	$this->registry->template->usuario = $director;
+	$this->registry->template->institucion = $institucion;
+	$this->registry->template->show('director/index');
+}
 
-public function index() {
+public function tiempo(){
 	session_start(); //inicia una sesion
 	$id_director = $_GET['id'];
 	$director = DAOFactory::getPersonasDAO()->load($id_director);
@@ -79,7 +94,7 @@ public function index() {
 	$this->registry->template->director = $director;
 	$this->registry->template->sedes = $sedes;
 	$this->registry->template->titulo = 'Informe para directores';
-	$this->registry->template->show('director/index');
+	$this->registry->template->show('director/tiempo');
 }
 
 
@@ -127,6 +142,7 @@ public function data(){
 	$this->registry->template->show('director/json');
 }
 
+/** esta funcion es la encargada de mostrar el detalle de tiempo para un alumno en la vista del director **/
 public function matriz(){
 	$director = utf8_decode($_GET['director']);
 	$nombre_sede = utf8_decode($_GET['sede']);
@@ -164,6 +180,84 @@ public function matriz(){
 	
 	//finally
 	$this->registry->template->show('director/detalle_tiempo');
+}
+
+
+public function logro(){
+	session_start(); //inicia una sesion
+	$id_director = $_GET['id'];
+	$director = DAOFactory::getPersonasDAO()->load($id_director);
+	$sedes = DAOFactory::getSedesDAO()->getSedesByDirector($director->id);
+
+	//buscamos la institución en la session
+	if(isset($_SESSION['institucion'])){
+		$institucion = $_SESSION['institucion'];
+	}else{
+		$institucion = DAOFactory::getInstitucionesDAO()->getInstitucionByDirectorId($director->id);
+	}
+
+	/* árbol de tiempo para una institución */
+	$arbol_tiempo = array();
+	$suma_tiempo_sedes = 0;
+	$suma_alumnos_sedes = 0;
+	foreach ($sedes as $sede){
+		$cursos = DAOFactory::getCursosDAO()->getCursosInSede($sede->id);
+		$suma_tiempo_cursos = 0;
+		$suma_alumnos_cursos = 0;
+		//buscamos todos los cursos en una sede
+		foreach ($cursos as $curso){
+			$grupos = DAOFactory::getGruposDAO()->getGruposInCurso($curso->id);
+			$suma_tiempo_grupos = 0;
+			$suma_alumnos_grupos = 0;
+			//buscamos todos todos grupos en un curso
+			foreach ($grupos as $grupo){
+				$alumnos = DAOFactory::getPersonasDAO()->getEstudiantesInGroup($grupo->id);
+				$suma_tiempo_alumnos = 0;
+				$suma_alumnos = 0;
+				//buscamos todos los alumnos de un grupo (sumamos su tiempo)
+				foreach ($alumnos as $alumno){
+					$arbol_tiempo['detalle'][$sede->nombre]['detalle'][$curso->nombre]['detalle'][$grupo->nombre]['detalle'][$alumno->nombre.', '.$alumno->apellido]['nombre'] = $alumno->nombre.' '.$alumno->apellido;
+					//desde el inicio de los tiempos hasta hoy
+					$logro = DAOFactory::getIntentosDAO()->getLogroPorQuiz($alumno->id);
+				 	//TODO: actualizar todo
+					$arbol_tiempo['detalle'][$sede->nombre]['detalle'][$curso->nombre]['detalle'][$grupo->nombre]['detalle'][$alumno->nombre.', '.$alumno->apellido]['tiempo'] = $tiempo;
+					$arbol_tiempo['detalle'][$sede->nombre]['detalle'][$curso->nombre]['detalle'][$grupo->nombre]['detalle'][$alumno->nombre.', '.$alumno->apellido]['alumnos'] = 1;
+					$suma_tiempo_alumnos += $tiempo;
+					$suma_alumnos++;
+				}
+				$arbol_tiempo['detalle'][$sede->nombre]['detalle'][$curso->nombre]['detalle'][$grupo->nombre]['tiempo'] = $suma_tiempo_alumnos;
+				$arbol_tiempo['detalle'][$sede->nombre]['detalle'][$curso->nombre]['detalle'][$grupo->nombre]['alumnos'] = $suma_alumnos;
+				$suma_tiempo_grupos += $suma_tiempo_alumnos;
+				$suma_alumnos_grupos += $suma_alumnos;
+			}
+			$arbol_tiempo['detalle'][$sede->nombre]['detalle'][$curso->nombre]['tiempo'] = $suma_tiempo_grupos;
+			$arbol_tiempo['detalle'][$sede->nombre]['detalle'][$curso->nombre]['alumnos'] = $suma_alumnos_grupos;
+			$suma_tiempo_cursos += $suma_tiempo_grupos;
+			$suma_alumnos_cursos += $suma_alumnos_grupos;
+		}
+		$arbol_tiempo['detalle'][$sede->nombre]['tiempo'] = $suma_tiempo_cursos;
+		$arbol_tiempo['detalle'][$sede->nombre]['alumnos'] = $suma_alumnos_cursos;
+		$suma_tiempo_sedes += $suma_tiempo_cursos;
+		$suma_alumnos_sedes += $suma_alumnos_cursos;
+	}
+	$arbol_tiempo['tiempo'] = $suma_tiempo_sedes;
+	$arbol_tiempo['alumnos'] = $suma_alumnos_sedes;
+
+	//TODO: deberia serializar? costo/efectividad...
+	$_SESSION['arbolTiempo'] = $arbol_tiempo;
+
+	//FIX
+	$cadena = '[';
+	foreach ($arbol_tiempo['detalle'] as $nombre => $nodo){
+		$cadena .= '["'.$nombre.'",'.round($nodo['tiempo']/60/$nodo['alumnos']).'],';
+	}
+
+	$this->registry->template->institucion = $institucion;
+	$this->registry->template->arbol = substr($cadena, 0, -1).']';
+	$this->registry->template->director = $director;
+	$this->registry->template->sedes = $sedes;
+	$this->registry->template->titulo = 'Informe para directores';
+	$this->registry->template->show('director/logro');
 }
 
 public function view(){

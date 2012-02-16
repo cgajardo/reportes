@@ -304,6 +304,7 @@ public function dataLogro(){
 
 
 public function matrizLogro(){
+
 	$director = utf8_decode($_GET['director']);
 	$nombre_sede = utf8_decode($_GET['sede']);
 	$nombre_curso = utf8_decode($_GET['curso']);
@@ -316,7 +317,6 @@ public function matrizLogro(){
 	//esto es lo necesario para la matriz de desempeño, TODO: debería tener su vista propia?
 	$matriz_desempeño = array();
 	$quizes_en_curso = DAOFactory::getQuizesDAO()->queryCerradosByIdCurso($curso->id);
-
 	foreach ($quizes_en_curso as $quiz_en_curso){
 		$logro_contenido = DAOFactory::getIntentosDAO()->getLogroPorContenido($quiz_en_curso->id, $usuario->id);
 		if(empty($logro_contenido)){
@@ -325,7 +325,6 @@ public function matrizLogro(){
 			$matriz_desempeño[$quiz_en_curso->nombre] = $logro_contenido;
 		}
 	}
-
 	$this->registry->template->matriz_desempeño = $matriz_desempeño; 
 	//finally
 	

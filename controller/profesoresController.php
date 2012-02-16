@@ -99,7 +99,6 @@ public function reporte(){
 	$_SESSION['matriz_contenidos'] = $matriz_contenidos;
 	$_SESSION['tiempos'] = $tiempo;
 	//tiempo dedicado frente a cada quiz
-
 	//finally
 	$this->registry->template->show('profesor/reporte');
 }

@@ -61,6 +61,8 @@ class IntentosMySqlDAO implements IntentosDAO{
 		$sqlQuery->setNumber($id_usuario);
 		$sqlQuery->setNumber($id_quiz);
 		$sqlQuery->setNumber($mayor_intento);*/
+		//FIX: saber cuando hay distinta cantidad de preguntas en cada contenido
+		//81 +",n" 
                 $sql = 'SELECT * FROM (
                         SELECT nombre, apellido,x.* FROM personas p JOIN (
                         SELECT id_persona,logro,t2.numero_intento,t2.id_contenido as contenido,n as numero_preguntas FROM
@@ -76,16 +78,18 @@ class IntentosMySqlDAO implements IntentosDAO{
                         WHERE i.id_quiz = ?
                         ORDER BY id_persona) as t
                         GROUP BY id_persona,numero_intento,id_contenido) as s
-                        GROUP BY id_contenido,n
+                        GROUP BY id_contenido
                         ) as t3 ON t2.id_contenido=t3.id_contenido AND t2.numero_intento=t3.numero_intento
                         ) as x ON p.id=x.id_persona JOIN grupos_has_estudiantes ge ON ge.id_persona=x.id_persona) as t
-                        WHERE id_persona=?';
+                        WHERE id_persona=? ';
+		
                 $sqlQuery = new SqlQuery($sql);
                 $sqlQuery->setNumber($id_quiz);
                 $sqlQuery->setNumber($id_quiz);
                 $sqlQuery->setNumber($id_usuario);
                 
-		
+		//echo $sqlQuery->getQuery();
+		//echo "<hr/>";
 		return $this->getContenidoLogroArray($sqlQuery);
 	}
         
@@ -241,12 +245,13 @@ class IntentosMySqlDAO implements IntentosDAO{
 	
 		//TODO: revisar por qu� algunos valores se escapan de rango y mejorar esta consulta
 		$sqlQuery = new SqlQuery($sql);
-                $sqlQuery->set($grupo);
-                $sqlQuery->set($quiz);
-		$sqlQuery->set($quiz);
-		$sqlQuery->set($grupo);
+		$sqlQuery->setNumber($grupo);
+        $sqlQuery->setNumber($quiz);
+		$sqlQuery->setNumber($quiz);
+		$sqlQuery->setNumber($grupo);
+		
 		//echo "<hr/>".$sqlQuery->getQuery()."<hr/>";
-                
+                 
 		return $this->getNotaNombreLogro($sqlQuery);
 	}
 	/**

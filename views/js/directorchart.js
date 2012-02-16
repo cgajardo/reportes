@@ -101,7 +101,7 @@ function loadGrupos(){
               data.addRows(j);
               options = {
                     title: 'Tiempo de uso de la plataforma en Grupos',
-                    hAxis: {title: 'Cursos', titleTextStyle: {color: 'blue'}, viewWindowMode:'maximized'},
+                    hAxis: {title: 'Grupos', titleTextStyle: {color: 'blue'}, viewWindowMode:'maximized'},
                     vAxis: {title: 'minutos/alumnos', titleTextStyle: {color: 'blue'}, viewWindowMode:'explicit', viewWindow: {min:0}}
                };
                

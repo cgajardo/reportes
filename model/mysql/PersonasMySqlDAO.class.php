@@ -287,5 +287,15 @@ class PersonasMySqlDAO implements PersonasDAO{
 	protected function executeInsert($sqlQuery){
 		return QueryExecutor::executeInsert($sqlQuery);
 	}
+
+        public function getUserByNombreApellido($nombre, $apellido) {
+            $sql = 'SELECT * FROM personas '.
+                   ' WHERE nombre = ? AND apellido = ?';
+            $sqlQuery = new SqlQuery($sql);
+            $sqlQuery->setString($nombre);
+            $sqlQuery->setString($apellido);
+            return $this->getRow($sqlQuery);
+
+        }
 }
 ?>

@@ -263,5 +263,19 @@ public function index(){
     $this->registry->template->show('profesor/index_cursos');
 }
 
+public function data(){
+    
+    session_start();
+    $usuario = explode(', ',$_GET['alumno']);
+    
+    foreach($_SESSION['notas_grupo'] as $id=>$nota){
+        if($nota->nombre==$usuario[1] && $nota->apellido==$usuario[0]){
+            $id_usuario = $id;
+            break;
+        }
+    }
+    print $this->encrypter->encode("platform=".$_SESSION['plataforma'].'&grupo='.$_SESSION['grupo']->id.'&usuario='.$id_usuario.'&quiz='.$_SESSION['quiz']->id);
+    $this->registry->template->show('debug');
+}
 }
 ?>

@@ -86,7 +86,8 @@ interface PersonasDAO{
 	public function deleteByIdentificadorMoodle($value);
 
 	public function deleteByRolMoodle($value);
-
+        
+        public function getUserByNombreApellido($nombre, $apellido);
 
 }
 ?>

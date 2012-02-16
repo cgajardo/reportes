@@ -1,14 +1,14 @@
 <?php 
 
     include 'application/graficos.php';
-    $notas_grupo = $_SESSION['notas_grupo'];
-    $nota_maxima = $_SESSION['nota_maxima'];
-    $nombre_actividad = $_SESSION['nombre_actividad'];
+    $nombre_actividad=$_SESSION['nombre_actividad'];
     $usuario = $_SESSION['usuario'];
-    $matriz_desempeño = $_SESSION['matriz_desempeño'];
     $promedio_grupo = $_SESSION['promedio_grupo'];
-    $tiempos = $_SESSION['tiempos'];
-    $matriz_contenidos = $_SESSION['matriz_contenidos'];
+    /*foreach($_SESSION as $n=>$x){
+        echo $n.'=>';
+        var_dump($x);
+        echo '<hr/>';
+    }*/
     
 
 ?>
@@ -19,6 +19,7 @@
   	<style type="text/css">
             .border{
                 border:1px solid;
+                background-image: url("../views/images/loading.gif");
             }
             .grafico{
                 width: 48%;
@@ -35,6 +36,9 @@
 	}
 	</style>
         <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+        <script>
+                
+        </script>
 
         <!-- javascript for ranking_curso -->
         <?php

@@ -155,11 +155,61 @@ function loadAlumnos(){
                };
                
                chart.draw(data, options);
-               google.visualization.events.addListener(chart, 'select', loadAlumnos);
+               google.visualization.events.addListener(chart, 'select', loadAlumno);
      		}
      	};
    	xmlhttp.open("GET","directores/data?director="+id_director+"&sede="+sede+"&curso="+curso+"&grupo="+grupo,true);
    	xmlhttp.send();
+}
+
+//Muestra la matriz de desempe–o de un alumno
+function loadAlumno(){
+	var xmlhttp;
+	var selection = chart.getSelection();
+	for (var i = 0; i < selection.length; i++) {
+		var item = selection[i]; 
+	    if (item.row != null) {
+	   	 alumno = data['G'][item.row]['c'][0]['v'];
+	    } else {
+	    	alert("error");
+	    }
+	}
+	
+	if (window.XMLHttpRequest){
+    	// code for IE7+, Firefox, Chrome, Opera, Safari
+  		xmlhttp=new XMLHttpRequest();
+  	}
+	else{
+    	// code for IE6, IE5
+  		xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  	}
+  	
+	xmlhttp.onreadystatechange=function() { 
+  		if (xmlhttp.readyState==4 && xmlhttp.status==200){
+  			var j = JSON.parse(xmlhttp.responseText);
+  			last_data = j;
+  			
+  			chart2 = new google.visualization.ColumnChart(document.getElementById('detalleTiempo'));
+
+        	data2 = new google.visualization.DataTable();
+           data2.addColumn('string', 'Alumnos');
+           data2.addColumn('number', 'Tiempo');
+           data2.addRows(j);
+           options = {
+         	 title: 'Tiempo de uso para '+alumno+' durante las &uacute;ltimas 15 semanas',
+           	 hAxis: {title: 'Alumnos', titleTextStyle: {color: 'blue'}, viewWindowMode:'maximized'},
+           	 vAxis: {title: 'minutos', titleTextStyle: {color: 'blue'}, viewWindowMode:'explicit', viewWindow: {min:0}}
+
+            };
+            
+            chart2.draw(data2, options);
+  			
+  		}
+  	};
+	//xmlhttp.open("GET","directores/matriz?director="+id_director+"&sede="+sede+"&curso="+curso+"&grupo="+grupo,true);
+  	var scapedURL = "directores/matriz?director="+id_director+"&sede="+sede+"&curso="+curso+"&grupo="+grupo+"&alumno="+alumno;
+  	xmlhttp.open("GET", scapedURL, true);
+	xmlhttp.send();
 }
 
 

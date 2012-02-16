@@ -91,36 +91,31 @@ class IntentosMySqlDAO implements IntentosDAO{
         
 	public function getPromedioLogroPorContenido($id_quiz, $id_grupo){
 		
-            $estudiantes = DAOFactory::getPersonasDAO()->getEstudiantesInQuiz($id_quiz,$id_grupo);
-            $contenidos = array();
-            $num_preguntas = array();
-            $i=0;
-            foreach ($estudiantes as $estudiante){
-                
-                $logros_estudiante = $this->getLogroPorContenido($id_quiz, $estudiante->id);
-                foreach($logros_estudiante as $logro){
-                    if($logro['logro']!=NULL){
-                        if(!isset($contenidos[$logro['contenido']->id])){
-                            $contenidos[$logro['contenido']->id]=0;
-                        }
-                        if(!isset($num_preguntas[$logro['contenido']->id])){
-                            $num_preguntas[$logro['contenido']->id] = $logro['numero_preguntas'];
-                        }
-                        $contenidos[$logro['contenido']->id]+=$logro['logro'];
-                    }    
-                }
-                
-                $i++;
-                
-            }
-            //var_dump($contenidos);
-            
-            $resp = DAOFactory::getContenidosDAO()->getContenidosByQuiz($id_quiz);                           
-            foreach($resp as $id=>$contenido){
-                $resp[$id]['logro']=round($contenidos[$contenido['contenido']->id]/$i);
-                $resp[$id]['numero_preguntas']=$num_preguntas[$contenido['contenido']->id];
-            }
-        return $resp;
+            $sql =  'SELECT id_contenido as contenido,n as numero_preguntas, avg(logro) as logro FROM grupos_has_estudiantes ge JOIN ( '.
+                    'SELECT id_persona,logro,t2.numero_intento,t2.id_contenido,n FROM '.
+                    '(SELECT id_persona, sum(puntaje_alumno)/sum(maximo_puntaje)*100 AS logro, numero_intento, id_contenido FROM ( '.
+                    'SELECT i.*,p.id_contenido FROM intentos i JOIN preguntas p ON i.id_pregunta=p.id '.
+                    'WHERE i.id_quiz=? '.
+                    'ORDER BY id_persona,numero_intento,id_contenido) as t '.
+                    'GROUP BY id_persona,numero_intento,id_contenido) as t2 '.
+                    'JOIN (SELECT numero_intento,id_contenido,n FROM ( '.
+                    'SELECT id_persona,numero_intento,id_contenido,count(*) AS n FROM ( '.
+                    'SELECT i.*,p.id_contenido FROM intentos i JOIN preguntas p ON i.id_pregunta=p.id '.
+                    'WHERE i.id_quiz = ? '.
+                    'ORDER BY id_persona) as t '.
+                    'GROUP BY id_persona,numero_intento,id_contenido) as s '.
+                    'GROUP BY id_contenido,n '.
+                    ') as t3 ON t2.id_contenido=t3.id_contenido AND t2.numero_intento=t3.numero_intento '.
+                    ') as x ON ge.id_persona=x.id_persona '.
+                    'WHERE ge.id_grupo=? '.
+                    'GROUP BY id_contenido, numero_preguntas';
+
+            $sqlQuery = new SqlQuery($sql);
+            $sqlQuery->setNumber($id_quiz);
+            $sqlQuery->setNumber($id_quiz);
+            $sqlQuery->setNumber($id_grupo);
+           
+        return $this->getContenidoLogroArray($sqlQuery);
 	}  
         
         public function getLogroPorContenido2($id_grupo,$id_quiz,$id_contenido){
@@ -215,7 +210,7 @@ class IntentosMySqlDAO implements IntentosDAO{
         
         public function getNotasNombreGrupo($quiz,$grupo){
 		$sql = 'SELECT t1.nombre,t1.apellido,t1.id as id_persona,t2.logro as nota FROM '.
-                        '(SELECT nombre,apellido,id FROM personas JOIN grupos_has_estudiantes ON id=id_persona WHERE id_grupo=24) as t1 '. 
+                        '(SELECT nombre,apellido,id FROM personas JOIN grupos_has_estudiantes ON id=id_persona WHERE id_grupo=?) as t1 '. 
                         'LEFT JOIN '.
                         '(SELECT nombre,apellido,tabla.id_persona, sum(logro*n)/sum(n) as logro ,numero_intento FROM ( '.
                         'SELECT nombre, apellido,x.* FROM personas p JOIN ( '.
@@ -242,6 +237,7 @@ class IntentosMySqlDAO implements IntentosDAO{
 	
 		//TODO: revisar por qu� algunos valores se escapan de rango y mejorar esta consulta
 		$sqlQuery = new SqlQuery($sql);
+                $sqlQuery->set($grupo);
                 $sqlQuery->set($quiz);
 		$sqlQuery->set($quiz);
 		$sqlQuery->set($grupo);

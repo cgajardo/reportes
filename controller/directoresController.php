@@ -3,7 +3,7 @@
 * Este controlador se encargará de mostrar los reportes para directores
 *  
 * */
-Class directorController Extends baseController {
+Class directoresController Extends baseController {
 
 
 public function index() {
@@ -39,11 +39,11 @@ public function index() {
 				$suma_alumnos = 0;
 				//buscamos todos los alumnos de un grupo (sumamos su tiempo)
 				foreach ($alumnos as $alumno){
-					$arbol_tiempo['detalle'][$sede->nombre]['detalle'][$curso->nombre]['detalle'][$grupo->nombre]['detalle'][$alumno->id]['nombre'] = $alumno->nombre.' '.$alumno->apellido;
+					$arbol_tiempo['detalle'][$sede->nombre]['detalle'][$curso->nombre]['detalle'][$grupo->nombre]['detalle'][$alumno->nombre.' '.$alumno->apellido]['nombre'] = $alumno->nombre.' '.$alumno->apellido;
 					//desde el inicio de los tiempos hasta hoy
 					$tiempo = DAOFactory::getLogsDAO()->getTiempoEntreFechas(0, time(), $alumno->id);
-					$arbol_tiempo['detalle'][$sede->nombre]['detalle'][$curso->nombre]['detalle'][$grupo->nombre]['detalle'][$alumno->id]['tiempo'] = $tiempo;
-					$arbol_tiempo['detalle'][$sede->nombre]['detalle'][$curso->nombre]['detalle'][$grupo->nombre]['detalle'][$alumno->id]['alumnos'] = 1;
+					$arbol_tiempo['detalle'][$sede->nombre]['detalle'][$curso->nombre]['detalle'][$grupo->nombre]['detalle'][$alumno->nombre.' '.$alumno->apellido]['tiempo'] = $tiempo;
+					$arbol_tiempo['detalle'][$sede->nombre]['detalle'][$curso->nombre]['detalle'][$grupo->nombre]['detalle'][$alumno->nombre.' '.$alumno->apellido]['alumnos'] = 1;
 					$suma_tiempo_alumnos += $tiempo;
 					$suma_alumnos++;
 				}
@@ -71,7 +71,7 @@ public function index() {
 	//FIX
 	$cadena = '[';
 	foreach ($arbol_tiempo['detalle'] as $nombre => $nodo){
-		$cadena .= '["'.$nombre.'",'.($nodo['tiempo']/60/$nodo['alumnos']).'],';
+		$cadena .= '["'.$nombre.'",'.round($nodo['tiempo']/60/$nodo['alumnos']).'],';
 	}
 	
 	$this->registry->template->institucion = $institucion;
@@ -85,7 +85,6 @@ public function index() {
 
 public function data(){
 	session_start(); //reinicia la sesion
-	
 	$arbol_tiempo = array();
 	
 	if(isset($_GET['grupo'])){

@@ -59,7 +59,7 @@ function loadCursos(){
                 google.visualization.events.addListener(chart, 'select', loadGrupos);
       		}
       	};
-    	xmlhttp.open("GET","director/data?director="+id_director+"&sede="+sede,true);
+    	xmlhttp.open("GET","directores/data?director="+id_director+"&sede="+sede,true);
     	xmlhttp.send();
  }
 
@@ -108,7 +108,7 @@ function loadGrupos(){
                google.visualization.events.addListener(chart, 'select', loadAlumnos);
      		}
      	};
-   	xmlhttp.open("GET","director/data?director="+id_director+"&sede="+sede+"&curso="+curso,true);
+   	xmlhttp.open("GET","directores/data?director="+id_director+"&sede="+sede+"&curso="+curso,true);
    	xmlhttp.send();
 }
 
@@ -158,7 +158,7 @@ function loadAlumnos(){
                google.visualization.events.addListener(chart, 'select', loadAlumnos);
      		}
      	};
-   	xmlhttp.open("GET","director/data?director="+id_director+"&sede="+sede+"&curso="+curso+"&grupo="+grupo,true);
+   	xmlhttp.open("GET","directores/data?director="+id_director+"&sede="+sede+"&curso="+curso+"&grupo="+grupo,true);
    	xmlhttp.send();
 }
 

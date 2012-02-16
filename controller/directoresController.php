@@ -39,11 +39,11 @@ public function index() {
 				$suma_alumnos = 0;
 				//buscamos todos los alumnos de un grupo (sumamos su tiempo)
 				foreach ($alumnos as $alumno){
-					$arbol_tiempo['detalle'][$sede->nombre]['detalle'][$curso->nombre]['detalle'][$grupo->nombre]['detalle'][$alumno->nombre.' '.$alumno->apellido]['nombre'] = $alumno->nombre.' '.$alumno->apellido;
+					$arbol_tiempo['detalle'][$sede->nombre]['detalle'][$curso->nombre]['detalle'][$grupo->nombre]['detalle'][$alumno->nombre.', '.$alumno->apellido]['nombre'] = $alumno->nombre.' '.$alumno->apellido;
 					//desde el inicio de los tiempos hasta hoy
 					$tiempo = DAOFactory::getLogsDAO()->getTiempoEntreFechas(0, time(), $alumno->id);
-					$arbol_tiempo['detalle'][$sede->nombre]['detalle'][$curso->nombre]['detalle'][$grupo->nombre]['detalle'][$alumno->nombre.' '.$alumno->apellido]['tiempo'] = $tiempo;
-					$arbol_tiempo['detalle'][$sede->nombre]['detalle'][$curso->nombre]['detalle'][$grupo->nombre]['detalle'][$alumno->nombre.' '.$alumno->apellido]['alumnos'] = 1;
+					$arbol_tiempo['detalle'][$sede->nombre]['detalle'][$curso->nombre]['detalle'][$grupo->nombre]['detalle'][$alumno->nombre.', '.$alumno->apellido]['tiempo'] = $tiempo;
+					$arbol_tiempo['detalle'][$sede->nombre]['detalle'][$curso->nombre]['detalle'][$grupo->nombre]['detalle'][$alumno->nombre.', '.$alumno->apellido]['alumnos'] = 1;
 					$suma_tiempo_alumnos += $tiempo;
 					$suma_alumnos++;
 				}
@@ -125,6 +125,45 @@ public function data(){
 	
 	$this->registry->template->arbol = $arbol_tiempo;
 	$this->registry->template->show('director/json');
+}
+
+public function matriz(){
+	$director = utf8_decode($_GET['director']);
+	$nombre_sede = utf8_decode($_GET['sede']);
+	$nombre_curso = utf8_decode($_GET['curso']);
+	$nombre_grupo = utf8_decode($_GET['grupo']);
+	$nombre_alumno = utf8_decode($_GET['alumno']);
+	 
+	// esto es lo necesario para la matriz de desempeño, TODO: debería tener su vista propia?
+// 	$matriz_desempeño = array();
+// 	$quizes_en_curso = DAOFactory::getQuizesDAO()->queryCerradosByIdCurso($curso->id);
+
+// 	foreach ($quizes_en_curso as $quiz_en_curso){
+// 		$logro_contenido = DAOFactory::getIntentosDAO()->getLogroPorContenido($quiz_en_curso->id, $usuario->id);
+// 		if(empty($logro_contenido)){
+// 			$matriz_desempeño[$quiz_en_curso->nombre] = DAOFactory::getContenidosDAO()->getContenidosByQuiz($quiz_en_curso->id);
+// 		}else{
+// 			$matriz_desempeño[$quiz_en_curso->nombre] = $logro_contenido;
+// 		}
+// 	}
+	$usuario = DAOFactory::getPersonasDAO()->getPersonaByNombreGrupo($nombre_alumno, $nombre_grupo);
+	//calculamos el tiempo que paso el usuario entre quizes
+	//$inicio = '1970-01-01 12:00:00';
+	//hoy será hace 1 mes atrás
+	$hoy = time();
+	$semana_pasada = $hoy - (7 * 24 * 60 * 60);
+	$tiempos_semanas = array();
+	for ($i = 0; $i<15; $i++){
+		$tiempos_semanas[ date("d/m",$semana_pasada)] = DAOFactory::getLogsDAO()->getTiempoEntreFechas($semana_pasada,$hoy, $usuario->id);
+		$hoy = $semana_pasada;
+		$semana_pasada = $hoy - (7 * 24 * 60 * 60);
+	}
+	
+	//enviamos los siguientes valores a la vista
+	$this->registry->template->tiempos_semanas = $tiempos_semanas;
+	
+	//finally
+	$this->registry->template->show('director/detalle_tiempo');
 }
 
 public function view(){

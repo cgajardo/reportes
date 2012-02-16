@@ -51,6 +51,7 @@
     	<img class="loading-gif" border="0" src="/reportes/views/images/loading.gif" alt="cargando"/>
     </div>
     <div id="chart_nav"></div>
+    <div id="detalleTiempo"></div>
     <div class="footer"></div>
    </body>
  </html>

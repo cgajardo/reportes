@@ -7,6 +7,16 @@
  */
 interface PersonasDAO{
 	
+	/**
+	 * Esta función entrega una persona de acuerdo a sus nombres, apellidos
+	 * y nombre del grupo al que pertenece. Es una función débil :/
+	 *
+	 * @author cgajardo
+	 * @param string $nombre_alumno
+	 * @param string $nombre_grupo
+	 * @return Persona $usuario
+	 */
+	public function getPersonaByNombreGrupo($nombre_alumno, $nombre_grupo);
 	
 	/**
 	 * cgajardo: devuelve la lista de personas que pertecenen a un grupo

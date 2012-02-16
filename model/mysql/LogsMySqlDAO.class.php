@@ -78,7 +78,7 @@ class LogsMySqlDAO implements LogsDAO{
                         if($tab[$i]['accion']!='logout'){
                             $delta = $tab[$i+1]['tiempo']-$tab[$i]['tiempo'];
                             //TODO: revisar ajustar este parametro
-                            if($delta <= 3600){
+                            if($delta <= 1800){
                                     $suma_tiempo += $delta;
                             }else{
                                 $suma_tiempo+= 1800;

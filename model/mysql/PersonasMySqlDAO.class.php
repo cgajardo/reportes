@@ -8,6 +8,31 @@
 class PersonasMySqlDAO implements PersonasDAO{
 	
 	/**
+	 * Esta función entrega una persona de acuerdo a sus nombres, apellidos
+	 * y nombre del grupo al que pertenece. Es una función débil :/
+	 * 
+	 * @author cgajardo
+	 * @param string $nombre_alumno
+	 * @param string $nombre_grupo
+	 * @return Persona $usuario
+	 */
+	public function getPersonaByNombreGrupo($nombre_alumno, $nombre_grupo){
+		$nombre = explode(",",$nombre_alumno);
+		
+		$sql = 'SELECT p.* '.
+			'FROM galyleo_reportes.personas AS p, galyleo_reportes.grupos_has_estudiantes AS ge, galyleo_reportes.grupos AS g '.
+			'WHERE ge.id_persona = p.id AND ge.id_grupo = g.id '.
+			'AND p.nombre = ? AND p.apellido = ? AND g.nombre = ? ';
+		
+		$sqlQuery = new SqlQuery($sql);
+		$sqlQuery->setString(trim($nombre[0]));
+		$sqlQuery->setString(trim($nombre[1]));
+		$sqlQuery->setString($nombre_grupo);
+		
+		return $this->getRow($sqlQuery);
+	}
+	
+	/**
 	 * cgajardo: devuelve la lista de personas que pertecenen a un grupo
 	 * en rol de alumnos
 	 * @param int $grupo_id

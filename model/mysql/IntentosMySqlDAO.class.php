@@ -108,7 +108,7 @@ class IntentosMySqlDAO implements IntentosDAO{
                     'WHERE i.id_quiz = ? '.
                     'ORDER BY id_persona) as t '.
                     'GROUP BY id_persona,numero_intento,id_contenido) as s '.
-                    'GROUP BY id_contenido,n '.
+                    'GROUP BY id_contenido '.
                     ') as t3 ON t2.id_contenido=t3.id_contenido AND t2.numero_intento=t3.numero_intento '.
                     ') as x ON ge.id_persona=x.id_persona '.
                     'WHERE ge.id_grupo=? '.
@@ -231,7 +231,7 @@ class IntentosMySqlDAO implements IntentosDAO{
                         'WHERE i.id_quiz = ? '.
                         'ORDER BY id_persona) as t '.
                         'GROUP BY id_persona,numero_intento,id_contenido) as s '.
-                        'GROUP BY id_contenido,n '.
+                        'GROUP BY id_contenido '.
                         ') as t3 ON t2.id_contenido=t3.id_contenido AND t2.numero_intento=t3.numero_intento '.
                         ') as x ON p.id=x.id_persona JOIN grupos_has_estudiantes ge ON ge.id_persona=x.id_persona '.
                         ') as tabla JOIN grupos_has_estudiantes ge ON ge.id_persona=tabla.id_persona '.

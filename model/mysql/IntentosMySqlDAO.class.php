@@ -15,7 +15,7 @@ class IntentosMySqlDAO implements IntentosDAO{
 	 * @param int $id_usuario
 	 */
 	public function getLogroPorContenido($id_quiz, $id_usuario){
-		$sql = 'SELECT i.numero_intento as intento, '. 
+		/*$sql = 'SELECT i.numero_intento as intento, '. 
         		'sum(i.puntaje_alumno)/sum(i.maximo_puntaje)*100 as logro '.        
 				'FROM intentos AS i, preguntas as p, quizes_has_preguntas as qp '. 
         		'WHERE p.id = i.id_pregunta AND i.id_persona = ? AND i.id_quiz = ? AND p.id = qp.id_pregunta '. 
@@ -36,7 +36,31 @@ class IntentosMySqlDAO implements IntentosDAO{
 		$sqlQuery = new SqlQuery($sql);
 		$sqlQuery->setNumber($id_usuario);
 		$sqlQuery->setNumber($id_quiz);
-		$sqlQuery->setNumber($mayor_intento);
+		$sqlQuery->setNumber($mayor_intento);*/
+                $sql = 'SELECT * FROM (
+                        SELECT nombre, apellido,x.* FROM personas p JOIN (
+                        SELECT id_persona,logro,t2.numero_intento,t2.id_contenido as contenido,n as numero_pregunta FROM
+                        (
+                        SELECT id_persona, sum(puntaje_alumno)/sum(maximo_puntaje)*100 AS logro, numero_intento, id_contenido FROM (
+                        SELECT i.*,p.id_contenido FROM intentos i JOIN preguntas p ON i.id_pregunta=p.id
+                        WHERE i.id_quiz=?
+                        ORDER BY id_persona,numero_intento,id_contenido) as t
+                        GROUP BY id_persona,numero_intento,id_contenido) as t2
+                        JOIN (SELECT numero_intento,id_contenido,n FROM (
+                        SELECT id_persona,numero_intento,id_contenido,count(*) AS n FROM (
+                        SELECT i.*,p.id_contenido FROM intentos i JOIN preguntas p ON i.id_pregunta=p.id
+                        WHERE i.id_quiz = ?
+                        ORDER BY id_persona) as t
+                        GROUP BY id_persona,numero_intento,id_contenido) as s
+                        GROUP BY id_contenido,n
+                        ) as t3 ON t2.id_contenido=t3.id_contenido AND t2.numero_intento=t3.numero_intento
+                        ) as x ON p.id=x.id_persona JOIN grupos_has_estudiantes ge ON ge.id_persona=x.id_persona) as t
+                        WHERE id_persona=?';
+                $sqlQuery = new SqlQuery($sql);
+                $sqlQuery->setNumber($id_quiz);
+                $sqlQuery->setNumber($id_quiz);
+                $sqlQuery->setNumber($id_usuario);
+                
 		
 		return $this->getContenidoLogroArray($sqlQuery);
 	}

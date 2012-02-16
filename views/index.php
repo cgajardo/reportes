@@ -14,6 +14,6 @@
 </ul>
 <h4>Directores:</h4>
 <ul>
-  <li><a href="./director?id=8292">Director Santa Maria</a></li>
+  <li><a href="./directores?id=8292">Director Santa Maria</a></li>
 </ul>
 </html>

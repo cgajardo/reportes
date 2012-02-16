@@ -59,7 +59,7 @@ function loadCursos(){
                 google.visualization.events.addListener(chart, 'select', loadGrupos);
       		}
       	};
-    	xmlhttp.open("GET","directores/data?director="+id_director+"&sede="+sede,true);
+    	xmlhttp.open("GET","data?director="+id_director+"&sede="+sede,true);
     	xmlhttp.send();
  }
 
@@ -89,6 +89,7 @@ function loadGrupos(){
    	xmlhttp.onreadystatechange=function() { 
      		if (xmlhttp.readyState==4 && xmlhttp.status==200){
      			//document.getElementById("myDiv").innerHTML=xmlhttp.responseText;
+     			document.getElementById("detalleTiempo").innerHTML='';
      			var j = JSON.parse(xmlhttp.responseText);
      			last_data = j;
            	//se sobreescribe el gr�fico 
@@ -108,7 +109,7 @@ function loadGrupos(){
                google.visualization.events.addListener(chart, 'select', loadAlumnos);
      		}
      	};
-   	xmlhttp.open("GET","directores/data?director="+id_director+"&sede="+sede+"&curso="+curso,true);
+   	xmlhttp.open("GET","data?director="+id_director+"&sede="+sede+"&curso="+curso,true);
    	xmlhttp.send();
 }
 
@@ -158,7 +159,7 @@ function loadAlumnos(){
                google.visualization.events.addListener(chart, 'select', loadAlumno);
      		}
      	};
-   	xmlhttp.open("GET","directores/data?director="+id_director+"&sede="+sede+"&curso="+curso+"&grupo="+grupo,true);
+   	xmlhttp.open("GET","data?director="+id_director+"&sede="+sede+"&curso="+curso+"&grupo="+grupo,true);
    	xmlhttp.send();
 }
 
@@ -196,7 +197,7 @@ function loadAlumno(){
            data2.addColumn('number', 'Tiempo');
            data2.addRows(j);
            options = {
-         	 title: 'Tiempo de uso para '+alumno+' durante las &uacute;ltimas 15 semanas',
+         	 title: 'Tiempo de uso para '+alumno+' durante las ultimas 15 semanas',
            	 hAxis: {title: 'Alumnos', titleTextStyle: {color: 'blue'}, viewWindowMode:'maximized'},
            	 vAxis: {title: 'minutos', titleTextStyle: {color: 'blue'}, viewWindowMode:'explicit', viewWindow: {min:0}}
 
@@ -207,7 +208,7 @@ function loadAlumno(){
   		}
   	};
 	//xmlhttp.open("GET","directores/matriz?director="+id_director+"&sede="+sede+"&curso="+curso+"&grupo="+grupo,true);
-  	var scapedURL = "directores/matriz?director="+id_director+"&sede="+sede+"&curso="+curso+"&grupo="+grupo+"&alumno="+alumno;
+  	var scapedURL = "matriz?director="+id_director+"&sede="+sede+"&curso="+curso+"&grupo="+grupo+"&alumno="+alumno;
   	xmlhttp.open("GET", scapedURL, true);
 	xmlhttp.send();
 }

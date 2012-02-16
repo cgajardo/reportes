@@ -7,6 +7,26 @@
  */
 class IntentosMySqlDAO implements IntentosDAO{
 	
+	
+	public function getLogroPorQuiz($alumno_id){
+		
+		$sql = 'SELECT q.nombre, round(max(m.logro)) '. 
+				'FROM('.
+    				'SELECT i.id_quiz, i.numero_intento as intento, '. 
+    				'sum(i.puntaje_alumno)/sum(i.maximo_puntaje)*100 as logro '. 
+    				'FROM intentos AS i, preguntas as p, quizes_has_preguntas as qp '. 
+    				'WHERE p.id = i.id_pregunta AND i.id_persona = ? AND p.id = qp.id_pregunta '. 
+    			'GROUP BY i.id_quiz, i.numero_intento) '.
+    			'AS m, quizes as q '.
+				'WHERE m.id_quiz = q.id AND q.nombre LIKE "%evalua%" '.
+				'GROUP BY m.id_quiz ';
+		
+		$sqlQuery = new SqlQuery($sql);
+		$sqlQuery->setNumber($id_usuario);
+		//todo: esto
+		//return $this->getQuizLogroArray($sqlQuery);
+	}
+	
 	/**
 	 * Esta funcion devuelve un par: contenido-porcentaje para un usuario en un quiz dado
 	 *

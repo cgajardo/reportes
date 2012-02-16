@@ -12,8 +12,8 @@
 <ul>
   <li><a href="./profesores/index?params=lnFtbVjp2gmDCYidkYAPdnF7J3QHE3yH">Leonelo Iturriaga</a></li>
 </ul>
-<h4>Directores:</h4>
+<h4>Rectores:</h4>
 <ul>
-  <li><a href="./directores?id=8292">Director Santa Maria</a></li>
+  <li><a href="./directores/index?id=8292">Rector Santa Maria</a></li>
 </ul>
 </html>

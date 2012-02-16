@@ -15,15 +15,28 @@ class IntentosMySqlDAO implements IntentosDAO{
 	 * @param int $id_usuario
 	 */
 	public function getLogroPorContenido($id_quiz, $id_usuario){
-		
-		$sql = 'SELECT p.id_contenido as contenido, floor(sum(i.puntaje_alumno)/sum(i.maximo_puntaje)*100) as logro, count(qp.id_pregunta) as numero_preguntas '.
-				'FROM intentos  AS i, preguntas as p, quizes_has_preguntas as qp '.
-				'WHERE p.id = i.id_pregunta AND i.id_persona = ? AND i.id_quiz = ? AND p.id = qp.id_pregunta '.
-				'GROUP BY p.id_contenido';
+		$sql = 'SELECT i.numero_intento as intento, '. 
+        		'sum(i.puntaje_alumno)/sum(i.maximo_puntaje)*100 as logro '.        
+				'FROM intentos AS i, preguntas as p, quizes_has_preguntas as qp '. 
+        		'WHERE p.id = i.id_pregunta AND i.id_persona = ? AND i.id_quiz = ? AND p.id = qp.id_pregunta '. 
+        		'GROUP BY i.numero_intento ';
 		
 		$sqlQuery = new SqlQuery($sql);
-		$sqlQuery->set($id_usuario);
-		$sqlQuery->set($id_quiz);
+		$sqlQuery->setNumber($id_usuario);
+		$sqlQuery->setNumber($id_quiz);
+		
+		$mayor_intento = $this->getIntentoConMayorPuntaje($sqlQuery);
+		
+		$sql = 'SELECT p.id_contenido as contenido, '.
+		'round(sum(i.puntaje_alumno)/sum(i.maximo_puntaje)*100) as logro, count(qp.id_pregunta) as numero_preguntas '. 
+		'FROM intentos  AS i, preguntas as p, quizes_has_preguntas as qp '. 
+		'WHERE p.id = i.id_pregunta AND i.id_persona = ? AND i.id_quiz = ? AND p.id = qp.id_pregunta AND i.numero_intento = ? '.
+		'GROUP BY p.id_contenido ';
+		
+		$sqlQuery = new SqlQuery($sql);
+		$sqlQuery->setNumber($id_usuario);
+		$sqlQuery->setNumber($id_quiz);
+		$sqlQuery->setNumber($mayor_intento);
 		
 		return $this->getContenidoLogroArray($sqlQuery);
 	}
@@ -390,6 +403,31 @@ class IntentosMySqlDAO implements IntentosDAO{
 			return null;
 		}
 		return $this->readRow($tab[0]);		
+	}
+	
+	/**
+	 * @author cgajardo
+	 * @param object $sqlQuery
+	 * @return int $intento
+	 */
+	
+	private function getIntentoConMayorPuntaje($sqlQuery){
+		$tab = QueryExecutor::execute($sqlQuery);
+		$intento = 1;
+		if(count($tab)==0){
+			return $intento;
+		}
+		
+		$mayor = 0;
+		
+		for($i=0;$i<count($tab);$i++){
+			if($tab[$i] > $mayor){
+				$mayor = $tab[$i]['logro'];
+				$intento = $tab[$i]['intento'];
+			} 
+		}
+		
+		return $intento;
 	}
 	
 	/**

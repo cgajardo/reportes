@@ -1,5 +1,4 @@
 <?php
-
 Class reportesController Extends baseController {
 
 public function index() {
@@ -8,10 +7,10 @@ public function index() {
 	//578, 586, 587, 599, 581, 574
 	$PARAMS = $this->encrypter->decodeURL($_GET['params']);
 	//print_r($PARAMS);
-// 	if(isset($_SESSION['usuario'])){
-// 		$usuario = $_SESSION['usuario'];
-// 		$platform = $_SESSION['plataforma'];
-// 	}
+	// 	if(isset($_SESSION['usuario'])){
+	// 		$usuario = $_SESSION['usuario'];
+	// 		$platform = $_SESSION['plataforma'];
+	// 	}
 	if(isset($PARAMS['platform'])){
 		$user_id_in_moodle = $PARAMS['user'];
 		$platform = $PARAMS['platform'];
@@ -85,8 +84,6 @@ public function index() {
 		$this->registry->template->retorno = $this->encrypter->encode('&plataforma='.$platform.'&usuario='.$usuario->id);
 		//finally
 		$this->registry->template->show('reportes/index_quizes');
-		return;
-	}
 	
 	$this->registry->template->titulo = 'Tus cursos';
 	$this->registry->template->usuario = $usuario;
@@ -95,18 +92,8 @@ public function index() {
 	$this->registry->template->encrypter = $this->encrypter;
     //finally
     $this->registry->template->show('reportes/index_cursos');
+
+	}
 }
 
-
-
-
-
-//cgajardo: función mostrar el tiempo que pasa un alumno entre dos fechas
-public function tiempo(){
-	$tiempo = DAOFactory::getLogsDAO()->getTiempoEntreFechas('1970-01-01 12:00:00','2012-01-01 12:00:00', 843);
-	$this->registry->template->tiempo = round($tiempo/60); 
-	$this->registry->template->show('reportes/tiempo');
-}
-
-}
 ?>

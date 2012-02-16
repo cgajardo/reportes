@@ -3,9 +3,9 @@
 <p>Prueba ingresando como:</p>
 <h4>Alumnos:</h4>
 <ul>
-  <li><a href="./reportes/index&params=zy51F6T-KU60Qn6E-LCJKM-Wj7fBEBPAC4vz-i0cCbw">Sebastian Soto</a></li>
-  <li><a href="./reportes/index&params=zy51F6T-KU60Qn6E-LCJKM-Wj7fBEBPAwiZ_k0Gx73k">Rodrigo Landeros</a></li>
-  <li><a href="./reportes/index&params=zy51F6T-KU60Qn6E-LCJKM-Wj7fBEBPAlYukTYU1q0g">Claudio Burgos</a></li>
+  <li><a href="./alumnos/index&params=zy51F6T-KU60Qn6E-LCJKM-Wj7fBEBPAlYukTYU1q0g">Matias Perez (Santiago)</a></li>
+  <li><a href="./alumnos/index&params=zy51F6T-KU60Qn6E-LCJKM-Wj7fBEBPAC4vz-i0cCbw">Enzo Zirotti (Valparaiso)</a></li>
+  <li><a href="./alumnos/index&params=zy51F6T-KU60Qn6E-LCJKM-Wj7fBEBPAwiZ_k0Gx73k"> Avinash Mohandas (Valparaiso)</a></li>
 </ul>
 <br/>
 <h4>Profesores:</h4>

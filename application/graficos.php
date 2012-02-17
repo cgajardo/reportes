@@ -1,5 +1,6 @@
 <?php
-   
+   //parametro globales
+   $matriz = array();
     function es_profesor(){
         $notas_grupo = $_SESSION['notas_grupo'];
         $usuario = $_SESSION['usuario'];

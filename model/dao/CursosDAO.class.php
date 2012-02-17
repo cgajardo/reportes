@@ -8,6 +8,18 @@
 interface CursosDAO{
 	
 	/**
+	 * Esta funcion sólo debería usarse en las llamada de ajax,
+	 * fuera de ahí no tien sentido y podría ser inseguro usarlas
+	 *
+	 * Devulve un curso de acuerdo al nombre del grupo y el curso
+	 *
+	 * @author cgajardo
+	 * @param string $nombre_grupo
+	 * @param string $nombre_grupo
+	 */
+	public function getCursoByNombreGrupoCurso($nombre_grupo, $nombre_grupo);
+	
+	/**
 	 * Devuelve un curso para un nombre y un usuario dado
 	 *
 	 * @author cgajardo

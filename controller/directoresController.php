@@ -325,17 +325,33 @@ public function matrizLogro(){
 			$matriz_desempeño[$quiz_en_curso->nombre] = $logro_contenido;
 		}
 	}
-	$this->registry->template->matriz_desempeño = $matriz_desempeño; 
+	$this->registry->template->matriz_desempeño = $matriz_desempeño;
+	 
 	//finally
-	
 	$this->registry->template->show('director/detalle_logro');
 }
 
-public function view(){
-	/*** should not have to call this here.... FIX ME ***/
-	$this->registry->template->blog_heading = 'This is the blog heading';
-	$this->registry->template->blog_content = 'This is the blog content';
-	$this->registry->template->show('blog_view');
+public function matrizLogroGrupo(){
+
+	$director = utf8_decode($_GET['director']);
+	$nombre_sede = utf8_decode($_GET['sede']);
+	$nombre_curso = utf8_decode($_GET['curso']);
+	$nombre_grupo = utf8_decode($_GET['grupo']);
+	
+	
+	$curso = DAOFactory::getCursosDAO()->getCursoByNombreGrupoCurso($nombre_grupo, $nombre_curso);
+	$grupo = DAOFactory::getGruposDAO()->getGrupoByCursoAndNombre($curso->id, $nombre_grupo);
+	$quizes_en_curso = DAOFactory::getQuizesDAO()->queryCerradosByIdCurso($curso->id);
+	
+	foreach ($quizes_en_curso as $quiz_en_curso){
+		$contenidos=DAOFactory::getIntentosDAO()->getLogroPorContenidoGrupo($quiz_en_curso->id);
+		$matriz_desempeño[$quiz_en_curso->nombre] = DAOFactory::getIntentosDAO()->getPromedioLogroPorContenido($quiz_en_curso->id, $grupo->id);
+	}
+	
+	$this->registry->template->matriz_desempeño = $matriz_desempeño;
+	//finally
+
+	$this->registry->template->show('director/detalle_logro_grupo');
 }
 
 }

@@ -97,7 +97,7 @@ function loadGrupos(){
 
            	data = new google.visualization.DataTable();
               data.addColumn('string', 'Grupos');
-              data.addColumn('number', 'Tiempo');
+              data.addColumn('number', 'Promedio');
               data.addRows(j);
               options = {
                     title: 'Nota promedio en Grupos',
@@ -106,11 +106,44 @@ function loadGrupos(){
                };
                
                chart.draw(data, options);
-               google.visualization.events.addListener(chart, 'select', loadAlumnos);
+               google.visualization.events.addListener(chart, 'select', loadMatrizLogroGrupo);
      		}
      	};
    	xmlhttp.open("GET","dataLogro?director="+id_director+"&sede="+sede+"&curso="+curso,true);
    	xmlhttp.send();
+}
+
+function loadMatrizLogroGrupo(){
+	document.getElementById("chart_nav").innerHTML='<input type="button" onclick="loadGrupos()" value="Regresar"></input>';
+	var xmlhttp;
+	var selection = chart.getSelection();
+	for (var i = 0; i < selection.length; i++) {
+		var item = selection[i]; 
+	    if (item.row != null) {
+	   	 grupo = data['G'][item.row]['c'][0]['v'];
+	    } else {
+	    	alert("error");
+	    }
+	}
+	
+	if (window.XMLHttpRequest){
+    	// code for IE7+, Firefox, Chrome, Opera, Safari
+  		xmlhttp=new XMLHttpRequest();
+  	}
+	else{
+    	// code for IE6, IE5
+  		xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  	}
+  	
+	xmlhttp.onreadystatechange=function() { 
+  		if (xmlhttp.readyState==4 && xmlhttp.status==200){
+  			document.getElementById("detalleLogro").innerHTML = xmlhttp.responseText;
+  			//var j = JSON.parse(xmlhttp.responseText);
+  		}
+  	};
+	xmlhttp.open("GET","matrizLogroGrupo?director="+id_director+"&sede="+sede+"&curso="+curso+"&grupo="+grupo,true);
+	xmlhttp.send();
+	
 }
 
 function loadAlumnos(){
@@ -146,7 +179,7 @@ function loadAlumnos(){
 
            	data = new google.visualization.DataTable();
               data.addColumn('string', 'Alumnos');
-              data.addColumn('number', 'Tiempo');
+              data.addColumn('number', 'Promedio');
               data.addRows(j);
               options = {
             	 title: 'Nota promedio por estudiante',

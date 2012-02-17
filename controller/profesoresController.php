@@ -152,7 +152,7 @@ public function index(){
 	elseif (isset($PARAMS['grupo'])){
 		$id_grupo = $PARAMS['grupo'];
 		$id_curso = $PARAMS['curso'];
-		$quizes = DAOFactory::getQuizesDAO()->queryEvaluacionesByIdCurso($id_curso);
+		$quizes = DAOFactory::getQuizesDAO()->queryCerradosByIdCurso($id_curso);
 		
 		$this->registry->template->titulo = 'Tus evaluaciones';
 		$this->registry->template->usuario = $usuario;

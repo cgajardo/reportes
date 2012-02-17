@@ -16,7 +16,7 @@ public function reporte(){
 	//print $this->encrypter->encode("plataforma=utfsm&usuario=1104&grupo=24&quiz=71")."</br>";
         //print $this->encrypter->encode("platform=utfsm&user=618")."</br>";
 
-        //print $this->encrypter->encode("plataforma=utfsm&usuario=603&grupo=15&quiz=7")."</br>";
+        //print $this->encrypter->encode("plataforma=utfsm&usuario=602");
 	$PARAMS = $this->encrypter->decodeURL($_GET['params']);
 	//$PARAMS=$_GET;
 	if(isset($PARAMS['platform'])){
@@ -54,28 +54,27 @@ public function reporte(){
 	$institucion = DAOFactory::getInstitucionesDAO()-> getInstitucionByNombrePlataforma($platform);
 	$curso = DAOFactory::getCursosDAO()->getCursoByGrupoId($grupo->id);
 	$estudiantes_en_grupo = DAOFactory::getPersonasDAO()->getEstudiantesInGroup($grupo->id);
-	$notas_grupo = DAOFactory::getIntentosDAO()->getNotasNombreGrupo($quiz->id,$grupo->id);
+        $notas_grupo = DAOFactory::getIntentosDAO()->getNotasNombreGrupo($quiz->id,$grupo->id);
 	$contenido_logro = DAOFactory::getIntentosDAO()->getLogroPorContenidoGrupo($quiz->id);
 	//$nota_maxima= DAOFactory::getNotasDAO()->getMaxNotaInQuiz($quiz->id);
-
 	//enviamos los siguientes valores a la vista
 	$this->registry->template->titulo = 'Reporte Profesor';
-	$_SESSION['usuario'] = $usuario;
-	$_SESSION['curso'] = $curso;
-	$_SESSION['grupo'] = $grupo;
-	$_SESSION['platform'] = $platform;
-	$_SESSION['notas_grupo'] = $notas_grupo;
-	$_SESSION['nota_maxima'] = 100;
-	$_SESSION['quiz']=$quiz;
+	$this->registry->template->usuario = $usuario;
+	$this->registry->template->curso = $curso;
+	$this->registry->template->grupo = $grupo;
+	$this->registry->template->platform = $platform;
+        $_SESSION['notas_grupo'] = $notas_grupo;
+	$this->registry->template->quiz=$quiz;
 	$this->registry->template->estudiantes =$estudiantes_en_grupo;
 	$this->registry->template->total_estudiantes_grupo = count($estudiantes_en_grupo);
-	$_SESSION['nombre_actividad'] = $quiz->nombre;
+	$this->registry->template->nombre_actividad = $quiz->nombre;
 	$this->registry->template->fecha_cierre = $quiz->fechaCierre;
 	$this->registry->template->contenido_logro = $contenido_logro;
 	$this->registry->template->nombre_curso = $curso->nombre;
 	$this->registry->template->nombre_grupo = $grupo->nombre;
 	$this->registry->template->institucion = $institucion;
-
+	$this->registry->template->nota_maxima = $quiz->notaMaxima;
+        
 	// esto es lo necesario para la matriz de desempeño, TODO: deber�a tener su vista propia?
 	$quizes_en_curso = DAOFactory::getQuizesDAO()->queryCerradosByIdCurso($curso->id);
 	$matriz_desempeno = array();
@@ -90,7 +89,7 @@ public function reporte(){
                 $numero_preguntas+=$contenido['numero_preguntas'];
 		$matriz_contenidos[$contenido['contenido']->nombre] = DAOFactory::getIntentosDAO()->getLogroPorContenido2($grupo->id, $quiz->id, $contenido['contenido']->id);
 	}
-        $_SESSION['promedio_grupo'] = round($promedio_grupo/$numero_preguntas);
+        $this->registry->template->promedio_grupo = round($promedio_grupo/$numero_preguntas);
 	$tiempo = DAOFactory::getLogsDAO()->getTiempoTarea($quiz->fechaCierre, $grupo->id);
 	//enviamos estos elementos a la vista
 	$_SESSION['matriz_desempeño'] = $matriz_desempeno;
@@ -101,71 +100,9 @@ public function reporte(){
 	$this->registry->template->show('profesor/reporte');
 }
 
-public function quiz_profesor(){
-	print $this->encrypter->encode("plataforma=utfsm&usuario=603&grupo=15&quiz=71")."</br>";
-	//$PARAMS = $this->encrypter->decodeURL($_GET['params']);
-	session_start();
-
-	$platform = $_SESSION['platform'];
-	$usuario = $_SESSION['usuario'];
-	$grupo = $_SESSION['grupo'];
-	$quiz = $_SESSION['quiz'];
-	if(DAOFactory::getGruposHasProfesoresDAO()->load($usuario->id,$grupo->id)==NULL){
-		$this->registry->template->mesaje_personalizado="<h1>Usted no es Profesor</h1>";
-		$this->registry->template->show('error404');
-		return;
-
-	}
-
-	//recuperamos los objetos que nos interesan
-	$institucion = DAOFactory::getInstitucionesDAO()-> getInstitucionByNombrePlataforma($platform);
-	$curso = DAOFactory::getCursosDAO()->getCursoByGrupoId($grupo->id);
-	$estudiantes_en_grupo = DAOFactory::getPersonasDAO()->getEstudiantesInGroup($grupo->id);
-	$notas_grupo = DAOFactory::getIntentosDAO()->getNotasNombreGrupo($quiz->id,$grupo->id);
-	$contenido_logro = DAOFactory::getIntentosDAO()->getLogroPorContenidoGrupo($quiz->id);
-	//$nota_maxima= DAOFactory::getNotasDAO()->getMaxNotaInQuiz($quiz->id);
-
-	//enviamos los siguientes valores a la vista
-	$this->registry->template->titulo = 'Reporte Profesor';
-	$_SESSION['usuario'] = $usuario;
-	$_SESSION['notas_grupo'] = $notas_grupo;
-	$_SESSION['nota_maxima'] = 100;
-	$this->registry->template->estudiantes =$estudiantes_en_grupo;
-	$this->registry->template->total_estudiantes_grupo = count($estudiantes_en_grupo);
-	$_SESSION['nombre_actividad'] = $quiz->nombre;
-	$this->registry->template->fecha_cierre = $quiz->fechaCierre;
-	$this->registry->template->contenido_logro = $contenido_logro;
-	$this->registry->template->nombre_curso = $curso->nombre;
-	$this->registry->template->nombre_grupo = $grupo->nombre;
-	$this->registry->template->institucion = $institucion;
-
-	// esto es lo necesario para la matriz de desempeño, TODO: deber�a tener su vista propia?
-	$quizes_en_curso = DAOFactory::getQuizesDAO()->queryCerradosByIdCurso($curso->id);
-	$matriz_desempeno = array();
-	foreach ($quizes_en_curso as $quiz_en_curso){
-		$contenidos=DAOFactory::getIntentosDAO()->getLogroPorContenidoGrupo($quiz_en_curso->id);
-		$matriz_desempeno[$quiz_en_curso->nombre] = DAOFactory::getIntentosDAO()->getPromedioLogroPorContenido($quiz_en_curso->id, $grupo->id);
-	}
-	//$_SESSION['promedio_grupo'] = $matriz_desempeño[$quiz->nombre]['logro'];
-	$_SESSION['promedio_grupo'] = 0;
-	$matriz_contenidos = array();
-	foreach($matriz_desempeno[$quiz->nombre] as $contenido){
-		$matriz_contenidos[$contenido['contenido']->nombre] = DAOFactory::getIntentosDAO()->getLogroPorContenido2($grupo->id, $quiz->id, $contenido['contenido']->id);
-	}
-
-	$tiempo = DAOFactory::getLogsDAO()->getTiempoTarea($quiz->fechaCierre, $grupo->id);
-	//enviamos estos elementos a la vista
-	$_SESSION['matriz_desempeño'] = $matriz_desempeno;
-	$_SESSION['matriz_contenidos'] = $matriz_contenidos;
-	$_SESSION['tiempos'] = $tiempo;
-
-	$this->registry->template->show('profesor/quiz_profesor');
-
-}
-
 public function index(){
 	session_start();
-	//print $this->encrypter->encode("platform=utfsm&user=618");
+	
 	//578, 586, 587, 599, 581, 574
 	$PARAMS = $this->encrypter->decodeURL($_GET['params']);
 	//var_dump($PARAMS);
@@ -277,7 +214,8 @@ public function data(){
             break;
         }
     }
-    print $this->encrypter->encode("plataforma=".$_SESSION['plataforma'].'&grupo='.$_SESSION['grupo']->id.'&curso='.$_SESSION['curso']->id.'&usuario='.$id_usuario.'&quiz='.$_SESSION['quiz']->id);
+    
+    print $this->encrypter->encode("plataforma=".$_GET['plataforma'].'&grupo='.$_GET['grupo'].'&curso='.$_GET['curso'].'&usuario='.$id_usuario.'&quiz='.$_GET['quiz']);
     $this->registry->template->show('debug');
 }
 }

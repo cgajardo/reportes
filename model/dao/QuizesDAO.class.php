@@ -103,7 +103,7 @@ interface QuizesDAO{
 	public function deleteByPuntajeMaximo($value);
 
 	public function deleteByNotaMaxima($value);
-
+        
 
 }
 ?>

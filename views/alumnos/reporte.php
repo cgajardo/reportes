@@ -25,9 +25,9 @@
           <?php
           foreach ($notas_grupo as $id => $nota){
           	if($id == count($notas_grupo)-1){
-          		echo '['.$id.', '.$nota->logro.']';}
+          		echo '['.($id+1).', '.($nota->logro/100).']';}
           	else{
-          		echo '['.$id.', '.$nota->logro.'],';}
+          		echo '['.($id+1).', '.($nota->logro/100).'],';}
           };
           for($sinnotas = count($notas_grupo); $sinnotas < $total_estudiantes_grupo; $sinnotas++){
           	echo ',['.$sinnotas.', 0]';
@@ -39,7 +39,7 @@
           width: 800, height: 300,
           title: 'Ranking del Curso',
           hAxis: {showTextEvery: 1, showTextEvery:1,gridlines:{count:10}},
-          vAxis: {showTextEvery: 1,viewWindow: {min: 0}},
+          vAxis: {showTextEvery: 1,viewWindow: {min: 0},format:'#%'},
           pointSize: 5
         };
 

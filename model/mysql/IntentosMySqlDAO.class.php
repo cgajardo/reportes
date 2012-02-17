@@ -217,15 +217,15 @@ class IntentosMySqlDAO implements IntentosDAO{
              */
         
         public function getNotasNombreGrupo($quiz,$grupo){
-		$sql = 'SELECT t1.nombre,t1.apellido,t1.id as id_persona,t2.logro as nota FROM '.
-                        '(SELECT nombre,apellido,id FROM personas JOIN grupos_has_estudiantes ON id=id_persona WHERE id_grupo=?) as t1 '. 
+		$sql = 'SELECT t1.nombre,t1.apellido,t1.id as id_persona,t2.logro as nota, nota_maxima FROM '.
+                        '(SELECT nombre,apellido,id FROM personas JOIN grupos_has_estudiantes ON id=id_persona WHERE id_grupo=?) as t1 '.
                         'LEFT JOIN '.
-                        '(SELECT nombre,apellido,tabla.id_persona, sum(logro*n)/sum(n) as logro ,numero_intento FROM ( '.
+                        '(SELECT nombre,apellido,tabla.id_persona, sum(logro*n)/sum(n) as logro ,numero_intento, nota_maxima FROM ( '.
                         'SELECT nombre, apellido,x.* FROM personas p JOIN ( '.
-                        'SELECT id_persona,logro,t2.numero_intento,t2.id_contenido,n FROM '.
-                        '( '.
-                        'SELECT id_persona, sum(puntaje_alumno)/sum(maximo_puntaje)*100 AS logro, numero_intento, id_contenido FROM ( '.
-                        'SELECT i.*,p.id_contenido FROM intentos i JOIN preguntas p ON i.id_pregunta=p.id '.
+                        'SELECT id_persona,logro,t2.numero_intento,t2.id_contenido,n, nota_maxima FROM '.
+                        '(SELECT id_persona, sum(puntaje_alumno)/sum(maximo_puntaje)*100 AS logro, numero_intento, id_contenido, nota_maxima FROM ( '.
+                        'SELECT i.*,p.id_contenido,q.nota_maxima FROM intentos i JOIN preguntas p ON i.id_pregunta=p.id '.
+                        'JOIN quizes q ON q.id=i.id_quiz '.
                         'WHERE i.id_quiz=? '.
                         'ORDER BY id_persona,numero_intento,id_contenido) as t '.
                         'GROUP BY id_persona,numero_intento,id_contenido) as t2 '.
@@ -236,8 +236,8 @@ class IntentosMySqlDAO implements IntentosDAO{
                         'ORDER BY id_persona) as t '.
                         'GROUP BY id_persona,numero_intento,id_contenido) as s '.
                         'GROUP BY id_contenido '.
-                        ') as t3 ON t2.id_contenido=t3.id_contenido AND t2.numero_intento=t3.numero_intento '.
-                        ') as x ON p.id=x.id_persona JOIN grupos_has_estudiantes ge ON ge.id_persona=x.id_persona '.
+                        ')as t3 ON t2.id_contenido=t3.id_contenido AND t2.numero_intento=t3.numero_intento '.
+                        ')as x ON p.id=x.id_persona JOIN grupos_has_estudiantes ge ON ge.id_persona=x.id_persona '.
                         ') as tabla JOIN grupos_has_estudiantes ge ON ge.id_persona=tabla.id_persona '.
                         'WHERE ge.id_grupo=? '.
                         'GROUP BY nombre,apellido,id_persona,numero_intento '.
@@ -246,7 +246,7 @@ class IntentosMySqlDAO implements IntentosDAO{
 		//TODO: revisar por qu� algunos valores se escapan de rango y mejorar esta consulta
 		$sqlQuery = new SqlQuery($sql);
 		$sqlQuery->setNumber($grupo);
-        $sqlQuery->setNumber($quiz);
+                $sqlQuery->setNumber($quiz);
 		$sqlQuery->setNumber($quiz);
 		$sqlQuery->setNumber($grupo);
 		
@@ -518,7 +518,7 @@ class IntentosMySqlDAO implements IntentosDAO{
 		for($i=0;$i<count($tab);$i++){
 			$notaLogro = new NotaLogro();
 			$notaLogro->id = $tab[$i]['id_persona'];
-			$notaLogro->nota = round($tab[$i]['nota']);
+			$notaLogro->nota = round($tab[$i]['nota']*$tab[$i]['nota_maxima']/100);
 			$notaLogro->logro =  round($tab[$i]['nota']);
             $ret[$i] = $notaLogro;
 		}
@@ -533,7 +533,7 @@ class IntentosMySqlDAO implements IntentosDAO{
 			$notaLogro = new NotaLogro();
 			$notaLogro->id = $tab[$i]['id_persona'];
 			if($tab[$i]['nota']!=NULL){
-                            $notaLogro->nota = round($tab[$i]['nota']);
+                            $notaLogro->nota = round($tab[$i]['nota']*$tab[$i]['nota_maxima']/100);
                             $notaLogro->logro =  round($tab[$i]['nota']);
                         }else{
                             $notaLogro->nota = NULL;

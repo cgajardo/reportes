@@ -9,6 +9,36 @@ class CursosMySqlDAO implements CursosDAO{
 	
 	
 	/**
+	 * Esta funcion sólo debería usarse en las llamada de ajax, 
+	 * fuera de ahí no tien sentido y podría ser inseguro usarlas
+	 * 
+	 * Devulve un curso de acuerdo al nombre del grupo y el curso
+	 * 
+	 * @author cgajardo
+	 * @param string $nombre_grupo
+	 * @param string $nombre_grupo
+	 */
+	public function getCursoByNombreGrupoCurso($nombre_grupo, $nombre_curso){
+		
+		
+		$sql = 'SELECT c.* '.
+			'FROM galyleo_reportes.cursos_has_grupos AS cg, '.
+				'galyleo_reportes.cursos as c , galyleo_reportes.grupos as g '.
+			'WHERE g.nombre = ? '.
+			'AND c.nombre = ? '.
+			'AND c.id=cg.id_curso AND g.id = cg.id_grupo ';
+		
+		$sqlQuery = new SqlQuery($sql);
+		$sqlQuery->setString($nombre_grupo);
+		$sqlQuery->setString($nombre_curso);
+		
+		return $this->getRow($sqlQuery);
+	}
+	
+	/**
+	 * Esta funcion sólo debería usarse en las llamada de ajax, 
+	 * fuera de ahí no tien sentido y podría ser inseguro usarlas
+	 * 
 	 * Devuelve un curso para un nombre y un usuario dado
 	 * 
 	 * @author cgajardo

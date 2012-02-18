@@ -1,7 +1,7 @@
 	
 /**
- * Esta funci—n se encarga de responder din‡micamente los pedidos que
- * se realizan sobre el gr‡fico para directores.
+ * Esta funciï¿½n se encarga de responder dinï¿½micamente los pedidos que
+ * se realizan sobre el grï¿½fico para directores.
  * 
  * @author cgajardo
  * @date 2012-02-07
@@ -41,7 +41,7 @@ function loadCursos(){
       			//document.getElementById("myDiv").innerHTML=xmlhttp.responseText;
       			var j = JSON.parse(xmlhttp.responseText);
       			last_data = j;
-            	//se sobreescribe el gr‡fico 
+            	//se sobreescribe el grï¿½fico 
       			chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
 
             	data = new google.visualization.DataTable();
@@ -90,7 +90,7 @@ function loadGrupos(){
      		if (xmlhttp.readyState==4 && xmlhttp.status==200){
      			//document.getElementById("myDiv").innerHTML=xmlhttp.responseText;
      			document.getElementById("detalleLogro").innerHTML='';
-     			var j = JSON.parse(xmlhttp.responseText);
+                        var j = JSON.parse(xmlhttp.responseText);
      			last_data = j;
            	//se sobreescribe el grï¿½fico 
      			chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
@@ -108,7 +108,7 @@ function loadGrupos(){
                chart.draw(data, options);
                google.visualization.events.addListener(chart, 'select', loadMatrizLogroGrupo);
      		}
-     	};
+     	};        
    	xmlhttp.open("GET","dataLogro?director="+id_director+"&sede="+sede+"&curso="+curso,true);
    	xmlhttp.send();
 }
@@ -196,7 +196,7 @@ function loadAlumnos(){
    	xmlhttp.send();
 }
 
-//Muestra la matriz de desempe–o de un alumno
+//Muestra la matriz de desempeï¿½o de un alumno
 function loadAlumno(){
 	var xmlhttp;
 	var selection = chart.getSelection();

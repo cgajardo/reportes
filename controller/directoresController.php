@@ -35,7 +35,7 @@ public function tiempo(){
 	}
 	
 	/* árbol de tiempo para una institución */
-	$arbol_tiempo = array();
+        $arbol_tiempo = array();
 	$suma_tiempo_sedes = 0;
 	$suma_alumnos_sedes = 0;
 	foreach ($sedes as $sede){
@@ -153,51 +153,48 @@ public function logro(){
 	
 	/* árbol de tiempo para una institución */
 	$arbol_logro = array();
-	$suma_tiempo_sedes = 0;
-	$suma_alumnos_sedes = 0;
+	$suma_logro_sedes = 0;
+	$suma_quizes_sedes = 0;
 	foreach ($sedes as $sede){
 		$cursos = DAOFactory::getCursosDAO()->getCursosInSede($sede->id);
-		$suma_tiempo_cursos = 0;
-		$suma_alumnos_cursos = 0;
+		$suma_logro_cursos = 0;
+		$suma_quizes_cursos = 0;
 		//buscamos todos los cursos en una sede
 		foreach ($cursos as $curso){
 			$grupos = DAOFactory::getGruposDAO()->getGruposInCurso($curso->id);
-			$suma_tiempo_grupos = 0;
-			$suma_alumnos_grupos = 0;
+                        $quizes = DAOFactory::getQuizesDAO()->queryCerradosByIdCurso($curso->id);
+			$suma_logro_grupos = 0;
+			$suma_quizes_grupos = 0;
 			//buscamos todos todos grupos en un curso
 			foreach ($grupos as $grupo){
-				$alumnos = DAOFactory::getPersonasDAO()->getEstudiantesInGroup($grupo->id);
-				$suma_tiempo_alumnos = 0;
-				$suma_alumnos = 0;
+				$suma_logro_grupo = 0;
+				$suma_quizes_grupo = 0;
 				//buscamos todos los alumnos de un grupo (sumamos su tiempo)
-				foreach ($alumnos as $alumno){
-					$arbol_logro['detalle'][$sede->nombre]['detalle'][$curso->nombre]['detalle'][$grupo->nombre]['detalle'][$alumno->nombre.', '.$alumno->apellido]['nombre'] = $alumno->nombre.' '.$alumno->apellido;
-					//desde el inicio de los tiempos hasta hoy
-					$logros = DAOFactory::getIntentosDAO()->getLogroPorQuiz($alumno->id);
-					$cantidad_quizes = 0;
-					$suma_logro = 0;
-					foreach ($logros as $logro){
-						$arbol_logro['detalle'][$sede->nombre]['detalle'][$curso->nombre]['detalle'][$grupo->nombre]['detalle'][$alumno->nombre.', '.$alumno->apellido]['actividades'][$logro['quiz']] = $logro['logro'];
-						$cantidad_quizes++;
-						$suma_logro += $logro['logro'];
-					}
-					$arbol_logro['detalle'][$sede->nombre]['detalle'][$curso->nombre]['detalle'][$grupo->nombre]['detalle'][$alumno->nombre.', '.$alumno->apellido]['promedio'] = round($suma_logro/$cantidad_quizes);
-					$suma_tiempo_alumnos += round($suma_logro/$cantidad_quizes);
-					$suma_alumnos++;
+				foreach ($quizes as $quiz){
+                                        $logros = DAOFactory::getIntentosDAO()->getPromedioLogroPorContenido($quiz->id, $grupo->id);
+                                        $nota_logro=0;
+                                        $cantidad_preguntas=0;
+                                        foreach($logros as $logro){
+					//desde el inicio de los tiempos hasta hoy					
+                                            $nota_logro+=$logro['logro']*$logro['numero_preguntas'];
+                                            $cantidad_preguntas+=$logro['numero_preguntas'];
+                                        }                                        
+                                        $suma_logro_grupo += $nota_logro/$cantidad_preguntas;
+                                        $suma_quizes_grupo++;
 				}
-				$arbol_logro['detalle'][$sede->nombre]['detalle'][$curso->nombre]['detalle'][$grupo->nombre]['promedio'] = $suma_tiempo_alumnos/$suma_alumnos;
-				$suma_tiempo_grupos += $suma_tiempo_alumnos;
-				$suma_alumnos_grupos += $suma_alumnos;
+				$arbol_logro['detalle'][$sede->nombre]['detalle'][$curso->nombre]['detalle'][$grupo->nombre]['promedio'] = $suma_logro_grupo/$suma_quizes_grupo;
+				$suma_logro_grupos += $suma_logro_grupo;
+				$suma_quizes_grupos += $suma_quizes_grupo;
 			}
-			$arbol_logro['detalle'][$sede->nombre]['detalle'][$curso->nombre]['promedio'] = $suma_tiempo_grupos/$suma_alumnos_grupos;
-			$suma_tiempo_cursos += $suma_tiempo_grupos;
-			$suma_alumnos_cursos += $suma_alumnos_grupos;
+			$arbol_logro['detalle'][$sede->nombre]['detalle'][$curso->nombre]['promedio'] = $suma_logro_grupos/$suma_quizes_grupos;
+			$suma_logro_cursos += $suma_logro_grupos;
+			$suma_quizes_cursos += $suma_quizes_grupos;
 		}
-		$arbol_logro['detalle'][$sede->nombre]['promedio'] = $suma_tiempo_cursos/$suma_alumnos_cursos;
-		$suma_tiempo_sedes += $suma_tiempo_cursos;
-		$suma_alumnos_sedes += $suma_alumnos_cursos;
+		$arbol_logro['detalle'][$sede->nombre]['promedio'] = $suma_logro_cursos/$suma_quizes_cursos;
+		$suma_logro_sedes += $suma_logro_cursos;
+		$suma_quizes_sedes += $suma_quizes_cursos;
 	}
-	$arbol_logro['promedio'] = $suma_tiempo_sedes/$suma_alumnos_sedes;
+	$arbol_logro['promedio'] = $suma_logro_sedes/$suma_quizes_sedes;
 	
 	//TODO: deberia serializar? costo/efectividad...
 	$_SESSION['arbolTiempo'] = $arbol_logro;

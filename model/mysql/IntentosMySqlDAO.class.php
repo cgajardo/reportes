@@ -99,7 +99,7 @@ class IntentosMySqlDAO implements IntentosDAO{
         
 	public function getPromedioLogroPorContenido($id_quiz, $id_grupo){
 		
-            $sql =  'SELECT id_contenido as contenido,n as numero_preguntas, avg(logro) as logro FROM grupos_has_estudiantes ge JOIN ( '.
+            $sql =  'SELECT id_contenido as contenido,n as numero_preguntas, round(avg(logro)) as logro FROM grupos_has_estudiantes ge JOIN ( '.
                     'SELECT id_persona,logro,t2.numero_intento,t2.id_contenido,n FROM '.
                     '(SELECT id_persona, sum(puntaje_alumno)/sum(maximo_puntaje)*100 AS logro, numero_intento, id_contenido FROM ( '.
                     'SELECT i.*,p.id_contenido FROM intentos i JOIN preguntas p ON i.id_pregunta=p.id '.

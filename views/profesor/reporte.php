@@ -353,7 +353,11 @@ foreach ($notas_grupo as $nota) {
         <br/>
         <b>EVALUACI&Oacute;N </b> <?php echo $nombre_actividad; ?><br/>
         <b>CURSO </b> <?php echo $nombre_curso." - ".$nombre_grupo; ?><br/>
-        <b>DOCENTE </b> <?php echo $usuario->nombre." ".$usuario->apellido; ?><br/>
+        <?php 
+            if(isset($usuario)){
+                echo "<b>DOCENTE </b>".$usuario->nombre." ".$usuario->apellido."<br/>"; 
+            }
+        ?>
         <hr/>
         <div class="center">
             Estimado Docente:<br/>
@@ -361,7 +365,6 @@ foreach ($notas_grupo as $nota) {
             rendidas a la fecha y en las p&aacute;ginas siguientes encontrar&aacute;
             los resultados de la &uacute;ltima actividad rendida.
         <div id="matriz_desempeno">           
-            <div class="center">
     <?php
         //hola mundo
     	 foreach($matriz_desempeño as $quiz => $columna){
@@ -399,8 +402,7 @@ foreach ($notas_grupo as $nota) {
             }
         
     ?>
-            <hr/>
-            </div>
+
     </div>
 
             <div>

@@ -65,7 +65,7 @@ class InstitucionesMySqlDAO implements InstitucionesDAO{
 	 */
 	public function queryAll(){
 		$sql = 'SELECT * FROM instituciones';
-		$sqlQuery = new SqlQuery($sql);
+		$sqlQuery = new SqlQuery($sql); 
 		return $this->getList($sqlQuery);
 	}
 	
@@ -175,6 +175,8 @@ class InstitucionesMySqlDAO implements InstitucionesDAO{
 		$institucione->id = $row['id'];
 		$institucione->nombre = $row['nombre'];
 		$institucione->nombreCorto = $row['nombre_corto'];
+		$institucione->prefijoEvaluacion = $row['prefijo_tarea'];
+		$institucione->notaAprobado = $row['rango_aprobado'];
 
 		return $institucione;
 	}

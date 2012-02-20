@@ -1,12 +1,11 @@
 <?php
 
-Class sedesController Extends baseController {
+Class institucionesController Extends baseController {
 
-public function index() 
-{
-        $this->registry->template->sedes = DAOFactory::getInstitucionesDAO()->queryAll();
-        $this->registry->template->show('instituciones/index');
-        
+public function index() {
+	$instituciones = DAOFactory::getInstitucionesDAO()->queryAll();
+	$this->registry->template->instituciones = DAOFactory::getInstitucionesDAO()->queryAll();
+	$this->registry->template->show('instituciones/index');  
 }
 
 public function agregar(){

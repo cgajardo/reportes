@@ -99,7 +99,6 @@ public function reporte(){
 				$matriz_desempeño[$quiz_en_curso->nombre] = $logro_contenido;
 			}
 		}
-		$_SESSION['matriz_desempeno'] = $matriz_desempeño;
 // 	}
 	//calculamos el tiempo que paso el usuario entre quizes
 	//$inicio = '1970-01-01 12:00:00';

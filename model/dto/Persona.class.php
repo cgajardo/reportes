@@ -28,6 +28,28 @@
 			if($esRector)
 				return "rector";
 		}
+		
+		public function getRolEnGrupo($id_grupo){
+			//buscamos el rol del usuario
+			$rol = $this->getRol();
+			//segun el usuario revisamos si tiene efectivamente el rol en el grupo
+			switch ($rol){
+				case "alumno":
+					$registro = DAOFactory::getGruposHasEstudiantesDAO()->load($this->id, $id_grupo);
+					if($registro!=null)
+						return "alumno";
+					else
+						return null;
+				case "profesor":
+					$registro = DAOFactory::getGruposHasProfesoresDAO()->load($this->id, $id_grupo);
+					if($registro!=null)
+						return "profesor";
+					else
+						return null;
+				case "rector":
+					break;
+			}
+		}
 		
 	}
 ?>

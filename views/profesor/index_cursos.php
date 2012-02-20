@@ -27,7 +27,7 @@
             foreach($grupos as $grupo){
                 
                 //var_dump($_SERVER['PHP_SELF']);
-		echo '<a href="'. str_replace("index.php","",$_SERVER['PHP_SELF']).'profesores/index?params='.$encrypter->encode($origen.'&curso='.$curso->id.'&grupo='.$grupo->id).'">'.$curso->nombre.'-'.$grupo->nombre.'</a></br>';	
+		echo '<a href="'. str_replace("index.php","",$_SERVER['PHP_SELF']).'profesores/index?params='.$encrypter->encode('&curso='.$curso->id.'&grupo='.$grupo->id).'">'.$curso->nombre.'-'.$grupo->nombre.'</a></br>';	
                 
             }
 	} 

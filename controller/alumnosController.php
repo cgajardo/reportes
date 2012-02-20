@@ -81,7 +81,6 @@ public function reporte(){
 	$contenido_logro = DAOFactory::getIntentosDAO()->getLogroPorContenido($quiz->id, $usuario->id);
 
 	// esto es lo necesario para la matriz de desempeño, TODO: debería tener su vista propia?
-	session_start();
         /*foreach($_SESSION as $id=>$x){
             print $id.'<br/>';
         }*/

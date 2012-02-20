@@ -8,6 +8,7 @@ Class directoresController Extends baseController {
 public function index(){
 	session_start(); //inicia una sesion
 	$id_director = $_GET['id'];
+	$plataforma  = $_GET['platform'];
 	$director = DAOFactory::getPersonasDAO()->load($id_director);
 	//buscamos la institución en la session
 	if(isset($_SESSION['institucion'])){
@@ -15,10 +16,12 @@ public function index(){
 	}else{
 		$institucion = DAOFactory::getInstitucionesDAO()->getInstitucionByDirectorId($director->id);
 	}
-        $_SESSION['usuario']=$director;
+    $_SESSION['usuario']=$director;
+    $_SESSION['plataforma'] = $plataforma;
 	$this->registry->template->usuario = $director;
 	$this->registry->template->institucion = $institucion;
 	$this->registry->template->show('director/index');
+	session_commit();
 }
 
 public function tiempo(){

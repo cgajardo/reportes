@@ -3,13 +3,15 @@
 <p>Prueba ingresando como:</p>
 <h4>Alumnos:</h4>
 <ul>
-  <li><a href="./enrutador/index&params=zy51F6T-KU60Qn6E-LCJKM-Wj7fBEBPAlYukTYU1q0g">Matias Perez (Santiago)</a></li>
-  <li><a href="./enrutador/index&params=zy51F6T-KU60Qn6E-LCJKM-Wj7fBEBPAC4vz-i0cCbw">Enzo Zirotti (Valparaiso)</a></li>
-  <li><a href="./enrutador/index&params=zy51F6T-KU60Qn6E-LCJKM-Wj7fBEBPAwiZ_k0Gx73k"> Avinash Mohandas (Valparaiso)</a></li>
+  <li><a href="./enrutador/index&params=lnFtbVjp2gmDCYidkYAPdhBOndpqcSXU">Andr&eacute;s Cort&eacute;s (Santiago)</a></li>
+  <li><a href="./enrutador/index&params=lnFtbVjp2gmDCYidkYAPdg5PRTyJOtPV">Lucia Luppichini (Santiago)</a></li>
+  <li><a href="./enrutador/index&params=lnFtbVjp2gmDCYidkYAPds6xYVFTKwZV">Nadia Tobar (Valparaiso)</a></li>
+  <li><a href="./enrutador/index&params=lnFtbVjp2gmDCYidkYAPdu78647p4IK8"> Samuel Norero (Valparaiso)</a></li>
 </ul>
 <br/>
 <h4>Profesores:</h4>
 <ul>
+
   <li><a href="./enrutador/index?params=lnFtbVjp2gmDCYidkYAPdnF7J3QHE3yH">Leonelo Iturriaga (santiago)</a></li>
   <li><a href="./enrutador/index?params=lnFtbVjp2gmDCYidkYAPdjJ5vJgbSEHw">Sigrid L&aacute;zaruz (valparaiso)</a></li>
 </ul>

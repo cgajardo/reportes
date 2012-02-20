@@ -37,13 +37,13 @@
 				case "alumno":
 					$registro = DAOFactory::getGruposHasEstudiantesDAO()->load($this->id, $id_grupo);
 					if($registro!=null)
-						return "alumno";
+						return $rol;
 					else
 						return null;
 				case "profesor":
 					$registro = DAOFactory::getGruposHasProfesoresDAO()->load($this->id, $id_grupo);
 					if($registro!=null)
-						return "profesor";
+						return $rol;
 					else
 						return null;
 				case "rector":

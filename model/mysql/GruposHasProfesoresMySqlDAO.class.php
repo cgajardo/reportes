@@ -18,7 +18,7 @@ class GruposHasProfesoresMySqlDAO implements GruposHasProfesoresDAO{
 		$sqlQuery = new SqlQuery($sql);
 		$sqlQuery->setNumber($idPersona);
 		$sqlQuery->setNumber($idGrupo);
-
+		
 		return $this->getRow($sqlQuery);
 	}
 

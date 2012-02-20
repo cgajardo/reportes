@@ -7,7 +7,7 @@ public function index() {
 	//print $this->encrypter->encode("platform=utfsm&user=574&course=6");
 	//578, 586, 587, 599, 581, 574
 	
-	$PARAMS = $this->encrypter->decodeURL($_GET['params']);
+	@$PARAMS = $this->encrypter->decodeURL($_GET['params']);
 	
 	$usuario = $_SESSION['usuario'];
 	$platform = $_SESSION['plataforma'];

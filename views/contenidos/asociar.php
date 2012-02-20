@@ -47,7 +47,11 @@ $combo.='</select>';
 foreach($todas_las_preguntas as $pregunta){
 	echo '<tr>';
 	echo '<td>'.$pregunta->categoria->nombre.'</td>';
-	echo '<td id="'.$pregunta->id.'">'.$pregunta->contenido->nombre.'</td>';
+        if ($pregunta->contenido) {
+            echo '<td id="'.$pregunta->id.'">'.$pregunta->contenido->nombre.'</td>';
+        }else{
+            echo '<td id="'.$pregunta->id.'"></td>';
+        }
 	echo '<td>'.'<select id="'.$pregunta->id.'" '.$combo.'</td>';
 	echo '</tr>';
 }

@@ -261,10 +261,10 @@ public function dataLogro(){
 
 	if(isset($_GET['grupo'])){
 		/* árbol de tiempo para un curso */
-		$id_director = utf8_decode($_GET['director']);
-		$nombre_sede = utf8_decode($_GET['sede']);
-		$nombre_curso = utf8_decode($_GET['curso']);
-		$nombre_grupo =  utf8_decode($_GET['grupo']);
+		$id_director = $_GET['director'];
+		$nombre_sede = $_GET['sede'];
+		$nombre_curso = $_GET['curso'];
+		$nombre_grupo =  $_GET['grupo'];
 		if(isset($_SESSION['arbolTiempo'])){
 			$arbolCompleto = $_SESSION['arbolTiempo'];
 			$arbol_tiempo = $arbolCompleto['detalle'][$nombre_sede]['detalle'][$nombre_curso]['detalle'][$nombre_grupo];
@@ -302,11 +302,11 @@ public function dataLogro(){
 
 public function matrizLogro(){
 
-	$director = utf8_decode($_GET['director']);
-	$nombre_sede = utf8_decode($_GET['sede']);
-	$nombre_curso = utf8_decode($_GET['curso']);
-	$nombre_grupo = utf8_decode($_GET['grupo']);
-	$nombre_alumno = utf8_decode($_GET['alumno']);
+	$director = $_GET['director'];
+	$nombre_sede = $_GET['sede'];
+	$nombre_curso = $_GET['curso'];
+	$nombre_grupo = $_GET['grupo'];
+	$nombre_alumno = $_GET['alumno'];
 
 	$usuario = DAOFactory::getPersonasDAO()->getPersonaByNombreGrupo($nombre_alumno, $nombre_grupo);
 	$curso = DAOFactory::getCursosDAO()->getCursosByUsuarioAndNombre($usuario->id, $nombre_curso);

@@ -25,7 +25,7 @@ public function reporte(){
 	$grupo_id=$PARAMS['grupo'];
 	$quiz_id = $PARAMS['quiz'];
 	$rol = $usuario->getRolEnGrupo($grupo_id);
-	if($rol != "profesor"){
+	if($rol != "profesor" && $rol != "rector"){
 		$this->registry->template->mesaje_personalizado = "Tu rol no corresponde al de profesor.</br>".
 				"Por lo tanto no puedes revisar el contenido de esta p&aacute;gina. ";
 		//finally

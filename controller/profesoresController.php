@@ -24,11 +24,10 @@ public function reporte(){
 
 	$grupo_id=$PARAMS['grupo'];
 	$quiz_id = $PARAMS['quiz'];
-	
 	$rol = $usuario->getRolEnGrupo($grupo_id);
-	if($rol!="profesor"){
+	if($rol != "profesor"){
 		$this->registry->template->mesaje_personalizado = "Tu rol no corresponde al de profesor.</br>".
-				"Por lo tanto no puedes revisar el contenido de esta p&aacute;gina.";
+				"Por lo tanto no puedes revisar el contenido de esta p&aacute;gina. ";
 		//finally
 		$this->registry->template->show('error404');
 		return;	
@@ -43,7 +42,7 @@ public function reporte(){
 	$institucion = DAOFactory::getInstitucionesDAO()-> getInstitucionByNombrePlataforma($platform);
 	$curso = DAOFactory::getCursosDAO()->getCursoByGrupoId($grupo->id);
 	$estudiantes_en_grupo = DAOFactory::getPersonasDAO()->getEstudiantesInGroup($grupo->id);
-        $notas_grupo = DAOFactory::getIntentosDAO()->getNotasNombreGrupo($quiz->id,$grupo->id);
+    $notas_grupo = DAOFactory::getIntentosDAO()->getNotasNombreGrupo($quiz->id,$grupo->id);
 	$contenido_logro = DAOFactory::getIntentosDAO()->getLogroPorContenidoGrupo($quiz->id);
 	//$nota_maxima= DAOFactory::getNotasDAO()->getMaxNotaInQuiz($quiz->id);
 	//enviamos los siguientes valores a la vista
@@ -131,8 +130,7 @@ public function index(){
 		
 		$this->registry->template->titulo = 'Tus evaluaciones';
 		$this->registry->template->usuario = $usuario;
-	
-                $this->registry->template->cursos = $cursos_usuarios;
+		$this->registry->template->cursos = $cursos_usuarios;
 		$this->registry->template->origen = '&plataforma='.$platform.'&usuario='.$usuario->id;
 		$this->registry->template->encrypter = $this->encrypter;
 		$this->registry->template->quizes = $quizes;

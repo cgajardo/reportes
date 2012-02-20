@@ -14,7 +14,7 @@ public function view(){
 
 public function reporte(){
 	//print $this->encrypter->encode("plataforma=utfsm&grupo=24&quiz=71")."</br>";
-        //print $this->encrypter->encode("platform|=utfsm&user=602")."</br>";
+        //print $this->encrypter->encode("platform=utfsm&user=47")."</br>";
 
     //print $this->encrypter->encode("plataforma=utfsm&grupo=15&quiz=31");
 	$PARAMS = $this->encrypter->decodeURL($_GET['params']);
@@ -25,7 +25,7 @@ public function reporte(){
 	$grupo_id=$PARAMS['grupo'];
 	$quiz_id = $PARAMS['quiz'];
 	
-	$rol = $usuario->getRolEnGrupo();
+	$rol = $usuario->getRolEnGrupo($grupo_id);
 	if($rol!="profesor"){
 		$this->registry->template->mesaje_personalizado = "Tu rol no corresponde al de profesor.</br>".
 				"Por lo tanto no puedes revisar el contenido de esta p&aacute;gina.";
@@ -166,7 +166,7 @@ public function data(){
         }
     }
     
-    print $this->encrypter->encode("plataforma=".$_GET['plataforma'].'&grupo='.$_GET['grupo'].'&curso='.$_GET['curso'].'&usuario='.$id_usuario.'&quiz='.$_GET['quiz']);
+    print $this->encrypter->encode('grupo='.$_GET['grupo'].'&curso='.$_GET['curso'].'&usuario='.$id_usuario.'&quiz='.$_GET['quiz']);
     $this->registry->template->show('debug');
 }
 }

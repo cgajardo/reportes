@@ -199,7 +199,7 @@ foreach ($notas_grupo as $nota) {
                                         location.href='../alumnos/reporte?params='+xmlhttp.responseText;
                         }
                         }
-                        alert("data?plataforma=<?php echo $platform;?>&alumno="+alumno+"&curso=<?php echo $curso->id;?>&grupo=<?php echo $grupo->id;?>&quiz=<?php echo $quiz->id;?>");
+
                         xmlhttp.open("GET","data?plataforma=<?php echo $platform;?>&alumno="+alumno+"&curso=<?php echo $curso->id;?>&grupo=<?php echo $grupo->id;?>&quiz=<?php echo $quiz->id;?>",true);
                         xmlhttp.send();
                     }      

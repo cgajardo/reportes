@@ -11,7 +11,7 @@
 <h4>Profesores:</h4>
 <ul>
   <li><a href="./enrutador/index?params=lnFtbVjp2gmDCYidkYAPdnF7J3QHE3yH">Leonelo Iturriaga (santiago)</a></li>
-  <li><a href="./enrutador/index?params=lnFtbVjp2gmDCYidkYAPdoFZqDjwIW7r">Sigrid L&aacute;zaruz (valparaiso)</a></li>
+  <li><a href="./enrutador/index?params=lnFtbVjp2gmDCYidkYAPdjJ5vJgbSEHw">Sigrid L&aacute;zaruz (valparaiso)</a></li>
 </ul>
 <h4>Rectores:</h4>
 <ul>

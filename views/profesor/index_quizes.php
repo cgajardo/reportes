@@ -29,7 +29,7 @@
 		}
 	} 
 	echo '</br>';
-	echo '<a href="'.$_SERVER['PHP_SELF'].'?rt=profesor/index&params='.$retorno.'">&lt;-Todos tus cursos</a>';
+	echo '<a href="'.$_SERVER['PHP_SELF'].'?rt=profesores/index">&lt;-Todos tus cursos</a>';
 	
 	?>
 	<div class="footer"></div>

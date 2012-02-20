@@ -8,6 +8,29 @@
 interface PersonasDAO{
 	
 	/**
+	 * Esta función sólo se utiliza desde el DTO de personas.
+	 * No debe considerarse como ejemplo para otras funciones
+	 * y no debe usarse fuera del scope de los DTO's
+	 *
+	 * @author cgajardo
+	 * @param int $persona_id
+	 * @return boolean
+	 */
+	public function checkRolProfesor($persona_id);
+	
+	/**
+	 * Esta función sólo se utiliza desde el DTO de personas.
+	 * No debe considerarse como ejemplo para otras funciones
+	 * y no debe usarse fuera del scope de los DTO's
+	 *
+	 * @author cgajardo
+	 * @param int $persona_id
+	 * @return boolean
+	 */
+	public function checkRolAlumno($persona_id);
+	
+	
+	/**
 	 * Esta función entrega una persona de acuerdo a sus nombres, apellidos
 	 * y nombre del grupo al que pertenece. Es una función débil :/
 	 *

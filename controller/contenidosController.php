@@ -8,7 +8,8 @@ public function asociar_ajax(){
 	$pregunta = DAOFactory::getPreguntasDAO()->load($id_pregunta);
 	$pregunta->idContenido = $id_contenido; 
 	DAOFactory::getPreguntasDAO()->update($pregunta);
-	$this->asociar();
+	$contenido = DAOFactory::getContenidosDAO()->load($id_contenido);
+	echo utf8_encode($contenido->nombre);
 }
 
 public function index() 
@@ -50,20 +51,32 @@ public function editar($contenido = null){
 }
 
 public function asociar(){
+	
 	session_start();
-	$todas_las_preguntas = DAOFactory::getPreguntasDAO()->queryAll();
+	
+	
+	
+	print_r($todas_las_preguntas);
 	
 	$this->registry->template->preguntas_sin_asociar = $preguntas_sin_asociar;
+	
+	//paginacion
 	if(!isset($_GET['page'])){
 		$page = 1;
 	}else{
 		$page = $_GET['page'];
 	}
 	
-	$this->registry->template->todas_las_preguntas = DAOFactory::getPreguntasDAO()->getFrom(($page-1)*20,20);
+	//aplicar filtro
+	if(isset($_GET['filter'])){
+		$this->registry->template->todas_las_preguntas = DAOFactory::getPreguntasDAO()->getSinAsociarFrom(($page-1)*20,20);
+		$this->registry->template->total = DAOFactory::getPreguntasDAO()->countSinAsociar();
+	} else{
+		$this->registry->template->todas_las_preguntas = DAOFactory::getPreguntasDAO()->getFrom(($page-1)*20,20);
+		$this->registry->template->total = DAOFactory::getPreguntasDAO()->count();
+	}
 	
-	$this->registry->template->total_preguntas_sin_asociar = count($preguntas_sin_asociar);
-	
+	//buscar o recuperar todos los contenidos
 	if(isset($_SESSION['contenidos'])){
 		$this->registry->template->contenidos = $_SESSION['contenidos'];
 	} else{
@@ -71,7 +84,6 @@ public function asociar(){
 		$_SESSION['contenidos']  = $this->registry->template->contenidos;
 	}
 	
-	$this->registry->template->total = DAOFactory::getPreguntasDAO()->count();
 	$this->registry->template->page = $page;
 	//finally
 	$this->registry->template->show('contenidos/asociar');

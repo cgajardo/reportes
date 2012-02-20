@@ -1,5 +1,6 @@
 <html>
 <head>
+<title>Listado de contenidos</title>
 </head>
 <body>
 <table>

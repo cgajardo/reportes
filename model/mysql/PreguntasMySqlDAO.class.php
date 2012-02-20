@@ -8,6 +8,42 @@
 class PreguntasMySqlDAO implements PreguntasDAO{
 	
 	/**
+	 * Devuelve el total de preguntas existentes en las base de datos 
+	 * que no están asociadas a un contenido
+	 * @author cgajardo
+	 */
+	public function countSinAsociar(){
+		$sql = 'SELECT COUNT(id) AS total '.
+				'FROM preguntas '.
+				'WHERE id_contenido = null ';
+	
+		$sqlQuery = new SqlQuery($sql);
+	
+		return $this->getCount($sqlQuery);
+	}
+	
+	/**
+	 * Esta funcion devuelve un grupo de preguntas que no tienen asociado
+	 * un id de contenido, útil para la paginación
+	 *
+	 * @author cgajardo
+	 * @param int $from
+	 * @param int $delta
+	 */
+	public function getSinAsociarFrom($from, $delta){
+		$sql = 'SELECT * '.
+				'FROM preguntas '.
+				'WHERE id_contenido = null '.
+				'LIMIT ? , ?';
+	
+		$sqlQuery = new SqlQuery($sql);
+		$sqlQuery->setNumber($from);
+		$sqlQuery->setNumber($delta);
+	
+		return $this->getList($sqlQuery);
+	}
+	
+	/**
 	 * Devuelve el total de preguntas existentes en las base de datos
 	 * @author cgajardo
 	 */

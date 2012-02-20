@@ -8,7 +8,7 @@ public function index() {
 	//578, 586, 587, 599, 581, 574
 	
 	$PARAMS = $this->encrypter->decodeURL($_GET['params']);
-	print_r($PARAMS);
+	
 	$usuario = $_SESSION['usuario'];
 	$platform = $_SESSION['plataforma'];
 	$cursos_usuarios = DAOFactory::getCursosDAO()->getCursosByUsuario($usuario->id);

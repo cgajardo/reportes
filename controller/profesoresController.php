@@ -16,7 +16,7 @@ public function reporte(){
 	//print $this->encrypter->encode("plataforma=utfsm&grupo=24&quiz=71")."</br>";
         //print $this->encrypter->encode("platform|=utfsm&user=602")."</br>";
 
-        //print $this->encrypter->encode("plataforma=utfsm&grupo=15&quiz=31");
+    //print $this->encrypter->encode("plataforma=utfsm&grupo=15&quiz=31");
 	$PARAMS = $this->encrypter->decodeURL($_GET['params']);
 	session_start();
         $usuario = $_SESSION['usuario'];
@@ -24,7 +24,15 @@ public function reporte(){
 
 	$grupo_id=$PARAMS['grupo'];
 	$quiz_id = $PARAMS['quiz'];
-
+	
+	$rol = $usuario->getRolEnGrupo();
+	if($rol!="profesor"){
+		$this->registry->template->mesaje_personalizado = "Tu rol no corresponde al de profesor.</br>".
+				"Por lo tanto no puedes revisar el contenido de esta p&aacute;gina.";
+		//finally
+		$this->registry->template->show('error404');
+		return;	
+	}
 	//recuperamos los objetos que nos interesan
 	$grupo = DAOFactory::getGruposDAO()->load($grupo_id);
 	//$usuario = DAOFactory::getPersonasDAO()->load($user_id);

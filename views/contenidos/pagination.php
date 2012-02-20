@@ -22,7 +22,7 @@ function pagination($page, $total){
     		
     	
     	if($lastpage > 1){	         
-    		$pagination .= "<li class='details'>Page $page of $lastpage</li>";
+    		$pagination .= "<li class='details'>".utf8_encode("P&aacute;gina ")."$page de $lastpage</li>";
     		
     		if($prev > 0){
     			$pagination.= "<li><a href='{$url}page=$prev'>Anterior</a></li>";
@@ -85,8 +85,8 @@ function pagination($page, $total){
     		}
     		
     		if ($page < $counter - 1){ 
-    			$pagination.= "<li><a href='{$url}page=$next'>Next</a></li>";
-                $pagination.= "<li><a href='{$url}page=$lastpage'>Last</a></li>";
+    			$pagination.= "<li><a href='{$url}page=$next'>Siguiente</a></li>";
+                $pagination.= "<li><a href='{$url}page=$lastpage'>".utf8_encode("&Uacute;ltima")."</a></li>";
     		}else{
     			$pagination.= "<li><a class='current'>Siguiente</a></li>";
                 $pagination.= "<li><a class='current'>&Uacute;ltima</a></li>";

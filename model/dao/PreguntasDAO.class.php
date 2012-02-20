@@ -82,6 +82,8 @@ interface PreguntasDAO{
 	public function deleteByIdentificadorMoodle($value);
 
 	public function deleteByIdContenido($value);
+        
+        public function getPreguntaByCategoria($nombre_categoria);
 
 
 }

@@ -346,10 +346,12 @@ foreach ($notas_grupo as $nota) {
     <body class="center">
         <div class="header_institucion"></div>
         <h1>Informe de Gesti&oacuten para el Docente</h1>
+        <div class="fecha_reporte">
         <?php 
             echo fecha_hoy();
             //var_dump($matriz_desempeño);
         ?>
+        </div>
         <br/>
         <b>EVALUACI&Oacute;N </b> <?php echo $nombre_actividad; ?><br/>
         <b>CURSO </b> <?php echo $nombre_curso." - ".$nombre_grupo; ?><br/>

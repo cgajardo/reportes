@@ -15,7 +15,7 @@ public function index(){
 	}else{
 		$institucion = DAOFactory::getInstitucionesDAO()->getInstitucionByDirectorId($director->id);
 	}
-	
+        $_SESSION['usuario']=$director;
 	$this->registry->template->usuario = $director;
 	$this->registry->template->institucion = $institucion;
 	$this->registry->template->show('director/index');
@@ -346,6 +346,11 @@ public function matrizLogroGrupo(){
 	}
 	
 	$this->registry->template->matriz_desempeño = $matriz_desempeño;
+	$this->registry->template->grupo = $grupo;
+	$this->registry->template->nombre_sede = $nombre_sede;
+	$this->registry->template->quizes_en_curso = $quizes_en_curso;
+	$this->registry->template->encrypter = $this->encrypter;
+       
 	//finally
 
 	$this->registry->template->show('director/detalle_logro_grupo');

@@ -1,6 +1,8 @@
 <div id="matriz_desempeno" style="margin-bottom: 20px;" >
 <h4>Seleccione una evaluaci&oacute;n para ver el detalle</h4>
 <?php
+//var_dump($quizes_en_curso);
+$i=0;
 foreach($matriz_desempeño as $quiz => $columna){
 	echo "<td>";
 	$celdas = '';
@@ -25,14 +27,14 @@ foreach($matriz_desempeño as $quiz => $columna){
 		$logro_quiz += $celda['logro']*$celda['numero_preguntas'];
 		$total_preguntas += $celda['numero_preguntas'];
 	}
-
+        $s = $encrypter->encode("plataforma=".$nombre_sede."&grupo=".$grupo->id."&quiz=".$quizes_en_curso[$i]->id);
 	echo '<table class="matriz" border="1">';
 	echo '<tr><td class="header">';
-	echo '<a href="#">'.$quiz.'</a> ('.round($logro_quiz/$total_preguntas).'%)';
+	echo '<a href="../profesores/reporte?params='.$s.'">'.$quiz.'</a> ('.round($logro_quiz/$total_preguntas).'%)';
 	echo '</td></td>';
 	echo $celdas;
 	echo '</table></td>';
-
+        $i++;
 }
 ?>
 </div>

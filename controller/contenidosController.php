@@ -77,6 +77,31 @@ public function asociar(){
 	$this->registry->template->show('contenidos/asociar');
 }
 
+public function asociar2(){
+    
+        $file = fopen('views/contenidos/contenidos.csv', 'r');
+        fgets($file);
+        while($x=fgets($file)){
+            $cont = explode(';',$x);
+            var_dump($cont);            
+            if(($len=count($cont))>3){
+                $preg = DAOFactory::getPreguntasDAO()->getPreguntaByCategoria($cont[0].'\;'.$cont[1]);
+                print $cont[0].";".$cont[1];
+                var_dump($preg);
+            }else{
+                $preg = DAOFactory::getPreguntasDAO()->getPreguntaByCategoria($cont[0]);
+            }
+            print " numero: ".intval($cont[$len-1])."<br/>";          
+            foreach($preg as $p){
+                $p->contenido=intval($cont[$len-1]);
+                DAOFactory::getPreguntasDAO()->update($p);
+            }
+            
+        }
+    
+        $this->registry->template->show('debug');
+}
+
 public function eliminar(){
 	
 	$id_contenido = $_GET['id'];

@@ -123,7 +123,7 @@ class PreguntasMySqlDAO implements PreguntasDAO{
 		$sqlQuery = new SqlQuery($sql);
 		
 		$sqlQuery->set($pregunta->identificadorMoodle);
-		$sqlQuery->setNumber($pregunta->idContenido);
+		$sqlQuery->setNumber($pregunta->contenido);
 
 		$sqlQuery->set($pregunta->id);
 		return $this->executeUpdate($sqlQuery);
@@ -245,5 +245,14 @@ class PreguntasMySqlDAO implements PreguntasDAO{
 	protected function executeInsert($sqlQuery){
 		return QueryExecutor::executeInsert($sqlQuery);
 	}
+
+    public function getPreguntaByCategoria($nombre_categoria) {
+                $sql = 'SELECT p.* FROM preguntas p JOIN categorias c ON id_categoria=c.id WHERE nombre=?';
+                $sqlQuery = new SqlQuery($sql);
+                $sqlQuery->setString($nombre_categoria);
+                echo $sqlQuery->getQuery();
+                return $this->getList($sqlQuery);
+                
+    }
 }
 ?>

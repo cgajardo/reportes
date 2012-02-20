@@ -13,7 +13,7 @@ public function view(){
 }
 
 public function reporte(){
-	//print $this->encrypter->encode("plataforma=utfsm&usuario=1104&grupo=24&quiz=71")."</br>";
+	//print $this->encrypter->encode("plataforma=utfsm&grupo=24&quiz=71")."</br>";
         //print $this->encrypter->encode("platform=utfsm&user=618")."</br>";
 
         //print $this->encrypter->encode("plataforma=utfsm&grupo=15&quiz=31");

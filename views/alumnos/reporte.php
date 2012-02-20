@@ -161,7 +161,7 @@
     </div>
     <div class="subtitulo">Nivel de logro</div>
     <div class="contador">
-    	<table class="contador">
+    	<table class="contador" border="1">
     	<tr>
     		<th>Actividad</th>
     		<th>Contenidos Logrados</th>

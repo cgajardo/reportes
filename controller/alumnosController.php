@@ -70,6 +70,11 @@ public function reporte(){
 	$usuario = $_SESSION['usuario'];
 	$platform = $_SESSION['plataforma'];
 	
+	//permite a un profesor o director ver el reporte de un alumno
+	if(isset($PARAMS['usuario'])){
+		$usuario = DAOFactory::getPersonasDAO()->load($PARAMS['usuario']);
+	}
+	
 	$curso = DAOFactory::getCursosDAO()->load($curso_id);
 	$quiz = DAOFactory::getQuizesDAO()->load($quiz_id);
 

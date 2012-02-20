@@ -2,8 +2,8 @@
 Class enrutadorController Extends baseController {
 	
 	public function index(){
+		session_destroy();
 		session_start();
-		
 		//desencriptamos los datos que nos envian desde moodle
 		$PARAMS = $this->encrypter->decodeURL($_GET['params']);
 		

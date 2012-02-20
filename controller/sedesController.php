@@ -3,8 +3,12 @@
 Class sedesController Extends baseController {
 
 public function index() 
-{
-        $this->registry->template->sedes = DAOFactory::getSedesDAO()->queryAll();
+{       
+        $ins = DAOFactory::getInstitucionesDAO()->queryAll();
+        foreach($ins as $institucion){
+            $instituciones[$institucion->nombre]=  DAOFactory::getSedesDAO()->getSedesByInstitucion($institucion->id);
+        }
+        $this->registry->template->instituciones = $instituciones;
         
         $this->registry->template->show('sedes/index');
 }

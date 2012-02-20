@@ -51,7 +51,7 @@ public function editar($contenido = null){
 
 public function asociar(){
 	session_start();
-	$todas_las_preguntas = DAOFactory::getPreguntasDAO()->queryAll();
+	$todas_las_preguntas = DAOFactory::getPreguntasDAO()->get($id_contenido);
 	
 	$this->registry->template->preguntas_sin_asociar = $preguntas_sin_asociar;
 	if(!isset($_GET['page'])){

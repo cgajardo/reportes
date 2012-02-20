@@ -14,13 +14,13 @@ public function view(){
 
 public function reporte(){
 	//print $this->encrypter->encode("plataforma=utfsm&grupo=24&quiz=71")."</br>";
-        //print $this->encrypter->encode("platform=utfsm&user=618")."</br>";
+        //print $this->encrypter->encode("platform|=utfsm&user=602")."</br>";
 
         //print $this->encrypter->encode("plataforma=utfsm&grupo=15&quiz=31");
 	$PARAMS = $this->encrypter->decodeURL($_GET['params']);
 	session_start();
-    $usuario = $_SESSION['usuario'];
-    $platform = $_SESSION['plataforma'];
+        $usuario = $_SESSION['usuario'];
+        $platform = $_SESSION['plataforma'];
 
 	$grupo_id=$PARAMS['grupo'];
 	$quiz_id = $PARAMS['quiz'];
@@ -86,7 +86,7 @@ public function index(){
 	session_start();
 	
 	//578, 586, 587, 599, 581, 574
-	$PARAMS = $this->encrypter->decodeURL($_GET['params']);
+        @$PARAMS = $this->encrypter->decodeURL($_GET['params']);
 	
 	//var_dump($PARAMS);
 	// el usuario y la plataforma siempre vendrán en session

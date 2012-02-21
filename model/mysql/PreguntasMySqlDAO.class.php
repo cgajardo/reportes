@@ -33,7 +33,7 @@ class PreguntasMySqlDAO implements PreguntasDAO{
 	public function getSinAsociarFrom($from, $delta){
 		$sql = 'SELECT * '.
 				'FROM preguntas '.
-				'WHERE id_contenido = null '.
+				'WHERE id_contenido IS NULL '.
 				'LIMIT ? , ?';
 	
 		$sqlQuery = new SqlQuery($sql);

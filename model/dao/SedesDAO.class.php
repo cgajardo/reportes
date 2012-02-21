@@ -90,6 +90,8 @@ interface SedesDAO{
 	public function deleteByCiudad($value);
 
 	public function deleteByIdInstitucion($value);
+        
+        public function getSedesByInstitucion($id_institucion);
 
 
 }

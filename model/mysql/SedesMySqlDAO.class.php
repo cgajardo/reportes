@@ -276,5 +276,16 @@ class SedesMySqlDAO implements SedesDAO{
 	protected function executeInsert($sqlQuery){
 		return QueryExecutor::executeInsert($sqlQuery);
 	}
+
+    public function getSedesByInstitucion($id_institucion) {
+        
+        $sql ='SELECT * FROM sedes WHERE id_institucion=?';
+        $sqlQuery = new SqlQuery($sql);
+        $sqlQuery->setNumber($id_institucion);
+        
+        return $this->getList($sqlQuery);
+        
+        
+    }
 }
 ?>

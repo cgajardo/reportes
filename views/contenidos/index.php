@@ -3,7 +3,7 @@
 <title>Listado de contenidos</title>
 </head>
 <body>
-<table>
+<table border="1">
 <tr>
 <th>Nombre</th>
 <th>Link Repaso</th>

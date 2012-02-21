@@ -15,9 +15,9 @@
 </head>
 <body>
 	<div class="header_institucion"></div>
-	<h1>Todos tus cursos!!!</h1>
+	<h1>Todos tus cursos</h1>
 	<p> Bienvenido <?php echo ucwords(strtolower($usuario->nombre));?> 
-	a continuaci&oacute;n podr&aacute;s revisar tu historial de evaluaciones y notas. </br>
+	a continuaci&oacute;n podr&aacute;s revisar el historial de evaluaciones y notas de tus cursos. </br>
 	Por favor selecciona el curso que deseas revisar </p>
 	  
 	<?php

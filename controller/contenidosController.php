@@ -53,13 +53,7 @@ public function editar($contenido = null){
 public function asociar(){
 	
 	session_start();
-	
-	
-	
-	print_r($todas_las_preguntas);
-	
-	$this->registry->template->preguntas_sin_asociar = $preguntas_sin_asociar;
-	
+		
 	//paginacion
 	if(!isset($_GET['page'])){
 		$page = 1;
@@ -79,9 +73,10 @@ public function asociar(){
 	//buscar o recuperar todos los contenidos
 	if(isset($_SESSION['contenidos'])){
 		$this->registry->template->contenidos = $_SESSION['contenidos'];
-	} else{
-		$this->registry->template->contenidos = DAOFactory::getContenidosDAO()->queryAll();
-		$_SESSION['contenidos']  = $this->registry->template->contenidos;
+	} else{ 
+                $contenidos = DAOFactory::getContenidosDAO()->queryAll();
+		$this->registry->template->contenidos = $contenidos;
+		$_SESSION['contenidos']  = $contenidos;
 	}
 	
 	$this->registry->template->page = $page;

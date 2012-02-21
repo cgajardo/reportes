@@ -5,10 +5,14 @@
 <body>
 <h1>Lista de Instituciones</h1>
 <<<<<<< HEAD
+<<<<<<< HEAD
 <p><?php echo $mensaje;?></p>
 =======
 <p><?php echo $mensaje_exito;?></p>
 >>>>>>> Index de Instituciones
+=======
+<p><?php echo $mensaje;?></p>
+>>>>>>> CRUD instituaciones: DONE
 <table>
 <tr>
 <th>Nombre</th>
@@ -26,6 +30,7 @@
 ?>
 	<td>
 <<<<<<< HEAD
+<<<<<<< HEAD
 		<a href="<?php echo str_replace("index.php","",$_SERVER['PHP_SELF']);?>instituciones/eliminar&id=<?php echo $institucion->id;?>">eliminar</a>
 		<a href="<?php echo str_replace("index.php","",$_SERVER['PHP_SELF']);?>instituciones/editar&id=<?php echo $institucion->id;?>">modificar</a>	
 =======
@@ -35,6 +40,10 @@
 	</form>
 		<a href="<?php print($_SERVER['PHP_SELF']);?>?rt=instituciones/editar&id=<?php echo $sede->id;?>">modificar</a>	
 >>>>>>> Index de Instituciones
+=======
+		<a href="<?php echo str_replace("index.php","",$_SERVER['PHP_SELF']);?>instituciones/eliminar&id=<?php echo $institucion->id;?>">eliminar</a>
+		<a href="<?php echo str_replace("index.php","",$_SERVER['PHP_SELF']);?>instituciones/editar&id=<?php echo $institucion->id;?>">modificar</a>	
+>>>>>>> CRUD instituaciones: DONE
 	</td>
 <?php 
 		echo '</tr>';
@@ -43,9 +52,13 @@
 </table>
 <br/>
 <<<<<<< HEAD
+<<<<<<< HEAD
 <a href="<?php echo str_replace("index.php","",$_SERVER['PHP_SELF']);?>instituciones/agregar">Nueva Instituci&oacute;n</a>
 =======
 <a href="<?php print($_SERVER['PHP_SELF']);?>?rt=instituciones/agregar">Nueva Sede</a>
 >>>>>>> Index de Instituciones
+=======
+<a href="<?php echo str_replace("index.php","",$_SERVER['PHP_SELF']);?>instituciones/agregar">Nueva Instituci&oacute;n</a>
+>>>>>>> CRUD instituaciones: DONE
 </body>
 </html>

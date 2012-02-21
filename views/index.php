@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 <html>
 <h1>Bienvenido</h1>
 <p>Prueba ingresando como:</p>
@@ -22,6 +23,8 @@
 </ul>
 </html>
 =======
+=======
+>>>>>>> 34539338c1daa791dd53afc8cbfe19ed66dcaa96
 <html>
 <h1>Bienvenido</h1>
 <p>Prueba ingresando como:</p>
@@ -44,4 +47,7 @@
   <li><a href="./directores/index?id=8292">Rector Santa Maria</a></li>
 </ul>
 </html>
+<<<<<<< HEAD
+>>>>>>> 34539338c1daa791dd53afc8cbfe19ed66dcaa96
+=======
 >>>>>>> 34539338c1daa791dd53afc8cbfe19ed66dcaa96

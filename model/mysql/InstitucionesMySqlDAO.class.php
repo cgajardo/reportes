@@ -97,11 +97,13 @@ class InstitucionesMySqlDAO implements InstitucionesDAO{
  	 * @param InstitucionesMySql institucione
  	 */
 	public function insert($institucione){
-		$sql = 'INSERT INTO instituciones (nombre, nombre_corto) VALUES (?, ?)';
+		$sql = 'INSERT INTO instituciones (nombre, nombre_corto, prefijo_tarea, rango_aprobado) VALUES (?, ?, ?, ?)';
 		$sqlQuery = new SqlQuery($sql);
 		
-		$sqlQuery->set($institucione->nombre);
-		$sqlQuery->set($institucione->nombreCorto);
+		$sqlQuery->setString($institucione->nombre);
+		$sqlQuery->setString($institucione->nombreCorto);
+		$sqlQuery->setString($institucione->prefijoEvaluacion);
+		$sqlQuery->setNumber($institucione->notaAprobado);
 
 		$id = $this->executeInsert($sqlQuery);	
 		$institucione->id = $id;
@@ -114,11 +116,14 @@ class InstitucionesMySqlDAO implements InstitucionesDAO{
  	 * @param InstitucionesMySql institucione
  	 */
 	public function update($institucione){
-		$sql = 'UPDATE instituciones SET nombre = ?, nombre_corto = ? WHERE id = ?';
+		$sql = 'UPDATE instituciones SET nombre = ?, nombre_corto = ?, prefijo_tarea = ?, rango_aprobado = ? '. 
+			'WHERE id = ?';
 		$sqlQuery = new SqlQuery($sql);
 		
-		$sqlQuery->set($institucione->nombre);
-		$sqlQuery->set($institucione->nombreCorto);
+		$sqlQuery->setString($institucione->nombre);
+		$sqlQuery->setString($institucione->nombreCorto);
+		$sqlQuery->setString($institucione->prefijoEvaluacion);
+		$sqlQuery->setNumber($institucione->notaAprobado);
 
 		$sqlQuery->setNumber($institucione->id);
 		return $this->executeUpdate($sqlQuery);

@@ -3,11 +3,11 @@
 	 * Object represents table 'instituciones_has_directores'
 	 *
      	 * @author: http://phpdao.com
-     	 * @date: 2012-01-18 16:29	 
+     	 * @date: 2012-02-21 18:03	 
 	 */
 	class InstitucionesHasDirectore{
 		
-		var $idInstituacion;
+		var $idInstitucion;
 		var $idPersona;
 		
 	}

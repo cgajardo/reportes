@@ -5,15 +5,15 @@
  * @author: http://phpdao.com
  * @date: 2012-02-21 18:03
  */
-interface InstitucionesHasDirectoresDAO{
+interface UsuariosDAO{
 
 	/**
 	 * Get Domain object by primry key
 	 *
 	 * @param String $id primary key
-	 * @Return InstitucionesHasDirectores 
+	 * @Return Usuarios 
 	 */
-	public function load($idInstitucion, $idPersona);
+	public function load($id, $email);
 
 	/**
 	 * Get all records from table
@@ -28,29 +28,41 @@ interface InstitucionesHasDirectoresDAO{
 	
 	/**
  	 * Delete record from table
- 	 * @param institucionesHasDirectore primary key
+ 	 * @param usuario primary key
  	 */
-	public function delete($idInstitucion, $idPersona);
+	public function delete($id, $email);
 	
 	/**
  	 * Insert record to table
  	 *
- 	 * @param InstitucionesHasDirectores institucionesHasDirectore
+ 	 * @param Usuarios usuario
  	 */
-	public function insert($institucionesHasDirectore);
+	public function insert($usuario);
 	
 	/**
  	 * Update record in table
  	 *
- 	 * @param InstitucionesHasDirectores institucionesHasDirectore
+ 	 * @param Usuarios usuario
  	 */
-	public function update($institucionesHasDirectore);	
+	public function update($usuario);	
 
 	/**
 	 * Delete all rows
 	 */
 	public function clean();
 
+	public function queryByNombres($value);
+
+	public function queryByApellidos($value);
+
+	public function queryByPassword($value);
+
+
+	public function deleteByNombres($value);
+
+	public function deleteByApellidos($value);
+
+	public function deleteByPassword($value);
 
 
 }

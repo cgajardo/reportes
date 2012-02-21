@@ -18,7 +18,7 @@ class InstitucionesMySqlDAO implements InstitucionesDAO{
 		$sql = 'SELECT i.* '. 
 			'FROM instituciones as i, instituciones_has_directores as id '.
 			'WHERE i.id = id.id_institucion '. 
-			'AND id.id_persona = ? ';
+			'AND id.id_usuario = ? ';
 		
 		$sqlQuery = new SqlQuery($sql);
 		$sqlQuery->setNumber($director_id);
@@ -36,9 +36,9 @@ class InstitucionesMySqlDAO implements InstitucionesDAO{
 	public function getInstitucionByNombrePlataforma($platforma){
 		$sql = 'SELECT i.* '.
 			'FROM instituciones as i '.
-			'WHERE i.id IN ( '.
-  				'SELECT ip.id_institucion '.
-  				'FROM instituciones_has_plataformas AS ip, plataformas AS p '.
+			'WHERE i.id_plataforma IN ( '.
+  				'SELECT p.id '.
+  				'FROM plataformas AS p '.
   				'WHERE p.nombre = ? )';
 		
 		$sqlQuery = new SqlQuery($sql);

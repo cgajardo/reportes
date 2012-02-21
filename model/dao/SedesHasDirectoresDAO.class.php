@@ -3,15 +3,15 @@
  * Intreface DAO
  *
  * @author: http://phpdao.com
- * @date: 2012-01-18 16:29
+ * @date: 2012-02-21 18:03
  */
-interface SedesHasDirectoressedeDAO{
+interface SedesHasDirectoresDAO{
 
 	/**
 	 * Get Domain object by primry key
 	 *
 	 * @param String $id primary key
-	 * @Return SedesHasDirectoressede 
+	 * @Return SedesHasDirectores 
 	 */
 	public function load($idPersona, $idSede);
 
@@ -28,23 +28,23 @@ interface SedesHasDirectoressedeDAO{
 	
 	/**
  	 * Delete record from table
- 	 * @param sedesHasDirectoressede primary key
+ 	 * @param sedesHasDirectore primary key
  	 */
 	public function delete($idPersona, $idSede);
 	
 	/**
  	 * Insert record to table
  	 *
- 	 * @param SedesHasDirectoressede sedesHasDirectoressede
+ 	 * @param SedesHasDirectores sedesHasDirectore
  	 */
-	public function insert($sedesHasDirectoressede);
+	public function insert($sedesHasDirectore);
 	
 	/**
  	 * Update record in table
  	 *
- 	 * @param SedesHasDirectoressede sedesHasDirectoressede
+ 	 * @param SedesHasDirectores sedesHasDirectore
  	 */
-	public function update($sedesHasDirectoressede);	
+	public function update($sedesHasDirectore);	
 
 	/**
 	 * Delete all rows

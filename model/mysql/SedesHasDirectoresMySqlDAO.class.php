@@ -1,20 +1,20 @@
 <?php
 /**
- * Class that operate on table 'sedes_has_directoressede'. Database Mysql.
+ * Class that operate on table 'sedes_has_directores'. Database Mysql.
  *
  * @author: http://phpdao.com
- * @date: 2012-01-18 16:29
+ * @date: 2012-02-21 18:03
  */
-class SedesHasDirectoressedeMySqlDAO implements SedesHasDirectoressedeDAO{
+class SedesHasDirectoresMySqlDAO implements SedesHasDirectoresDAO{
 
 	/**
 	 * Get Domain object by primry key
 	 *
 	 * @param String $id primary key
-	 * @return SedesHasDirectoressedeMySql 
+	 * @return SedesHasDirectoresMySql 
 	 */
 	public function load($idPersona, $idSede){
-		$sql = 'SELECT * FROM sedes_has_directoressede WHERE id_persona = ?  AND id_sede = ? ';
+		$sql = 'SELECT * FROM sedes_has_directores WHERE id_persona = ?  AND id_sede = ? ';
 		$sqlQuery = new SqlQuery($sql);
 		$sqlQuery->setNumber($idPersona);
 		$sqlQuery->setNumber($idSede);
@@ -26,7 +26,7 @@ class SedesHasDirectoressedeMySqlDAO implements SedesHasDirectoressedeDAO{
 	 * Get all records from table
 	 */
 	public function queryAll(){
-		$sql = 'SELECT * FROM sedes_has_directoressede';
+		$sql = 'SELECT * FROM sedes_has_directores';
 		$sqlQuery = new SqlQuery($sql);
 		return $this->getList($sqlQuery);
 	}
@@ -37,17 +37,17 @@ class SedesHasDirectoressedeMySqlDAO implements SedesHasDirectoressedeDAO{
 	 * @param $orderColumn column name
 	 */
 	public function queryAllOrderBy($orderColumn){
-		$sql = 'SELECT * FROM sedes_has_directoressede ORDER BY '.$orderColumn;
+		$sql = 'SELECT * FROM sedes_has_directores ORDER BY '.$orderColumn;
 		$sqlQuery = new SqlQuery($sql);
 		return $this->getList($sqlQuery);
 	}
 	
 	/**
  	 * Delete record from table
- 	 * @param sedesHasDirectoressede primary key
+ 	 * @param sedesHasDirectore primary key
  	 */
 	public function delete($idPersona, $idSede){
-		$sql = 'DELETE FROM sedes_has_directoressede WHERE id_persona = ?  AND id_sede = ? ';
+		$sql = 'DELETE FROM sedes_has_directores WHERE id_persona = ?  AND id_sede = ? ';
 		$sqlQuery = new SqlQuery($sql);
 		$sqlQuery->setNumber($idPersona);
 		$sqlQuery->setNumber($idSede);
@@ -58,37 +58,37 @@ class SedesHasDirectoressedeMySqlDAO implements SedesHasDirectoressedeDAO{
 	/**
  	 * Insert record to table
  	 *
- 	 * @param SedesHasDirectoressedeMySql sedesHasDirectoressede
+ 	 * @param SedesHasDirectoresMySql sedesHasDirectore
  	 */
-	public function insert($sedesHasDirectoressede){
-		$sql = 'INSERT INTO sedes_has_directoressede ( id_persona, id_sede) VALUES ( ?, ?)';
+	public function insert($sedesHasDirectore){
+		$sql = 'INSERT INTO sedes_has_directores ( id_persona, id_sede) VALUES ( ?, ?)';
 		$sqlQuery = new SqlQuery($sql);
 		
 
 		
-		$sqlQuery->setNumber($sedesHasDirectoressede->idPersona);
+		$sqlQuery->setNumber($sedesHasDirectore->idPersona);
 
-		$sqlQuery->setNumber($sedesHasDirectoressede->idSede);
+		$sqlQuery->setNumber($sedesHasDirectore->idSede);
 
 		$this->executeInsert($sqlQuery);	
-		//$sedesHasDirectoressede->id = $id;
+		//$sedesHasDirectore->id = $id;
 		//return $id;
 	}
 	
 	/**
  	 * Update record in table
  	 *
- 	 * @param SedesHasDirectoressedeMySql sedesHasDirectoressede
+ 	 * @param SedesHasDirectoresMySql sedesHasDirectore
  	 */
-	public function update($sedesHasDirectoressede){
-		$sql = 'UPDATE sedes_has_directoressede SET  WHERE id_persona = ?  AND id_sede = ? ';
+	public function update($sedesHasDirectore){
+		$sql = 'UPDATE sedes_has_directores SET  WHERE id_persona = ?  AND id_sede = ? ';
 		$sqlQuery = new SqlQuery($sql);
 		
 
 		
-		$sqlQuery->setNumber($sedesHasDirectoressede->idPersona);
+		$sqlQuery->setNumber($sedesHasDirectore->idPersona);
 
-		$sqlQuery->setNumber($sedesHasDirectoressede->idSede);
+		$sqlQuery->setNumber($sedesHasDirectore->idSede);
 
 		return $this->executeUpdate($sqlQuery);
 	}
@@ -97,7 +97,7 @@ class SedesHasDirectoressedeMySqlDAO implements SedesHasDirectoressedeDAO{
  	 * Delete all rows
  	 */
 	public function clean(){
-		$sql = 'DELETE FROM sedes_has_directoressede';
+		$sql = 'DELETE FROM sedes_has_directores';
 		$sqlQuery = new SqlQuery($sql);
 		return $this->executeUpdate($sqlQuery);
 	}
@@ -108,15 +108,15 @@ class SedesHasDirectoressedeMySqlDAO implements SedesHasDirectoressedeDAO{
 	/**
 	 * Read row
 	 *
-	 * @return SedesHasDirectoressedeMySql 
+	 * @return SedesHasDirectoresMySql 
 	 */
 	protected function readRow($row){
-		$sedesHasDirectoressede = new SedesHasDirectoressede();
+		$sedesHasDirectore = new SedesHasDirectore();
 		
-		$sedesHasDirectoressede->idPersona = $row['id_persona'];
-		$sedesHasDirectoressede->idSede = $row['id_sede'];
+		$sedesHasDirectore->idPersona = $row['id_persona'];
+		$sedesHasDirectore->idSede = $row['id_sede'];
 
-		return $sedesHasDirectoressede;
+		return $sedesHasDirectore;
 	}
 	
 	protected function getList($sqlQuery){
@@ -131,7 +131,7 @@ class SedesHasDirectoressedeMySqlDAO implements SedesHasDirectoressedeDAO{
 	/**
 	 * Get row
 	 *
-	 * @return SedesHasDirectoressedeMySql 
+	 * @return SedesHasDirectoresMySql 
 	 */
 	protected function getRow($sqlQuery){
 		$tab = QueryExecutor::execute($sqlQuery);

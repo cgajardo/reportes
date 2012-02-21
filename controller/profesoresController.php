@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 <?php
 
 Class profesoresController Extends baseController {
@@ -171,6 +172,8 @@ public function data(){
 }
 ?>
 =======
+=======
+>>>>>>> 34539338c1daa791dd53afc8cbfe19ed66dcaa96
 <?php
 
 Class profesoresController Extends baseController {
@@ -342,4 +345,7 @@ public function data(){
 }
 }
 ?>
+<<<<<<< HEAD
+>>>>>>> 34539338c1daa791dd53afc8cbfe19ed66dcaa96
+=======
 >>>>>>> 34539338c1daa791dd53afc8cbfe19ed66dcaa96

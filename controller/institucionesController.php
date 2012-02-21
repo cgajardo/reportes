@@ -34,6 +34,7 @@ public function guardar(){
 	$institucion->nombreCorto = $_POST['nombreCorto'];
 	$institucion->prefijoEvaluacion = $_POST['prefijo'];
 	$institucion->notaAprobado = $_POST['notaAprobado'];
+	$institucion->plataforma = $_POST['plataforma'];
 	
 	if(isset($_POST['id'])){
 		DAOFactory::getInstitucionesDAO()->update($institucion);
@@ -56,6 +57,7 @@ public function editar($institucion = null){
 	}
 	
 	$this->registry->template->institucion = $institucion;
+	$this->registry->template->plataformas = DAOFactory::getPlataformasDAO()->queryAll();
 	//finally
 	$this->registry->template->show('instituciones/editar');
 }

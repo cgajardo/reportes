@@ -15,5 +15,7 @@
 		
 		var $notaAprobado;
 		
+		var $plataforma;
+		
 	}
 ?>

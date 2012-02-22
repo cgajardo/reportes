@@ -7,6 +7,32 @@
  */
 class PersonasMySqlDAO implements PersonasDAO{
 	
+	
+	/**
+	 * Esta función sólo se utiliza desde el DTO de personas.
+	 * No debe considerarse como ejemplo para otras funciones
+	 * y no debe usarse fuera del scope de los DTO's
+	 *
+	 * @author cgajardo
+	 * @param int $persona_id
+	 * @return boolean
+	 */
+	public function checkRolRector($persona_id){
+		$sql = 'SELECT * '. 
+			'FROM instituciones_has_directores '.
+			'WHERE id_persona = ? ';
+		
+		$sqlQuery = new SqlQuery($sql);
+		$sqlQuery->setNumber($persona_id);
+		
+		$registros = QueryExecutor::execute($sqlQuery);
+		if(count($registros) == 0){
+			return FALSE;
+		}
+		
+		return TRUE;
+	}
+	
 	/**
 	 * Esta función sólo se utiliza desde el DTO de personas.
 	 * No debe considerarse como ejemplo para otras funciones
@@ -19,8 +45,8 @@ class PersonasMySqlDAO implements PersonasDAO{
 	public function checkRolProfesor($persona_id){
 		$sql = 'SELECT * '. 
 			'FROM grupos_has_profesores '.
-			
 		'WHERE id_persona = ? ';
+		
 		$sqlQuery = new SqlQuery($sql);
 		$sqlQuery->setNumber($persona_id);
 		

@@ -3,7 +3,7 @@
  * Class that operate on table 'instituciones_has_directores'. Database Mysql.
  *
  * @author: http://phpdao.com
- * @date: 2012-01-18 16:29
+ * @date: 2012-02-21 18:03
  */
 class InstitucionesHasDirectoresMySqlDAO implements InstitucionesHasDirectoresDAO{
 
@@ -13,10 +13,10 @@ class InstitucionesHasDirectoresMySqlDAO implements InstitucionesHasDirectoresDA
 	 * @param String $id primary key
 	 * @return InstitucionesHasDirectoresMySql 
 	 */
-	public function load($idInstituacion, $idPersona){
-		$sql = 'SELECT * FROM instituciones_has_directores WHERE id_instituacion = ?  AND id_persona = ? ';
+	public function load($idInstitucion, $idPersona){
+		$sql = 'SELECT * FROM instituciones_has_directores WHERE id_institucion = ?  AND id_persona = ? ';
 		$sqlQuery = new SqlQuery($sql);
-		$sqlQuery->setNumber($idInstituacion);
+		$sqlQuery->setNumber($idInstitucion);
 		$sqlQuery->setNumber($idPersona);
 
 		return $this->getRow($sqlQuery);
@@ -46,10 +46,10 @@ class InstitucionesHasDirectoresMySqlDAO implements InstitucionesHasDirectoresDA
  	 * Delete record from table
  	 * @param institucionesHasDirectore primary key
  	 */
-	public function delete($idInstituacion, $idPersona){
-		$sql = 'DELETE FROM instituciones_has_directores WHERE id_instituacion = ?  AND id_persona = ? ';
+	public function delete($idInstitucion, $idPersona){
+		$sql = 'DELETE FROM instituciones_has_directores WHERE id_institucion = ?  AND id_persona = ? ';
 		$sqlQuery = new SqlQuery($sql);
-		$sqlQuery->setNumber($idInstituacion);
+		$sqlQuery->setNumber($idInstitucion);
 		$sqlQuery->setNumber($idPersona);
 
 		return $this->executeUpdate($sqlQuery);
@@ -61,12 +61,12 @@ class InstitucionesHasDirectoresMySqlDAO implements InstitucionesHasDirectoresDA
  	 * @param InstitucionesHasDirectoresMySql institucionesHasDirectore
  	 */
 	public function insert($institucionesHasDirectore){
-		$sql = 'INSERT INTO instituciones_has_directores ( id_instituacion, id_persona) VALUES ( ?, ?)';
+		$sql = 'INSERT INTO instituciones_has_directores ( id_institucion, id_persona) VALUES ( ?, ?)';
 		$sqlQuery = new SqlQuery($sql);
 		
 
 		
-		$sqlQuery->setNumber($institucionesHasDirectore->idInstituacion);
+		$sqlQuery->setNumber($institucionesHasDirectore->idInstitucion);
 
 		$sqlQuery->setNumber($institucionesHasDirectore->idPersona);
 
@@ -81,12 +81,12 @@ class InstitucionesHasDirectoresMySqlDAO implements InstitucionesHasDirectoresDA
  	 * @param InstitucionesHasDirectoresMySql institucionesHasDirectore
  	 */
 	public function update($institucionesHasDirectore){
-		$sql = 'UPDATE instituciones_has_directores SET  WHERE id_instituacion = ?  AND id_persona = ? ';
+		$sql = 'UPDATE instituciones_has_directores SET  WHERE id_institucion = ?  AND id_persona = ? ';
 		$sqlQuery = new SqlQuery($sql);
 		
 
 		
-		$sqlQuery->setNumber($institucionesHasDirectore->idInstituacion);
+		$sqlQuery->setNumber($institucionesHasDirectore->idInstitucion);
 
 		$sqlQuery->setNumber($institucionesHasDirectore->idPersona);
 
@@ -113,7 +113,7 @@ class InstitucionesHasDirectoresMySqlDAO implements InstitucionesHasDirectoresDA
 	protected function readRow($row){
 		$institucionesHasDirectore = new InstitucionesHasDirectore();
 		
-		$institucionesHasDirectore->idInstituacion = $row['id_instituacion'];
+		$institucionesHasDirectore->idInstitucion = $row['id_institucion'];
 		$institucionesHasDirectore->idPersona = $row['id_persona'];
 
 		return $institucionesHasDirectore;

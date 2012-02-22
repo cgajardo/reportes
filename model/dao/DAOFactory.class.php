@@ -8,161 +8,161 @@
 class DAOFactory{
 	
 	public static function getCategoriasDAO(){
-		return new CategoriasMySqlExtDAO();
+		return new CategoriasMySqlDAO();
 	}
 	
 	/**
 	 * @return ContenidosDAO
 	 */
 	public static function getContenidosDAO(){
-		return new ContenidosMySqlExtDAO();
+		return new ContenidosMySqlDAO();
 	}
 
 	/**
 	 * @return CursosDAO
 	 */
 	public static function getCursosDAO(){
-		return new CursosMySqlExtDAO();
+		return new CursosMySqlDAO();
 	}
 
 	/**
 	 * @return CursosHasGruposDAO
 	 */
 	public static function getCursosHasGruposDAO(){
-		return new CursosHasGruposMySqlExtDAO();
+		return new CursosHasGruposMySqlDAO();
 	}
 
 	/**
 	 * @return EstadoDAO
 	 */
 	public static function getEstadoDAO(){
-		return new EstadoMySqlExtDAO();
+		return new EstadoMySqlDAO();
 	}
 
 	/**
 	 * @return GruposDAO
 	 */
 	public static function getGruposDAO(){
-		return new GruposMySqlExtDAO();
+		return new GruposMySqlDAO();
 	}
 
 	/**
 	 * @return GruposHasEstudiantesDAO
 	 */
 	public static function getGruposHasEstudiantesDAO(){
-		return new GruposHasEstudiantesMySqlExtDAO();
+		return new GruposHasEstudiantesMySqlDAO();
 	}
 
 	/**
 	 * @return GruposHasProfesoresDAO
 	 */
 	public static function getGruposHasProfesoresDAO(){
-		return new GruposHasProfesoresMySqlExtDAO();
+		return new GruposHasProfesoresMySqlDAO();
 	}
 
 	/**
 	 * @return InstitucionesDAO
 	 */
 	public static function getInstitucionesDAO(){
-		return new InstitucionesMySqlExtDAO();
+		return new InstitucionesMySqlDAO();
 	}
 
 	/**
 	 * @return InstitucionesHasDirectoresDAO
 	 */
 	public static function getInstitucionesHasDirectoresDAO(){
-		return new InstitucionesHasDirectoresMySqlExtDAO();
+		return new InstitucionesHasDirectoresMySqlDAO();
 	}
 
 	/**
 	 * @return IntentosDAO
 	 */
 	public static function getIntentosDAO(){
-		return new IntentosMySqlExtDAO();
+		return new IntentosMySqlDAO();
 	}
 	
 	/**
 	 * @return LogsDAO
 	 */
 	public static function getLogsDAO(){
-		return new LogsMySqlExtDAO();
+		return new LogsMySqlDAO();
 	}
 
 	/**
 	 * @return NotasDAO
 	 */
 	public static function getNotasDAO(){
-		return new NotasMySqlExtDAO();
+		return new NotasMySqlDAO();
 	}
 
 	/**
 	 * @return PersonasDAO
 	 */
 	public static function getPersonasDAO(){
-		return new PersonasMySqlExtDAO();
+		return new PersonasMySqlDAO();
 	}
 
 	/**
 	 * @return PlataformaQuizDAO
 	 */
 	public static function getPlataformaQuizDAO(){
-		return new PlataformaQuizMySqlExtDAO();
+		return new PlataformaQuizMySqlDAO();
 	}
 
 	/**
 	 * @return PlataformasDAO
 	 */
 	public static function getPlataformasDAO(){
-		return new PlataformasMySqlExtDAO();
+		return new PlataformasMySqlDAO();
 	}
 
 	/**
 	 * @return PreguntasDAO
 	 */
 	public static function getPreguntasDAO(){
-		return new PreguntasMySqlExtDAO();
+		return new PreguntasMySqlDAO();
 	}
 
 	/**
 	 * @return QuizesDAO
 	 */
 	public static function getQuizesDAO(){
-		return new QuizesMySqlExtDAO();
+		return new QuizesMySqlDAO();
 	}
 
 	/**
 	 * @return QuizesHasPreguntasDAO
 	 */
 	public static function getQuizesHasPreguntasDAO(){
-		return new QuizesHasPreguntasMySqlExtDAO();
+		return new QuizesHasPreguntasMySqlDAO();
 	}
 
 	/**
 	 * @return ReportesDAO
 	 */
 	public static function getReportesDAO(){
-		return new ReportesMySqlExtDAO();
+		return new ReportesMySqlDAO();
 	}
 
 	/**
 	 * @return SedesDAO
 	 */
 	public static function getSedesDAO(){
-		return new SedesMySqlExtDAO();
+		return new SedesMySqlDAO();
 	}
 
 	/**
 	 * @return SedesHasCursosDAO
 	 */
 	public static function getSedesHasCursosDAO(){
-		return new SedesHasCursosMySqlExtDAO();
+		return new SedesHasCursosMySqlDAO();
 	}
 
 	/**
 	 * @return SedesHasDirectoressedeDAO
 	 */
 	public static function getSedesHasDirectoressedeDAO(){
-		return new SedesHasDirectoressedeMySqlExtDAO();
+		return new SedesHasDirectoressedeMySqlDAO();
 	}
         
         

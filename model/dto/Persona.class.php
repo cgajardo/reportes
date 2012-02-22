@@ -47,6 +47,7 @@
 					else
 						return null;
 				case "rector":
+					return $rol;
 					break;
 			}
 		}

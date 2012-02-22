@@ -13,9 +13,9 @@
 		margin-top: -8px;
 	}
 	</style>
-     <script type="text/javascript" src="/reportes/views/js/json.js"></script>
-  	 <script type="text/javascript" src="/reportes/views/js/directorlogrochart.js"></script>
-     <script type="text/javascript">
+     <script type="text/javascript" charset="utf-8" src="/reportes/views/js/json.js"></script>
+  	 <script type="text/javascript" charset="utf-8" src="/reportes/views/js/directorlogrochart.js"></script>
+     <script type="text/javascript" charset="utf-8">
      var chart;
      var data;
      function drawChart() {

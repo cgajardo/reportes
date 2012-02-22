@@ -17,7 +17,7 @@ class SedesMySqlDAO implements SedesDAO{
 	 */
 	public function getByDirectorAndNombre($id_director, $nombre_sede){
 		$sql = 'SELECT s.* '.
-				'FROM sedes as s, sedes_has_directoressede as sd '.
+				'FROM sedes as s, sedes_has_directores as sd '.
 				'WHERE s.id = sd.id_sede AND sd.id_persona = ? AND s.nombre = ? ';
 		
 		$sqlQuery = new SqlQuery($sql);
@@ -35,7 +35,7 @@ class SedesMySqlDAO implements SedesDAO{
 	 */
 	public function getSedesByDirector($director_id){
 		$sql = 'SELECT s.* '.
-			'FROM sedes as s, sedes_has_directoressede as sd '.
+			'FROM sedes as s, sedes_has_directores as sd '.
 			'WHERE s.id = sd.id_sede AND sd.id_persona = ? ';
 		
 		$sqlQuery = new SqlQuery($sql);

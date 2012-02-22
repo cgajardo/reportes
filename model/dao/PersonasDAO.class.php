@@ -16,6 +16,17 @@ interface PersonasDAO{
 	 * @param int $persona_id
 	 * @return boolean
 	 */
+	public function checkRolRector($persona_id);
+	
+	/**
+	 * Esta función sólo se utiliza desde el DTO de personas.
+	 * No debe considerarse como ejemplo para otras funciones
+	 * y no debe usarse fuera del scope de los DTO's
+	 *
+	 * @author cgajardo
+	 * @param int $persona_id
+	 * @return boolean
+	 */
 	public function checkRolProfesor($persona_id);
 	
 	/**

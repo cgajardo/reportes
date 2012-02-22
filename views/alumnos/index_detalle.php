@@ -25,7 +25,7 @@
 ?>
 </table>
 </br>
-<a href="<?php echo $_SERVER['PHP_SELF'].'?rt=reportes/index';?>">Volver</a>
+<a href="<?php echo str_replace("index.php","",$_SERVER['PHP_SELF']).'reportes/index';?>">Volver</a>
 </body>
 </html>
 

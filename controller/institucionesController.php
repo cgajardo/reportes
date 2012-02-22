@@ -1,44 +1,65 @@
 <?php
 
-Class sedesController Extends baseController {
+Class institucionesController Extends baseController {
 
-public function index() 
-{
-        $this->registry->template->sedes = DAOFactory::getInstitucionesDAO()->queryAll();
-        $this->registry->template->show('instituciones/index');
-        
+public function index() {
+	$instituciones = DAOFactory::getInstitucionesDAO()->queryAll();
+	$this->registry->template->instituciones = DAOFactory::getInstitucionesDAO()->queryAll();
+	$this->registry->template->show('instituciones/index');  
 }
 
 public function agregar(){
-	$sede = new Sede();
-	$this->editar($sede);
+	$institucion = new Institucione();
+	$this->editar($institucion);
 }
 
 public function guardar(){
-	if(!isset($_POST['nombre'])){
-		return $this->index();
-	}
-	$sede = new Sede();
-	$sede->nombre = $_POST['nombre'];
-	$sede->pais = $_POST['pais'];
-	$sede->region = $_POST['region'];
-	$sede->ciudad = $_POST['ciudad'];
-	DAOFactory::getSedesDAO()->insert($sede);
 	
-	$this->registry->template->mensaje_exito = "Sede agregada correctamente";
-
-	$this->index();
+	if(!isset($_POST['nombre']) || !isset($_POST['nombreCorto']) 
+			|| !isset($_POST['prefijo']) || !isset($_POST['notaAprobado'])){
+		
+		$this->registry->template->mensaje = "Todos los campos son requeridos.";
+		//probablemente con un mensaje de error
+		$this->registry->template->ruta = "instituciones";
+		$this->registry->template->show('enrutador');
+	}
+	
+	if(isset($_POST['id'])){
+		$institucion = DAOFactory::getInstitucionesDAO()->load($_POST['id']);
+	}else{
+		$institucion = new Institucione();
+	}
+	
+	$institucion->nombre = $_POST['nombre'];
+	$institucion->nombreCorto = $_POST['nombreCorto'];
+	$institucion->prefijoEvaluacion = $_POST['prefijo'];
+	$institucion->notaAprobado = $_POST['notaAprobado'];
+	$institucion->plataforma = $_POST['plataforma'];
+	
+	if(isset($_POST['id'])){
+		DAOFactory::getInstitucionesDAO()->update($institucion);
+		$this->registry->template->mensaje = "Instituci&oacute;n actualizada correctamente";
+	}else{
+		DAOFactory::getInstitucionesDAO()->insert($institucion);
+		$this->registry->template->mensaje = "Instituci&oacute;n agregada correctamente";
+	}
+	
+	
+	$this->registry->template->ruta = "instituciones";
+	$this->registry->template->show('enrutador');
 }
 
-public function editar($sede = null){
-	if($sede == null){
+public function editar($institucion = null){
+	if($institucion == null){
 		$id = $_GET['id'];
-		$sede = DAOFactory::getSedesDAO()->load($id);
+		$institucion = DAOFactory::getInstitucionesDAO()->load($id);
+		$this->registry->template->update = true;
 	}
-	$this->registry->template->sede = $sede;
 	
+	$this->registry->template->institucion = $institucion;
+	$this->registry->template->plataformas = DAOFactory::getPlataformasDAO()->queryAll();
 	//finally
-	$this->registry->template->show('sedes/editar');
+	$this->registry->template->show('instituciones/editar');
 }
 
 
@@ -53,11 +74,12 @@ public function view(){
 
 public function eliminar(){
 	$id = $_GET['id'];
-	DAOFactory::getSedesDAO()->delete($id);
-
-	//TODO enviar mensajes de 'eliminacion correcta'
-	$this->registry->template->mensaje_exito = "Sede eliminada correctamente";
-	$this->index();
+	DAOFactory::getInstitucionesDAO()->delete($id);
+	
+	$this->registry->template->mensaje_exito = "Institucion eliminada correctamente";
+	
+	$this->registry->template->ruta = "instituciones";
+	$this->registry->template->show('enrutador');
 
 }
 

@@ -13,7 +13,7 @@ interface UsuariosDAO{
 	 * @param String $id primary key
 	 * @Return Usuarios 
 	 */
-	public function load($id, $email);
+	public function load($id);
 
 	/**
 	 * Get all records from table
@@ -55,14 +55,10 @@ interface UsuariosDAO{
 
 	public function queryByApellidos($value);
 
-	public function queryByPassword($value);
-
 
 	public function deleteByNombres($value);
 
 	public function deleteByApellidos($value);
-
-	public function deleteByPassword($value);
 
 
 }

@@ -7,10 +7,12 @@ Abstract Class baseController {
  */
 protected $registry;
 protected $encrypter;
+protected $mailer;
 
 function __construct($registry) {
 	$this->registry = $registry;
 	$this->encrypter = new Encrypter();
+	$this->mailer = new Mailer();
 }
 
 /**

@@ -13,11 +13,10 @@ class UsuariosMySqlDAO implements UsuariosDAO{
 	 * @param String $id primary key
 	 * @return UsuariosMySql 
 	 */
-	public function load($id, $email){
-		$sql = 'SELECT * FROM usuarios WHERE id = ?  AND email = ? ';
+	public function load($id){
+		$sql = 'SELECT * FROM usuarios WHERE id = ? ';
 		$sqlQuery = new SqlQuery($sql);
 		$sqlQuery->setNumber($id);
-		$sqlQuery->setNumber($email);
 
 		return $this->getRow($sqlQuery);
 	}
@@ -64,14 +63,12 @@ class UsuariosMySqlDAO implements UsuariosDAO{
 		$sql = 'INSERT INTO usuarios (nombres, apellidos, password, id, email) VALUES (?, ?, ?, ?, ?)';
 		$sqlQuery = new SqlQuery($sql);
 		
-		$sqlQuery->set($usuario->nombres);
-		$sqlQuery->set($usuario->apellidos);
-		$sqlQuery->set($usuario->password);
+		$sqlQuery->setString($usuario->nombres);
+		$sqlQuery->setString($usuario->apellidos);
+		$sqlQuery->setString($usuario->password);
 
-		
 		$sqlQuery->setNumber($usuario->id);
-
-		$sqlQuery->setNumber($usuario->email);
+		$sqlQuery->setString($usuario->email);
 
 		$this->executeInsert($sqlQuery);	
 		//$usuario->id = $id;
@@ -87,14 +84,12 @@ class UsuariosMySqlDAO implements UsuariosDAO{
 		$sql = 'UPDATE usuarios SET nombres = ?, apellidos = ?, password = ? WHERE id = ?  AND email = ? ';
 		$sqlQuery = new SqlQuery($sql);
 		
-		$sqlQuery->set($usuario->nombres);
-		$sqlQuery->set($usuario->apellidos);
-		$sqlQuery->set($usuario->password);
-
+		$sqlQuery->setString($usuario->nombres);
+		$sqlQuery->setString($usuario->apellidos);
+		$sqlQuery->setString($usuario->password);
 		
 		$sqlQuery->setNumber($usuario->id);
-
-		$sqlQuery->setNumber($usuario->email);
+		$sqlQuery->setString($usuario->email);
 
 		return $this->executeUpdate($sqlQuery);
 	}
@@ -122,14 +117,6 @@ class UsuariosMySqlDAO implements UsuariosDAO{
 		return $this->getList($sqlQuery);
 	}
 
-	public function queryByPassword($value){
-		$sql = 'SELECT * FROM usuarios WHERE password = ?';
-		$sqlQuery = new SqlQuery($sql);
-		$sqlQuery->set($value);
-		return $this->getList($sqlQuery);
-	}
-
-
 	public function deleteByNombres($value){
 		$sql = 'DELETE FROM usuarios WHERE nombres = ?';
 		$sqlQuery = new SqlQuery($sql);
@@ -139,13 +126,6 @@ class UsuariosMySqlDAO implements UsuariosDAO{
 
 	public function deleteByApellidos($value){
 		$sql = 'DELETE FROM usuarios WHERE apellidos = ?';
-		$sqlQuery = new SqlQuery($sql);
-		$sqlQuery->set($value);
-		return $this->executeUpdate($sqlQuery);
-	}
-
-	public function deleteByPassword($value){
-		$sql = 'DELETE FROM usuarios WHERE password = ?';
 		$sqlQuery = new SqlQuery($sql);
 		$sqlQuery->set($value);
 		return $this->executeUpdate($sqlQuery);

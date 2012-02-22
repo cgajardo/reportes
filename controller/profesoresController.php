@@ -25,7 +25,7 @@ public function reporte(){
 	$grupo_id=$PARAMS['grupo'];
 	$quiz_id = $PARAMS['quiz'];
 	$rol = $usuario->getRolEnGrupo($grupo_id);
-	if($rol != "profesor"){
+	if($rol != "profesor" && $rol != "rector"){
 		$this->registry->template->mesaje_personalizado = "Tu rol no corresponde al de profesor.</br>".
 				"Por lo tanto no puedes revisar el contenido de esta p&aacute;gina. ";
 		//finally
@@ -93,7 +93,7 @@ public function index(){
 	session_start();
 	
 	//578, 586, 587, 599, 581, 574
-	@$PARAMS = $this->encrypter->decodeURL($_GET['params']);
+	$PARAMS = $this->encrypter->decodeURL($_GET['params']);
 	
 	//var_dump($PARAMS);
 	// el usuario y la plataforma siempre vendrán en session

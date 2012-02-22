@@ -1,6 +1,7 @@
 <?php
 
 include_once 'encrypter.php';
+include_once 'mailer.php';
 
 
 /**

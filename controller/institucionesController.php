@@ -4,7 +4,7 @@ Class institucionesController Extends baseController {
 
 public function index() {
 	$instituciones = DAOFactory::getInstitucionesDAO()->queryAll();
-	$this->registry->template->instituciones = DAOFactory::getInstitucionesDAO()->queryAll();
+	$this->registry->template->instituciones = $instituciones;
 	$this->registry->template->show('instituciones/index');  
 }
 

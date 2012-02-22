@@ -82,4 +82,6 @@ public function eliminar(){
 	$this->registry->template->show('enrutador');
 
 }
+
+}
 ?>

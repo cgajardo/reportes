@@ -93,7 +93,7 @@ public function index(){
 	session_start();
 	
 	//578, 586, 587, 599, 581, 574
-	$PARAMS = $this->encrypter->decodeURL($_GET['params']);
+	@$PARAMS = $this->encrypter->decodeURL($_GET['params']);
 	
 	//var_dump($PARAMS);
 	// el usuario y la plataforma siempre vendrán en session

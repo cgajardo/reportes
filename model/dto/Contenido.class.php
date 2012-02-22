@@ -8,9 +8,16 @@
 	class Contenido{
 		
 		var $id;
-		var $nombre;
-		var $linkRepaso;
-		var $fraseNoLogrado;
-		var $fraseLogrado;		
+
+		var $nombre;
+
+		var $linkRepaso;
+
+		var $fraseNoLogrado;
+
+		var $fraseLogrado;
+                
+                var $padre;
+		
 	}
 ?>

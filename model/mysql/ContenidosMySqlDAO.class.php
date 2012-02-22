@@ -240,6 +240,7 @@ class ContenidosMySqlDAO implements ContenidosDAO{
 		$contenido->linkRepaso = $row['link_repaso'];
 		$contenido->fraseNoLogrado = $row['frase_no_logrado'];
 		$contenido->fraseLogrado = $row['frase_logrado'];
+                $contenido->padre = $row['padre'];
 
 		return $contenido;
 	}
@@ -294,5 +295,16 @@ class ContenidosMySqlDAO implements ContenidosDAO{
 	protected function executeInsert($sqlQuery){
 		return QueryExecutor::executeInsert($sqlQuery);
 	}
+
+    public function queryAllWithPadre() {
+        
+            $sql = 'SELECT c1.id,c1.nombre,c1.nombre,c1.link_repaso,c1.frase_no_logrado,c1.frase_logrado,c2.nombre AS padre '.
+                   'FROM contenidos c1 LEFT JOIN contenidos c2 ON c1.padre=c2.id';
+            
+            $sqlQuery= new SqlQuery($sql);
+            
+            return $this->getList($sqlQuery);
+        
+    }
 }
 ?>

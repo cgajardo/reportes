@@ -79,6 +79,8 @@ interface ContenidosDAO{
 	public function deleteByFraseLogrado($value);
 
 	public function deleteByContenidoPadre($value);
+        
+        public function queryAllWithPadre();
 
 
 }

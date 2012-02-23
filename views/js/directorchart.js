@@ -1,7 +1,7 @@
 	
 /**
- * Esta funci—n se encarga de responder din‡micamente los pedidos que
- * se realizan sobre el gr‡fico para directores.
+ * Esta funciï¿½n se encarga de responder dinï¿½micamente los pedidos que
+ * se realizan sobre el grï¿½fico para directores.
  * 
  * @author cgajardo
  * @date 2012-02-07
@@ -21,7 +21,7 @@ function loadCursos(){
     	for (var i = 0; i < selection.length; i++) {
     		var item = selection[i]; 
     	    if (item.row != null) {
-    	   	sede = data['G'][item.row]['c'][0]['v'];
+    	   	sede = data['F'][item.row]['c'][0]['v'];
     	    } else {
     	    	alert("error");
     	    }
@@ -41,7 +41,7 @@ function loadCursos(){
       			//document.getElementById("myDiv").innerHTML=xmlhttp.responseText;
       			var j = JSON.parse(xmlhttp.responseText);
       			last_data = j;
-            	//se sobreescribe el gr‡fico 
+            	//se sobreescribe el grï¿½fico 
       			chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
 
             	data = new google.visualization.DataTable();
@@ -163,7 +163,7 @@ function loadAlumnos(){
    	xmlhttp.send();
 }
 
-//Muestra la matriz de desempe–o de un alumno
+//Muestra la matriz de desempeï¿½o de un alumno
 function loadAlumno(){
 	var xmlhttp;
 	var selection = chart.getSelection();

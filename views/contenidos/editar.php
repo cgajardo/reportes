@@ -19,8 +19,14 @@ Contenido Padre<select><option value="0">NO TIENE CONTENIDO PADRE</option>
             }
         }
     }
+
 ?>
 </select>
+<?php
+    if(isset($contenido)){
+        echo '<input name="id" value="'.$_POST['id']=$contenido->id.'" hidden readonly/>';
+    }
+?>
 <input type="submit" value="Guardar"/>
 </form>
 </body>

@@ -33,7 +33,13 @@ public function guardar(){
 	$contenido->linkRepaso = $_POST['linkRepaso'];
 	$contenido->fraseLogrado = $_POST['fraseLogrado'];
 	$contenido->fraseNoLogrado = $_POST['fraseNoLogrado'];
-	DAOFactory::getContenidosDAO()->insert($contenido);
+	$contenido->padre = $_POST['padre'];
+	if(isset($_POST['id'])){
+            $contenido->id=$_POST['id'];
+            DAOFactory::getContenidosDAO()->update($contenido);
+        }else{
+            DAOFactory::getContenidosDAO()->insert($contenido);
+        }
 	
 	$this->index();
 }

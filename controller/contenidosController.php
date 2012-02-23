@@ -51,7 +51,7 @@ public function editar($contenido = null){
 	}
 	
 	$this->registry->template->contenido = $contenido;
-	$this->registry->template->contenidos = DAOFactory::getContenidosDAO()->queryAll();
+	$this->registry->template->contenidos = DAOFactory::getContenidosDAO()->queryAllWithPadre();
 	//finally
 	$this->registry->template->show('contenidos/editar');
 	

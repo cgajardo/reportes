@@ -133,7 +133,7 @@ class ContenidosMySqlDAO implements ContenidosDAO{
  	 * @param ContenidosMySql contenido
  	 */
 	public function update($contenido){
-		$sql = 'UPDATE contenidos SET nombre = ?, link_repaso = ?, frase_no_logrado = ?, frase_logrado = ?, contenido_padre = ? WHERE id = ?';
+		$sql = 'UPDATE contenidos SET nombre = ?, link_repaso = ?, frase_no_logrado = ?, frase_logrado = ?, padre= ? WHERE id = ?';
 		$sqlQuery = new SqlQuery($sql);
 		
 		$sqlQuery->set($contenido->nombre);
@@ -299,13 +299,20 @@ class ContenidosMySqlDAO implements ContenidosDAO{
 
     public function queryAllWithPadre() {
         
-            $sql = 'SELECT c1.id,c1.nombre,c1.nombre,c1.link_repaso,c1.frase_no_logrado,c1.frase_logrado,c2.nombre AS padre '.
-                   'FROM contenidos c1 LEFT JOIN contenidos c2 ON c1.padre=c2.id';
-            
-            $sqlQuery= new SqlQuery($sql);
-            
-            return $this->getList($sqlQuery);
+                $sql = 'SELECT c1.id,c1.nombre,c1.nombre,c1.link_repaso,c1.frase_no_logrado,c1.frase_logrado,c2.nombre AS padre '.
+                    'FROM contenidos c1 LEFT JOIN contenidos c2 ON c1.padre=c2.id';
+
+                $sqlQuery= new SqlQuery($sql);
+
+                return $this->getList($sqlQuery);
         
+    }
+
+    public function loadWithPadre($id) {
+                $sql = 'SELECT c1.id,c1.nombre,c1.link_repaso,c1.frase_logrado,c1.frase_no_logrado,c2.nombre AS padre FROM contenidos c1 LEFT JOIN contenidos c2 ON c1.padre=c2.id WHERE c1.id = ?';
+		$sqlQuery = new SqlQuery($sql);
+		$sqlQuery->setNumber($id);
+		return $this->getRow($sqlQuery);
     }
 }
 ?>

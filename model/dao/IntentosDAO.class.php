@@ -113,6 +113,6 @@ interface IntentosDAO{
 	*/
 	public function getIntentosByUsuarioQuizPregunta($idPersona, $idQuiz, $idPregunta);
 	
-
+        public function getLogroPorContenidoWithPadre($id_quiz,$id_usuario);
 }
 ?>

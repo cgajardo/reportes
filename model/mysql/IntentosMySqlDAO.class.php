@@ -563,7 +563,7 @@ class IntentosMySqlDAO implements IntentosDAO{
 		$tab = QueryExecutor::execute($sqlQuery);
 		$ret = array();
 		for($i=0;$i<count($tab);$i++){
-			$contenido = DAOFactory::getContenidosDAO()->load($tab[$i]['contenido']);
+			$contenido = DAOFactory::getContenidosDAO()->loadWithPadre($tab[$i]['contenido']);
 			$ret[$i] = array('contenido' => $contenido, 'logro'=> $tab[$i]['logro'], 'numero_preguntas' => $tab[$i]['numero_preguntas']);
 		}
 		return $ret;
@@ -617,6 +617,37 @@ class IntentosMySqlDAO implements IntentosDAO{
 	protected function executeInsert($sqlQuery){
 		return QueryExecutor::executeInsert($sqlQuery);
 	}
+
+    public function getLogroPorContenidoWithPadre($id_quiz, $id_usuario) {
+            $sql = 'SELECT * FROM (
+                        SELECT nombre, apellido,x.* FROM personas p JOIN (
+                        SELECT id_persona,logro,t2.numero_intento,t2.id_contenido as contenido,n as numero_preguntas FROM
+                        (
+                        SELECT id_persona, sum(puntaje_alumno)/sum(maximo_puntaje)*100 AS logro, numero_intento, id_contenido FROM (
+                        SELECT i.*,p.id_contenido FROM intentos i JOIN preguntas p ON i.id_pregunta=p.id
+                        WHERE i.id_quiz=?
+                        ORDER BY id_persona,numero_intento,id_contenido) as t
+                        GROUP BY id_persona,numero_intento,id_contenido) as t2
+                        JOIN (SELECT numero_intento,id_contenido,n FROM (
+                        SELECT id_persona,numero_intento,id_contenido,count(*) AS n FROM (
+                        SELECT i.*,p.id_contenido FROM intentos i JOIN preguntas p ON i.id_pregunta=p.id
+                        WHERE i.id_quiz = ?
+                        ORDER BY id_persona) as t
+                        GROUP BY id_persona,numero_intento,id_contenido) as s
+                        GROUP BY id_contenido
+                        ) as t3 ON t2.id_contenido=t3.id_contenido AND t2.numero_intento=t3.numero_intento
+                        ) as x ON p.id=x.id_persona JOIN grupos_has_estudiantes ge ON ge.id_persona=x.id_persona) as t
+                        WHERE id_persona=? ';
+		
+                $sqlQuery = new SqlQuery($sql);
+                $sqlQuery->setNumber($id_quiz);
+                $sqlQuery->setNumber($id_quiz);
+                $sqlQuery->setNumber($id_usuario);
+                
+		//echo $sqlQuery->getQuery();
+		//echo "<hr/>";
+		return $this->getContenidoLogroArray($sqlQuery);
+    }
 	
 	
 }

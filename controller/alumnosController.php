@@ -159,14 +159,25 @@ public function nivelacion(){
 
 	$institucion = DAOFactory::getInstitucionesDAO()-> getInstitucionByNombrePlataforma($platform);
 	$grupo = DAOFactory::getGruposDAO()->getGrupoByCursoAndUser($usuario->id, $curso->id);
-        $quiz = DAOFactory::getQuizesDAO()->queryCerradosByIdCurso($curso->id);
-	$nota_alumno = DAOFactory::getIntentosDAO()->getNotaInQuizByPersona($quiz->id, $usuario->id);
-	$contenido_logro = DAOFactory::getIntentosDAO()->getLogroPorContenido($quiz->id, $usuario->id);
+        $quizes_en_curso = DAOFactory::getQuizesDAO()->queryCerradosByIdCurso($curso->id);
+        foreach($quizes_en_curso as $quiz){
+            foreach(DAOFactory::getIntentosDAO()->getLogroPorContenidoWithPadre($quiz->id, $usuario->id) as $contenido){
+                if(isset($contenido_logro[$contenido['contenido']->padre][$contenido['contenido']->nombre])){
+                    $contenido_logro[$contenido['contenido']->padre][$contenido['contenido']->nombre]=max(array($contenido['logro'],$contenido_logro[$contenido['contenido']->padre][$contenido['contenido']->nombre]));
+                }else{
+                    $contenido_logro[$contenido['contenido']->padre][$contenido['contenido']->nombre]=$contenido['logro'];
+                }
+            }
+        }
+        $this->registry->template->contenido_logro = $contenido_logro;
+	/*$nota_alumno = DAOFactory::getIntentosDAO()->getNotaInQuizByPersona($quiz->id, $usuario->id);
+        
+	
 
 	// esto es lo necesario para la matriz de desempeño, TODO: debería tener su vista propia?
         /*foreach($_SESSION as $id=>$x){
             print $id.'<br/>';
-        }*/
+        }
 	$matriz_desempeño = array();
 	
 	
@@ -174,15 +185,6 @@ public function nivelacion(){
 // 		$matriz_desempeño = $_SESSION['matriz_desempeno'];
 // 	}
 // 	else{
-		foreach ($quizes_en_curso as $quiz_en_curso){
-			$logro_contenido = DAOFactory::getIntentosDAO()->getLogroPorContenido($quiz_en_curso->id, $usuario->id);
-			if(empty($logro_contenido)){
-				$matriz_desempeño[$quiz_en_curso->nombre] = DAOFactory::getContenidosDAO()->getContenidosByQuiz($quiz_en_curso->id);
-			}else{
-				$matriz_desempeño[$quiz_en_curso->nombre] = $logro_contenido;
-			}
-		}
-// 	}
 	//calculamos el tiempo que paso el usuario entre quizes
 	//$inicio = '1970-01-01 12:00:00';
 	//hoy será hace 1 mes atrás
@@ -195,26 +197,26 @@ public function nivelacion(){
 		$semana_pasada = $hoy - (7 * 24 * 60 * 60);
 	}
 
-	//enviamos los siguientes valores a la vista
+	//enviamos los siguientes valores a la vista*/
 	$this->registry->template->titulo = 'Reporte Estudiante';
 	$this->registry->template->usuario = $usuario;
-	$this->registry->template->notas_grupo = $notas_grupo;
-	$this->registry->template->promedio_grupo = promedio_grupo($notas_grupo,count($estudiantes_en_grupo));
-	$this->registry->template->nota_alumno = $nota_alumno[0];
-	$this->registry->template->posicion_en_grupo = posicion($notas_grupo, $nota_alumno[0]);
-	$this->registry->template->total_estudiantes_grupo = count($estudiantes_en_grupo);
-	$this->registry->template->nombre_actividad = $quiz->nombre;
-	$this->registry->template->fecha_cierre = $quiz->fechaCierre;
-	$this->registry->template->contenido_logro = $contenido_logro;
+	//$this->registry->template->notas_grupo = $notas_grupo;
+	//$this->registry->template->promedio_grupo = promedio_grupo($notas_grupo,count($estudiantes_en_grupo));
+	//$this->registry->template->nota_alumno = $nota_alumno[0];
+	//$this->registry->template->posicion_en_grupo = posicion($notas_grupo, $nota_alumno[0]);
+	//$this->registry->template->total_estudiantes_grupo = count($estudiantes_en_grupo);
+	$this->registry->template->nombre_actividad = 'Nivelacion';
+	//$this->registry->template->fecha_cierre = $quiz->fechaCierre;
+	//$this->registry->template->contenido_logro = $contenido_logro;
 	$this->registry->template->nombre_curso = $curso->nombre;
 	$this->registry->template->nombre_grupo = $grupo->nombre;
 	$this->registry->template->institucion = $institucion;
-	$this->registry->template->matriz_desempeño = $matriz_desempeño;
-	$this->registry->template->tiempos_semanas = $tiempos_semanas;
+	//$this->registry->template->matriz_desempeño = $matriz_desempeño;
+	//$this->registry->template->tiempos_semanas = $tiempos_semanas;
 
-
+        
 	//finally
-	$this->registry->template->show('alumnos/reporte');
+	$this->registry->template->show('alumnos/nivelacion');
 }
 
 

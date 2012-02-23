@@ -109,7 +109,7 @@ foreach ($notas_grupo as $nota) {
                         for (var i = 0; i < selection.length; i++) {
                                 var item = selection[i];
                             if (item.row != null) {
-                                alumno = data['G'][item.row]['c'][0]['v'];
+                                alumno = data['F'][item.row]['c'][0]['v'];
                             } else {
                                 alert("error");
                             }
@@ -178,7 +178,7 @@ foreach ($notas_grupo as $nota) {
                         for (var i = 0; i < selection.length; i++) {
                                 var item = selection[i];
                             if (item.row != null) {
-                                alumno = data['G'][item.row]['c'][0]['v'];
+                                alumno = data['F'][item.row]['c'][0]['v'];
                             } else {
                                 alert("error");
                             }

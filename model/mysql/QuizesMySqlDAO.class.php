@@ -16,9 +16,11 @@ class QuizesMySqlDAO implements QuizesDAO{
 	 */
 	public function queryEvaluacionesByIdCurso($id_curso){
 		$sql = 'SELECT q.* '.
-				'FROM quizes AS q '.
-				'WHERE id_curso = ? AND nombre LIKE "%evalua%" '.
-				'ORDER BY fecha_cierre ASC';
+                        'FROM quizes AS q JOIN plataforma_quiz pq ON q.id=pq.id_quiz '. 
+                        'JOIN plataformas p ON pq.id_plataforma=p.id '. 
+                        'JOIN instituciones i ON i.id_plataforma=p.id '.
+                        'WHERE id_curso = ? AND q.nombre REGEXP prefijo_tarea '. 
+                        'ORDER BY fecha_cierre ASC';
 		
 		$sqlQuery = new SqlQuery($sql);
 		$sqlQuery->set($id_curso);
@@ -53,7 +55,12 @@ class QuizesMySqlDAO implements QuizesDAO{
 	 * @param int $curso_id
 	 */
 	public function queryCerradosByIdCurso($curso_id){
-		$sql = 'SELECT * FROM quizes WHERE id_curso = ? AND fecha_cierre > 0 AND fecha_cierre < NOW() ORDER BY fecha_cierre ASC';
+		$sql = 'SELECT q.* '.
+                        'FROM quizes AS q JOIN plataforma_quiz pq ON q.id=pq.id_quiz '. 
+                        'JOIN plataformas p ON pq.id_plataforma=p.id '. 
+                        'JOIN instituciones i ON i.id_plataforma=p.id '.
+                        'WHERE id_curso = ? AND q.nombre REGEXP prefijo_tarea '. 
+                        'AND fecha_cierre > 0 AND fecha_cierre < NOW() ORDER BY fecha_cierre ASC';
 		$sqlQuery = new SqlQuery($sql);
 		$sqlQuery->set($curso_id);
 		return $this->getList($sqlQuery);

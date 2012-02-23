@@ -184,6 +184,7 @@ class InstitucionesMySqlDAO implements InstitucionesDAO{
 		$institucione->nombre = $row['nombre'];
 		$institucione->nombreCorto = $row['nombre_corto'];
 		$institucione->prefijoEvaluacion = $row['prefijo_tarea'];
+		$institucione->notaSuficiente = $row['rango_suficiente'];
 		$institucione->notaAprobado = $row['rango_aprobado'];
 		$institucione->plataforma = DAOFactory::getPlataformasDAO()->load($row['id_plataforma']);
 
@@ -240,5 +241,34 @@ class InstitucionesMySqlDAO implements InstitucionesDAO{
 	protected function executeInsert($sqlQuery){
 		return QueryExecutor::executeInsert($sqlQuery);
 	}
+
+    public function getInstitucionByAlumno($id_usuario) {
+                $sql = 'SELECT i.* FROM  grupos_has_estudiantes ge '. 
+                        'JOIN grupos g ON ge.id_grupo=g.id '. 
+                        'JOIN instituciones i ON g.id_institucion=i.id '.
+                        'WHERE ge.id_persona=?';
+                
+                $sqlQuery = new SqlQuery($sql);
+                $sqlQuery->setNumber($id_usuario);
+                
+                return $this->getRow($sqlQuery);
+    }
+
+    public function getInstitucionByProfesor($id_usuario) {
+                $sql = 'SELECT i.* FROM  grupos_has_profesores gp '. 
+                        'JOIN grupos g ON gp.id_grupo=g.id '. 
+                        'JOIN instituciones i ON g.id_institucion=i.id '.
+                        'WHERE gp.id_persona=?';
+                
+                $sqlQuery = new SqlQuery($sql);
+                $sqlQuery->setNumber($id_usuario);
+                
+                return $this->getRow($sqlQuery);
+        
+    }
+
+    public function getInstitucionByDirectorPlataforma($id_usuario, $platform) {
+        
+    }
 }
 ?>

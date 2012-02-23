@@ -34,13 +34,13 @@
     		$celdas = '';
     		$logro_quiz = 0;
     		$total_preguntas = 0;
-    		
     		foreach ($unidad as $contenido=>$celda){
     			$celdas .= '<tr>';
     			//nos permite identificar si el control fue rendido o no
     			if($celda == -1){
     				$celdas .= '<td class="no_rendido">'.$contenido.'</td>';
     			}elseif($celda <= 45){
+                                $reforzamiento[$contenido] = $unidad[$contenido];
     				$celdas .= '<td class="insuficiente">'.$contenido.' ('.round($celda).'%)</td>';
     			}elseif($celda > 45 && $celda < 55 ){
     				$celdas .= '<td class="suficiente">'.$contenido.' ('.round($celda).'%)</td>';
@@ -74,7 +74,20 @@
     	</tr>
     	</table>
     </div>
-    
+    <div class="center">
+        <h2>Debes reforzar los siguientes contenidos:</h2><br/>
+        <?php
+            
+            $i=0;
+            foreach($reforzamiento as $cont=>$reforzamiento_contenido){
+                if($i==3){
+                    break;
+                }
+                echo '<li>'.$cont.'</li>';
+                $i++;
+            }
+        ?>
+    </div>
     <div class="author">Reporte preparado por Galyleo para <?php echo ucwords($institucion->nombre);?></div>
     <div class="footer"></div>
   </body>

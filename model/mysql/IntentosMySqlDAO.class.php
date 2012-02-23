@@ -39,30 +39,7 @@ class IntentosMySqlDAO implements IntentosDAO{
 	 * @param int $id_usuario
 	 */
 	public function getLogroPorContenido($id_quiz, $id_usuario){
-		/*$sql = 'SELECT i.numero_intento as intento, '. 
-        		'sum(i.puntaje_alumno)/sum(i.maximo_puntaje)*100 as logro '.        
-				'FROM intentos AS i, preguntas as p, quizes_has_preguntas as qp '. 
-        		'WHERE p.id = i.id_pregunta AND i.id_persona = ? AND i.id_quiz = ? AND p.id = qp.id_pregunta '. 
-        		'GROUP BY i.numero_intento ';
 		
-		$sqlQuery = new SqlQuery($sql);
-		$sqlQuery->setNumber($id_usuario);
-		$sqlQuery->setNumber($id_quiz);
-		
-		$mayor_intento = $this->getIntentoConMayorPuntaje($sqlQuery);
-		
-		$sql = 'SELECT p.id_contenido as contenido, '.
-		'round(sum(i.puntaje_alumno)/sum(i.maximo_puntaje)*100) as logro, count(qp.id_pregunta) as numero_preguntas '. 
-		'FROM intentos  AS i, preguntas as p, quizes_has_preguntas as qp '. 
-		'WHERE p.id = i.id_pregunta AND i.id_persona = ? AND i.id_quiz = ? AND p.id = qp.id_pregunta AND i.numero_intento = ? '.
-		'GROUP BY p.id_contenido ';
-		
-		$sqlQuery = new SqlQuery($sql);
-		$sqlQuery->setNumber($id_usuario);
-		$sqlQuery->setNumber($id_quiz);
-		$sqlQuery->setNumber($mayor_intento);*/
-		//FIX: saber cuando hay distinta cantidad de preguntas en cada contenido
-		//81 +",n" 
                 $sql = 'SELECT * FROM (
                         SELECT nombre, apellido,x.* FROM personas p JOIN (
                         SELECT id_persona,logro,t2.numero_intento,t2.id_contenido as contenido,n as numero_preguntas FROM
@@ -174,8 +151,8 @@ class IntentosMySqlDAO implements IntentosDAO{
 	 * @return NotaLogro $logro
 	 */
 	public function getNotaInQuizByPersona($quiz_id, $usuario_id){
-		$sql = 'SELECT nc.id_persona, max(nc.nota) as nota, nc.nmax as nota_maxima '.
-				'FROM (SELECT id_persona, q.nota_maxima AS nmax, sum(puntaje_alumno)*q.nota_maxima/q.puntaje_maximo AS nota, numero_intento '.
+		$sql = 'SELECT nc.id_persona, max(nc.nota) as nota, nc.nmax as nota_maxima,nc.nmin AS nota_minima '.
+				'FROM (SELECT id_persona, q.nota_maxima AS nmax,q.nota_minima AS nmin, sum(puntaje_alumno)*(q.nota_maxima-q.nota_minima)/q.puntaje_maximo+q.nota_minima AS nota, numero_intento '.
 				'FROM intentos, quizes as q WHERE id_quiz = ? AND q.id = ? AND id_persona = ? '.
 				'GROUP BY id_persona, numero_intento) AS nc '.
 				'WHERE nc.nota <= nc.nmax GROUP BY nc.id_persona';
@@ -194,8 +171,8 @@ class IntentosMySqlDAO implements IntentosDAO{
 	 * @param int $grupo
 	 */
 	public function getNotasGrupo($quiz,$grupo){
-		$sql = 'SELECT nc.id_persona, max(nc.nota) as nota, nc.nmax as nota_maxima  '.
-				'FROM (SELECT id_persona, q.nota_maxima AS nmax, sum(puntaje_alumno)*q.nota_maxima/q.puntaje_maximo AS nota, numero_intento '.
+		$sql = 'SELECT nc.id_persona, max(nc.nota) as nota, nc.nmax as nota_maxima,nc.nmin AS nota_minima '.
+				'FROM (SELECT id_persona, q.nota_maxima AS nmax, q.nota_minima AS nmin, sum(puntaje_alumno)*(q.nota_maxima-q.nota_minima)/q.puntaje_maximo+q.nota_minima AS nota, numero_intento '.
 				'FROM intentos, quizes as q '.
 				' WHERE id_quiz = ? AND q.id = ? AND id_persona in ('.
 				'SELECT id_persona FROM grupos_has_estudiantes WHERE id_grupo = ?) '.
@@ -518,8 +495,8 @@ class IntentosMySqlDAO implements IntentosDAO{
 		for($i=0;$i<count($tab);$i++){
 			$notaLogro = new NotaLogro();
 			$notaLogro->id = $tab[$i]['id_persona'];
-			$notaLogro->nota = round($tab[$i]['nota']*$tab[$i]['nota_maxima']/100);
-			$notaLogro->logro =  round($tab[$i]['nota']);
+			$notaLogro->logro = round(($tab[$i]['nota']-$tab[$i]['nota_minima'])*($tab[$i]['nota_maxima']-$tab[$i]['nota_minima'])/100);
+			$notaLogro->nota =  round($tab[$i]['nota']);
             $ret[$i] = $notaLogro;
 		}
 		return $ret;

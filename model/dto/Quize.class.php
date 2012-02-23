@@ -8,11 +8,19 @@
 	class Quize{
 		
 		var $id;
-		var $nombre;
-		var $idCurso;
-		var $fechaCierre;
-		var $puntajeMaximo;
-		var $notaMaxima;
-		
+
+		var $nombre;
+
+		var $idCurso;
+
+		var $fechaCierre;
+
+		var $puntajeMaximo;
+
+		var $notaMaxima;
+                
+                var $notaMinima;
+
+		
 	}
 ?>

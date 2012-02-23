@@ -47,30 +47,30 @@
         chart.draw(data, options);
       }
     </script>
-	<!-- javascript for comparacion promedio -->
-	<script type="text/javascript">
-      google.load("visualization", "1", {packages:["corechart"]});
-      google.setOnLoadCallback(drawChart);
-      function drawChart() {
-        var data = new google.visualization.DataTable();
-        data.addColumn('string', 'Caso');
-        data.addColumn('number', 'Nota');
-        data.addRows([
-          ['Promedio Curso', <?php echo($promedio_grupo);?>],
-          ['Nota Alumno', <?php echo($nota_alumno->nota);?>]
-        ]);
+    <!-- javascript for comparacion promedio -->
+    <script type="text/javascript">
+    google.load("visualization", "1", {packages:["corechart"]});
+    google.setOnLoadCallback(drawChart);
+    function drawChart() {
+    var data = new google.visualization.DataTable();
+    data.addColumn('string', 'Caso');
+    data.addColumn('number', 'Nota');
+    data.addRows([
+        ['Promedio Curso', <?php echo($promedio_grupo);?>],
+        ['Nota Alumno', <?php echo($nota_alumno->nota);?>]
+    ]);
 
-        var options = {
-          width: 500, height: 340,
-          vAxis: {showTextEvery: 1,viewWindow: {min: 0}}
-        };
+    var options = {
+        width: 500, height: 340,
+        vAxis: {showTextEvery: 1,viewWindow: {min: 0}}
+    };
 
-        var chart = new google.visualization.ColumnChart(document.getElementById('comparacion_grupo'));
-        chart.draw(data, options);
-      }
-    </script>  
-	<!--  javascript para el tiempo en plataforma -->
-	<script type="text/javascript">
+    var chart = new google.visualization.ColumnChart(document.getElementById('comparacion_grupo'));
+    chart.draw(data, options);
+    }
+</script>  
+    <!--  javascript para el tiempo en plataforma -->
+    <script type="text/javascript">
       google.load("visualization", "1", {packages:["corechart"]});
       google.setOnLoadCallback(drawChart);
       function drawChart() {
@@ -121,11 +121,11 @@
     			//nos permite identificar si el control fue rendido o no
     			if($celda['logro'] == -1){
     				$celdas .= '<td class="no_rendido">'.$celda['contenido']->nombre.'</td>';
-    			}elseif($celda['logro'] <= 45){
+    			}elseif($celda['logro'] <= $institucion->notaSuficiente){
     				$celdas .= '<td class="insuficiente">'.$celda['contenido']->nombre.' ('.round($celda['logro']).'%)</td>';
-    			}elseif($celda['logro'] > 45 && $celda['logro'] < 55 ){
+    			}elseif($celda['logro'] > $institucion->notaSuficiente && $celda['logro'] < $institucion->notaAprobado ){
     				$celdas .= '<td class="suficiente">'.$celda['contenido']->nombre.' ('.round($celda['logro']).'%)</td>';
-    			}elseif ($celda['logro'] >= 55){
+    			}elseif ($celda['logro'] >= $institucion->notaAprobado){
     				$celdas .= '<td class="destacado">'.$celda['contenido']->nombre.' ('.round($celda['logro']).'%)</td>';
     			}else{
     				$celdas .= '<td class="no_rendido">'.$celda['contenido']->nombre.' ('.round($celda['logro']).'%)</td>';
@@ -152,9 +152,9 @@
     <div>
     	<table class="leyenda">
     	<tr>
-    		<td class="destacado">Logro &gt;= 55%</td>
-    		<td class="suficiente">45% &lt; Logro &lt;55%</td>
-    		<td class="insuficiente">Logro &lt;= 45%</td>
+    		<td class="destacado">Logro &gt;= <?php echo $porcentaje_aprobado; ?>%</td>
+    		<td class="suficiente"><?php echo $porcentaje_suficiente; ?>% &lt; Logro &lt;<?php echo $porcentaje_aprobado; ?>%</td>
+    		<td class="insuficiente">Logro &lt;= <?php echo $porcentaje_suficiente; ?>%</td>
     		<td class="no_rendido">A&uacute;n no rendido</td>
     	</tr>
     	</table>
@@ -176,7 +176,7 @@
 	    			//TODO: cuentan los controles no rendidos?
 	    			if($celda['logro'] == -1){
 	    				$no_logrado++;	
-	    			}elseif ($celda['logro'] >= 55){
+	    			}elseif ($celda['logro'] >= $porcentaje_aprobado){
 	    				$logrados++;
 	    			}else{
 	    				$no_logrado++;
@@ -197,13 +197,13 @@
     <div id="mensajes_personalizados">
     	<?php
     		foreach ($contenido_logro as $data){
-     			if($data['logro']>=55){
+     			if($data['logro']>=$porcentaje_aprobado){
      				echo '<div class="mensaje_suficiente"> Tu porcentaje de logro est&aacute; ';
-     				echo "por sobre el 55% en ".$data['contenido']->nombre.":</br>";
+     				echo "por sobre el ".$institucion->notaAprobado."% en ".$data['contenido']->nombre.":</br>";
      				echo $data['contenido']->fraseLogrado.".</br>";
      			} else{
      				echo '<div class="mensaje_insuficiente"> Tu porcentaje de logro est&aacute; ';
-     				echo "bajo el 55% en ".$data['contenido']->nombre.":</br>";
+     				echo "bajo el ".$institucion->notaAprobado."% en ".$data['contenido']->nombre.":</br>";
      				echo $data['contenido']->fraseNoLogrado.". Te recomendamos visitar: ".$data['contenido']->linkRepaso.".</br>";
      			}
      			echo '</div>';

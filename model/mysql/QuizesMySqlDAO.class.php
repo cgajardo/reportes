@@ -276,6 +276,7 @@ class QuizesMySqlDAO implements QuizesDAO{
 		$quize->fechaCierre = $row['fecha_cierre'];
 		$quize->puntajeMaximo = $row['puntaje_maximo'];
 		$quize->notaMaxima = $row['nota_maxima'];
+		$quize->notaMinima = $row['nota_minima'];
 
 		return $quize;
 	}

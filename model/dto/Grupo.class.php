@@ -8,8 +8,10 @@
 	class Grupo{
 		
 		var $id;
-		var $nombre;
-		var $idSede;
+
+		var $nombre;
+
+		var $idInstitucion;
 
 	}
 ?>

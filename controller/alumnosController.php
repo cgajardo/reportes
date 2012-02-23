@@ -12,7 +12,7 @@ public function index() {
 	$usuario = $_SESSION['usuario'];
 	$platform = $_SESSION['plataforma'];
 	$cursos_usuarios = DAOFactory::getCursosDAO()->getCursosByUsuario($usuario->id);
-	$institucion = DAOFactory::getInstitucionesDAO()-> getInstitucionByNombrePlataforma($platform);
+	$institucion = DAOFactory::getInstitucionesDAO()-> getInstitucionByAlumno($usuario->id);
 	$this->registry->template->institucion = $institucion;
 	
 	// redireccionamos al 404 si usuario no existe
@@ -78,7 +78,7 @@ public function reporte(){
 	$curso = DAOFactory::getCursosDAO()->load($curso_id);
 	$quiz = DAOFactory::getQuizesDAO()->load($quiz_id);
 
-	$institucion = DAOFactory::getInstitucionesDAO()-> getInstitucionByNombrePlataforma($platform);
+	$institucion = DAOFactory::getInstitucionesDAO()->getInstitucionByAlumno($usuario->id);
 	$grupo = DAOFactory::getGruposDAO()->getGrupoByCursoAndUser($usuario->id, $curso->id);
 	$estudiantes_en_grupo = DAOFactory::getPersonasDAO()->getEstudiantesInGroup($grupo->id);
 	$notas_grupo = DAOFactory::getIntentosDAO()->getNotasGrupo($quiz->id,$grupo->id);
@@ -130,6 +130,8 @@ public function reporte(){
 	$this->registry->template->contenido_logro = $contenido_logro;
 	$this->registry->template->nombre_curso = $curso->nombre;
 	$this->registry->template->nombre_grupo = $grupo->nombre;
+	$this->registry->template->porcentaje_aprobado = ($institucion->notaAprobado-$quiz->notaMinima)/($quiz->notaMaxima-$quiz->notaMinima)*100;
+	$this->registry->template->porcentaje_suficiente = ($institucion->notaSuficiente-$quiz->notaMinima)/($quiz->notaMaxima-$quiz->notaMinima)*100;
 	$this->registry->template->institucion = $institucion;
 	$this->registry->template->matriz_desempeño = $matriz_desempeño;
 	$this->registry->template->tiempos_semanas = $tiempos_semanas;

@@ -76,6 +76,12 @@ interface InstitucionesDAO{
 	public function deleteByNombre($value);
 
 	public function deleteByNombreCorto($value);
+        
+        public function getInstitucionByAlumno($id_usuario);
+        
+        public function getInstitucionByProfesor($id_usuario);
+        
+        public function getInstitucionByDirectorPlataforma($id_usuario,$platform);
 
 
 }

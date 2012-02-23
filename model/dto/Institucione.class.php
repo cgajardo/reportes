@@ -8,10 +8,14 @@
 	class Institucione{
 		
 		var $id;
-		var $nombre;
-		var $nombreCorto;
+
+		var $nombre;
+
+		var $nombreCorto;
 		
 		var $prefijoEvaluacion;
+                
+                var $notaSuficiente;
 		
 		var $notaAprobado;
 		

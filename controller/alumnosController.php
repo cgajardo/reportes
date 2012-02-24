@@ -161,16 +161,11 @@ public function nivelacion(){
 
 	$institucion = DAOFactory::getInstitucionesDAO()-> getInstitucionByNombrePlataforma($platform);
 	$grupo = DAOFactory::getGruposDAO()->getGrupoByCursoAndUser($usuario->id, $curso->id);
-        $quizes_en_curso = DAOFactory::getQuizesDAO()->queryCerradosByIdCurso($curso->id);
-        foreach($quizes_en_curso as $quiz){
-            foreach(DAOFactory::getIntentosDAO()->getLogroPorContenidoWithPadre($quiz->id, $usuario->id) as $contenido){
-                if(isset($contenido_logro[$contenido['contenido']->padre][$contenido['contenido']->nombre])){
-                    $contenido_logro[$contenido['contenido']->padre][$contenido['contenido']->nombre]=max(array($contenido['logro'],$contenido_logro[$contenido['contenido']->padre][$contenido['contenido']->nombre]));
-                }else{
-                    $contenido_logro[$contenido['contenido']->padre][$contenido['contenido']->nombre]=$contenido['logro'];
-                }
-            }
+        $quiz = DAOFactory::getQuizesDAO()->queryDiagnosticosByIdCurso($curso->id);
+        foreach(DAOFactory::getIntentosDAO()->getLogroPorContenidoWithPadre($quiz->id, $usuario->id) as $contenido){
+            $contenido_logro[$contenido['contenido']->padre][$contenido['contenido']->nombre]=$contenido['logro'];
         }
+        $notas_curso=  DAOFactory::getIntentosDAO()->getNotasCurso($quiz->id,$curso->id);
         $this->registry->template->contenido_logro = $contenido_logro;
 	/*$nota_alumno = DAOFactory::getIntentosDAO()->getNotaInQuizByPersona($quiz->id, $usuario->id);
         
@@ -202,7 +197,7 @@ public function nivelacion(){
 	//enviamos los siguientes valores a la vista*/
 	$this->registry->template->titulo = 'Reporte Estudiante';
 	$this->registry->template->usuario = $usuario;
-	//$this->registry->template->notas_grupo = $notas_grupo;
+	$this->registry->template->notas_curso = $notas_curso;
 	//$this->registry->template->promedio_grupo = promedio_grupo($notas_grupo,count($estudiantes_en_grupo));
 	//$this->registry->template->nota_alumno = $nota_alumno[0];
 	//$this->registry->template->posicion_en_grupo = posicion($notas_grupo, $nota_alumno[0]);

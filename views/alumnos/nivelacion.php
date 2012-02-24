@@ -24,8 +24,11 @@
   	</div>
   	<hr/>
   	<div class="descripcion">
-  		<p>Estimado alumno:</br>A continuaci&oacute;n podr&aacute;s ver tu matriz de 
-  		desempe&ntilde;o en las evaluacion rendidas a la fecha</p>
+  		<p>Estimado Estudiante:<br/>
+                    A continuaci&oacute;n podr&aacute; ver su Matriz de Desempe&ntilde;o en el diagn&oacute;stico, en la cual se presentan los 
+                contenidos medidos en esta evaluaci&oacute;n con sus respectivos porcentajes de logro. El objetivo es que 
+                <b>antes del 23 de marzo del 2012</b> pueda transformar la matriz completa a verde. Para esto se le 
+                indicar&aacute;n semanalmente qu&eacute; actividades debe realizar.</p>
   	</div> 
     <div class="subtitulo">Matriz de desempe&ntilde;o</div>
     <div id="matriz_desempeno">
@@ -43,6 +46,7 @@
                                 $reforzamiento[$contenido] = $unidad[$contenido];
     				$celdas .= '<td class="insuficiente">'.$contenido.' ('.round($celda).'%)</td>';
     			}elseif($celda > 45 && $celda < 55 ){
+                                $reforzamiento[$contenido] = $unidad[$contenido];
     				$celdas .= '<td class="suficiente">'.$contenido.' ('.round($celda).'%)</td>';
     			}elseif ($celda >= 55){
     				$celdas .= '<td class="destacado">'.$contenido.' ('.round($celda).'%)</td>';
@@ -75,16 +79,20 @@
     	</table>
     </div>
     <div class="center">
-        <h2>Debes reforzar los siguientes contenidos:</h2><br/>
         <?php
-            
-            $i=0;
-            foreach($reforzamiento as $cont=>$reforzamiento_contenido){
-                if($i==3){
-                    break;
+            if(isset($reforzamiento)){
+                echo '<h2>Debes reforzar los siguientes contenidos:</h2><br/>';
+                asort($reforzamiento);
+                $i=0;
+                foreach($reforzamiento as $cont=>$reforzamiento_contenido){
+                    if($i==3){
+                        break;
+                    }
+                    echo '<li>'.$cont.'</li>';
+                    $i++;
                 }
-                echo '<li>'.$cont.'</li>';
-                $i++;
+            }else{
+                echo '<h2>Felicitaciones tienes todos tus contenidos aprobados!!!</h2><br/>';
             }
         ?>
     </div>

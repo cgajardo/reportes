@@ -66,6 +66,19 @@ class QuizesMySqlDAO implements QuizesDAO{
 		$sqlQuery->set($curso_id);
 		return $this->getList($sqlQuery);
 	}
+        
+        public function queryDiagnosticosByIdCurso($curso_id){
+		$sql = 'SELECT q.* '. 
+                        'FROM quizes AS q '. 
+                        'JOIN sedes_has_cursos sc ON q.id_curso=sc.id_curso '.
+                        'JOIN sedes s ON sc.id_sede=s.id '.
+                        'JOIN instituciones i ON s.id_institucion=i.id '.
+                        'WHERE q.id_curso = ? AND q.nombre REGEXP i.prefijo_diagnostico '.
+                        'AND q.fecha_cierre > 0 AND q.fecha_cierre < NOW() ORDER BY nombre ASC';
+		$sqlQuery = new SqlQuery($sql);
+		$sqlQuery->set($curso_id);
+		return $this->getRow($sqlQuery);
+	}
 	
 	/**
 	 * Devuelve el quiz correspondiente en galyleo seg�n el id de quiz en moodle

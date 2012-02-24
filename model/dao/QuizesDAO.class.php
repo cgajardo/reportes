@@ -104,6 +104,7 @@ interface QuizesDAO{
 
 	public function deleteByNotaMaxima($value);
         
-
+        public function queryDiagnosticosByIdCurso($curso_id);
+        
 }
 ?>

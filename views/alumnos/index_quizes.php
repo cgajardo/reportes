@@ -18,8 +18,9 @@
 	<h1>Todas tus evaluaciones</h1>
 	<p><?php $nombre=explode(" ",$usuario->nombre); echo ucwords(strtolower($nombre[0]));?> 
 	selecciona una evaluaci&oacute;n para revisar tus notas</p>
-	  
+	
 	<?php
+        echo '<a href="'.str_replace("index.php","",$_SERVER['PHP_SELF']).'alumnos/nivelacion?params='.$encrypter->encode('&curso='.$id_curso).'">NIVELACION</a></br>';
 	foreach($quizes as $quiz){
 		
 		if($quiz->fechaCierre > date("Y-m-f H:m:s")){

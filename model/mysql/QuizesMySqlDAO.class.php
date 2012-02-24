@@ -55,12 +55,13 @@ class QuizesMySqlDAO implements QuizesDAO{
 	 * @param int $curso_id
 	 */
 	public function queryCerradosByIdCurso($curso_id){
-		$sql = 'SELECT q.* '.
-                        'FROM quizes AS q JOIN plataforma_quiz pq ON q.id=pq.id_quiz '. 
-                        'JOIN plataformas p ON pq.id_plataforma=p.id '. 
-                        'JOIN instituciones i ON i.id_plataforma=p.id '.
-                        'WHERE id_curso = ? AND q.nombre REGEXP prefijo_tarea '. 
-                        'AND fecha_cierre > 0 AND fecha_cierre < NOW() ORDER BY fecha_cierre ASC';
+		$sql = 'SELECT q.* '. 
+                        'FROM quizes AS q '. 
+                        'JOIN sedes_has_cursos sc ON q.id_curso=sc.id_curso '.
+                        'JOIN sedes s ON sc.id_sede=s.id '.
+                        'JOIN instituciones i ON s.id_institucion=i.id '.
+                        'WHERE q.id_curso = ? AND q.nombre REGEXP i.prefijo_tarea '.
+                        'AND q.fecha_cierre > 0 AND q.fecha_cierre < NOW() ORDER BY nombre ASC';
 		$sqlQuery = new SqlQuery($sql);
 		$sqlQuery->set($curso_id);
 		return $this->getList($sqlQuery);

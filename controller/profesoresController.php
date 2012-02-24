@@ -19,8 +19,8 @@ public function reporte(){
     //print $this->encrypter->encode("plataforma=utfsm&grupo=15&quiz=31");
 	$PARAMS = $this->encrypter->decodeURL($_GET['params']);
 	session_start();
-    $usuario = $_SESSION['usuario'];
-    $platform = $_SESSION['plataforma'];
+        $usuario = $_SESSION['usuario'];
+        $platform = $_SESSION['plataforma'];
 
 	$grupo_id=$PARAMS['grupo'];
 	$quiz_id = $PARAMS['quiz'];
@@ -39,10 +39,14 @@ public function reporte(){
 
 	
 	//recuperamos los objetos que nos interesan
-	$institucion = DAOFactory::getInstitucionesDAO()-> getInstitucionByNombrePlataforma($platform);
+	if($rol =="profesor"){
+            $institucion = DAOFactory::getInstitucionesDAO()-> getInstitucionByProfesor($usuario->id);
+        }else{
+            $institucion = DAOFactory::getInstitucionesDAO()-> getInstitucionByDirectorId($usuario->id);
+        }
 	$curso = DAOFactory::getCursosDAO()->getCursoByGrupoId($grupo->id);
 	$estudiantes_en_grupo = DAOFactory::getPersonasDAO()->getEstudiantesInGroup($grupo->id);
-    $notas_grupo = DAOFactory::getIntentosDAO()->getNotasNombreGrupo($quiz->id,$grupo->id);
+        $notas_grupo = DAOFactory::getIntentosDAO()->getNotasNombreGrupo($quiz->id,$grupo->id);
 	$contenido_logro = DAOFactory::getIntentosDAO()->getLogroPorContenidoGrupo($quiz->id);
 	//$nota_maxima= DAOFactory::getNotasDAO()->getMaxNotaInQuiz($quiz->id);
 	//enviamos los siguientes valores a la vista
@@ -50,7 +54,7 @@ public function reporte(){
 	$this->registry->template->curso = $curso;
 	$this->registry->template->grupo = $grupo;
 	$this->registry->template->platform = $platform;
-    $_SESSION['notas_grupo'] = $notas_grupo;
+        $_SESSION['notas_grupo'] = $notas_grupo;
 	$this->registry->template->quiz=$quiz;
 	$this->registry->template->estudiantes =$estudiantes_en_grupo;
 	$this->registry->template->total_estudiantes_grupo = count($estudiantes_en_grupo);
@@ -61,7 +65,10 @@ public function reporte(){
 	$this->registry->template->nombre_grupo = $grupo->nombre;
 	$this->registry->template->institucion = $institucion;
 	$this->registry->template->nota_maxima = $quiz->notaMaxima;
-        
+	$this->registry->template->nota_minima = $quiz->notaMinima;
+	$this->registry->template->porcentaje_aprobado = ($institucion->notaAprobado-$quiz->notaMinima)/($quiz->notaMaxima-$quiz->notaMinima)*100;
+	$this->registry->template->porcentaje_suficiente = ($institucion->notaSuficiente-$quiz->notaMinima)/($quiz->notaMaxima-$quiz->notaMinima)*100;
+                
 	// esto es lo necesario para la matriz de desempeño, TODO: deber�a tener su vista propia?
 	$quizes_en_curso = DAOFactory::getQuizesDAO()->queryCerradosByIdCurso($curso->id);
 	$matriz_desempeno = array();

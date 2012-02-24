@@ -8,13 +8,20 @@
 	class Persona{
 		
 		var $id;
-		var $nombre;
-		var $apellido;
-		var $usuario;
-		var $correo;
-		var $rut;
-		var $identificadorMoodle;
-		var $rolMoodle;
+
+		var $nombre;
+
+		var $apellido;
+
+		var $usuario;
+
+		var $correo;
+
+		var $rut;
+
+		var $identificadorMoodle;
+
+		var $rolMoodle;
 		
 		//esta funcion permite obtener el rol de un usuario en una plataforma dada
 		public function getRol(){
@@ -24,7 +31,7 @@
 			$esProfesor = DAOFactory::getPersonasDAO()->checkRolProfesor($this->id);
 			if($esProfesor)
 				return "profesor";
-			$esRector = DAOFactory::getPersonasDAO()->checkRolRector($this->id);
+			$esRector = DAOFactory::getUsuariosDAO()->checkRolRector($this->id);
 			if($esRector)
 				return "rector";
 		}
@@ -51,6 +58,7 @@
 					break;
 			}
 		}
-		
+
+		
 	}
 ?>

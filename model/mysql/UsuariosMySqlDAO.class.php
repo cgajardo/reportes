@@ -200,5 +200,21 @@ class UsuariosMySqlDAO implements UsuariosDAO{
 	protected function executeInsert($sqlQuery){
 		return QueryExecutor::executeInsert($sqlQuery);
 	}
+        
+        public function checkRolRector($persona_id){
+		$sql = 'SELECT * '. 
+			'FROM instituciones_has_directores '.
+			'WHERE id_usuario = ? ';
+		
+		$sqlQuery = new SqlQuery($sql);
+		$sqlQuery->setNumber($persona_id);
+		
+		$registros = QueryExecutor::execute($sqlQuery);
+		if(count($registros) == 0){
+			return FALSE;
+		}
+		
+		return TRUE;
+	}
 }
 ?>

@@ -30,7 +30,7 @@
           		echo '['.($id+1).', '.($nota->logro/100).'],';}
           };
           for($sinnotas = count($notas_grupo); $sinnotas < $total_estudiantes_grupo; $sinnotas++){
-          	echo ',['.$sinnotas.', 0]';
+          	echo ',['.($sinnotas+1).', 0]';
           }
           ?>
         ]);

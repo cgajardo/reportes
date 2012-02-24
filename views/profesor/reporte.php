@@ -44,9 +44,6 @@
 	}
 	</style>
         <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-        <script>
-                
-        </script>
 
         <!-- javascript for ranking_curso -->
         <script type="text/javascript">
@@ -380,11 +377,11 @@ foreach ($notas_grupo as $nota) {
                             //nos permite identificar si el control fue rendido o no
                             if($celda['logro'] == -1){
                                     $celdas .= '<td class="no_rendido">'.$celda['contenido']->nombre.'</td>';
-                            }elseif($celda['logro'] <= 45){
+                            }elseif($celda['logro'] <= $porcentaje_suficiente){
                                     $celdas .= '<td class="insuficiente">'.$celda['contenido']->nombre.' ('.round($celda['logro']).'%)</td>';
-                            }elseif($celda['logro'] > 45 && $celda['logro'] < 55 ){
+                            }elseif($celda['logro'] > $porcentaje_suficiente && $celda['logro'] < $porcentaje_aprobado ){
                                     $celdas .= '<td class="suficiente">'.$celda['contenido']->nombre.' ('.round($celda['logro']).'%)</td>';
-                            }elseif ($celda['logro'] >= 55){
+                            }elseif ($celda['logro'] >= $porcentaje_suficiente){
                                     $celdas .= '<td class="destacado">'.$celda['contenido']->nombre.' ('.round($celda['logro']).'%)</td>';
                             }else{
                                     $celdas .= '<td class="no_rendido">'.$celda['contenido']->nombre.' ('.round($celda['logro']).'%)</td>';
@@ -410,9 +407,9 @@ foreach ($notas_grupo as $nota) {
             <div>
                 <table class="leyenda" border="1">
                 <tr>
-                        <td class="destacado">Logro &gt;= 55%</td>
-                        <td class="suficiente">45% &lt; Logro &lt;55%</td>
-                        <td class="insuficiente">Logro &lt;= 45%</td>
+                        <td class="destacado">Logro &gt;= <?php echo $porcentaje_aprobado;?>%</td>
+                        <td class="suficiente"><?php echo $porcentaje_suficiente;?>% &lt; Logro &lt;<?php echo $porcentaje_aprobado;?>%</td>
+                        <td class="insuficiente">Logro &lt;= <?php echo $porcentaje_suficiente;?>%</td>
                         <td class="no_rendido">A&uacute;n no rendido</td>
                 </tr>
                 </table>

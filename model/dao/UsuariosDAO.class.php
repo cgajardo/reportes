@@ -60,6 +60,7 @@ interface UsuariosDAO{
 
 	public function deleteByApellidos($value);
 
-
+        public function checkRolRector($id_usuario);
+        
 }
 ?>

@@ -17,21 +17,6 @@ class PersonasMySqlDAO implements PersonasDAO{
 	 * @param int $persona_id
 	 * @return boolean
 	 */
-	public function checkRolRector($persona_id){
-		$sql = 'SELECT * '. 
-			'FROM instituciones_has_directores '.
-			'WHERE id_persona = ? ';
-		
-		$sqlQuery = new SqlQuery($sql);
-		$sqlQuery->setNumber($persona_id);
-		
-		$registros = QueryExecutor::execute($sqlQuery);
-		if(count($registros) == 0){
-			return FALSE;
-		}
-		
-		return TRUE;
-	}
 	
 	/**
 	 * Esta función sólo se utiliza desde el DTO de personas.

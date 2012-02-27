@@ -21,6 +21,12 @@ table.matriz {
     
 }
 
+.header {
+
+    height: 150px;
+    margin-top: -8px;
+}
+        
 table{
     border-spacing: 0px;
 }

@@ -129,5 +129,45 @@ public function autocompletar(){
 	$this->registry->template->show('contenidos/autocomplete');
 }
 
+public function buscar_ajax(){
+    $patron = utf8_decode($_GET['patron']);
+    $todas_las_preguntas = DAOFactory::getPreguntasDAO()->getPreguntaByPatron($patron);
+    if(isset($_SESSION['contenidos'])){
+        $this->registry->template->contenidos = $_SESSION['contenidos'];
+    } else{ 
+        $contenidos = DAOFactory::getContenidosDAO()->queryAll();
+        $this->registry->template->contenidos = $contenidos;
+        $_SESSION['contenidos']  = $contenidos;
+    }
+    
+    $combo = 'name="contenido" onchange="loadXMLDoc(this.value, this.id)">';
+    $combo.='<option value="-1">Seleccione un Contenido</option>';
+    foreach ($_SESSION['contenidos'] as $contenido){
+        $combo.='<option value="'.utf8_encode($contenido->id).'">'.utf8_encode($contenido->nombre).'</option>';
+    } 
+    $combo.='</select>';
+    print '<table class="paginable">
+        <tr>
+            <th>Pregunta</th>
+            <th>Contenido asociado</th>
+            <th>Elegir otro contenido</th>
+        </tr>';
+    foreach($todas_las_preguntas as $pregunta){
+            echo '<tr>';
+            echo '<td>'.utf8_encode($pregunta->nombre).'</td>';
+            if ($pregunta->contenido) {
+                echo '<td id="'.utf8_encode($pregunta->id).'">'.utf8_encode($pregunta->contenido->nombre).'</td>';
+            }else{
+                echo '<td id="'.utf8_encode($pregunta->id).'"></td>';
+            }
+            echo '<td>'.'<select id="'.utf8_encode($pregunta->id).'" '.$combo.'</td>';
+            echo '</tr>';
+    }
+
+    print '</table>';
+    
+    $this->registry->template->show('debug');
+}
+
 }
 ?>

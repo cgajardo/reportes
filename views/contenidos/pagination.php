@@ -33,7 +33,7 @@ function pagination($page, $total){
     			for ($counter = 1; $counter <= $lastpage; $counter++)
     			{
     				if ($counter == $page)
-    					$pagination.= "<li><a class='current'>$counter</a></li>";
+    					$pagination.= "<li><a class='current'><b>$counter</b></a></li>";
     				else
     					$pagination.= "<li><a href='{$url}page=$counter'>$counter</a></li>";					
     			}
@@ -45,7 +45,7 @@ function pagination($page, $total){
     				for ($counter = 1; $counter < 4 + ($adjacents * 2); $counter++)
     				{
     					if ($counter == $page)
-    						$pagination.= "<li><a class='current'>$counter</a></li>";
+    						$pagination.= "<li><a class='current'><b>$counter</b></a></li>";
     					else
     						$pagination.= "<li><a href='{$url}page=$counter'>$counter</a></li>";					
     				}
@@ -61,7 +61,7 @@ function pagination($page, $total){
     				for ($counter = $page - $adjacents; $counter <= $page + $adjacents; $counter++)
     				{
     					if ($counter == $page)
-    						$pagination.= "<li><a class='current'>$counter</a></li>";
+    						$pagination.= "<li><a class='current'><b>$counter</b></a></li>";
     					else
     						$pagination.= "<li><a href='{$url}page=$counter'>$counter</a></li>";					
     				}
@@ -77,7 +77,7 @@ function pagination($page, $total){
     				for ($counter = $lastpage - (2 + ($adjacents * 2)); $counter <= $lastpage; $counter++)
     				{
     					if ($counter == $page)
-    						$pagination.= "<li><a class='current'>$counter</a></li>";
+    						$pagination.= "<li><a class='current'><b>$counter</b></a></li>";
     					else
     						$pagination.= "<li><a href='{$url}page=$counter'>$counter</a></li>";					
     				}

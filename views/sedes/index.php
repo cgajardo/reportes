@@ -1,10 +1,11 @@
 <html>
 <head>
-
+<link rel="stylesheet" type="text/css" href="./views/styles/galyleo.css" />
 </head>
-<body>
+<body align="center">
+    <img class="header" src="views/images/logos/galyleo.jpg">
 <h1>Lista de Sedes</h1>
-<table>
+<table border="1" align="center">
 <tr>
 <th>Nombre</th>
 <th>Pa&iacute;s</th>
@@ -14,7 +15,7 @@
 <th>opciones</th>
 </tr>
 <?php   
-    foreach($instituciones as $institucion=>$sedes)
+    foreach($instituciones as $institucion=>$sedes){
 	foreach ($sedes as $sede){
 		echo '<tr>';
 		echo '<td>'.$sede->nombre.'</td>';
@@ -33,10 +34,11 @@
 <?php 
 		echo '</tr>';
 	}
-    
+    }
 ?>
 </table>
 <br/>
-<a href="<?php print($_SERVER['PHP_SELF']);?>?rt=sedes/agregar">Nueva Sede</a>
+<a href="<?php print($_SERVER['PHP_SELF']);?>?rt=sedes/agregar"><button>Nueva Sede</button></a>
+<div class="footer"></div>
 </body>
 </html>

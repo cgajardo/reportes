@@ -85,6 +85,7 @@ interface PreguntasDAO{
         
         public function getPreguntaByCategoria($nombre_categoria);
 
-
+        public function getPreguntaByPatron($patron);
+        
 }
 ?>

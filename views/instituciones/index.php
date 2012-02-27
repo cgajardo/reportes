@@ -1,16 +1,21 @@
 <html>
 <head>
-
+<link rel="stylesheet" type="text/css" href="/reportes/views/styles/galyleo.css" />
 </head>
-<body>
+<body align="center">
+    <img class="header" src="views/images/logos/galyleo.jpg">
 <h1>Lista de Instituciones</h1>
-<p><?php echo $mensaje;?></p>
-<table>
+<?php if(isset($mensaje)){
+    echo $mensaje;
+}
+?>
+<table border="1" align="center">
 <tr>
 <th>Nombre</th>
 <th>Nombre Corto</th>
 <th>Prefijo evaluaciones</th>
 <th>Nota aprobado</th>
+<th>Nota suficiente</th>
 <th>Plataforma</th>
 </tr>
 <?php
@@ -20,7 +25,8 @@
 		echo '<td>'.$institucion->nombreCorto.'</td>';
 		echo '<td>'.$institucion->prefijoEvaluacion.'</td>';
 		echo '<td>'.$institucion->notaAprobado.'</td>';
-		echo '<td>'.$institucion->plataforma->nombre.'</td>';
+		echo '<td>'.$institucion->notaSuficiente.'</td>';
+		echo '<td>'.@$institucion->plataforma->nombre.'</td>';
 ?>
 	<td>
 		<a href="<?php echo str_replace("index.php","",$_SERVER['PHP_SELF']);?>instituciones/eliminar&id=<?php echo $institucion->id;?>">eliminar</a>
@@ -32,6 +38,7 @@
 ?>
 </table>
 <br/>
-<a href="<?php echo str_replace("index.php","",$_SERVER['PHP_SELF']);?>instituciones/agregar">Nueva Instituci&oacute;n</a>
+<a href="<?php echo str_replace("index.php","",$_SERVER['PHP_SELF']);?>instituciones/agregar"><button>Nueva Instituci&oacute;n</button></a>
+<div class="footer"></div>
 </body>
 </html>

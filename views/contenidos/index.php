@@ -1,10 +1,21 @@
 <html>
 <head>
 <title>Listado de contenidos</title>
+<style>
+    .header {
+        height: 150px;
+        margin-top: -8px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+</style>
 </head>
-<body>
+<body align="center">
+    <img class="header" src="views/images/logos/galyleo.jpg"><br/><br/>
+    <div align="left">
     <a href="<?php echo str_replace("index.php","",$_SERVER['PHP_SELF']);?>contenidos/agregar">Nuevo Contenido</a><br/>
     <a href="<?php echo str_replace("index.php","",$_SERVER['PHP_SELF']);?>contenidos/asociar">Asociar Contenido a Preguntas</a>
+    </div><br/>
     <table border="1">
     <tr>
     <th>Nombre</th>

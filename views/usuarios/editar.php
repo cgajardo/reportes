@@ -1,13 +1,15 @@
 <html>
 <head>
+    <link rel="stylesheet" type="text/css" href="../views/styles/galyleo.css" />
 </head>
-<body>
-
+<body align="center">
+    <img class="header" src="../views/images/logos/galyleo.jpg"><br/><br/>
+    <h1>Ingrese Datos del Usuario</h1>
 <form action="<?php echo str_replace("index.php","",$_SERVER['PHP_SELF']);?>usuarios/guardar" name="usuarios" method="post">
 
 <?php 
 	//revisamos si se trata de un update
-	if($update){
+	if(isset($update)){
  		echo '<input type="hidden" name="id" value ="'.$usuario->id.'"/>';
 	}
 	
@@ -21,14 +23,15 @@
 		
 // 	}
 ?>
+<table align="center">
+<tr><td>Nombres </td><td><input type="text" name="nombres" value ="<?php echo @$usuario->nombres;?>"/></td></tr>
 
-Nombres <input type="text" name="nombres" value ="<?php echo $usuario->nombres;?>"/>
+<tr><td>Apellidos </td><td><input type="text" name="apellidos" value ="<?php echo @$usuario->apellidos;?>"/></td></tr>
 
-Apellidos <input type="text" name="apellidos" value ="<?php echo $usuario->apellidos;?>"/>
-
-Email <input type="text" name="email" value ="<?php echo $usuario->email;?>"/>
-
+<tr><td>Email </td><td><input type="text" name="email" value ="<?php echo @$usuario->email;?>"/></td></tr>
+</table>
 <input type="submit" value="Guardar"/>
 </form>
+    <div class="footer"></div>
 </body>
 </html>

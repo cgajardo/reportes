@@ -1,5 +1,5 @@
 <?php
-
+include 'views/contenidos/pagination.php';
 Class contenidosController Extends baseController {
 	
 public function asociar_ajax(){
@@ -45,12 +45,14 @@ public function guardar(){
 }
 
 public function editar($contenido = null){
-	if($contenido == null){
-		$id = $_GET['id'];
-		$contenido = DAOFactory::getContenidosDAO()->load($id); 
-	}
 	
-	$this->registry->template->contenido = $contenido;
+        if($contenido==null){
+            try{
+                $id = $_GET['id'];
+                $contenido = DAOFactory::getContenidosDAO()->load($id); 
+            }catch(Exception $e){}
+        }
+        $this->registry->template->contenido = $contenido;
 	$this->registry->template->contenidos = DAOFactory::getContenidosDAO()->queryAllWithPadre();
 	//finally
 	$this->registry->template->show('contenidos/editar');
@@ -73,7 +75,11 @@ public function asociar(){
 		$this->registry->template->todas_las_preguntas = DAOFactory::getPreguntasDAO()->getSinAsociarFrom(($page-1)*20,20);
 		$this->registry->template->total = DAOFactory::getPreguntasDAO()->countSinAsociar();
 	} else{
-		$this->registry->template->todas_las_preguntas = DAOFactory::getPreguntasDAO()->getFrom(($page-1)*20,20);
+                if(isset($_GET['patron'])){
+                    $this->registry->template->todas_las_preguntas = DAOFactory::getPreguntasDAO()->getFromWithPatron(($page-1)*20,20,$_GET['patron']);
+                }else{
+                    $this->registry->template->todas_las_preguntas = DAOFactory::getPreguntasDAO()->getFrom(($page-1)*20,20);
+                }
 		$this->registry->template->total = DAOFactory::getPreguntasDAO()->count();
 	}
 	
@@ -146,7 +152,7 @@ public function buscar_ajax(){
         $combo.='<option value="'.utf8_encode($contenido->id).'">'.utf8_encode($contenido->nombre).'</option>';
     } 
     $combo.='</select>';
-    print '<table class="paginable">
+    print '<table class="paginable" align="center">
         <tr>
             <th>Pregunta</th>
             <th>Contenido asociado</th>
@@ -165,6 +171,7 @@ public function buscar_ajax(){
     }
 
     print '</table>';
+    print '<table align="center"><tr><td>'.pagination("0", count($contenidos),$patron).'</td></tr></table>';
     
     $this->registry->template->show('debug');
 }

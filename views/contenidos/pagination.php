@@ -4,9 +4,13 @@
  * @link: http://www.Awcore.com/dev
  */
 //TODO: total
-function pagination($page, $total){
-        $adjacents = "2"; 
-        $url= './asociar?';
+function pagination($page, $total,$patron){
+        $adjacents = "2";
+        if(isset($patron)){
+            $url= './asociar?patron='.utf8_encode($patron).'&';
+        }else{
+            $url= './asociar?';
+        }
         $per_page = 20;
     	$page = ($page == 0 ? 1 : $page);  
     	$start = ($page - 1) * $per_page;								

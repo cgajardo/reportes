@@ -27,7 +27,13 @@ public function guardar(){
 	$sede->pais = $_POST['pais'];
 	$sede->region = $_POST['region'];
 	$sede->ciudad = $_POST['ciudad'];
-	DAOFactory::getSedesDAO()->insert($sede);
+        $sede->idInstitucion = $_POST['institucion'];
+	if(isset($_POST['id'])){
+            $sede->id = $_POST['id'];
+            DAOFactory::getSedesDAO()->update($sede);
+        }else{
+            DAOFactory::getSedesDAO()->insert($sede);
+        }
 	
 	$this->registry->template->mensaje_exito = "Sede agregada correctamente";
 
@@ -38,8 +44,9 @@ public function editar($sede = null){
 	if($sede == null){
 		$id = $_GET['id'];
 		$sede = DAOFactory::getSedesDAO()->load($id);
-	}
+	}        
 	$this->registry->template->sede = $sede;
+	$this->registry->template->instituciones = DAOFactory::getInstitucionesDAO()->queryAll();
 	
 	//finally
 	$this->registry->template->show('sedes/editar');
@@ -61,8 +68,9 @@ public function eliminar(){
 
 	//TODO enviar mensajes de 'eliminacion correcta'
 	$this->registry->template->mensaje_exito = "Sede eliminada correctamente";
-	$this->index();
-
+        
+        $this->registry->template->ruta = "sedes";
+	$this->registry->template->show('enrutador');
 }
 
 }

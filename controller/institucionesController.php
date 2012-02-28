@@ -34,6 +34,7 @@ public function guardar(){
 	$institucion->nombreCorto = $_POST['nombreCorto'];
 	$institucion->prefijoEvaluacion = $_POST['prefijo'];
 	$institucion->notaAprobado = $_POST['notaAprobado'];
+        $institucion->notaSuficiente= $_POST['notaSuficiente'];
 	$institucion->plataforma = $_POST['plataforma'];
 	
 	if(isset($_POST['id'])){

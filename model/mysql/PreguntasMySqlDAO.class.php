@@ -75,6 +75,21 @@ class PreguntasMySqlDAO implements PreguntasDAO{
 		
 		return $this->getList($sqlQuery);
 	}
+        
+        public function getFromWithPatron($from, $delta,$patron){
+		$sql = 'SELECT * '.
+			'FROM preguntas '.
+                        'WHERE nombre REGEXP ?'.
+			'ORDER BY  id_contenido '.
+			'LIMIT ? , ?';
+		
+		$sqlQuery = new SqlQuery($sql);
+                $sqlQuery->setString($patron);
+		$sqlQuery->setNumber($from);
+		$sqlQuery->setNumber($delta);
+		
+		return $this->getList($sqlQuery);
+	}
 
 	/**
 	 * @author: cgajardo

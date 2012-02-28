@@ -5,6 +5,7 @@
 <body align="center">
     <img class="header" src="views/images/logos/galyleo.jpg">
 <h1>Lista de Sedes</h1>
+<?php  echo @$mensaje_exito;?>
 <table border="1" align="center">
 <tr>
 <th>Nombre</th>
@@ -25,11 +26,8 @@
 		echo '<td>'.$institucion.'</td>';
 ?>
 	<td>
-	<form action="<?php print($_SERVER['PHP_SELF']);?>?rt=sedes/eliminar" method="post">
-		<input type="hidden" name="id" value="<?php echo $sede->id;?>"/>
-		<a href="#" onclick="this.form.submit()">eliminar</a>
-	</form>
-		<a href="<?php print($_SERVER['PHP_SELF']);?>?rt=sedes/editar&id=<?php echo $sede->id;?>">modificar</a>	
+                <a href="<?php echo str_replace("index.php","",$_SERVER['PHP_SELF']);?>sedes/eliminar&id=<?php echo $sede->id;?>">eliminar</a>
+		<a href="<?php echo str_replace("index.php","",$_SERVER['PHP_SELF']);?>sedes/editar&id=<?php echo $sede->id;?>">modificar</a>
 	</td>
 <?php 
 		echo '</tr>';
@@ -38,7 +36,7 @@
 ?>
 </table>
 <br/>
-<a href="<?php print($_SERVER['PHP_SELF']);?>?rt=sedes/agregar"><button>Nueva Sede</button></a>
+<a href="sedes/agregar"><button>Nueva Sede</button></a>
 <div class="footer"></div>
 </body>
 </html>

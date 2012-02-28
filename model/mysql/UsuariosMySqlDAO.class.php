@@ -49,7 +49,7 @@ class UsuariosMySqlDAO implements UsuariosDAO{
 		$sql = 'DELETE FROM usuarios WHERE id = ?  AND email = ? ';
 		$sqlQuery = new SqlQuery($sql);
 		$sqlQuery->setNumber($id);
-		$sqlQuery->setNumber($email);
+		$sqlQuery->setString($email);
 
 		return $this->executeUpdate($sqlQuery);
 	}

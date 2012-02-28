@@ -21,7 +21,7 @@ table.matriz {
     
 }
 
-.header {
+img.header {
 
     height: 150px;
     margin-top: -8px;
@@ -156,8 +156,3 @@ img.loading-gif {
 #chart_nav{
 	height: 50px;
 }
-
-
-
-
-

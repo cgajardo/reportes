@@ -3,7 +3,8 @@
     <link rel="stylesheet" type="text/css" href="/reportes/views/styles/galyleo.css" />
 </head>
 <body align="center">
-    <img class="header" src="../views/images/logos/galyleo.jpg">
+    <img class="header" src="../views/images/logos/galyleo.jpg"><br/><br/>
+    <h2>Ingrese Informaci&oacute;n de la Instituci&oacute;n</h2>
 
 <form action="<?php echo str_replace("index.php","",$_SERVER['PHP_SELF']);?>instituciones/guardar" name="institucion" method="post">
 
@@ -31,6 +32,8 @@
 <tr><td>Prefijo Evaluaciones </td><td><input type="text" name="prefijo" value ="<?php echo $institucion->prefijoEvaluacion;?>"/></td></tr>
 
 <tr><td>Nota Aprobado </td><td><input type="text" name="notaAprobado" value ="<?php echo $institucion->notaAprobado;?>"/></td></tr>
+ 
+<tr><td>Nota Suficiente </td><td><input type="text" name="notaSuficiente" value ="<?php echo $institucion->notaSuficiente;?>"/></td></tr>
 
 <tr><td>Plataforma </td><td><select name="plataforma" >.<?php echo $combo;?>.</select></td></tr>		
 </table>

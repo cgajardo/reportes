@@ -118,7 +118,7 @@ class InstitucionesMySqlDAO implements InstitucionesDAO{
  	 * @param InstitucionesMySql institucione
  	 */
 	public function update($institucione){
-		$sql = 'UPDATE instituciones SET nombre = ?, nombre_corto = ?, prefijo_tarea = ?, rango_aprobado = ?, id_plataforma = ? '. 
+		$sql = 'UPDATE instituciones SET nombre = ?, nombre_corto = ?, prefijo_tarea = ?, rango_aprobado = ?,rango_suficiente = ?, id_plataforma = ? '. 
 			'WHERE id = ?';
 		$sqlQuery = new SqlQuery($sql);
 		
@@ -126,8 +126,8 @@ class InstitucionesMySqlDAO implements InstitucionesDAO{
 		$sqlQuery->setString($institucione->nombreCorto);
 		$sqlQuery->setString($institucione->prefijoEvaluacion);
 		$sqlQuery->setNumber($institucione->notaAprobado);
+		$sqlQuery->setNumber($institucione->notaSuficiente);
 		$sqlQuery->setNumber($institucione->plataforma);
-
 		$sqlQuery->setNumber($institucione->id);
 		return $this->executeUpdate($sqlQuery);
 	}

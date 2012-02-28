@@ -60,8 +60,7 @@ public function editar($usuario = null){
 		$id = $_GET['id'];
 		$usuario = DAOFactory::getUsuariosDAO()->load($id);
 		$this->registry->template->update = true;
-	}
-	
+        }
 	$this->registry->template->usuario = $usuario;
 	$this->registry->template->sedes = DAOFactory::getSedesDAO()->queryAll();
 	$this->registry->template->instituciones = DAOFactory::getInstitucionesDAO()->queryAll();
@@ -82,11 +81,12 @@ public function view(){
 
 public function eliminar(){
 	$id = $_GET['id'];
-	DAOFactory::getInstitucionesDAO()->delete($id);
+        $email = $_GET['email'];
+	DAOFactory::getUsuariosDAO()->delete($id,$email);
 	
-	$this->registry->template->mensaje_exito = "Institucion eliminada correctamente";
+	$this->registry->template->mensaje_exito = "Usuario eliminada correctamente";
 	
-	$this->registry->template->ruta = "instituciones";
+	$this->registry->template->ruta = "usuarios";
 	$this->registry->template->show('enrutador');
 
 }

@@ -49,13 +49,22 @@ function buscar(){
         margin-left: auto;
         margin-right: auto;
     }
+    
+    .footer {
+	background-image: url("/reportes/views/images/logos/footer.png");
+	background-position: center;
+	background-repeat: no-repeat;
+	height: 68px;
+	margin-bottom:-8px;
+	 	
+}
 </style>
-<?php include 'pagination.php';?>
+
 <title>Asociar contenidos</title>
 </head>
 <body align="center">
     <img class="header" src="../views/images/logos/galyleo.jpg"><br/><br/>
-    <div align="left">
+    <div align="left" style="margin-left:112px">
 <a href="./asociar?filter=sin">Mostrar s&oacute;lo preguntas sin contenido</a><br/>
 <a href="./asociar">Mostrar todas las preguntas</a>
 <br/>
@@ -68,10 +77,10 @@ foreach ($contenidos as $contenido){
 } 
 $combo.='</select>';
 ?>
-BUSCAR PREGUNTA <input id="pat"><input type="button" onclick="buscar()" value="BUSCAR">
+BUSCAR PREGUNTA <input id="pat" <?php  if(isset($_GET['patron'])){print 'value="'.$_GET['patron'].'"';}?>><input type="button" onclick="buscar()" value="BUSCAR">
     </div>
 <div id="con_contenido">
-<table class="paginable">
+<table class="paginable" align="center">
 <tr>
 	<th>Pregunta</th>
 	<th>Contenido asociado</th>
@@ -91,7 +100,13 @@ foreach($todas_las_preguntas as $pregunta){
 }
 ?>
 </table>
-<?php print pagination($page, $total);?>
+    <table align="center"><tr><td><?php 
+    if(isset($_GET['patron'])){
+        print pagination($page, $total,$_GET['patron']);
+    }else{
+        print pagination($page, $total,NULL);
+    }
+    ?></td></tr></table>
 </div>
 <div class="footer"></div>
 </body>

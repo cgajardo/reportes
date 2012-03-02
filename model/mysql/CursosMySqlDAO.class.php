@@ -124,7 +124,7 @@ class CursosMySqlDAO implements CursosDAO{
 		
 		$sqlQuery = new SqlQuery($sql);
 		$sqlQuery->set($usuario_id);
-		
+		 
 		return $this->getList($sqlQuery);
 		
 	}

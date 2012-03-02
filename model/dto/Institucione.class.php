@@ -15,11 +15,13 @@
 		
 		var $prefijoEvaluacion;
                 
-                var $notaSuficiente;
+		var $notaSuficiente;
 		
 		var $notaAprobado;
 		
 		var $plataforma;
+		
+		var $pais;
 		
 	}
 ?>

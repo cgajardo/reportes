@@ -4,7 +4,7 @@ Class alumnosController Extends baseController {
 
 public function index() {
 	session_start();
-	//print $this->encrypter->encode("platform=utfsm&user=574&course=6");
+	//print $this->encrypter->encode("platform=utfsm&username=17962089");
 	//578, 586, 587, 599, 581, 574
 	
 	@$PARAMS = $this->encrypter->decodeURL($_GET['params']);
@@ -12,7 +12,7 @@ public function index() {
 	$usuario = $_SESSION['usuario'];
 	$platform = $_SESSION['plataforma'];
 	$cursos_usuarios = DAOFactory::getCursosDAO()->getCursosByUsuario($usuario->id);
-	$institucion = DAOFactory::getInstitucionesDAO()-> getInstitucionByAlumno($usuario->id);
+	$institucion = DAOFactory::getInstitucionesDAO()->load($usuario->idInstitucion);
 	$this->registry->template->institucion = $institucion;
 	
 	// redireccionamos al 404 si usuario no existe

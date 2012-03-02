@@ -78,8 +78,5 @@
 	require_once('dao/SedesHasDirectoresDAO.class.php');
 	require_once('dto/SedesHasDirectore.class.php');
 	require_once('mysql/SedesHasDirectoresMySqlDAO.class.php');
-	require_once('dao/UsuariosDAO.class.php');
-	require_once('dto/Usuario.class.php');
-	require_once('mysql/UsuariosMySqlDAO.class.php');
 
 ?>

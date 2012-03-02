@@ -14,14 +14,16 @@
 		var $apellido;
 
 		var $usuario;
+		
+		var $password;
 
 		var $correo;
-
-		var $rut;
 
 		var $identificadorMoodle;
 
 		var $rolMoodle;
+		
+		var $idInstitucion;
 		
 		//esta funcion permite obtener el rol de un usuario en una plataforma dada
 		public function getRol(){

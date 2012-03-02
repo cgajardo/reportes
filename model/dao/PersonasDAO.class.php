@@ -50,11 +50,12 @@ interface PersonasDAO{
 	public function getEstudiantesInGroup($grupo_id);
 	
 	/**
-	* cgajardo: obtener al usuario de acuerdo a su id en moodle.
-	* @param $plataforma, $idUsuario (comprondan identificador_moodle)
+	* cgajardo: obtener al usuario de acuerdo a su username y plataforma
+	* 
+	* @param $plataforma, $username
 	* @return Persona
 	*/
-	public function getUserInPlatform($platform, $id);
+	public function getUserInPlatform($platform, $username);
 
 	/**
 	 * Get Domain object by primry key

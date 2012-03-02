@@ -109,16 +109,18 @@ class PersonasMySqlDAO implements PersonasDAO{
 
 	
 	/**
-	* cgajardo: obtener al usuario de acuerdo a su id en moodle.
-	* @param $plataforma, $idUsuario (comprondan identificador_moodle)
+	* cgajardo: obtener al usuario de acuerdo a su username y plataforma
+	* 
+	* @param $plataforma, $username
 	* @return Persona
 	*/
-	public function getUserInPlatform($platform, $id){
-		$sql = "SELECT * FROM personas WHERE identificador_moodle = ?";
+	public function getUserInPlatform($platform, $username){
+		$sql = "SELECT * FROM personas WHERE identificador_moodle LIKE ? AND usuario = ? ";
 		$sqlQuery = new SqlQuery($sql);
 	
-		$sqlQuery->set($platform.'_'.$id);
-	
+		$sqlQuery->setString($platform.'%');
+		$sqlQuery->setString($username);
+		
 		return $this->getRow($sqlQuery);
 	}
 	
@@ -316,10 +318,11 @@ class PersonasMySqlDAO implements PersonasDAO{
 		$persona->nombre = $row['nombre'];
 		$persona->apellido = $row['apellido'];
 		$persona->usuario = $row['usuario'];
+		$persona->password = $row['password'];
 		$persona->correo = $row['correo'];
-		$persona->rut = $row['rut'];
 		$persona->identificadorMoodle = $row['identificador_moodle'];
 		$persona->rolMoodle = $row['rol_moodle'];
+		$persona->idInstitucion = $row['id_institucion'];
 
 		return $persona;
 	}

@@ -2,13 +2,14 @@
 Class enrutadorController Extends baseController {
 	
 	public function index(){
+		session_start();
 		session_destroy();
 		session_start();
 		//desencriptamos los datos que nos envian desde moodle
 		$PARAMS = $this->encrypter->decodeURL($_GET['params']);
 		
 		// redireccionamos al 404 si no viene los datos esperados
-		if(!isset($PARAMS['platform']) || !isset($PARAMS['user'])){
+		if(!isset($PARAMS['platform']) || !isset($PARAMS['username'])){
 			$this->registry->template->mesaje_personalizado = "Ha ocurrido con error que impide verificar tu cuenta. </br>
 			Por favor informa este error a reportes@galyleo.net";
 			//finally
@@ -17,7 +18,7 @@ Class enrutadorController Extends baseController {
 		}
 		
 		$nombre_plataforma = $PARAMS['platform'];
-		$id_usuario_moodle = $PARAMS['user'];
+		$username = $PARAMS['username'];
 		$cola = '';
 		
 		if(isset($PARAMS['course'])){
@@ -26,7 +27,7 @@ Class enrutadorController Extends baseController {
 			$cola = "?params=".$this->encrypter->encode('curso='.$curso->id);
 		}
 		
-		$usuario = DAOFactory::getPersonasDAO()->getUserInPlatform($nombre_plataforma,$id_usuario_moodle);
+		$usuario = DAOFactory::getPersonasDAO()->getUserInPlatform($nombre_plataforma,$username);
 		
 		$_SESSION['usuario'] = $usuario;
 		$_SESSION['plataforma'] = $nombre_plataforma;

@@ -186,6 +186,7 @@ class InstitucionesMySqlDAO implements InstitucionesDAO{
 		$institucione->prefijoEvaluacion = $row['prefijo_tarea'];
 		$institucione->notaSuficiente = $row['rango_suficiente'];
 		$institucione->notaAprobado = $row['rango_aprobado'];
+		$institucione->pais = $row['pais'];
 		$institucione->plataforma = DAOFactory::getPlataformasDAO()->load($row['id_plataforma']);
 
 		return $institucione;
@@ -243,10 +244,12 @@ class InstitucionesMySqlDAO implements InstitucionesDAO{
 	}
 
     public function getInstitucionByAlumno($id_usuario) {
-                $sql = 'SELECT i.* FROM  grupos_has_estudiantes ge '. 
-                        'JOIN grupos g ON ge.id_grupo=g.id '. 
-                        'JOIN instituciones i ON g.id_institucion=i.id '.
-                        'WHERE ge.id_persona=?';
+                $sql = 'SELECT i.* '. 
+						'FROM grupos_has_estudiantes ge '. 
+						'JOIN grupos g ON ge.id_grupo=g.id '. 
+						'JOIN sedes s on g.id_sede = s.id '.
+						'JOIN instituciones i ON s.id_institucion=i.id '.
+						'WHERE ge.id_persona = ?';
                 
                 $sqlQuery = new SqlQuery($sql);
                 $sqlQuery->setNumber($id_usuario);
@@ -255,10 +258,13 @@ class InstitucionesMySqlDAO implements InstitucionesDAO{
     }
 
     public function getInstitucionByProfesor($id_usuario) {
-                $sql = 'SELECT i.* FROM  grupos_has_profesores gp '. 
-                        'JOIN grupos g ON gp.id_grupo=g.id '. 
-                        'JOIN instituciones i ON g.id_institucion=i.id '.
-                        'WHERE gp.id_persona=?';
+                $sql = 'SELECT i.* '. 
+						'FROM grupos_has_profesores gp '. 
+						'JOIN grupos g ON gp.id_grupo=g.id '. 
+						'JOIN sedes s on g.id_sede = s.id '.
+						'JOIN instituciones i ON s.id_institucion=i.id '.
+						'WHERE gp.id_persona = ?';
+                
                 
                 $sqlQuery = new SqlQuery($sql);
                 $sqlQuery->setNumber($id_usuario);

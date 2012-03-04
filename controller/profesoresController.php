@@ -104,7 +104,7 @@ public function index(){
 	$platform = $_SESSION['plataforma'];
 	
 	$cursos_usuarios = DAOFactory::getCursosDAO()->getCursosByProfesor($usuario->id);
-	$institucion = DAOFactory::getInstitucionesDAO()-> getInstitucionByNombrePlataforma($platform);
+	$institucion = DAOFactory::getInstitucionesDAO()->load($usuario->idInstitucion);
 	$this->registry->template->institucion = $institucion;
 	
 	// redireccionamos al 404 si usuario no existe

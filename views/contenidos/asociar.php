@@ -5,7 +5,7 @@
 <script type="text/javascript" src="/reportes/views/js/jquery_1.7.1.js"></script>
 <script type="text/javascript" charset="utf-8">
 function loadXMLDoc($id_contenido, $id_pregunta){
-	var xmlhttp;
+        var xmlhttp;
 	if (window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
   		xmlhttp=new XMLHttpRequest();
   	}
@@ -106,8 +106,10 @@ foreach($todas_las_preguntas as $pregunta){
     }else{
         echo pagination($page, $total,NULL);
     }
-    ?></td></tr></table>
+    ?></td></tr>
+    </table>
 </div>
+    <table align="center"><tr><td><?php print pagination($page, $total,NULL);?></td></tr></table>
 <div class="footer"></div>
 </body>
 </html>

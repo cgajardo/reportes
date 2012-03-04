@@ -174,7 +174,7 @@ class PreguntasMySqlDAO implements PreguntasDAO{
 		$sqlQuery = new SqlQuery($sql);
 		
 		$sqlQuery->set($pregunta->identificadorMoodle);
-		$sqlQuery->setNumber($pregunta->contenido);
+                $sqlQuery->setNumber($pregunta->contenido);
 
 		$sqlQuery->set($pregunta->id);
 		return $this->executeUpdate($sqlQuery);
@@ -310,6 +310,18 @@ class PreguntasMySqlDAO implements PreguntasDAO{
                 $sqlQuery =  new SqlQuery($sql);
                 $sqlQuery->setString($patron);
                 return $this->getList($sqlQuery);
+    }
+
+    public function countWithPatron($patron) {                
+		$sql = 'SELECT COUNT(id) AS total '.
+				'FROM preguntas '.
+				'WHERE nombre REGEXP ? ';
+	
+		$sqlQuery = new SqlQuery($sql);
+                $sqlQuery->setString($patron);
+                
+		return $this->getCount($sqlQuery);
+	
     }
 }
 ?>

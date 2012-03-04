@@ -87,5 +87,7 @@ interface PreguntasDAO{
 
         public function getPreguntaByPatron($patron);
         
+        public function countWithPatron($patron);
+        
 }
 ?>

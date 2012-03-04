@@ -6,10 +6,14 @@ public function asociar_ajax(){
 	$id_contenido = $_GET['id_contenido'];
 	$id_pregunta = $_GET['id_pregunta'];
 	$pregunta = DAOFactory::getPreguntasDAO()->load($id_pregunta);
-	$pregunta->idContenido = $id_contenido; 
+	if($id_contenido!=-1){
+            $pregunta->contenido = $id_contenido; 
+        }else{
+            $pregunta->contenido = NULL;
+        }
 	DAOFactory::getPreguntasDAO()->update($pregunta);
 	$contenido = DAOFactory::getContenidosDAO()->load($id_contenido);
-	echo utf8_encode($contenido->nombre);
+	echo @utf8_encode($contenido->nombre);
 }
 
 public function index() 
@@ -77,10 +81,12 @@ public function asociar(){
 	} else{
                 if(isset($_GET['patron'])){
                     $this->registry->template->todas_las_preguntas = DAOFactory::getPreguntasDAO()->getFromWithPatron(($page-1)*20,20,$_GET['patron']);
+                    $this->registry->template->total = DAOFactory::getPreguntasDAO()->countWithPatron($_GET['patron']);
                 }else{
                     $this->registry->template->todas_las_preguntas = DAOFactory::getPreguntasDAO()->getFrom(($page-1)*20,20);
+                    $this->registry->template->total = DAOFactory::getPreguntasDAO()->count();
                 }
-		$this->registry->template->total = DAOFactory::getPreguntasDAO()->count();
+		
 	}
 	
 	//buscar o recuperar todos los contenidos
@@ -136,8 +142,20 @@ public function autocompletar(){
 }
 
 public function buscar_ajax(){
-    $patron = utf8_decode($_GET['patron']);
-    $todas_las_preguntas = DAOFactory::getPreguntasDAO()->getPreguntaByPatron($patron);
+    
+    if(isset($_GET['filter'])){
+            $this->registry->template->todas_las_preguntas = DAOFactory::getPreguntasDAO()->getSinAsociarFrom(($page-1)*20,20);
+            $this->registry->template->total = DAOFactory::getPreguntasDAO()->countSinAsociar();
+    } else{
+            if(isset($_GET['patron'])){
+                $this->registry->template->todas_las_preguntas = DAOFactory::getPreguntasDAO()->getFromWithPatron(($page-1)*20,20,$_GET['patron']);
+                $this->registry->template->total = DAOFactory::getPreguntasDAO()->countWithPatron($_GET['patron']);
+            }else{
+                $this->registry->template->todas_las_preguntas = DAOFactory::getPreguntasDAO()->getFrom(($page-1)*20,20);
+                $this->registry->template->total = DAOFactory::getPreguntasDAO()->count();
+            }
+
+    }
     if(isset($_SESSION['contenidos'])){
         $this->registry->template->contenidos = $_SESSION['contenidos'];
     } else{ 
@@ -170,8 +188,10 @@ public function buscar_ajax(){
             echo '</tr>';
     }
 
+
     echo '</table>';
     echo '<table align="center"><tr><td>'.pagination("0", count($contenidos),$patron).'</td></tr></table>';
+
     
     $this->registry->template->show('debug');
 }

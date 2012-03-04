@@ -7,17 +7,14 @@ Class directoresController Extends baseController {
 
 public function index(){
 	session_start(); //inicia una sesion
-	$id_director = $_GET['id'];
-	$plataforma  = $_GET['platform'];
-	$director = DAOFactory::getPersonasDAO()->load($id_director);
+	$director = $_SESSION['usuario'];
+	$platform = $_SESSION['plataforma'];
 	//buscamos la institución en la session
 	if(isset($_SESSION['institucion'])){
 		$institucion = $_SESSION['institucion'];
 	}else{
 		$institucion = DAOFactory::getInstitucionesDAO()->getInstitucionByDirectorId($director->id);
 	}
-    $_SESSION['usuario']=$director;
-    $_SESSION['plataforma'] = $plataforma;
 	$this->registry->template->usuario = $director;
 	$this->registry->template->institucion = $institucion;
 	$this->registry->template->show('director/index');
@@ -26,8 +23,8 @@ public function index(){
 
 public function tiempo(){
 	session_start(); //inicia una sesion
-	$id_director = $_GET['id'];
-	$director = DAOFactory::getPersonasDAO()->load($id_director);
+	$director = $_SESSION['usuario'];
+	$platform = $_SESSION['plataforma'];
 	$sedes = DAOFactory::getSedesDAO()->getSedesByDirector($director->id);
 	
 	//buscamos la institución en la session
@@ -85,7 +82,7 @@ public function tiempo(){
 	
 	//TODO: deberia serializar? costo/efectividad...
 	$_SESSION['arbolTiempo'] = $arbol_tiempo;
-	
+	print_r($arbol_tiempo);
 	//FIX
 	$cadena = '[';
 	foreach ($arbol_tiempo['detalle'] as $nombre => $nodo){
@@ -143,8 +140,8 @@ public function matriz(){
 
 public function logro(){
 	session_start(); //inicia una sesion
-	$id_director = $_GET['id'];
-	$director = DAOFactory::getPersonasDAO()->load($id_director);
+	$director = $_SESSION['usuario'];
+	$platform = $_SESSION['plataforma'];
 	$sedes = DAOFactory::getSedesDAO()->getSedesByDirector($director->id);
 	
 	//buscamos la institución en la session

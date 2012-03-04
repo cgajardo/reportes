@@ -18,6 +18,22 @@ class PersonasMySqlDAO implements PersonasDAO{
 	 * @return boolean
 	 */
 	
+	public function checkRolDirector($persona_id){
+		$sql = 'SELECT * '.
+				'FROM instituciones_has_directores '.
+				'WHERE id_persona = ? ';
+	
+		$sqlQuery = new SqlQuery($sql);
+		$sqlQuery->setNumber($persona_id);
+	
+		$registros = QueryExecutor::execute($sqlQuery);
+		if(count($registros) == 0){
+			return FALSE;
+		}
+	
+		return TRUE;
+	}
+	
 	/**
 	 * Esta función sólo se utiliza desde el DTO de personas.
 	 * No debe considerarse como ejemplo para otras funciones

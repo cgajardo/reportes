@@ -18,7 +18,7 @@ class InstitucionesMySqlDAO implements InstitucionesDAO{
 		$sql = 'SELECT i.* '. 
 			'FROM instituciones as i, instituciones_has_directores as id '.
 			'WHERE i.id = id.id_institucion '. 
-			'AND id.id_usuario = ? ';
+			'AND id.id_persona = ? ';
 		
 		$sqlQuery = new SqlQuery($sql);
 		$sqlQuery->setNumber($director_id);

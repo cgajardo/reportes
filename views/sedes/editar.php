@@ -17,7 +17,7 @@
 </head>
 <body align="center">
     <img class="header" src="../views/images/logos/galyleo.jpg">
-<form action="<?php print($_SERVER['PHP_SELF']);?>?rt=sedes/guardar" name="sede" method="post">
+<form action="<?php echo($_SERVER['PHP_SELF']);?>?rt=sedes/guardar" name="sede" method="post">
 <?php
     if(isset($sede->id)){
             echo '<input type="hidden" name="id" value ="'.$sede->id.'"/>';

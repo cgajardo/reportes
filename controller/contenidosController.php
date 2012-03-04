@@ -105,7 +105,7 @@ public function asociar(){
 
 public function asociar2(){
     
-        $file = fopen('views/contenidos/contenidos.csv', 'r');
+        $file = fopen('views/contenidos/c.csv', 'r');
         fgets($file);
         while($x=fgets($file)){
             $cont = explode(';',$x);
@@ -170,7 +170,7 @@ public function buscar_ajax(){
         $combo.='<option value="'.utf8_encode($contenido->id).'">'.utf8_encode($contenido->nombre).'</option>';
     } 
     $combo.='</select>';
-    print '<table class="paginable" align="center">
+    echo '<table class="paginable" align="center">
         <tr>
             <th>Pregunta</th>
             <th>Contenido asociado</th>
@@ -187,8 +187,10 @@ public function buscar_ajax(){
             echo '<td>'.'<select id="'.utf8_encode($pregunta->id).'" '.$combo.'</td>';
             echo '</tr>';
     }
+    
+    echo '</table>';
+    echo '<table align="center"><tr><td>'.pagination("0", count($contenidos),$patron).'</td></tr></table>';
 
-    print '</table>';
     
     $this->registry->template->show('debug');
 }

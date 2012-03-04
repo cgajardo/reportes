@@ -7,10 +7,6 @@
  */
 class DAOFactory{
 	
-	public static function getUsuariosDAO(){
-		return new UsuariosMySqlDAO();
-	}
-	
 	public static function getCategoriasDAO(){
 		return new CategoriasMySqlDAO();
 	}

@@ -22,6 +22,6 @@
 </ul>
 <h4>Rectores:</h4>
 <ul>
-  <li><a href="./directores/index?id=8292&platform=utfsm">Rector Santa Maria</a></li>
+  <li><a href="./enrutador/index?params=lnFtbVjp2gmDCYidkYAPdvehQvhmDNuKRN_BbeXnCws">Rector Santa Maria</a></li>
 </ul>
 </html>

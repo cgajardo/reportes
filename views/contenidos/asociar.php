@@ -17,8 +17,8 @@ function loadXMLDoc($id_contenido, $id_pregunta){
     		document.getElementById($id_pregunta).innerHTML=xmlhttp.responseText;
     	}
   	};
-        xmlhttp.open("POST","<?php print($_SERVER['PHP_SELF']);?>?rt=contenidos/asociar_ajax&id_contenido="+$id_contenido+"&id_pregunta="+$id_pregunta,true);
-	xmlhttp.send();
+		xmlhttp.open("POST","<?php echo($_SERVER['PHP_SELF']);?>?rt=contenidos/asociar_ajax&id_contenido="+$id_contenido+"&id_pregunta="+$id_pregunta,true);
+		xmlhttp.send();
 }
 
 function buscar(){
@@ -37,7 +37,7 @@ function buscar(){
                     document.getElementById("con_contenido").innerHTML=xmlhttp.responseText;
             }
             };
-            xmlhttp.open("GET","<?php print($_SERVER['PHP_SELF']);?>?rt=contenidos/buscar_ajax&patron="+pat,true);
+            xmlhttp.open("GET","<?php echo($_SERVER['PHP_SELF']);?>?rt=contenidos/buscar_ajax&patron="+pat,true);
             xmlhttp.send();
         }
 }
@@ -77,7 +77,7 @@ foreach ($contenidos as $contenido){
 } 
 $combo.='</select>';
 ?>
-BUSCAR PREGUNTA <input id="pat" <?php  if(isset($_GET['patron'])){print 'value="'.$_GET['patron'].'"';}?>><input type="button" onclick="buscar()" value="BUSCAR">
+BUSCAR PREGUNTA <input id="pat" <?php  if(isset($_GET['patron'])){echo 'value="'.$_GET['patron'].'"';}?>><input type="button" onclick="buscar()" value="BUSCAR">
     </div>
 <div id="con_contenido">
 <table class="paginable" align="center">
@@ -100,6 +100,14 @@ foreach($todas_las_preguntas as $pregunta){
 }
 ?>
 </table>
+    <table align="center"><tr><td><?php 
+    if(isset($_GET['patron'])){
+        echo pagination($page, $total,$_GET['patron']);
+    }else{
+        echo pagination($page, $total,NULL);
+    }
+    ?></td></tr>
+    </table>
 </div>
     <table align="center"><tr><td><?php print pagination($page, $total,NULL);?></td></tr></table>
 <div class="footer"></div>

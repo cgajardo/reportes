@@ -29,14 +29,26 @@ class SedesMySqlDAO implements SedesDAO{
 	
 	/**
 	 * Esta función devuelve la lista de sedes en las cuales una persona es director
+	 * Si se trata de un director de institucion (rector) entonces podrá revisar todas las sedes
 	 * 
 	 * @author cgajardo
 	 * @param int $director_id
 	 */
 	public function getSedesByDirector($director_id){
-		$sql = 'SELECT s.* '.
-			'FROM sedes as s, sedes_has_directores as sd '.
-			'WHERE s.id = sd.id_sede AND sd.id_persona = ? ';
+		//si es director en institucion devolvemos todas las sedes de la institucion
+		if(DAOFactory::getPersonasDAO()->checkRolDirector($director_id)){
+			$sql = 'SELECT * '. 
+					'FROM sedes '.
+					'WHERE id_institucion IN ('.
+    					'SELECT id_institucion '.
+						'FROM galyleo_reportes.instituciones_has_directores '. 
+						'WHERE id_persona = ?)';
+		}else{
+			///si es director solo en una sede..
+			$sql = 'SELECT s.* '.
+					'FROM sedes as s, sedes_has_directores as sd '.
+					'WHERE s.id = sd.id_sede AND sd.id_persona = ? ';
+		}
 		
 		$sqlQuery = new SqlQuery($sql);
 		$sqlQuery->set($director_id);

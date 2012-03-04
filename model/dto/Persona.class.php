@@ -33,7 +33,7 @@
 			$esProfesor = DAOFactory::getPersonasDAO()->checkRolProfesor($this->id);
 			if($esProfesor)
 				return "profesor";
-			$esRector = DAOFactory::getUsuariosDAO()->checkRolRector($this->id);
+			$esRector = DAOFactory::getPersonasDAO()->checkRolDirector($this->id);
 			if($esRector)
 				return "rector";
 		}

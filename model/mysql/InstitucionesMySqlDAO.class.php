@@ -253,7 +253,6 @@ class InstitucionesMySqlDAO implements InstitucionesDAO{
                 
                 $sqlQuery = new SqlQuery($sql);
                 $sqlQuery->setNumber($id_usuario);
-                
                 return $this->getRow($sqlQuery);
     }
 

@@ -72,8 +72,6 @@ class IntentosMySqlDAO implements IntentosDAO{
                 $sqlQuery->setNumber($id_quiz);
                 $sqlQuery->setNumber($id_usuario);
                 
-		//echo $sqlQuery->getQuery();
-		//echo "<hr/>";
 		return $this->getContenidoLogroArray($sqlQuery);
 	}
         
@@ -192,7 +190,6 @@ class IntentosMySqlDAO implements IntentosDAO{
 		$sqlQuery->set($quiz);
 		$sqlQuery->set($grupo);
 		
-		print $sqlQuery->getQuery();
 		return $this->getNotaLogro($sqlQuery);
 	}
 	

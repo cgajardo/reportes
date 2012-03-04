@@ -99,7 +99,7 @@ public function asociar(){
 
 public function asociar2(){
     
-        $file = fopen('views/contenidos/contenidos.csv', 'r');
+        $file = fopen('views/contenidos/c.csv', 'r');
         fgets($file);
         while($x=fgets($file)){
             $cont = explode(';',$x);

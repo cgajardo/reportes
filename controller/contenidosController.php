@@ -152,7 +152,7 @@ public function buscar_ajax(){
         $combo.='<option value="'.utf8_encode($contenido->id).'">'.utf8_encode($contenido->nombre).'</option>';
     } 
     $combo.='</select>';
-    print '<table class="paginable" align="center">
+    echo '<table class="paginable" align="center">
         <tr>
             <th>Pregunta</th>
             <th>Contenido asociado</th>
@@ -170,8 +170,8 @@ public function buscar_ajax(){
             echo '</tr>';
     }
 
-    print '</table>';
-    print '<table align="center"><tr><td>'.pagination("0", count($contenidos),$patron).'</td></tr></table>';
+    echo '</table>';
+    echo '<table align="center"><tr><td>'.pagination("0", count($contenidos),$patron).'</td></tr></table>';
     
     $this->registry->template->show('debug');
 }

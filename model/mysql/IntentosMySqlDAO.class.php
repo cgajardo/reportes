@@ -192,7 +192,6 @@ class IntentosMySqlDAO implements IntentosDAO{
 		$sqlQuery->set($quiz);
 		$sqlQuery->set($grupo);
 		
-		print $sqlQuery->getQuery();
 		return $this->getNotaLogro($sqlQuery);
 	}
 	

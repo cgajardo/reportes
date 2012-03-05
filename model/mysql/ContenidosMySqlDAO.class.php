@@ -299,7 +299,7 @@ class ContenidosMySqlDAO implements ContenidosDAO{
 
     public function queryAllWithPadre() {
         
-                $sql = 'SELECT c1.id,c1.nombre,c1.nombre,c1.link_repaso,c1.frase_no_logrado,c1.frase_logrado,c2.nombre AS padre '.
+                $sql = 'SELECT c1.id,c1.nombre,c1.link_repaso,c1.frase_no_logrado,c1.frase_logrado,c2.nombre AS padre '.
                     'FROM contenidos c1 LEFT JOIN contenidos c2 ON c1.padre=c2.id';
 
                 $sqlQuery= new SqlQuery($sql);
@@ -313,6 +313,18 @@ class ContenidosMySqlDAO implements ContenidosDAO{
 		$sqlQuery = new SqlQuery($sql);
 		$sqlQuery->setNumber($id);
 		return $this->getRow($sqlQuery);
+    }
+
+    public function getRealContenidos() {
+        
+                $sql = 'SELECT c1.* 
+                        FROM contenidos c1 
+                        JOIN contenidos c2 ON c1.padre=c2.id 
+                        JOIN contenidos c3 ON c2.padre=c3.id 
+                        ORDER BY padre,id';
+                
+                return $this->getList(new SqlQuery($sql));
+        
     }
 }
 ?>

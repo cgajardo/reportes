@@ -83,5 +83,7 @@ interface ContenidosDAO{
         public function queryAllWithPadre();
 
         public function loadWithPadre($id);
+        
+        public function getRealContenidos();
 }
 ?>

@@ -298,7 +298,7 @@ class PreguntasMySqlDAO implements PreguntasDAO{
 	}
 
     public function getPreguntaByCategoria($nombre_categoria) {
-                $sql = 'SELECT p.* FROM preguntas p JOIN categorias c ON id_categoria=c.id WHERE nombre=?';
+                $sql = 'SELECT p.* FROM preguntas p WHERE p.nombre=?';
                 $sqlQuery = new SqlQuery($sql);
                 $sqlQuery->setString($nombre_categoria);
                 return $this->getList($sqlQuery);
@@ -322,6 +322,19 @@ class PreguntasMySqlDAO implements PreguntasDAO{
                 
 		return $this->getCount($sqlQuery);
 	
+    }
+
+    public function getPregutasByQuizWithContenido($id_quiz) {
+        
+                $sql = 'SELECT p.* 
+                        FROM preguntas p JOIN quizes_has_preguntas qp ON p.id=qp.id_pregunta 
+                        LEFT JOIN contenidos c ON p.id_contenido=c.id WHERE id_quiz = ?';
+                
+                $sqlQuery = new SqlQuery($sql);
+                $sqlQuery->setNumber($id_quiz);
+                
+                return $this->getList($sqlQuery);
+        
     }
 }
 ?>

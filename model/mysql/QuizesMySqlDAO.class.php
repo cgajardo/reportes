@@ -346,5 +346,14 @@ class QuizesMySqlDAO implements QuizesDAO{
 	protected function executeInsert($sqlQuery){
 		return QueryExecutor::executeInsert($sqlQuery);
 	}
+
+    public function getQuizWithCierre() {
+        
+            $sql = 'SELECT * FROM quizes WHERE fecha_cierre>0';
+            
+            $sqlQuery = new SqlQuery($sql);
+            return $this->getList($sqlQuery);
+        
+    }
 }
 ?>

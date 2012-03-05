@@ -245,11 +245,11 @@ class InstitucionesMySqlDAO implements InstitucionesDAO{
 
     public function getInstitucionByAlumno($id_usuario) {
                 $sql = 'SELECT i.* '. 
-						'FROM grupos_has_estudiantes ge '. 
-						'JOIN grupos g ON ge.id_grupo=g.id '. 
-						'JOIN sedes s on g.id_sede = s.id '.
-						'JOIN instituciones i ON s.id_institucion=i.id '.
-						'WHERE ge.id_persona = ?';
+                        'FROM grupos_has_estudiantes ge '. 
+                        'JOIN grupos g ON ge.id_grupo=g.id '. 
+                        'JOIN sedes s on g.id_sede = s.id '.
+                        'JOIN instituciones i ON s.id_institucion=i.id '.
+                        'WHERE ge.id_persona = ?';
                 
                 $sqlQuery = new SqlQuery($sql);
                 $sqlQuery->setNumber($id_usuario);

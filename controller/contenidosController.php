@@ -105,27 +105,11 @@ public function asociar(){
 
 public function asociar2(){
     
-        $file = fopen('views/contenidos/c.csv', 'r');
-        fgets($file);
-        while($x=fgets($file)){
-            $cont = explode(';',$x);
-            var_dump($cont);            
-            if(($len=count($cont))>3){
-                $preg = DAOFactory::getPreguntasDAO()->getPreguntaByCategoria($cont[0].'\;'.$cont[1]);
-                print $cont[0].";".$cont[1];
-                var_dump($preg);
-            }else{
-                $preg = DAOFactory::getPreguntasDAO()->getPreguntaByCategoria($cont[0]);
-            }
-            print " numero: ".intval($cont[$len-1])."<br/>";          
-            foreach($preg as $p){
-                $p->contenido=intval($cont[$len-1]);
-                DAOFactory::getPreguntasDAO()->update($p);
-            }
-            
-        }
-    
-        $this->registry->template->show('debug');
+        $quizes = DAOFactory::getQuizesDAO()->getQuizWithCierre();
+        
+        $this->registry->template->quizes = $quizes;
+        
+        $this->registry->template->show('contenidos/asociar2');
 }
 
 public function eliminar(){
@@ -187,12 +171,46 @@ public function buscar_ajax(){
             echo '<td>'.'<select id="'.utf8_encode($pregunta->id).'" '.$combo.'</td>';
             echo '</tr>';
     }
-
-
+    
     echo '</table>';
     echo '<table align="center"><tr><td>'.pagination("0", count($contenidos),$patron).'</td></tr></table>';
 
     
+    $this->registry->template->show('debug');
+}
+
+public function preguntas_quiz(){
+    
+    $id_quiz = $_GET['quiz'];
+    
+    $preguntas = DAOFactory::getPreguntasDAO()->getPregutasByQuizWithContenido($id_quiz);
+    $contenidos = DAOFactory::getContenidosDAO()->getRealContenidos();
+    $combo = 'name="contenido" onchange="loadXMLDoc(this.value, this.id)">';
+    $combo.='<option value="-1">Seleccione un Contenido</option>';
+    foreach ($contenidos as $contenido){
+        $combo.='<option value="'.$contenido->id.'">'.$contenido->nombre.'</option>';
+    } 
+    $combo.='</select>';
+    
+    print '<table class="paginable" align="center">
+        <tr>
+            <th>Pregunta</th>
+            <th>Contenido asociado</th>
+            <th>Elegir otro contenido</th>
+        </tr>';
+    foreach($preguntas as $pregunta){
+            echo '<tr>';
+            echo '<td>'.utf8_encode($pregunta->nombre).'</td>';
+            if ($pregunta->contenido) {
+                echo '<td id="'.utf8_encode($pregunta->id).'">'.utf8_encode($pregunta->contenido->nombre).'</td>';
+            }else{
+                echo '<td id="'.utf8_encode($pregunta->id).'"></td>';
+            }
+            echo '<td>'.'<select id="'.utf8_encode($pregunta->id).'" '.utf8_encode($combo).'</td>';
+            echo '</tr>';
+    }
+
+    print '</table>';
     $this->registry->template->show('debug');
 }
 

@@ -17,6 +17,7 @@ function loadXMLDoc($id_contenido, $id_pregunta){
     		document.getElementById($id_pregunta).innerHTML=xmlhttp.responseText;
     	}
   	};
+
 	xmlhttp.open("POST","<?php echo($_SERVER['PHP_SELF']);?>?rt=contenidos/asociar_ajax&id_contenido="+$id_contenido+"&id_pregunta="+$id_pregunta,true);
 	xmlhttp.send();
 }

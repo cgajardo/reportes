@@ -82,7 +82,6 @@ public function tiempo(){
 	
 	//TODO: deberia serializar? costo/efectividad...
 	$_SESSION['arbolTiempo'] = $arbol_tiempo;
-	print_r($arbol_tiempo);
 	//FIX
 	$cadena = '[';
 	foreach ($arbol_tiempo['detalle'] as $nombre => $nodo){

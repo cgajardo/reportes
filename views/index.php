@@ -3,20 +3,25 @@
 <p>Prueba ingresando como:</p>
 <h4>Alumnos:</h4>
 <ul>
-  <li><a href="./enrutador/index&params=lnFtbVjp2gmDCYidkYAPdvehQvhmDNuKYUvnQ_zejEs">Andr&eacute;s Cort&eacute;s (Santiago)</a></li>
-  <li><a href="./enrutador/index&params=lnFtbVjp2gmDCYidkYAPdg5PRTyJOtPV">Lucia Luppichini (Santiago)</a></li>
-  <li><a href="./enrutador/index&params=lnFtbVjp2gmDCYidkYAPds6xYVFTKwZV">Nadia Tobar (Valparaiso)</a></li>
-  <li><a href="./enrutador/index&params=lnFtbVjp2gmDCYidkYAPdu78647p4IK8"> Samuel Norero (Valparaiso)</a></li>
+  <!--18162154-->
+  <li><a href="./enrutador/index&params=lnFtbVjp2gmDCYidkYAPdvehQvhmDNuKeqIjv8xuNh0">Andr&eacute;s Cort&eacute;s (Santiago)</a></li>
+  <!--18459086-->
+  <li><a href="./enrutador/index&params=lnFtbVjp2gmDCYidkYAPdvehQvhmDNuKGa62irDOuLA">Lucia Luppichini (Santiago)</a></li>
+  <!--17968517-->
+  <li><a href="./enrutador/index&params=lnFtbVjp2gmDCYidkYAPdvehQvhmDNuK7Ha7HListeg">Nadia Tobar (Valparaiso)</a></li>
+  <!--18450021-->
+  <li><a href="./enrutador/index&params=lnFtbVjp2gmDCYidkYAPdvehQvhmDNuK7g0EdEC9dvQ"> Samuel Norero (Valparaiso)</a></li>
 </ul>
 <br/>
 <h4>Profesores:</h4>
 <ul>
-
-  <li><a href="./enrutador/index?params=lnFtbVjp2gmDCYidkYAPdnF7J3QHE3yH">Leonelo Iturriaga (santiago)</a></li>
-  <li><a href="./enrutador/index?params=lnFtbVjp2gmDCYidkYAPdjJ5vJgbSEHw">Sigrid L&aacute;zaruz (valparaiso)</a></li>
+	<!--leonelo.iturriaga-->
+  <li><a href="./enrutador/index?params=lnFtbVjp2gmDCYidkYAPdvehQvhmDNuKtQxS6cNqf6u_6r9qx5C8X1jIROZf5S03">Leonelo Iturriaga (santiago)</a></li>
+  	<!--sigrid.lazarus-->
+  <li><a href="./enrutador/index?params=lnFtbVjp2gmDCYidkYAPdvehQvhmDNuKR2wu6j3i1_doA9tNRUghRg">Sigrid L&aacute;zaruz (valparaiso)</a></li>
 </ul>
 <h4>Rectores:</h4>
 <ul>
-  <li><a href="./directores/index?id=8292&platform=utfsm">Rector Santa Maria</a></li>
+  <li><a href="./enrutador/index?params=lnFtbVjp2gmDCYidkYAPdvehQvhmDNuKRN_BbeXnCws">Rector Santa Maria</a></li>
 </ul>
 </html>

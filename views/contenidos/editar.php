@@ -10,7 +10,7 @@
 <body align="center">
     <img class="header" src="../views/images/logos/galyleo.jpg"/><br/><br/>
     <h2>Ingrese Informaci&oacute;n del Contenido</h2>
-<form action="<?php print($_SERVER['PHP_SELF']);?>?rt=contenidos/guardar" name="contenido" method="post">
+<form action="<?php echo($_SERVER['PHP_SELF']);?>?rt=contenidos/guardar" name="contenido" method="post">
     <table align="center">
 <tr><td>Nombre</td><td><input type="text" name="nombre" value ="<?php echo $contenido->nombre;?>"/></td></tr>
 <tr><td>Link Repaso</td><td><input type="text" name="linkRepaso" value ="<?php echo $contenido->linkRepaso;?>"/></td></tr>

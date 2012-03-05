@@ -64,7 +64,6 @@ class QuizesMySqlDAO implements QuizesDAO{
                         'AND q.fecha_cierre > 0 AND q.fecha_cierre < NOW() ORDER BY nombre ASC';
 		$sqlQuery = new SqlQuery($sql);
 		$sqlQuery->set($curso_id);
-		 
 		return $this->getList($sqlQuery);
 	}
         

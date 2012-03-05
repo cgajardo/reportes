@@ -4,9 +4,6 @@ Class alumnosController Extends baseController {
 
 public function index() {
 	session_start();
-	//print $this->encrypter->encode("platform=utfsm&username=17962089");
-	//578, 586, 587, 599, 581, 574
-	
 	@$PARAMS = $this->encrypter->decodeURL($_GET['params']);
 	
 	$usuario = $_SESSION['usuario'];
@@ -58,9 +55,6 @@ public function index() {
 }
 
 public function reporte(){
-	//print $this->encrypter->encode("platform=utfsm&user=586&course=6&quiz=151")."</br>";
-	//print $this->encrypter->encode("plataforma=utfsm&usuario=848&curso=6&quiz=21")."</br>";
-	//578, 586, 587, 599, 581, 574
 	session_start();
 	$PARAMS = $this->encrypter->decodeURL($_GET['params']);
 	$curso_id = $PARAMS['curso'];
@@ -84,30 +78,18 @@ public function reporte(){
 	$notas_grupo = DAOFactory::getIntentosDAO()->getNotasGrupo($quiz->id,$grupo->id);
 	$nota_alumno = DAOFactory::getIntentosDAO()->getNotaInQuizByPersona($quiz->id, $usuario->id);
 	$contenido_logro = DAOFactory::getIntentosDAO()->getLogroPorContenido($quiz->id, $usuario->id);
-
+	
 	// esto es lo necesario para la matriz de desempeño, TODO: debería tener su vista propia?
-        /*foreach($_SESSION as $id=>$x){
-            print $id.'<br/>';
-        }*/
 	$matriz_desempeño = array();
 	$quizes_en_curso = DAOFactory::getQuizesDAO()->queryCerradosByIdCurso($curso->id);
-	
-// 	if(isset($_SESSION['matriz_desempeno'])){
-// 		$matriz_desempeño = $_SESSION['matriz_desempeno'];
-// 	}
-// 	else{
-		foreach ($quizes_en_curso as $quiz_en_curso){
-			$logro_contenido = DAOFactory::getIntentosDAO()->getLogroPorContenido($quiz_en_curso->id, $usuario->id);
-			if(empty($logro_contenido)){
-				$matriz_desempeño[$quiz_en_curso->nombre] = DAOFactory::getContenidosDAO()->getContenidosByQuiz($quiz_en_curso->id);
-			}else{
-				$matriz_desempeño[$quiz_en_curso->nombre] = $logro_contenido;
-			}
+	foreach ($quizes_en_curso as $quiz_en_curso){
+		$logro_contenido = DAOFactory::getIntentosDAO()->getLogroPorContenido($quiz_en_curso->id, $usuario->id);
+		if(empty($logro_contenido)){
+			$matriz_desempeño[$quiz_en_curso->nombre] = DAOFactory::getContenidosDAO()->getContenidosByQuiz($quiz_en_curso->id);
+		}else{
+			$matriz_desempeño[$quiz_en_curso->nombre] = $logro_contenido;
 		}
-// 	}
-	//calculamos el tiempo que paso el usuario entre quizes
-	//$inicio = '1970-01-01 12:00:00';
-	//hoy será hace 1 mes atrás
+	}
 	$hoy = time() - (3 * 7 * 24 * 60 * 60);
 	$semana_pasada = $hoy - (7 * 24 * 60 * 60);
 	$tiempos_semanas = array();

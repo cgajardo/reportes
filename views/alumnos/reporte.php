@@ -197,7 +197,7 @@
     <div id="mensajes_personalizados">
     	<?php
     		foreach ($contenido_logro as $data){
-     			if($data['logro']>=$porcentaje_aprobado){
+     			if($data['logro']>=$institucion->notaAprobado){
      				echo '<div class="mensaje_suficiente"> Tu porcentaje de logro est&aacute; ';
      				echo "por sobre el ".$institucion->notaAprobado."% en ".$data['contenido']->nombre.":</br>";
      				echo $data['contenido']->fraseLogrado.".</br>";

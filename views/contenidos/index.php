@@ -35,7 +35,7 @@
             echo '<td>'.$contenido->padre.'</td>';
     ?>
             <td>
-            <a href="<?php print($_SERVER['PHP_SELF']);?>?rt=contenidos/eliminar&id=<?php echo $contenido->id;?>">eliminar</a>
+            <a href="<?php echo($_SERVER['PHP_SELF']);?>?rt=contenidos/eliminar&id=<?php echo $contenido->id;?>">eliminar</a>
             <a href="contenidos/editar?id=<?php echo $contenido->id;?>">modificar</a>	
             </td>
     <?php

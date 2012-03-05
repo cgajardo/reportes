@@ -3,14 +3,7 @@ Class reportesController Extends baseController {
 
 public function index() {
 	session_start();
-	//print $this->encrypter->encode("platform=utfsm&user=574&course=6");
-	//578, 586, 587, 599, 581, 574
 	$PARAMS = $this->encrypter->decodeURL($_GET['params']);
-	//print_r($PARAMS);
-	// 	if(isset($_SESSION['usuario'])){
-	// 		$usuario = $_SESSION['usuario'];
-	// 		$platform = $_SESSION['plataforma'];
-	// 	}
 	if(isset($PARAMS['platform'])){
 		$user_id_in_moodle = $PARAMS['user'];
 		$platform = $PARAMS['platform'];

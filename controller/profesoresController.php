@@ -13,10 +13,6 @@ public function view(){
 }
 
 public function reporte(){
-	//print $this->encrypter->encode("plataforma=utfsm&grupo=24&quiz=71")."</br>";
-        //print $this->encrypter->encode("platform=utfsm&user=618")."</br>";
-
-    //print $this->encrypter->encode("plataforma=utfsm&grupo=15&quiz=31");
 	$PARAMS = $this->encrypter->decodeURL($_GET['params']);
 	session_start();
         $usuario = $_SESSION['usuario'];
@@ -108,7 +104,7 @@ public function index(){
 	$platform = $_SESSION['plataforma'];
 	
 	$cursos_usuarios = DAOFactory::getCursosDAO()->getCursosByProfesor($usuario->id);
-	$institucion = DAOFactory::getInstitucionesDAO()-> getInstitucionByNombrePlataforma($platform);
+	$institucion = DAOFactory::getInstitucionesDAO()->load($usuario->idInstitucion);
 	$this->registry->template->institucion = $institucion;
 	
 	// redireccionamos al 404 si usuario no existe
@@ -171,7 +167,6 @@ public function data(){
         }
     }
     
-    print $this->encrypter->encode("plataforma=".$_GET['plataforma'].'&grupo='.$_GET['grupo'].'&curso='.$_GET['curso'].'&usuario='.$id_usuario.'&quiz='.$_GET['quiz']);
     $this->registry->template->show('debug');
 }
 }

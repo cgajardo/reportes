@@ -324,7 +324,7 @@ class PreguntasMySqlDAO implements PreguntasDAO{
 	
     }
 
-	public function getPregutasByQuizWithContenido($id_quiz) {
+    public function getPregutasByQuizWithContenido($id_quiz) {
         
                 $sql = 'SELECT p.* 
                         FROM preguntas p JOIN quizes_has_preguntas qp ON p.id=qp.id_pregunta 

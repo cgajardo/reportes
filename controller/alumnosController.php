@@ -33,14 +33,18 @@ public function index() {
 	elseif (isset($PARAMS['curso'])){
 		$id_curso = $PARAMS['curso'];
 		
+                $actividades = DAOFactory::getCursosHasContenidos()->getCerradosByCursoWithContenidos($id_curso);
 		$quizes = DAOFactory::getQuizesDAO()->queryCerradosByIdCurso($id_curso);
-		
+                $actividades_actual=  DAOFactory::getCursosHasContenidos()->getActuales($id_curso);
+               
 		$this->registry->template->titulo = 'Tus evaluaciones';
 		$this->registry->template->usuario = $usuario;
 		$this->registry->template->cursos = $cursos_usuarios;
 		$this->registry->template->encrypter = $this->encrypter;
 		$this->registry->template->quizes = $quizes;
 		$this->registry->template->id_curso = $id_curso;
+		$this->registry->template->calendario = $actividades;
+		$this->registry->template->actividades_actual = $actividades_actual;
 		//finally
 		$this->registry->template->show('alumnos/index_quizes');
 		return;

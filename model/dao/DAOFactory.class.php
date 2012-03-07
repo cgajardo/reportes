@@ -165,6 +165,9 @@ class DAOFactory{
 		return new SedesHasDirectoressedeMySqlDAO();
 	}
         
+        public static function getCursosHasContenidos(){
+                return new CursosHasContenidosMySqlDAO();
+        }
         
 }
 ?>

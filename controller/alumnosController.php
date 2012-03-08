@@ -60,7 +60,7 @@ public function reporte(){
 	$curso_id = $PARAMS['curso'];
 	$quiz_id = $PARAMS['quiz'];
 
-		//recuperamos los objetos que nos interesan
+	//recuperamos los objetos que nos interesan
 	$usuario = $_SESSION['usuario'];
 	$platform = $_SESSION['plataforma'];
 	
@@ -90,10 +90,14 @@ public function reporte(){
 			$matriz_desempeño[$quiz_en_curso->nombre] = $logro_contenido;
 		}
 	}
-	$hoy = time() - (3 * 7 * 24 * 60 * 60);
-	$semana_pasada = $hoy - (7 * 24 * 60 * 60);
 	$tiempos_semanas = array();
-	for ($i = 0; $i<10; $i++){
+	$thisMonday = time() - (date('w')-1)*60*60*24;
+	$hoy = time();
+	//el tiempo de esta semana
+	$tiempos_semanas[ date("d/m",$thisMonday)] = DAOFactory::getLogsDAO()->getTiempoEntreFechas($thisMonday,$hoy, $usuario->id);
+	$semana_pasada = $thisMonday - (7 * 24 * 60 * 60);
+	$hoy = $thisMonday; 
+	for ($i = 0; $i<9; $i++){
 		$tiempos_semanas[ date("d/m",$semana_pasada)] = DAOFactory::getLogsDAO()->getTiempoEntreFechas($semana_pasada,$hoy, $usuario->id);
 		$hoy = $semana_pasada;
 		$semana_pasada = $hoy - (7 * 24 * 60 * 60);

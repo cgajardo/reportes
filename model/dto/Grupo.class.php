@@ -11,7 +11,7 @@
 
 		var $nombre;
 
-		var $idInstitucion;
+		var $idSede;
 
 	}
 ?>

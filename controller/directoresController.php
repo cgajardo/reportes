@@ -118,12 +118,14 @@ public function matriz(){
 // 	}
 	$usuario = DAOFactory::getPersonasDAO()->getPersonaByNombreGrupo($nombre_alumno, $nombre_grupo);
 	//calculamos el tiempo que paso el usuario entre quizes
-	//$inicio = '1970-01-01 12:00:00';
-	//hoy será hace 1 mes atrás
-	$hoy = time();
-	$semana_pasada = $hoy - (7 * 24 * 60 * 60);
 	$tiempos_semanas = array();
-	for ($i = 0; $i<15; $i++){
+	$thisMonday = time() - (date('w')-1)*60*60*24;
+	$hoy = time();
+	//el tiempo de esta semana
+	$tiempos_semanas[ date("d/m",$thisMonday)] = DAOFactory::getLogsDAO()->getTiempoEntreFechas($thisMonday,$hoy, $usuario->id);
+	$semana_pasada = $thisMonday - (7 * 24 * 60 * 60);
+	$hoy = $thisMonday;
+	for ($i = 0; $i<14; $i++){
 		$tiempos_semanas[ date("d/m",$semana_pasada)] = DAOFactory::getLogsDAO()->getTiempoEntreFechas($semana_pasada,$hoy, $usuario->id);
 		$hoy = $semana_pasada;
 		$semana_pasada = $hoy - (7 * 24 * 60 * 60);

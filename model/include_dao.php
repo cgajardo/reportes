@@ -78,5 +78,8 @@
 	require_once('dao/SedesHasDirectoresDAO.class.php');
 	require_once('dto/SedesHasDirectore.class.php');
 	require_once('mysql/SedesHasDirectoresMySqlDAO.class.php');
+	require_once('dao/CursosHasContenidosDAO.class.php');
+	require_once('dto/CursosHasContenidos.class.php');
+	require_once('mysql/CursosHasContenidosMySqlDAO.class.php');
 
 ?>

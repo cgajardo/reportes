@@ -33,14 +33,18 @@ public function index() {
 	elseif (isset($PARAMS['curso'])){
 		$id_curso = $PARAMS['curso'];
 		
+                $actividades = DAOFactory::getCursosHasContenidos()->getCerradosByCursoWithContenidos($id_curso);
 		$quizes = DAOFactory::getQuizesDAO()->queryCerradosByIdCurso($id_curso);
-		
+                $actividades_actual=  DAOFactory::getCursosHasContenidos()->getActuales($id_curso);
+               
 		$this->registry->template->titulo = 'Tus evaluaciones';
 		$this->registry->template->usuario = $usuario;
 		$this->registry->template->cursos = $cursos_usuarios;
 		$this->registry->template->encrypter = $this->encrypter;
 		$this->registry->template->quizes = $quizes;
 		$this->registry->template->id_curso = $id_curso;
+		$this->registry->template->calendario = $actividades;
+		$this->registry->template->actividades_actual = $actividades_actual;
 		//finally
 		$this->registry->template->show('alumnos/index_quizes');
 		return;
@@ -60,7 +64,7 @@ public function reporte(){
 	$curso_id = $PARAMS['curso'];
 	$quiz_id = $PARAMS['quiz'];
 
-		//recuperamos los objetos que nos interesan
+	//recuperamos los objetos que nos interesan
 	$usuario = $_SESSION['usuario'];
 	$platform = $_SESSION['plataforma'];
 	
@@ -90,10 +94,15 @@ public function reporte(){
 			$matriz_desempeño[$quiz_en_curso->nombre] = $logro_contenido;
 		}
 	}
-	$hoy = time() - (3 * 7 * 24 * 60 * 60);
-	$semana_pasada = $hoy - (7 * 24 * 60 * 60);
+
 	$tiempos_semanas = array();
-	for ($i = 0; $i<10; $i++){
+	$thisMonday = time() - (date('w')-1)*60*60*24;
+	$hoy = time();
+	//el tiempo de esta semana
+	$tiempos_semanas[ date("d/m",$thisMonday)] = DAOFactory::getLogsDAO()->getTiempoEntreFechas($thisMonday,$hoy, $usuario->id);
+	$semana_pasada = $thisMonday - (7 * 24 * 60 * 60);
+	$hoy = $thisMonday; 
+	for ($i = 0; $i<9; $i++){
 		$tiempos_semanas[ date("d/m",$semana_pasada)] = DAOFactory::getLogsDAO()->getTiempoEntreFechas($semana_pasada,$hoy, $usuario->id);
 		$hoy = $semana_pasada;
 		$semana_pasada = $hoy - (7 * 24 * 60 * 60);

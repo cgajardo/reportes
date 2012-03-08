@@ -84,10 +84,12 @@ interface PreguntasDAO{
         
     public function getPreguntaByCategoria($nombre_categoria);
 
-    public function getPreguntaByPatron($patron);
+        public function getPreguntaByPatron($patron);
         
-    public function countWithPatron($patron);
+        public function countWithPatron($patron);
         
-    public function getPregutasByQuizWithContenido($id_quiz);
+        public function getPregutasByQuizWithContenido($id_quiz);
+        
+
 }
 ?>

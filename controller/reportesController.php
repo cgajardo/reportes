@@ -88,5 +88,5 @@ public function index() {
 
 	}
 }
-
+}
 ?>

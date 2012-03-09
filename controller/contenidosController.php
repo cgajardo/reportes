@@ -185,18 +185,18 @@ public function preguntas_quiz(){
     
     $preguntas = DAOFactory::getPreguntasDAO()->getPregutasByQuizWithContenido($id_quiz);
     $contenidos = DAOFactory::getContenidosDAO()->getRealContenidos();
-    $combo = 'name="contenido" onchange="loadXMLDoc(this.value, this.id)">';
+    $combo = 'name="contenido" onchange="loadPadres(this.value, this.id)">';
     $combo.='<option value="-1">Seleccione un Contenido</option>';
     foreach ($contenidos as $contenido){
         $combo.='<option value="'.$contenido->id.'">'.$contenido->nombre.'</option>';
     } 
     $combo.='</select>';
     
-    print '<table class="paginable" align="center">
+    echo '<table class="paginable" align="center">
         <tr>
             <th>Pregunta</th>
             <th>Contenido asociado</th>
-            <th>Elegir otro contenido</th>
+            <th colspan="3" >Elegir otro contenido</th>
         </tr>';
     foreach($preguntas as $pregunta){
             echo '<tr>';
@@ -207,11 +207,47 @@ public function preguntas_quiz(){
                 echo '<td id="'.utf8_encode($pregunta->id).'"></td>';
             }
             echo '<td>'.'<select id="'.utf8_encode($pregunta->id).'" '.utf8_encode($combo).'</td>';
+            echo '<td id="padres'.$pregunta->id.'"></td>';
+            echo '<td id="hijos'.$pregunta->id.'"></td>';
             echo '</tr>';
     }
 
-    print '</table>';
+    echo '</table>';
     $this->registry->template->show('debug');
+}
+
+public function contenidos_padres(){
+	$id_contenido = $_GET['contenido'];
+	$id_pregunta = $_GET['pregunta'];
+	$contenidos = DAOFactory::getContenidosDAO()->getHijos($id_contenido);
+	$combo = 'name="contenido" onchange="loadHijos(this.value, '.$id_pregunta.')">';
+    $combo.='<option value="-1">Seleccione un Contenido</option>';
+    foreach ($contenidos as $contenido){
+        $combo.='<option value="'.$contenido->id.'">'.$contenido->nombre.'</option>';
+    } 
+    $combo.='</select>';
+    
+   	echo '<select id="'.utf8_encode($pregunta->id).'" '.utf8_encode($combo);
+
+    $this->registry->template->show('debug');
+	
+}
+
+public function contenidos_hijos(){
+	$id_contenido = $_GET['contenido'];
+	$id_pregunta = $_GET['pregunta'];
+	$contenidos = DAOFactory::getContenidosDAO()->getHijos($id_contenido);
+	$combo = 'name="contenido" onchange="asociar(this.value, '.$id_pregunta.')">';
+	$combo.='<option value="-1">Seleccione un Contenido</option>';
+	foreach ($contenidos as $contenido){
+		$combo.='<option value="'.$contenido->id.'">'.$contenido->nombre.'</option>';
+	}
+	$combo.='</select>';
+
+	echo '<select id="'.utf8_encode($pregunta->id).'" '.utf8_encode($combo);
+
+	$this->registry->template->show('debug');
+
 }
 
 }

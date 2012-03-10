@@ -4,7 +4,7 @@
 <link rel="stylesheet" type="text/css" href="/reportes/views/styles/pagination.css"/>
 <script type="text/javascript" src="/reportes/views/js/jquery_1.7.1.js"></script>
 <script type="text/javascript" charset="utf-8">
-function loadXMLDoc($id_contenido, $id_pregunta){
+function asociar($id_contenido, $id_pregunta){
         var xmlhttp;
 	if (window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
   		xmlhttp=new XMLHttpRequest();
@@ -18,6 +18,40 @@ function loadXMLDoc($id_contenido, $id_pregunta){
     	}
   	};
         xmlhttp.open("POST","<?php print($_SERVER['PHP_SELF']);?>?rt=contenidos/asociar_ajax&id_contenido="+$id_contenido+"&id_pregunta="+$id_pregunta,true);
+	xmlhttp.send();
+}
+
+function loadPadres($id_contenido, $id_pregunta){
+   var xmlhttp;
+	if (window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
+		xmlhttp=new XMLHttpRequest();
+	}
+	else{// code for IE6, IE5
+		xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+	}
+	xmlhttp.onreadystatechange=function(){
+		if (xmlhttp.readyState==4 && xmlhttp.status==200){
+			document.getElementById('padres'+$id_pregunta).innerHTML=xmlhttp.responseText;
+		}
+	};
+	xmlhttp.open("POST","contenidos_padres?contenido="+$id_contenido+"&pregunta="+$id_pregunta,true);
+	xmlhttp.send();
+}
+
+function loadHijos($id_contenido, $id_pregunta){
+    var xmlhttp;
+	if (window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
+		xmlhttp=new XMLHttpRequest();
+	}
+	else{// code for IE6, IE5
+		xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+	}
+	xmlhttp.onreadystatechange=function(){
+		if (xmlhttp.readyState==4 && xmlhttp.status==200){
+			document.getElementById('hijos'+$id_pregunta).innerHTML=xmlhttp.responseText;
+		}
+	};
+	xmlhttp.open("POST","contenidos_hijos?contenido="+$id_contenido+"&pregunta="+$id_pregunta,true);
 	xmlhttp.send();
 }
 

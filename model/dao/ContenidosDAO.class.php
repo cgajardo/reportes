@@ -8,6 +8,15 @@
 interface ContenidosDAO{
 	
 	/**
+	 * Esta funcion devuelve todos los contenidos hijos de un contenido
+	 *
+	 * @author cgajardo
+	 * @param int $id_contenido
+	 * @return list $contenidos_hijos
+	 */
+	public function getHijos($id_contenido);
+	
+	/**
 	 * Devuelve los contenidos cuyo nombre es similar al parametro $likeString
 	 *
 	 * @author cgajardo

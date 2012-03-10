@@ -105,9 +105,12 @@ public function asociar(){
 
 public function asociar2(){
     
-        $quizes = DAOFactory::getQuizesDAO()->getQuizWithCierre();
+        $cursos = DAOFactory::getCursosDAO()->queryAll();
+        foreach($cursos as $curso){
+            $quizesByCurso[$curso->nombre]=  DAOFactory::getQuizesDAO()->queryEvaluacionesByIdCurso($curso->id);
+        }
         
-        $this->registry->template->quizes = $quizes;
+        $this->registry->template->quizesByCurso = $quizesByCurso;
         
         $this->registry->template->show('contenidos/asociar2');
 }

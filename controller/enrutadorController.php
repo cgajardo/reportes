@@ -36,7 +36,7 @@ Class enrutadorController Extends baseController {
 		
 		$rol = $usuario->getRol();
 		//aumentamos el contador del usuario
-		DAOFactory::getPersonasDAO()->updateVisitCounter($username);
+		//DAOFactory::getPersonasDAO()->updateVisitCounter($username);
 		
 		switch ($rol) {
 			case "alumno":

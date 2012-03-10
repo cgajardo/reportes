@@ -50,6 +50,8 @@ interface CursosHasContenidosDAO {
 
         public function getByCurso($id_curso);
         
+        public function getByCursoWithContenidos($id_curso);
+        
         public function getCerradosByCurso($id_curso);
         
         public function getActuales($id_curso);

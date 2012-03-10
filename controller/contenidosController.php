@@ -189,7 +189,7 @@ public function preguntas_quiz(){
     $preguntas = DAOFactory::getPreguntasDAO()->getPregutasByQuizWithContenido($id_quiz);
     $contenidos = DAOFactory::getContenidosDAO()->getRealContenidos();
     $combo = 'name="contenido" onchange="loadPadres(this.value, this.id)">';
-    $combo.='<option value="-1">Seleccione un Contenido</option>';
+    $combo.='<option value="-1">Seleccione un Tema</option>';
     foreach ($contenidos as $contenido){
         $combo.='<option value="'.$contenido->id.'">'.$contenido->nombre.'</option>';
     } 
@@ -224,13 +224,13 @@ public function contenidos_padres(){
 	$id_pregunta = $_GET['pregunta'];
 	$contenidos = DAOFactory::getContenidosDAO()->getHijos($id_contenido);
 	$combo = 'name="contenido" onchange="loadHijos(this.value, '.$id_pregunta.')">';
-    $combo.='<option value="-1">Seleccione un Contenido</option>';
+    $combo.='<option value="-1">Seleccione una Unidad</option>';
     foreach ($contenidos as $contenido){
         $combo.='<option value="'.$contenido->id.'">'.$contenido->nombre.'</option>';
     } 
     $combo.='</select>';
     
-   	echo '<select id="'.utf8_encode($pregunta->id).'" '.utf8_encode($combo);
+   	echo '<select id="'.$id_pregunta.'" '.utf8_encode($combo);
 
     $this->registry->template->show('debug');
 	
@@ -247,10 +247,101 @@ public function contenidos_hijos(){
 	}
 	$combo.='</select>';
 
-	echo '<select id="'.utf8_encode($pregunta->id).'" '.utf8_encode($combo);
+	echo '<select id="'.$id_pregunta.'" '.utf8_encode($combo);
 
 	$this->registry->template->show('debug');
 
+}
+
+public function calendarios(){
+    
+        $sedes = DAOFactory::getSedesDAO()->queryAll();
+        foreach ($sedes as $sede){
+            $cursosBySede[$sede->nombre]=  DAOFactory::getCursosDAO()->getCursosInSede($sede->id);
+        }
+        
+        $this->registry->template->cursosBySede = $cursosBySede;
+        
+        $this->registry->template->show('contenidos/calendarios');
+}
+
+public function calendario_curso(){
+        
+        $id_curso = $_GET['curso'];
+        $actividades = DAOFactory::getCursosHasContenidos()->getByCursoWithContenidos($id_curso);
+        $actividades_actual=  DAOFactory::getCursosHasContenidos()->getActuales($id_curso);
+        echo '<table border="1" align="center"><tr><th></th><th>Eje</th><th>Tema</th><th>Fecha Inicio</th><th>Fecha Cierre</th><th>link</th></tr>';
+            foreach($actividades as $actividad){
+                    echo '<tr><td><button onclick="editar(\''.$actividad->fechaInicio.'\',\''.$actividad->fechaCierre.'\')">Editar</button></td>';
+                    echo '<td>'.utf8_encode($actividad->idContenido).'</td>';
+                    echo '<td>'.utf8_encode($actividad->frase).'</td>';
+                    echo '<td>'.utf8_encode($actividad->fechaInicio)."</td>";
+                    echo '<td>'.utf8_encode($actividad->fechaCierre)."</td>";
+                    echo '<td>'.utf8_encode($actividad->link).'</td></tr>';
+                }
+                
+        echo '</table>';
+        
+        $this->registry->template->show('debug');
+}
+public function editar_actividad(){
+        
+        $fechaInicioVieja= $_GET['fechaInicio'];
+        $fechaCierreVieja= $_GET['fechaCierre'];
+        $id_curso = $_GET['curso'];
+        $actividad = DAOFactory::getCursosHasContenidos()->load($id_curso, $fechaInicioVieja, $fechaCierreVieja);
+        $contenidos = DAOFactory::getContenidosDAO()->getRealContenidos();
+        $combo_contenidos='<select id="contenido">';
+        foreach($contenidos as $contenido){
+            $combo_contenidos.='<option value="'.$contenido->id.'"';
+            if($contenido->id==$actividad->idContenido){
+                $combo_contenidos.=' selected';
+            }
+            $combo_contenidos.='>'.$contenido->nombre.'</option>';
+        }
+        $combo_contenidos.='</select>';
+        $años='<option value="-1">Elija Año</option><option value"2012">2012</option><option value="2013">2013</option><option value="2014">2014</option>';
+        $meses='<option value="-1">Elija Mes</option><option value="01">Enero</option><option value="02">Febrero</option><option value="03">Marzo</option>
+            <option value="04">Abril</option><option value="05">Mayo</option><option value="06">Junio</option><option value="07">Julio</option>
+            <option value="08">Agosto</option><option value="09">Septiembre</option><option value="10">Octubre</option><option value="11">Noviembre</option>
+            <option value="12">Diciembre</option>';
+        $dias='<option value="-1">Elija Día</option>';
+        for($i=1;$i<10;$i++){
+            $dias.='<option value="0'.$i.'">0'.$i.'</option>';
+        }
+        for($i=10;$i<32;$i++){
+            $dias.='<option value"'.$i.'">'.$i.'</option>';
+        }
+        $horas='<option value="-1">Elija Hora</option>';
+        for($i=0;$i<10;$i++){
+            $horas.='<option value="0'.$i.'">0'.$i.'</option>';
+        }
+        for($i=10;$i<24;$i++){
+            $horas.='<option value"'.$i.'">'.$i.'</option>';
+        }
+        $minutos='<option value="-1">Elija Minuto</option>';
+        for($i=0;$i<10;$i++){
+            $minutos.='<option value="0'.$i.'">0'.$i.'</option>';
+        }
+        for($i=10;$i<60;$i++){
+            $minutos.='<option value"'.$i.'">'.$i.'</option>';
+        }
+        print '<h2 align="center">Edite Actividad</h2>';
+        print '<table align="center">
+                <tr><td>Contenido:</td><td>'.utf8_encode($combo_contenidos).'</td></tr>
+                <tr><td>Frase:</td><td><textarea cols="50" rows="5" maxlenght="500">'.utf8_encode($actividad->frase).'</textarea></td></tr>
+                <tr><td>Fecha Inicio:</td><td><select>'.$años.'</select>-<select>'.$meses.'</select>-<select>'.$dias.'</select>
+                    <select>'.$horas.'</select>:<select>'.$minutos.'</select><br>Actual: '.$fechaInicioVieja.'</td></tr>
+                <tr><td>Fecha Cierre:</td><td><select>'.$años.'</select>-<select>'.$meses.'</select>-<select>'.$dias.'</select>
+                    <select>'.$horas.'</select>:<select>'.$minutos.'</select><br>Actual: '.$fechaCierreVieja.'</td></tr>
+                <tr><td>Link:</td><td><input value="'.utf8_encode($actividad->link).'" size="50"></td></tr>
+                <tr><td><button>Cerrar</button></td><td><button>Guardar</button></td></tr>
+            </table>';
+        print '<param id="inicioViejo" value="'.$actividad->fechaInicio.'" hidden/>';
+        print '<param id="cierreViejo" value="'.$actividad->fechaCierre.'" hidden/>';
+    
+    $this->registry->template->show('debug');
+    
 }
 
 }

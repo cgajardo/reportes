@@ -4,7 +4,7 @@
 <link rel="stylesheet" type="text/css" href="/reportes/views/styles/pagination.css"/>
 <script type="text/javascript" src="/reportes/views/js/jquery_1.7.1.js"></script>
 <script type="text/javascript" charset="utf-8">
-function asociar($id_contenido, $id_pregunta){
+function asociar(){
         var xmlhttp;
 	if (window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
   		xmlhttp=new XMLHttpRequest();
@@ -14,11 +14,18 @@ function asociar($id_contenido, $id_pregunta){
   	}
 	xmlhttp.onreadystatechange=function(){
   		if (xmlhttp.readyState==4 && xmlhttp.status==200){
-    		document.getElementById($id_pregunta).innerHTML=xmlhttp.responseText;
+    		document.getElementById("editar").innerHTML="";
+    		document.getElementById("editar").hidden="true";
+                
     	}
   	};
-        xmlhttp.open("POST","<?php print($_SERVER['PHP_SELF']);?>?rt=contenidos/asociar_ajax&id_contenido="+$id_contenido+"&id_pregunta="+$id_pregunta,true);
+        xmlhttp.open("POST",".",true);
 	xmlhttp.send();
+}
+
+function ocultar(){
+    document.getElementById("editar").hidden="true";
+    document.getElementById("editar").innerHtml="";
 }
 
 function calendario(){
@@ -95,12 +102,17 @@ $combo ='id="cursos" onchange="calendario()"><option value="-1">Seleccione un Cu
 foreach($cursosBySede as $nombre=>$cursos){
     $combo.='<optgroup label="'.$nombre.'">';
     foreach ($cursos as $curso){
-        $combo.='<option value="'.$curso->id.'">'.$curso->nombre.'</option>';
+        $combo.='<option value="'.$curso->id.'"';
+        if(@$idCurso && $idCurso = $curso->id){
+            $combo.= ' selected';
+        }
+        $combo.='>'.$curso->nombre.'</option>';
     }
     $combo.='</optgroup>';
 }
 echo '<select '.$combo.'</select>';
 ?>
+        <script>calendario()</script>
         <div id="editar" class="editar" hidden></div>
         <br><br>
     <div id="calendario"></div>

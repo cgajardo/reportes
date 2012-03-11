@@ -185,14 +185,15 @@ class CursosHasContenidosMySqlDAO implements CursosHasContenidosDAO{
         
         $sql = 'UPDATE cursos_has_contenidos SET frase = ?, fecha_inicio = ?, fecha_cierre = ?, link = ? WHERE id_curso = ? AND fecha_inicio = ? AND fecha_cierre = ?';
         $sqlQuery = new SqlQuery($sql);
-        $sqlQuery->setString($cursosHasContenidos->fecha);
+        $sqlQuery->setString($cursosHasContenidos->frase);
         $sqlQuery->setString($cursosHasContenidos->fechaInicio);
         $sqlQuery->setString($cursosHasContenidos->fechaCierre);
-        $sqlQuery->setString($cursosHasContenidos->fechaLink);
+        $sqlQuery->setString($cursosHasContenidos->link);
         $sqlQuery->setNumber($cursosHasContenidos->idCurso);
         $sqlQuery->setString($fechaInicioVieja);
         $sqlQuery->setString($fechaCierreVieja);
         
+        $this->executeUpdate($sqlQuery);
     }
     
     public function getCerradosByCursoWithContenidos($id_curso) {

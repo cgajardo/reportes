@@ -89,7 +89,7 @@ class CursosHasContenidosMySqlDAO implements CursosHasContenidosDAO{
         
             $sql = 'DELETE FROM cursos_has_contenidos WHERE id_curso = ? AND fecha_inicio = ? AND fecha_cierre = ?';
             $sqlQuery = new SqlQuery($sql);
-            $sqlQuery->setNumber($id_curso);
+            $sqlQuery->setNumber($idCurso);
             $sqlQuery->setString($fechaInicio);
             $sqlQuery->setString($fechaCierre);
             
@@ -142,14 +142,14 @@ class CursosHasContenidosMySqlDAO implements CursosHasContenidosDAO{
     
     public function insert($cursosHasContenidos) {
         
-            $sql = 'INSERT INTO cursos_has_contenidos VALUES (?,?,?,?,?,?)';
-            $sqlQuery = new SqlQuery;
-            $sqlQuery->setNumber($id_curso);
-            $sqlQuery->setNumber($id_contenido);
-            $sqlQuery->setString($frase);
-            $sqlQuery->setString($fechaInicio);
-            $sqlQuery->setString($fechaCierre);
-            $sqlQuery->setString($link);
+            $sql = 'INSERT INTO cursos_has_contenidos VALUES ( ? , ? , ? , ? , ? , ? )';
+            $sqlQuery = new SqlQuery($sql);
+            $sqlQuery->setNumber($cursosHasContenidos->idCurso);
+            $sqlQuery->setNumber($cursosHasContenidos->idContenido);
+            $sqlQuery->setString($cursosHasContenidos->frase);
+            $sqlQuery->setString($cursosHasContenidos->fechaInicio);
+            $sqlQuery->setString($cursosHasContenidos->fechaCierre);
+            $sqlQuery->setString($cursosHasContenidos->link);
             
             return  $this->executeInsert($sqlQuery);
     }

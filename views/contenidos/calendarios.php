@@ -65,6 +65,48 @@ function editar(fechaInicio,fechaCierre){
 
 }
 
+function eliminar(fechaInicio,fechaCierre){
+    var curso=document.getElementById("cursos").value;
+        if (window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
+  		xmlhttp=new XMLHttpRequest();
+  	}
+	else{// code for IE6, IE5
+  		xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  	}
+	xmlhttp.onreadystatechange=function(){
+  		if (xmlhttp.readyState==4 && xmlhttp.status==200){
+    		alert(xmlhttp.responseText);
+    		document.getElementById("editar").hidden="";
+                calendario();
+                
+    	}
+  	};
+        xmlhttp.open("POST","eliminar_actividad?curso="+curso+"&fechaInicio="+fechaInicio+"&fechaCierre="+fechaCierre,true);
+	xmlhttp.send();
+
+}
+
+function crear(){
+    var curso=document.getElementById("cursos").value;
+        if (window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
+  		xmlhttp=new XMLHttpRequest();
+  	}
+	else{// code for IE6, IE5
+  		xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  	}
+	xmlhttp.onreadystatechange=function(){
+  		if (xmlhttp.readyState==4 && xmlhttp.status==200){
+    		document.getElementById("editar").innerHTML=xmlhttp.responseText;
+    		document.getElementById("editar").hidden="";
+                
+    	}
+  	};
+        xmlhttp.open("POST","crear_actividad?curso="+curso,true);
+	xmlhttp.send();
+
+}
+
+
 </script>
 <style>
     .editar{
@@ -103,7 +145,7 @@ foreach($cursosBySede as $nombre=>$cursos){
     $combo.='<optgroup label="'.$nombre.'">';
     foreach ($cursos as $curso){
         $combo.='<option value="'.$curso->id.'"';
-        if(@$idCurso && $idCurso = $curso->id){
+        if(@$idCurso && $idCurso == $curso->id){
             $combo.= ' selected';
         }
         $combo.='>'.$curso->nombre.'</option>';

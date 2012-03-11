@@ -33,9 +33,9 @@ public function index() {
 	elseif (isset($PARAMS['curso'])){
 		$id_curso = $PARAMS['curso'];
 		
-                $actividades = DAOFactory::getCursosHasContenidos()->getCerradosByCursoWithContenidos($id_curso);
+		//        $actividades = DAOFactory::getCursosHasContenidos()->getCerradosByCursoWithContenidos($id_curso);
 		$quizes = DAOFactory::getQuizesDAO()->queryCerradosByIdCurso($id_curso);
-                $actividades_actual=  DAOFactory::getCursosHasContenidos()->getActuales($id_curso);
+        //        $actividades_actual=  DAOFactory::getCursosHasContenidos()->getActuales($id_curso);
                
 		$this->registry->template->titulo = 'Tus evaluaciones';
 		$this->registry->template->usuario = $usuario;
@@ -43,8 +43,8 @@ public function index() {
 		$this->registry->template->encrypter = $this->encrypter;
 		$this->registry->template->quizes = $quizes;
 		$this->registry->template->id_curso = $id_curso;
-		$this->registry->template->calendario = $actividades;
-		$this->registry->template->actividades_actual = $actividades_actual;
+		//$this->registry->template->calendario = $actividades;
+		//$this->registry->template->actividades_actual = $actividades_actual;
 		//finally
 		$this->registry->template->show('alumnos/index_quizes');
 		return;
@@ -94,7 +94,6 @@ public function reporte(){
 			$matriz_desempeño[$quiz_en_curso->nombre] = $logro_contenido;
 		}
 	}
-
 	$tiempos_semanas = array();
 	$thisMonday = time() - (date('w')-1)*60*60*24;
 	$hoy = time();

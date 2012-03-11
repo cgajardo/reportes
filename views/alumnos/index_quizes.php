@@ -15,23 +15,24 @@
 </head>
 <body>
 	<div class="header_institucion"></div>
-        <h1>Revisa tu calendario de actividades para este curso</h1>
-        <table border="1" align="center"><tr><th>Eje</th><th>Tema</th><th>Fecha Inicio</th><th>Fecha Cierre</th></tr>
+        <!--<h1>Revisa tu calendario de actividades para este curso</h1>
+        <table border="1" align="center"><tr><th>Eje</th><th>Tema</th><th>Fecha Inicio</th><th>Fecha Cierre</th></tr>-->
         <?php
-            foreach($calendario as $actividad){
-                echo '<tr><td>'.$actividad->idContenido.'</td>';
-                echo '<td><a href="'.$actividad->link.'">'.$actividad->frase."</a></td>";
-                echo '<td>'.$actividad->fechaInicio."</td>";
-                echo '<td>'.$actividad->fechaCierre."</td></tr>";
-            }
-            foreach($actividades_actual as $actividad_actual){
-                echo '<tr><td>'.$actividad_actual->idContenido.'</td>';
-                echo '<td><a href="'.$actividad_actual->link.'" style="text-decoration:blink">'.$actividad_actual->frase."</a></td>";
-                echo '<td>'.$actividad_actual->fechaInicio."</td>";
-                echo '<td>'.$actividad_actual->fechaCierre."</td></tr>";
-            }
+//            foreach($calendario as $actividad){
+//                echo '<tr><td>'.$actividad->idContenido.'</td>';
+//                echo '<td><a href="'.$actividad->link.'">'.$actividad->frase."</a></td>";
+//                echo '<td>'.$actividad->fechaInicio."</td>";
+//                echo '<td>'.$actividad->fechaCierre."</td></tr>";
+//            }
+            
+//            foreach($actividades_actual as $actividad_actual){
+//                echo '<tr><td>'.$actividad_actual->idContenido.'</td>';
+//                echo '<td><a href="'.$actividad_actual->link.'" style="text-decoration:blink">'.$actividad_actual->frase."</a></td>";
+//                echo '<td>'.$actividad_actual->fechaInicio."</td>";
+//                echo '<td>'.$actividad_actual->fechaCierre."</td></tr>";
+//            }
         ?>
-        </table>
+        <!--</table>-->
 	<h1>Todas tus evaluaciones</h1>
 	<p><?php $nombre=explode(" ",$usuario->nombre); echo ucwords(strtolower($nombre[0]));?> 
 	selecciona una evaluaci&oacute;n para revisar tus notas</p>

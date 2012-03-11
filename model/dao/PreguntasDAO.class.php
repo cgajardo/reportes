@@ -89,7 +89,6 @@ interface PreguntasDAO{
         public function countWithPatron($patron);
         
         public function getPregutasByQuizWithContenido($id_quiz);
-        
 
 }
 ?>

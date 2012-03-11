@@ -117,6 +117,21 @@ class CursosHasContenidosMySqlDAO implements CursosHasContenidosDAO{
             
     }
     
+<<<<<<< HEAD
+=======
+    public function getByCursoWithContenidos($id_curso) {
+        
+            $sql = 'SELECT cc.id_curso, c.nombre as id_contenido, cc.frase, cc.fecha_inicio,cc.fecha_cierre,cc.link 
+                FROM cursos_has_contenidos cc JOIN contenidos c ON cc.id_contenido = c.id 
+                WHERE id_curso = ? ORDER BY fecha_inicio,fecha_cierre';
+            $sqlQuery = new SqlQuery($sql);
+            $sqlQuery->setNumber($id_curso);
+            
+            return $this->getList($sqlQuery);
+            
+    }    
+    
+>>>>>>> master
     public function getCerradosByCurso($id_curso) {
         
             $sql = 'SELECT * FROM cursos_has_contenidos WHERE id_curso = ? AND fecha_cierre < now()';
@@ -145,7 +160,11 @@ class CursosHasContenidosMySqlDAO implements CursosHasContenidosDAO{
         
             $sql = 'SELECT * FROM cursos_has_contenidos WHERE id_curso = ? AND fecha_inicio = ? AND fecha_cierre = ?';
             $sqlQuery = new SqlQuery($sql);
+<<<<<<< HEAD
             $sqlQuery->setNumber($id_curso);            
+=======
+            $sqlQuery->setNumber($idCurso);            
+>>>>>>> master
             $sqlQuery->setString($fechaInicio);            
             $sqlQuery->setString($fechaCierre);            
             

@@ -8,6 +8,25 @@
 class ContenidosMySqlDAO implements ContenidosDAO{
 	
 	/**
+	 * Esta funcion devuelve todos los contenidos hijos de un contenido
+	 *
+	 * @author cgajardo
+	 * @param int $id_contenido
+	 * @return list $contenidos_hijos
+	 */
+	public function getHijos($id_contenido){
+		$sql = 'SELECT c1.* '.
+			'FROM contenidos c1 '.
+			'WHERE padre = ? '.
+			'ORDER BY c1.nombre ASC ';
+		 
+		$sqlQuery = new SqlQuery($sql);
+		$sqlQuery->setNumber($id_contenido);
+		 
+		return $this->getList($sqlQuery);
+	}
+	
+	/**
 	 * Devuelve los contenidos cuyo nombre es similar al parametro $likeString
 	 * 
 	 * @author cgajardo
@@ -316,12 +335,16 @@ class ContenidosMySqlDAO implements ContenidosDAO{
     }
 
     public function getRealContenidos() {
-        
-                $sql = 'SELECT c1.* 
+
+//                 $sql = 'SELECT c1.* 
+//                         FROM contenidos c1 
+//                         JOIN contenidos c2 ON c1.padre=c2.id 
+//                         JOIN contenidos c3 ON c2.padre=c3.id 
+//                         ORDER BY c1.nombre ASC';
+				$sql = 'SELECT c1.* 
                         FROM contenidos c1 
-                        JOIN contenidos c2 ON c1.padre=c2.id 
-                        JOIN contenidos c3 ON c2.padre=c3.id 
-                        ORDER BY padre,id';
+                        WHERE padre = 0    
+                        ORDER BY c1.nombre ASC';
                 
                 return $this->getList(new SqlQuery($sql));
         

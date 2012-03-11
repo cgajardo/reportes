@@ -4,7 +4,6 @@
 <link rel="stylesheet" type="text/css" href="/reportes/views/styles/pagination.css"/>
 <script type="text/javascript" src="/reportes/views/js/jquery_1.7.1.js"></script>
 <script type="text/javascript" charset="utf-8">
-
 function asociar($id_contenido, $id_pregunta){
         var xmlhttp;
 	if (window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -22,42 +21,8 @@ function asociar($id_contenido, $id_pregunta){
 	xmlhttp.send();
 }
 
-function loadPadres($id_contenido, $id_pregunta){
-   var xmlhttp;
-	if (window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
-		xmlhttp=new XMLHttpRequest();
-	}
-	else{// code for IE6, IE5
-		xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-	}
-	xmlhttp.onreadystatechange=function(){
-		if (xmlhttp.readyState==4 && xmlhttp.status==200){
-			document.getElementById('padres'+$id_pregunta).innerHTML=xmlhttp.responseText;
-		}
-	};
-	xmlhttp.open("POST","contenidos_padres?contenido="+$id_contenido+"&pregunta="+$id_pregunta,true);
-	xmlhttp.send();
-}
-
-function loadHijos($id_contenido, $id_pregunta){
-    var xmlhttp;
-	if (window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
-		xmlhttp=new XMLHttpRequest();
-	}
-	else{// code for IE6, IE5
-		xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-	}
-	xmlhttp.onreadystatechange=function(){
-		if (xmlhttp.readyState==4 && xmlhttp.status==200){
-			document.getElementById('hijos'+$id_pregunta).innerHTML=xmlhttp.responseText;
-		}
-	};
-	xmlhttp.open("POST","contenidos_hijos?contenido="+$id_contenido+"&pregunta="+$id_pregunta,true);
-	xmlhttp.send();
-}
-
-function preguntas(){
-    var quiz=document.getElementById("quiz").value;
+function calendario(){
+    var curso=document.getElementById("cursos").value;
     if (window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
   		xmlhttp=new XMLHttpRequest();
   	}
@@ -66,15 +31,42 @@ function preguntas(){
   	}
 	xmlhttp.onreadystatechange=function(){
   		if (xmlhttp.readyState==4 && xmlhttp.status==200){
-    		document.getElementById("preguntas").innerHTML=xmlhttp.responseText;
+    		document.getElementById("calendario").innerHTML=xmlhttp.responseText;
     	}
   	};
-        xmlhttp.open("POST","preguntas_quiz?quiz="+quiz,true);
+        xmlhttp.open("POST","calendario_curso?curso="+curso,true);
 	xmlhttp.send();
+}
+
+function editar(fechaInicio,fechaCierre){
+    var curso=document.getElementById("cursos").value;
+        if (window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
+  		xmlhttp=new XMLHttpRequest();
+  	}
+	else{// code for IE6, IE5
+  		xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  	}
+	xmlhttp.onreadystatechange=function(){
+  		if (xmlhttp.readyState==4 && xmlhttp.status==200){
+    		document.getElementById("editar").innerHTML=xmlhttp.responseText;
+    		document.getElementById("editar").hidden="";
+                
+    	}
+  	};
+        xmlhttp.open("POST","editar_actividad?curso="+curso+"&fechaInicio="+fechaInicio+"&fechaCierre="+fechaCierre,true);
+	xmlhttp.send();
+
 }
 
 </script>
 <style>
+    .editar{
+        position: fixed;
+        margin-left: 300px;
+        margin-top: -20px;
+        background-color: #AAA;        
+    }
+    
     .header {
         height: 150px;
         margin-top: -8px;
@@ -99,19 +91,21 @@ function preguntas(){
     <div align="left" style="margin-left:112px">
         <br/>
 <?php
-$combo ='id="quiz" onchange="preguntas()"><option value="-1">Seleccione un Quiz</option>';
-foreach($quizesByCurso as $nombre=>$quizes){
+$combo ='id="cursos" onchange="calendario()"><option value="-1">Seleccione un Curso</option>';
+foreach($cursosBySede as $nombre=>$cursos){
     $combo.='<optgroup label="'.$nombre.'">';
-    foreach($quizes as $quiz){
-        $combo .= '<option value="'.$quiz->id.'">'.$quiz->nombre.'</option>';
+    foreach ($cursos as $curso){
+        $combo.='<option value="'.$curso->id.'">'.$curso->nombre.'</option>';
     }
     $combo.='</optgroup>';
 }
 echo '<select '.$combo.'</select>';
 ?>
-        <br><br><b>PREGUNTAS DEL QUIZ: </b>
-    <div id="preguntas"></div>
+        <div id="editar" class="editar" hidden></div>
+        <br><br>
+    <div id="calendario"></div>
     </div>
+    
     <br><br>
     <div class="footer"></div>
 </body>

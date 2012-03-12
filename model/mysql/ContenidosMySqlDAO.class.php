@@ -135,11 +135,11 @@ class ContenidosMySqlDAO implements ContenidosDAO{
 		$sql = 'INSERT INTO contenidos (nombre, link_repaso, frase_no_logrado, frase_logrado,padre) VALUES (?, ?, ?, ?,?)';
 		$sqlQuery = new SqlQuery($sql);
 		
-		$sqlQuery->set($contenido->nombre);
-		$sqlQuery->set($contenido->linkRepaso);
-		$sqlQuery->set($contenido->fraseNoLogrado);
-		$sqlQuery->set($contenido->fraseLogrado);
-		$sqlQuery->set($contenido->padre);
+		$sqlQuery->setString($contenido->nombre);
+		$sqlQuery->setString($contenido->linkRepaso);
+		$sqlQuery->setString($contenido->fraseNoLogrado);
+		$sqlQuery->setString($contenido->fraseLogrado);
+		$sqlQuery->setNumber($contenido->padre);
 		
 		$id = $this->executeInsert($sqlQuery);	
 		$contenido->id = $id;

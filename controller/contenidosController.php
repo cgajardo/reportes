@@ -38,7 +38,7 @@ public function guardar(){
 	$contenido->fraseLogrado = $_POST['fraseLogrado'];
 	$contenido->fraseNoLogrado = $_POST['fraseNoLogrado'];
 	$contenido->padre = $_POST['padre'];
-	if(isset($_POST['id'])){
+	if(isset($_POST['id']) && $_POST['id']!=''){
             $contenido->id=$_POST['id'];
             DAOFactory::getContenidosDAO()->update($contenido);
         }else{

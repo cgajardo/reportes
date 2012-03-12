@@ -66,6 +66,17 @@ public function reporte(){
 
 	//recuperamos los objetos que nos interesan
 	$usuario = $_SESSION['usuario'];
+	
+	$rol = $usuario->getRol(); 
+	if( $rol == 'rector' || $rol = 'profesor'){
+		$curso_id = $_GET['curso'];
+		$quiz_id = $_GET['quiz'];
+		$nombreApellido = explode(',', $_GET['alumno']);
+		$nombre = trim($nombreApellido[1]);
+		$apellido = trim($nombreApellido[0]);
+		$usuario = DAOFactory::getPersonasDAO()->queryByNombreApellido($nombre,$apellido);
+	}
+	
 	$platform = $_SESSION['plataforma'];
 	
 	//permite a un profesor o director ver el reporte de un alumno

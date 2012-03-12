@@ -7,6 +7,25 @@
  */
 class PersonasMySqlDAO implements PersonasDAO{
 	
+	/**
+	 * Retorna un usuario que coincide en nombre y apellido
+	 * TODO: chequear en curso
+	 * 
+	 * @author cgajardo.
+	 * @param string $nombre
+	 * @param string $apellido
+	 */
+	public function queryByNombreApellido($nombre,$apellido){
+		$sql = 'SELECT * FROM personas '.
+			'WHERE nombre = ? '.
+			'AND apellido = ?';
+		$sqlQuery = new SqlQuery($sql);
+		$sqlQuery->setString($nombre);
+		$sqlQuery->setString($apellido);
+		
+		return $this->getRow($sqlQuery);
+		
+	}
 	
 	/**
 	 * Esta función sólo se utiliza desde el DTO de personas.

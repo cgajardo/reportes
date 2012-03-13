@@ -53,4 +53,7 @@
 	?>
 	<div class="footer"></div>
 </body>
+<!-- Piwik Image Tracker -->
+<img src="http://analytics.litmon.com/piwik.php?idsite=6&rec=1" style="border:0" alt="" />
+<!-- End Piwik -->
 </html>

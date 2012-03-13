@@ -53,8 +53,9 @@ class ContenidosMySqlDAO implements ContenidosDAO{
 	 */
 	public function getContenidosByQuiz($quiz_id){
 		$sql = 'SELECT c.* '.
-				'FROM contenidos as c, preguntas as p '.
-				'WHERE p.id_contenido = c.id '.
+				'FROM contenidos as c, preguntas as p, categorias as cat '.
+				'WHERE p.id_categoria = cat.id '.
+				'AND cat.id_contenido = c.id '.
 				'AND p.id IN (SELECT qp.id_pregunta '.
                               'FROM quizes_has_preguntas AS qp '.
                               'WHERE qp.id_quiz = ?) '.
@@ -335,7 +336,6 @@ class ContenidosMySqlDAO implements ContenidosDAO{
     }
 
     public function getRealContenidos() {
-        
 //                 $sql = 'SELECT c1.* 
 //                         FROM contenidos c1 
 //                         JOIN contenidos c2 ON c1.padre=c2.id 

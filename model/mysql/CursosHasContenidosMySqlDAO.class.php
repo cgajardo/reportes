@@ -89,7 +89,11 @@ class CursosHasContenidosMySqlDAO implements CursosHasContenidosDAO{
         
             $sql = 'DELETE FROM cursos_has_contenidos WHERE id_curso = ? AND fecha_inicio = ? AND fecha_cierre = ?';
             $sqlQuery = new SqlQuery($sql);
+<<<<<<< HEAD
             $sqlQuery->setNumber($idCurso);
+=======
+            $sqlQuery->setNumber($id_curso);
+>>>>>>> producción
             $sqlQuery->setString($fechaInicio);
             $sqlQuery->setString($fechaCierre);
             
@@ -116,7 +120,11 @@ class CursosHasContenidosMySqlDAO implements CursosHasContenidosDAO{
             return $this->getList($sqlQuery);
             
     }
+<<<<<<< HEAD
     
+=======
+    
+>>>>>>> producción
     public function getByCursoWithContenidos($id_curso) {
         
             $sql = 'SELECT cc.id_curso, c.nombre as id_contenido, cc.frase, cc.fecha_inicio,cc.fecha_cierre,cc.link 
@@ -128,7 +136,11 @@ class CursosHasContenidosMySqlDAO implements CursosHasContenidosDAO{
             return $this->getList($sqlQuery);
             
     }    
+<<<<<<< HEAD
     
+=======
+    
+>>>>>>> producción
     public function getCerradosByCurso($id_curso) {
         
             $sql = 'SELECT * FROM cursos_has_contenidos WHERE id_curso = ? AND fecha_cierre < now()';
@@ -142,6 +154,7 @@ class CursosHasContenidosMySqlDAO implements CursosHasContenidosDAO{
     
     public function insert($cursosHasContenidos) {
         
+<<<<<<< HEAD
             $sql = 'INSERT INTO cursos_has_contenidos VALUES ( ? , ? , ? , ? , ? , ? )';
             $sqlQuery = new SqlQuery($sql);
             $sqlQuery->setNumber($cursosHasContenidos->idCurso);
@@ -150,14 +163,29 @@ class CursosHasContenidosMySqlDAO implements CursosHasContenidosDAO{
             $sqlQuery->setString($cursosHasContenidos->fechaInicio);
             $sqlQuery->setString($cursosHasContenidos->fechaCierre);
             $sqlQuery->setString($cursosHasContenidos->link);
+=======
+            $sql = 'INSERT INTO cursos_has_contenidos VALUES (?,?,?,?,?,?)';
+            $sqlQuery = new SqlQuery;
+            $sqlQuery->setNumber($id_curso);
+            $sqlQuery->setNumber($id_contenido);
+            $sqlQuery->setString($frase);
+            $sqlQuery->setString($fechaInicio);
+            $sqlQuery->setString($fechaCierre);
+            $sqlQuery->setString($link);
+>>>>>>> producción
             
             return  $this->executeInsert($sqlQuery);
     }
     public function load($idCurso, $fechaInicio, $fechaCierre) {
         
             $sql = 'SELECT * FROM cursos_has_contenidos WHERE id_curso = ? AND fecha_inicio = ? AND fecha_cierre = ?';
+<<<<<<< HEAD
             $sqlQuery = new SqlQuery($sql);
             $sqlQuery->setNumber($idCurso);            
+=======
+            $sqlQuery = new SqlQuery($sql);
+            $sqlQuery->setNumber($idCurso);
+>>>>>>> producción
             $sqlQuery->setString($fechaInicio);            
             $sqlQuery->setString($fechaCierre);            
             
@@ -185,15 +213,25 @@ class CursosHasContenidosMySqlDAO implements CursosHasContenidosDAO{
         
         $sql = 'UPDATE cursos_has_contenidos SET frase = ?, fecha_inicio = ?, fecha_cierre = ?, link = ? WHERE id_curso = ? AND fecha_inicio = ? AND fecha_cierre = ?';
         $sqlQuery = new SqlQuery($sql);
+<<<<<<< HEAD
         $sqlQuery->setString($cursosHasContenidos->frase);
         $sqlQuery->setString($cursosHasContenidos->fechaInicio);
         $sqlQuery->setString($cursosHasContenidos->fechaCierre);
         $sqlQuery->setString($cursosHasContenidos->link);
+=======
+        $sqlQuery->setString($cursosHasContenidos->fecha);
+        $sqlQuery->setString($cursosHasContenidos->fechaInicio);
+        $sqlQuery->setString($cursosHasContenidos->fechaCierre);
+        $sqlQuery->setString($cursosHasContenidos->fechaLink);
+>>>>>>> producción
         $sqlQuery->setNumber($cursosHasContenidos->idCurso);
         $sqlQuery->setString($fechaInicioVieja);
         $sqlQuery->setString($fechaCierreVieja);
         
+<<<<<<< HEAD
         $this->executeUpdate($sqlQuery);
+=======
+>>>>>>> producción
     }
     
     public function getCerradosByCursoWithContenidos($id_curso) {

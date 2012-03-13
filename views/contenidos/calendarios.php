@@ -4,7 +4,11 @@
 <link rel="stylesheet" type="text/css" href="/reportes/views/styles/pagination.css"/>
 <script type="text/javascript" src="/reportes/views/js/jquery_1.7.1.js"></script>
 <script type="text/javascript" charset="utf-8">
+<<<<<<< HEAD
 function asociar(){
+=======
+function asociar($id_contenido, $id_pregunta){
+>>>>>>> producción
         var xmlhttp;
 	if (window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
   		xmlhttp=new XMLHttpRequest();
@@ -14,6 +18,7 @@ function asociar(){
   	}
 	xmlhttp.onreadystatechange=function(){
   		if (xmlhttp.readyState==4 && xmlhttp.status==200){
+<<<<<<< HEAD
     		document.getElementById("editar").innerHTML="";
     		document.getElementById("editar").hidden="true";
                 
@@ -28,6 +33,15 @@ function ocultar(){
     document.getElementById("editar").innerHtml="";
 }
 
+=======
+    		document.getElementById($id_pregunta).innerHTML=xmlhttp.responseText;
+    	}
+  	};
+        xmlhttp.open("POST","<?php print($_SERVER['PHP_SELF']);?>?rt=contenidos/asociar_ajax&id_contenido="+$id_contenido+"&id_pregunta="+$id_pregunta,true);
+	xmlhttp.send();
+}
+
+>>>>>>> producción
 function calendario(){
     var curso=document.getElementById("cursos").value;
     if (window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -65,6 +79,7 @@ function editar(fechaInicio,fechaCierre){
 
 }
 
+<<<<<<< HEAD
 function eliminar(fechaInicio,fechaCierre){
     var curso=document.getElementById("cursos").value;
         if (window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -107,6 +122,8 @@ function crear(){
 }
 
 
+=======
+>>>>>>> producción
 </script>
 <style>
     .editar{
@@ -144,17 +161,24 @@ $combo ='id="cursos" onchange="calendario()"><option value="-1">Seleccione un Cu
 foreach($cursosBySede as $nombre=>$cursos){
     $combo.='<optgroup label="'.$nombre.'">';
     foreach ($cursos as $curso){
+<<<<<<< HEAD
         $combo.='<option value="'.$curso->id.'"';
         if(@$idCurso && $idCurso == $curso->id){
             $combo.= ' selected';
         }
         $combo.='>'.$curso->nombre.'</option>';
+=======
+        $combo.='<option value="'.$curso->id.'">'.$curso->nombre.'</option>';
+>>>>>>> producción
     }
     $combo.='</optgroup>';
 }
 echo '<select '.$combo.'</select>';
 ?>
+<<<<<<< HEAD
         <script>calendario()</script>
+=======
+>>>>>>> producción
         <div id="editar" class="editar" hidden></div>
         <br><br>
     <div id="calendario"></div>

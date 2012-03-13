@@ -38,6 +38,7 @@ public function guardar(){
 	$contenido->fraseLogrado = $_POST['fraseLogrado'];
 	$contenido->fraseNoLogrado = $_POST['fraseNoLogrado'];
 	$contenido->padre = $_POST['padre'];
+
 	if(isset($_POST['id']) && $_POST['id']!=''){
             $contenido->id=$_POST['id'];
             DAOFactory::getContenidosDAO()->update($contenido);
@@ -104,7 +105,6 @@ public function asociar(){
 }
 
 public function asociar2(){
-    
         $cursos = DAOFactory::getCursosDAO()->queryAll();
         foreach($cursos as $curso){
             $quizesByCurso[$curso->nombre]=  DAOFactory::getQuizesDAO()->queryEvaluacionesByIdCurso($curso->id);
@@ -190,11 +190,11 @@ public function preguntas_quiz(){
     $contenidos = DAOFactory::getContenidosDAO()->getRealContenidos();
     $combo = 'name="contenido" onchange="loadPadres(this.value, this.id)">';
     $combo.='<option value="-1">Seleccione un Tema</option>';
+
     foreach ($contenidos as $contenido){
         $combo.='<option value="'.$contenido->id.'">'.$contenido->nombre.'</option>';
     } 
     $combo.='</select>';
-    
     echo '<table class="paginable" align="center">
         <tr>
             <th>Pregunta</th>

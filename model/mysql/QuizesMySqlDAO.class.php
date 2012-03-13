@@ -55,13 +55,25 @@ class QuizesMySqlDAO implements QuizesDAO{
 	 * @param int $curso_id
 	 */
 	public function queryCerradosByIdCurso($curso_id){
+		
+		/**
+		 * @author cgajardo: previous query
+		 * $sql = 'SELECT q.* '. 
+               'FROM quizes AS q '. 
+               'JOIN sedes_has_cursos sc ON q.id_curso=sc.id_curso '.
+               'JOIN sedes s ON sc.id_sede=s.id '.
+               'JOIN instituciones i ON s.id_institucion=i.id '.
+               'WHERE q.id_curso = ? AND q.nombre REGEXP i.prefijo_tarea '.
+               'AND q.fecha_cierre > 0 AND q.fecha_cierre < NOW() ORDER BY nombre ASC';
+		 */
+		
 		$sql = 'SELECT q.* '. 
-                        'FROM quizes AS q '. 
-                        'JOIN sedes_has_cursos sc ON q.id_curso=sc.id_curso '.
-                        'JOIN sedes s ON sc.id_sede=s.id '.
-                        'JOIN instituciones i ON s.id_institucion=i.id '.
-                        'WHERE q.id_curso = ? AND q.nombre REGEXP i.prefijo_tarea '.
-                        'AND q.fecha_cierre > 0 AND q.fecha_cierre < NOW() ORDER BY nombre ASC';
+               'FROM quizes AS q '. 
+               'JOIN sedes_has_cursos sc ON q.id_curso=sc.id_curso '.
+               'JOIN sedes s ON sc.id_sede=s.id '.
+               'JOIN instituciones i ON s.id_institucion=i.id '.
+               'WHERE q.id_curso = ? AND q.nombre REGEXP i.prefijo_tarea '.
+               'AND q.fecha_cierre < NOW() ORDER BY nombre ASC';
 		$sqlQuery = new SqlQuery($sql);
 		$sqlQuery->set($curso_id);
 		return $this->getList($sqlQuery);

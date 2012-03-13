@@ -4,6 +4,7 @@
 <link rel="stylesheet" type="text/css" href="/reportes/views/styles/pagination.css"/>
 <script type="text/javascript" src="/reportes/views/js/jquery_1.7.1.js"></script>
 <script type="text/javascript" charset="utf-8">
+
 function asociar($id_contenido, $id_pregunta){
         var xmlhttp;
 	if (window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -71,7 +72,6 @@ function preguntas(){
         xmlhttp.open("POST","preguntas_quiz?quiz="+quiz,true);
 	xmlhttp.send();
 }
-
 </script>
 <style>
     .header {
@@ -80,7 +80,6 @@ function preguntas(){
         margin-left: auto;
         margin-right: auto;
     }
-    
     .footer {
 	background-image: url("/reportes/views/images/logos/footer.png");
 	background-position: center;

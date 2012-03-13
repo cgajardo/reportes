@@ -8,6 +8,15 @@
 interface PersonasDAO{
 	
 	/**
+	 * Retorna un usuario que coincide en nombre y apellido
+	 *
+	 * @author cgajardo.
+	 * @param string $nombre
+	 * @param string $apellido
+	 */
+	public function queryByNombreApellido($nombre,$apellido);
+	
+	/**
 	 * Esta función sólo se utiliza desde el DTO de personas.
 	 * No debe considerarse como ejemplo para otras funciones
 	 * y no debe usarse fuera del scope de los DTO's

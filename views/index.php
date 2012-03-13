@@ -3,6 +3,8 @@
 <p>Prueba ingresando como:</p>
 <h4>Alumnos:</h4>
 <ul>
+
+  <li><a href="./enrutador/index&params=lnFtbVjp2gnQMUkAa_1qgT64fPt6LOGceYd3vuJex_-WwY2gLaDtgQ">Jos&eacute, Ignacio Osorio (Instituto)</a></li>
   <!--18162154-->
   <li><a href="./enrutador/index&params=lnFtbVjp2gmDCYidkYAPdvehQvhmDNuKeqIjv8xuNh0">Andr&eacute;s Cort&eacute;s (Santiago)</a></li>
   <!--18459086-->

@@ -68,7 +68,7 @@ public function reporte(){
 	$usuario = $_SESSION['usuario'];
 	
 	$rol = $usuario->getRol(); 
-	if( $rol == 'rector' || $rol = 'profesor'){
+	if( $rol == 'rector' || $rol == 'profesor'){
 		$curso_id = $_GET['curso'];
 		$quiz_id = $_GET['quiz'];
 		$nombreApellido = explode(',', $_GET['alumno']);

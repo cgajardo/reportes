@@ -100,7 +100,6 @@ class PersonasMySqlDAO implements PersonasDAO{
 		if(count($registros) == 0){
 			return FALSE;
 		}
-		
 		return TRUE;
 	}
 	

@@ -145,11 +145,11 @@ public function reporte(){
 
 public function nivelacion(){
     
-        session_start();
+    session_start();
 	$PARAMS = $this->encrypter->decodeURL($_GET['params']);
 	$curso_id = $PARAMS['curso'];
 
-		//recuperamos los objetos que nos interesan
+	//recuperamos los objetos que nos interesan
 	$usuario = $_SESSION['usuario'];
 	$platform = $_SESSION['plataforma'];
 	

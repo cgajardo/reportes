@@ -153,16 +153,20 @@ public function nivelacion(){
 	$usuario = $_SESSION['usuario'];
 	$platform = $_SESSION['plataforma'];
 	
-	//permite a un profesor o director ver el reporte de un alumno
-	if(isset($PARAMS['usuario'])){
-		$usuario = DAOFactory::getPersonasDAO()->load($PARAMS['usuario']);
-	}
-	
 	$curso = DAOFactory::getCursosDAO()->load($curso_id);
-
+	$quiz = DAOFactory::getQuizesDAO()->queryDiagnosticosByIdCurso($curso->id);
+	//cgajardo: qué sucede si hay más de 1 quiz de diagnostico para 1 curso???
 	$institucion = DAOFactory::getInstitucionesDAO()-> getInstitucionByNombrePlataforma($platform);
+	//para qué necesito al grupo??
+	
+	$reultadosTemaUnidad = DAOFactory::getIntentosDAO()->getLogroPorUnidadTema($usuario->id, $quiz->id);
+	
+	print_r($reultadosTemaUnidad);
+	/** Current work**/
+	
+	
 	$grupo = DAOFactory::getGruposDAO()->getGrupoByCursoAndUser($usuario->id, $curso->id);
-        $quiz = DAOFactory::getQuizesDAO()->queryDiagnosticosByIdCurso($curso->id);
+        
         foreach(DAOFactory::getIntentosDAO()->getLogroPorContenidoWithPadre($quiz->id, $usuario->id) as $contenido){
             $contenido_logro[$contenido['contenido']->padre][$contenido['contenido']->nombre]=$contenido['logro'];
         }
@@ -177,7 +181,7 @@ public function nivelacion(){
 	
 
 	//enviamos los siguientes valores a la vista*/
-	$this->registry->template->titulo = 'Reporte Estudiante';
+	$this->registry->template->titulo = 'Informe de nivelaci&oacute,';
 	$this->registry->template->usuario = $usuario;
 	$this->registry->template->notas_curso = $notas_curso;
 	$this->registry->template->logro_curso = (promedio_grupo($notas_curso,$estudiantes_en_curso)-$quiz->notaMinima)/($quiz->notaMaxima-$quiz->notaMinima)*100;

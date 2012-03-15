@@ -8,6 +8,37 @@
 class IntentosMySqlDAO implements IntentosDAO{
 	
 	/**
+	 * Esta funcion entrega un arreglo de objetos LogroContenido
+	 * asociados a un usuario en un quiz
+	 * 
+	 * @author cgajardo
+	 * @param int $usuario_id
+	 * @param int $quiz_id
+	 */
+	public function getLogroPorUnidadTema($usuario_id, $quiz_id){
+		
+		$sql = 'SELECT sum(puntaje_alumno) AS logro, sum(maximo_puntaje) AS logro_maximo, 
+						c.id AS id_contenido, unidad.nombre AS unidad, tema.nombre AS tema '.
+				'FROM intentos AS i, contenidos AS c, 
+						categorias AS cat, preguntas AS p, contenidos AS unidad, contenidos AS tema '. 
+				'WHERE id_persona = ? '. 
+					'AND c.id = cat.id_contenido '. 
+					'AND p.id_categoria = cat.id '.
+					'AND p.id = i.id_pregunta '.
+					'AND c.padre = unidad.id '. 
+					'AND unidad.padre = tema.id '. 
+					'AND id_quiz = ? '.
+				'GROUP BY id_contenido ';
+		
+		$sqlQuery = new SqlQuery($sql);
+		$sqlQuery->setNumber($usuario_id);
+		$sqlQuery->setNumber($quiz_id);
+		
+		return $this->getLogroTemaArray($sqlQuery);
+		
+	}
+	
+	/**
 	 * Retorna el logro por quiz para un alumno
 	 * 
 	 * @author cgajardo
@@ -493,7 +524,7 @@ class IntentosMySqlDAO implements IntentosDAO{
 	/**
 	 * @author cgajardo
 	 * @param object $sqlQuery
-	 * @return NotaLogro $ret
+	 * @return NotaLogro Array $ret
 	 */
 	protected function getNotaLogro($sqlQuery){
 	
@@ -508,8 +539,28 @@ class IntentosMySqlDAO implements IntentosDAO{
 		}
 		return $ret;
 	}
+	
+	/**
+	 * @author cgajardo
+	 * @param Object $sqlQuery
+	 * @return LogroContenido Array $ret
+	 */
+	protected function getLogroTemaArray($sqlQuery){
+		$tab = QueryExecutor::execute($sqlQuery);
+		$ret = array();
+		for($i=0;$i<count($tab);$i++){
+			$logroContenido = new LogroContenido();
+			$logroContenido->contenido = DAOFactory::getContenidosDAO()->load($tab[$i]['id_contenido']);
+			$logroContenido->sumaAlumno = $tab[$i]['logro'];
+			$logroContenido->sumaMaxima = $tab[$i]['logro_maximo'];
+			$logroContenido->tema = $tab[$i]['tema'];
+			$logroContenido->unidad = $tab[$i]['unidad'];
+			$ret[$i] = $logroContenido;
+		}
+		return $ret;
+	}
                 
-        protected function getNotaNombreLogro($sqlQuery){
+    protected function getNotaNombreLogro($sqlQuery){
             
 		$tab = QueryExecutor::execute($sqlQuery);
 		$ret = array();

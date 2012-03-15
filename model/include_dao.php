@@ -41,6 +41,7 @@
 	require_once('dao/LogsDAO.class.php');
 	require_once('dto/Log.class.php');
 	require_once('mysql/LogsMySqlDAO.class.php');
+	require_once('dto/LogroContenido.class.php');
 	require_once('dao/CategoriasDAO.class.php');
 	require_once('dto/Categoria.class.php');
 	require_once('mysql/CategoriasMySqlDAO.class.php');

@@ -21,7 +21,7 @@ function loadCursos(){
     	for (var i = 0; i < selection.length; i++) {
     		var item = selection[i]; 
     	    if (item.row != null) {
-    	   	sede = data['F'][item.row]['c'][0]['v'];
+    	   	sede = data['D'][item.row]['c'][0]['v'];
     	    } else {
     	    	alert("error");
     	    }
@@ -71,7 +71,7 @@ function loadGrupos(){
    	for (var i = 0; i < selection.length; i++) {
    		var item = selection[i]; 
    	    if (item.row != null) {
-   	   	curso = data['F'][item.row]['c'][0]['v'];
+   	   	curso = data['D'][item.row]['c'][0]['v'];
    	    } else {
    	    	alert("error");
    	    }
@@ -121,7 +121,7 @@ function loadAlumnos(){
    	for (var i = 0; i < selection.length; i++) {
    		var item = selection[i]; 
    	    if (item.row != null) {
-   	   	 grupo = data['F'][item.row]['c'][0]['v'];
+   	   	 grupo = data['D'][item.row]['c'][0]['v'];
    	    } else {
    	    	alert("error");
    	    }
@@ -170,7 +170,7 @@ function loadAlumno(){
 	for (var i = 0; i < selection.length; i++) {
 		var item = selection[i]; 
 	    if (item.row != null) {
-	   	 alumno = data['F'][item.row]['c'][0]['v'];
+	   	 alumno = data['D'][item.row]['c'][0]['v'];
 	    } else {
 	    	alert("error");
 	    }

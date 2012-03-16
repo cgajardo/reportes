@@ -15,6 +15,7 @@
 	</style>
      <script type="text/javascript" charset="utf-8" src="/reportes/views/js/json.js"></script>
   	 <script type="text/javascript" charset="utf-8" src="/reportes/views/js/directorlogrochart.js"></script>
+  	 <script type="text/javascript" src="/reportes/views/js/googlecharts.js"></script>
      <script type="text/javascript" charset="utf-8">
      var chart;
      var data;
@@ -38,7 +39,6 @@
    	  }
      </script>
      <title>Informe para directores</title>
-     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
      <script type="text/javascript">
      google.load("visualization", "1", {packages:["corechart"]});
      google.setOnLoadCallback(drawChart);

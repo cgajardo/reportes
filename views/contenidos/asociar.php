@@ -1,7 +1,7 @@
 <html>
 <head>
 <title>Asociar contenido a pregunta</title>
-<link rel="stylesheet" type="text/css" href="/reportes/views/styles/pagination.css"/>
+<link rel="stylesheet" type="text/css" href="../views/styles/pagination.css"/>
 <script type="text/javascript" src="/reportes/views/js/jquery_1.7.1.js"></script>
 <script type="text/javascript" charset="utf-8">
 function loadXMLDoc($id_contenido, $id_pregunta){

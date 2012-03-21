@@ -6,7 +6,7 @@
     <img class="header" src="../views/images/logos/galyleo.jpg"><br/><br/>
     <h2>Ingrese Informaci&oacute;n de la Instituci&oacute;n</h2>
 
-<form action="<?php echo str_replace("index.php","",$_SERVER['PHP_SELF']);?>instituciones/guardar" name="institucion" method="post">
+<form action="guardar" name="institucion" method="post">
 
 <?php 
 	//revisamos si se trata de un update

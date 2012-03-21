@@ -73,5 +73,71 @@ public function eliminar(){
 	$this->registry->template->show('enrutador');
 }
 
+public function cursos(){
+    
+    $cursos = DAOFactory::getCursosDAO()->queryAll();
+    
+    $this->registry->template->cursos = $cursos;
+    $this->registry->template->show('sedes/cursos');
+
 }
+
+public function grupos(){
+    $curso_id = $_GET['curso'];
+    $sedes = DAOFactory::getSedesDAO()->queryAll();
+    $curso = DAOFactory::getCursosDAO()->load($curso_id);
+    $grupos = DAOFactory::getGruposDAO()->getGruposInCurso($curso_id);
+    $instituciones = DAOFactory::getInstitucionesDAO()->queryAll();    
+    
+    $combo='<option>Seleccione una Sede</option>';
+    foreach($instituciones as $institucion){
+        $sedes = DAOFactory::getSedesDAO()->getSedesByInstitucion($institucion->id);
+        $combo.='<optgroup label="'.$institucion->nombreCorto.'">';
+        foreach($sedes as $sede){
+            $combo.='<option value="'.$sede->id.'">'.$sede->nombre.'</option>';
+            $sedesById[$sede->id] = $sede;
+        }
+        $combo.='</optgroup>';
+    }
+    $combo.='</select>';
+    
+    foreach ($instituciones as $institucion){
+        $institucionesById[$institucion->id]=$institucion;
+    }
+    
+    $this->registry->template->curso = $curso;
+    $this->registry->template->grupos = $grupos;
+    $this->registry->template->combo = $combo;
+    $this->registry->template->sedes = $sedesById;
+    
+    
+    $this->registry->template->show('sedes/grupos');
+    
+}
+
+public function asociarCurso(){
+    $idSede = $_GET['sede'];
+    $idCurso = $_GET['curso'];
+    $grupos = DAOFactory::getGruposDAO()->getGruposInCurso($idCurso);
+    foreach($grupos as $grupo){
+        $grupo->idSede=$idSede;
+        DAOFactory::getGruposDAO()->update($grupo);
+    }
+    
+}
+
+public function asociarGrupo(){
+    $grupo = DAOFactory::getGruposDAO()->load($_GET['grupo']);
+    $sede = $_GET['sede'];
+    $grupo->idSede = $sede;
+    DAOFactory::getGruposDAO()->update($grupo);
+    
+    $sede =  DAOFactory::getSedesDAO()->load($sede);
+    print $sede->nombre;
+    
+    $this->registry->template->show('debug');
+    }
+
+}
+
 ?>

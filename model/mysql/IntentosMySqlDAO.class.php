@@ -71,42 +71,28 @@ class IntentosMySqlDAO implements IntentosDAO{
 	 */
 	public function getLogroPorContenido($id_quiz, $id_usuario){
 		
-                $sql = 'SELECT * FROM (
-                        SELECT t.* FROM (
-                        SELECT nombre, apellido,x.* FROM personas p JOIN (
-                        SELECT id_persona,logro,t2.numero_intento,t2.id_contenido as contenido,n as numero_preguntas FROM
-                        (
-                        SELECT id_persona, sum(puntaje_alumno)/sum(maximo_puntaje)*100 AS logro, numero_intento, id_contenido FROM (
-                        SELECT i.*, categorias.id_contenido 
-                        FROM categorias, intentos i JOIN preguntas p ON i.id_pregunta=p.id
-                        WHERE i.id_quiz=?
-                        AND p.id_categoria=categorias.id 
-                        ORDER BY id_persona,numero_intento,id_contenido) as t
-                        GROUP BY id_persona,numero_intento,id_contenido) as t2
-                        JOIN (SELECT numero_intento,id_contenido,n FROM ( 
-                        SELECT id_persona,numero_intento,id_contenido,count(*) AS n FROM (
-                        SELECT i.*, categorias.id_contenido 
-                        FROM categorias, intentos i JOIN preguntas p ON i.id_pregunta=p.id
-                        WHERE i.id_quiz = ?
-                        AND p.id_categoria=categorias.id
-                        ORDER BY id_persona) as t
-                        GROUP BY id_persona,numero_intento,id_contenido) as s
-                        GROUP BY id_contenido
-                        ) as t3 ON t2.id_contenido=t3.id_contenido
-                        ) as x ON p.id=x.id_persona JOIN grupos_has_estudiantes ge ON ge.id_persona=x.id_persona) as t
-                        JOIN (SELECT nc.id_persona, max(nc.nota) as nota, nc.nmax as nota_maxima,nc.nmin AS nota_minima,numero_intento
-                        FROM (SELECT id_persona, q.nota_maxima AS nmax,q.nota_minima AS nmin, sum(puntaje_alumno)*(q.nota_maxima-q.nota_minima)/q.puntaje_maximo+q.nota_minima AS nota, numero_intento 
-                        FROM intentos JOIN quizes as q ON id_quiz=q.id WHERE id_quiz = ?
-                        GROUP BY id_persona, numero_intento ORDER BY nota DESC) AS nc 
-                        WHERE nc.nota <= nc.nmax GROUP BY nc.id_persona) AS u ON t.numero_intento=u.numero_intento AND t.id_persona=u.id_persona) as x
-                        WHERE id_persona=? ';
+                $sql = 'SELECT sum(puntaje_alumno)/sum(maximo_puntaje)*100 AS lorgro, c2.*
+                        FROM preguntas p 
+                        JOIN ( 
+                            SELECT i.* FROM intentos i 
+                            JOIN ( 
+                                SELECT id_persona,id_quiz,numero_intento,max(puntaje) 
+                                FROM ( 
+                                    SELECT id_persona,id_quiz,numero_intento, sum(puntaje_alumno) AS puntaje 
+                                    FROM intentos 
+                                    WHERE id_quiz=? AND id_persona=? 
+                                    GROUP BY id_persona,id_quiz,numero_intento 
+                                    ORDER BY puntaje DESC) 
+                                AS t1 ) 
+                            AS t2 ON i.id_persona=t2.id_persona AND i.id_quiz=t2.id_quiz AND i.numero_intento=t2.numero_intento ) 
+                        AS t3 ON p.id = t3.id_pregunta 
+                        JOIN categorias c ON p.id_categoria=c.id
+                        JOIN categorias c2 ON c2.id=c.padre
+                        GROUP BY c2.id';
 		
                 $sqlQuery = new SqlQuery($sql);
                 $sqlQuery->setNumber($id_quiz);
-                $sqlQuery->setNumber($id_quiz);
-                $sqlQuery->setNumber($id_quiz);
                 $sqlQuery->setNumber($id_usuario);
-                print $sqlQuery->getQuery();
                 
 		return $this->getContenidoLogroArray($sqlQuery);
 	}
@@ -203,6 +189,7 @@ class IntentosMySqlDAO implements IntentosDAO{
 		$sqlQuery->set($quiz_id);
 		$sqlQuery->set($quiz_id);
 		$sqlQuery->set($usuario_id);
+                
 		return $this->getNotaLogro($sqlQuery);
 	}
 	

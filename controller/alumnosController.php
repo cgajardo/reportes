@@ -93,7 +93,7 @@ public function reporte(){
 	$notas_grupo = DAOFactory::getIntentosDAO()->getNotasGrupo($quiz->id,$grupo->id);
 	$nota_alumno = DAOFactory::getIntentosDAO()->getNotaInQuizByPersona($quiz->id, $usuario->id);
 	$contenido_logro = DAOFactory::getIntentosDAO()->getLogroPorContenido($quiz->id, $usuario->id);
-	/*
+	
 	// esto es lo necesario para la matriz de desempeño, TODO: debería tener su vista propia?
 	$matriz_desempeño = array();
 	$quizes_en_curso = DAOFactory::getQuizesDAO()->queryCerradosByIdCurso($curso->id);
@@ -137,7 +137,7 @@ public function reporte(){
 	$this->registry->template->matriz_desempeño = $matriz_desempeño;
 	$this->registry->template->tiempos_semanas = $tiempos_semanas;
 
-        */
+        
 	//finally
 	$this->registry->template->show('alumnos/reporte');
 

@@ -9,7 +9,7 @@ public function index() {
 public function showtest(){
 	session_start();
 	session_destroy();
-	//echo $this->encrypter->encode("platform=instituto&username=18280821");
+	echo $this->encrypter->encode("platform=instituto&username=raul");
 	/*** load the index template ***/
 	$this->registry->template->show('index');
 }

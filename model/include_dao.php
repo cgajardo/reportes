@@ -64,9 +64,9 @@
 	require_once('dao/QuizesDAO.class.php');
 	require_once('dto/Quize.class.php');
 	require_once('mysql/QuizesMySqlDAO.class.php');
-	require_once('dao/QuizesHasPreguntasDAO.class.php');
-	require_once('dto/QuizesHasPregunta.class.php');
-	require_once('mysql/QuizesHasPreguntasMySqlDAO.class.php');
+	require_once('dao/QuizesHasCategoriasDAO.class.php');
+	require_once('dto/QuizesHasCategorias.class.php');
+	require_once('mysql/QuizesHasCategoriasMySqlDAO.class.php');
 	require_once('dao/ReportesDAO.class.php');
 	require_once('dto/Reporte.class.php');
 	require_once('mysql/ReportesMySqlDAO.class.php');

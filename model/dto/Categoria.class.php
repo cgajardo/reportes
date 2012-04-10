@@ -8,9 +8,15 @@
 	class Categoria{
 		
 		var $id;
-		var $nombre;
-		var $padre;
-		var $identificadorMoodle;
-		
+
+		var $nombre;
+
+		var $padre;
+
+		var $identificadorMoodle;
+                
+                var $idContenido;
+
+		
 	}
 ?>

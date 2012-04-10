@@ -5,7 +5,7 @@
  * @author: http://phpdao.com
  * @date: 2012-01-18 16:29
  */
-interface QuizesHasPreguntasDAO{
+interface QuizesHasCategoriasDAO{
 
 	/**
 	 * Get Domain object by primry key
@@ -13,7 +13,7 @@ interface QuizesHasPreguntasDAO{
 	 * @param String $id primary key
 	 * @Return QuizesHasPreguntas 
 	 */
-	public function load($idQuiz, $idPregunta);
+	public function load($idQuiz, $idCategoria);
 
 	/**
 	 * Get all records from table
@@ -30,31 +30,19 @@ interface QuizesHasPreguntasDAO{
  	 * Delete record from table
  	 * @param quizesHasPregunta primary key
  	 */
-	public function delete($idQuiz, $idPregunta);
+	public function delete($idQuiz, $idCategoria);
 	
 	/**
  	 * Insert record to table
  	 *
  	 * @param QuizesHasPreguntas quizesHasPregunta
  	 */
-	public function insert($quizesHasPregunta);
-	
-	/**
- 	 * Update record in table
- 	 *
- 	 * @param QuizesHasPreguntas quizesHasPregunta
- 	 */
-	public function update($quizesHasPregunta);	
+	public function insert($quizesHasCategorias);
 
 	/**
 	 * Delete all rows
 	 */
 	public function clean();
-
-	public function queryByPuntajeMaximo($value);
-
-
-	public function deleteByPuntajeMaximo($value);
 
 
 }

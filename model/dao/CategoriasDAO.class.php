@@ -63,6 +63,11 @@ interface CategoriasDAO{
 	public function deleteByPadre($value);
 
 	public function deleteByIdentificadorMoodle($value);
+        
+        public function getCategoriasByQuiz($id_quiz);
+        
+        public function getCategoriasByQuizWithContenido($id_quiz);
+        
 
 
 }

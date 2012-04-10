@@ -8,8 +8,10 @@
 	class QuizesHasPregunta{
 		
 		var $idQuiz;
-		var $idPregunta;
-		var $puntajeMaximo;
-		
+
+		var $idCategoria;
+
+
+		
 	}
 ?>

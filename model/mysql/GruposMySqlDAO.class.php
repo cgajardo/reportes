@@ -237,6 +237,7 @@ class GruposMySqlDAO implements GruposDAO{
 		$grupo->id = $row['id'];
 		$grupo->nombre = $row['nombre'];
 		$grupo->idSede = $row['id_sede'];
+                $grupo->identificadorMoodle = $row['identificador_moodle'];
 
 		return $grupo;
 	}

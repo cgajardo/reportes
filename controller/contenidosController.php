@@ -4,8 +4,8 @@ Class contenidosController Extends baseController {
 	
 public function asociar_ajax(){
 	$id_contenido = $_GET['id_contenido'];
-	$id_pregunta = $_GET['id_pregunta'];
-	$pregunta = DAOFactory::getPreguntasDAO()->load($id_pregunta);
+	$id_categoria = $_GET['id_categoria'];
+	$categoria = DAOFactory::getCategoriasDAO()->load($id_categoria);
 	if($id_contenido!=-1){
             $pregunta->contenido = $id_contenido; 
         }else{
@@ -187,7 +187,7 @@ public function preguntas_quiz(){
     
     $id_quiz = $_GET['quiz'];
     
-    $preguntas = DAOFactory::getPreguntasDAO()->getPregutasByQuizWithContenido($id_quiz);
+    $categorias = DAOFactory::getCategoriasDAO()->getCategoriasByQuizWithContenido($id_quiz);
     $contenidos = DAOFactory::getContenidosDAO()->getRealContenidos();
     $combo = 'name="contenido" onchange="loadPadres(this.value, this.id)">';
     $combo.='<option value="-1">Seleccione un Tema</option>';
@@ -202,17 +202,17 @@ public function preguntas_quiz(){
             <th>Contenido asociado</th>
             <th colspan="3" >Elegir otro contenido</th>
         </tr>';
-    foreach($preguntas as $pregunta){
+    foreach($categorias as $categoria){
             echo '<tr>';
-            echo '<td>'.utf8_encode($pregunta->nombre).'</td>';
-            if ($pregunta->contenido) {
-                echo '<td id="'.utf8_encode($pregunta->id).'">'.utf8_encode($pregunta->contenido->nombre).'</td>';
+            echo '<td>'.utf8_encode($categoria->nombre).'</td>';
+            if ($categoria->idContenido) {
+                echo '<td id="'.utf8_encode($categoria->id).'">'.utf8_encode($categoria->contenido->nombre).'</td>';
             }else{
-                echo '<td id="'.utf8_encode($pregunta->id).'"></td>';
+                echo '<td id="'.utf8_encode($categoria->id).'"></td>';
             }
-            echo '<td>'.'<select id="'.utf8_encode($pregunta->id).'" '.$combo.'</td>';
-            echo '<td id="padres'.$pregunta->id.'"></td>';
-            echo '<td id="hijos'.$pregunta->id.'"></td>';
+            echo '<td>'.'<select id="'.utf8_encode($categoria->id).'" '.$combo.'</td>';
+            echo '<td id="padres'.$categoria->id.'"></td>';
+            echo '<td id="hijos'.$categoria->id.'"></td>';
             echo '</tr>';
     }
 

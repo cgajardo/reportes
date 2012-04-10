@@ -80,12 +80,6 @@ function cursos(){
     <img class="header" src="../views/images/logos/galyleo.jpg"><br/><br/>
     <div align="left" style="margin-left:112px">
         <br/>
-<?php
-$combo =' onchange="asociar(this.value,this.id)"><option value="-1">Seleccione una Sede</option>';
-foreach($sedes as $sede){
-    $combo.='<option value="'.$sede->id.'">'.$sede->nombre.'</option>';
-}
-?>
         <br><br><b>Cursos: </b>
         <select id="curso" onchange="cursos()">
             <option>Seleccione un curso</option>

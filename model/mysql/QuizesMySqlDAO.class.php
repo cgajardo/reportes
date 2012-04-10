@@ -104,6 +104,7 @@ class QuizesMySqlDAO implements QuizesDAO{
                         JOIN instituciones i ON s.id_institucion=i.id
                         WHERE g.id = ? AND q.nombre REGEXP i.prefijo_tarea 
                         AND q.fecha_cierre < NOW() ORDER BY nombre ASC';
+                
 		$sqlQuery = new SqlQuery($sql);
 		$sqlQuery->set($grupo_id);
 		return $this->getList($sqlQuery);

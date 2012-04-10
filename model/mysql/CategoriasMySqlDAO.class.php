@@ -206,5 +206,31 @@ class CategoriasMySqlDAO implements CategoriasDAO{
 	protected function executeInsert($sqlQuery){
 		return QueryExecutor::executeInsert($sqlQuery);
 	}
+        
+        public function getCategoriasByQuiz($id_quiz){
+                $sql ='SELECT c.* 
+                        FROM categorias c 
+                        JOIN quizes_has_categorias qc ON qc.id_categoria=c.id 
+                        WHERE qc.id_quiz = ? ';
+                
+                $sqlQuery = new SqlQuery($sql);
+                $sqlQuery->setNumber($id_quiz);
+                
+                return $this->getList($sqlQuery);
+        }
+        
+        public function getCategoriasByQuizWithContenido($id_quiz){
+            $sql ='SELECT c.id,c.nombre,c2.nombre AS id_contenido,c.padre,c.identificador_moodle 
+                        FROM categorias c 
+                        JOIN quizes_has_categorias qc ON qc.id_categoria=c.id 
+                        LEFT JOIN contenidos c2 ON c.id_contenido = c2.id 
+                        WHERE qc.id_quiz = ? ';
+                
+                $sqlQuery = new SqlQuery($sql);
+                $sqlQuery->setNumber($id_quiz);
+                
+                return $this->getList($sqlQuery);
+            
+        }
 }
 ?>

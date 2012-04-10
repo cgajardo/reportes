@@ -12,6 +12,8 @@
 		var $nombre;
 
 		var $idSede;
+                
+                var $identificadorMoodle;
 
 	}
 ?>

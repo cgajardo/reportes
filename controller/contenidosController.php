@@ -7,11 +7,11 @@ public function asociar_ajax(){
 	$id_categoria = $_GET['id_categoria'];
 	$categoria = DAOFactory::getCategoriasDAO()->load($id_categoria);
 	if($id_contenido!=-1){
-            $pregunta->contenido = $id_contenido; 
+            $categoria->idContenido = $id_contenido; 
         }else{
-            $pregunta->contenido = NULL;
+            $categoria->idContenido = NULL;
         }
-	DAOFactory::getPreguntasDAO()->update($pregunta);
+	DAOFactory::getCategoriasDAO()->update($categoria);
 	$contenido = DAOFactory::getContenidosDAO()->load($id_contenido);
 	echo @utf8_encode($contenido->nombre);
 }

@@ -126,7 +126,7 @@ class InstitucionesMySqlDAO implements InstitucionesDAO{
 		$sqlQuery->setString($institucione->nombreCorto);
 		$sqlQuery->setString($institucione->prefijoEvaluacion);
 		$sqlQuery->setNumber($institucione->notaAprobado);
-		$sqlQuery->setNumber($institucione->notaSuficiente);
+		$sqlQuery->set($institucione->notaSuficiente);
 		$sqlQuery->setNumber($institucione->plataforma);
 		$sqlQuery->setNumber($institucione->id);
 		return $this->executeUpdate($sqlQuery);

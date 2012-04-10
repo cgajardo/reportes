@@ -18,6 +18,7 @@ public function asociar_ajax(){
 
 public function index() 
 {
+    //print $this->encrypter->encode("platform=utfsm&username=17939412");
     $contenidos = DAOFactory::getContenidosDAO()->queryAllWithPadre();
     
     $this->registry->template->contenidos = $contenidos;
@@ -107,7 +108,7 @@ public function asociar(){
 public function asociar2(){
         $cursos = DAOFactory::getCursosDAO()->queryAll();
         foreach($cursos as $curso){
-            $quizesByCurso[$curso->nombre]=  DAOFactory::getQuizesDAO()->queryEvaluacionesByIdCurso($curso->id);
+            $quizesByCurso[]= array($curso, DAOFactory::getQuizesDAO()->queryEvaluacionesByIdCurso($curso->id));
         }
         
         $this->registry->template->quizesByCurso = $quizesByCurso;
@@ -209,7 +210,7 @@ public function preguntas_quiz(){
             }else{
                 echo '<td id="'.utf8_encode($pregunta->id).'"></td>';
             }
-            echo '<td>'.'<select id="'.utf8_encode($pregunta->id).'" '.utf8_encode($combo).'</td>';
+            echo '<td>'.'<select id="'.utf8_encode($pregunta->id).'" '.$combo.'</td>';
             echo '<td id="padres'.$pregunta->id.'"></td>';
             echo '<td id="hijos'.$pregunta->id.'"></td>';
             echo '</tr>';

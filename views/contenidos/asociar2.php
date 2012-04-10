@@ -98,9 +98,9 @@ function preguntas(){
         <br/>
 <?php
 $combo ='id="quiz" onchange="preguntas()"><option value="-1">Seleccione un Quiz</option>';
-foreach($quizesByCurso as $nombre=>$quizes){
-    $combo.='<optgroup label="'.$nombre.'">';
-    foreach($quizes as $quiz){
+foreach($quizesByCurso as $quizes){
+    $combo.='<optgroup label="'.$quizes[0]->nombre.'">';
+    foreach($quizes[1] as $quiz){
         $combo .= '<option value="'.$quiz->id.'">'.$quiz->nombre.'</option>';
     }
     $combo.='</optgroup>';

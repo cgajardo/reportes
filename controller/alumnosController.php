@@ -31,10 +31,10 @@ public function index() {
 	
 	/* caso en que el usuario ya selecciono el curso*/
 	elseif (isset($PARAMS['curso'])){
-		$id_curso = $PARAMS['curso'];
-		
+                $id_curso =$PARAMS['curso'];
+		$grupo = DAOFactory::getGruposDAO()->getGrupoByCursoAndUser($usuario->id, $id_curso);
         //        $actividades = DAOFactory::getCursosHasContenidos()->getCerradosByCursoWithContenidos($id_curso);
-		$quizes = DAOFactory::getQuizesDAO()->queryCerradosByIdCurso($id_curso);
+		$quizes = DAOFactory::getQuizesDAO()->queryCerradosByIdGrupo($grupo->id);
         //        $actividades_actual=  DAOFactory::getCursosHasContenidos()->getActuales($id_curso);
                
 		$this->registry->template->titulo = 'Tus evaluaciones';
@@ -61,7 +61,7 @@ public function index() {
 public function reporte(){
 	session_start();
 	$PARAMS = $this->encrypter->decodeURL($_GET['params']);
-	$curso_id = $PARAMS['curso'];
+        $curso_id = $PARAMS['curso'];
 	$quiz_id = $PARAMS['quiz'];
 
 	//recuperamos los objetos que nos interesan
@@ -86,14 +86,14 @@ public function reporte(){
 	
 	$curso = DAOFactory::getCursosDAO()->load($curso_id);
 	$quiz = DAOFactory::getQuizesDAO()->load($quiz_id);
-
+        
 	$institucion = DAOFactory::getInstitucionesDAO()->getInstitucionByAlumno($usuario->id);
 	$grupo = DAOFactory::getGruposDAO()->getGrupoByCursoAndUser($usuario->id, $curso->id);
 	$estudiantes_en_grupo = DAOFactory::getPersonasDAO()->getEstudiantesInGroup($grupo->id);
 	$notas_grupo = DAOFactory::getIntentosDAO()->getNotasGrupo($quiz->id,$grupo->id);
 	$nota_alumno = DAOFactory::getIntentosDAO()->getNotaInQuizByPersona($quiz->id, $usuario->id);
 	$contenido_logro = DAOFactory::getIntentosDAO()->getLogroPorContenido($quiz->id, $usuario->id);
-	
+	/*
 	// esto es lo necesario para la matriz de desempeño, TODO: debería tener su vista propia?
 	$matriz_desempeño = array();
 	$quizes_en_curso = DAOFactory::getQuizesDAO()->queryCerradosByIdCurso($curso->id);
@@ -137,7 +137,7 @@ public function reporte(){
 	$this->registry->template->matriz_desempeño = $matriz_desempeño;
 	$this->registry->template->tiempos_semanas = $tiempos_semanas;
 
-
+        */
 	//finally
 	$this->registry->template->show('alumnos/reporte');
 

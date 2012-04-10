@@ -106,6 +106,7 @@ class IntentosMySqlDAO implements IntentosDAO{
                 $sqlQuery->setNumber($id_quiz);
                 $sqlQuery->setNumber($id_quiz);
                 $sqlQuery->setNumber($id_usuario);
+                print $sqlQuery->getQuery();
                 
 		return $this->getContenidoLogroArray($sqlQuery);
 	}

@@ -37,14 +37,13 @@ public function guardar(){
         $institucion->notaSuficiente= $_POST['notaSuficiente'];
 	$institucion->plataforma = $_POST['plataforma'];
 	
-	if(isset($_POST['id'])){
+        if(isset($_POST['id'])){
 		DAOFactory::getInstitucionesDAO()->update($institucion);
 		$this->registry->template->mensaje = "Instituci&oacute;n actualizada correctamente";
 	}else{
 		DAOFactory::getInstitucionesDAO()->insert($institucion);
 		$this->registry->template->mensaje = "Instituci&oacute;n agregada correctamente";
 	}
-	
 	
 	$this->registry->template->ruta = "instituciones";
 	$this->registry->template->show('enrutador');

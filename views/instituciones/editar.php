@@ -25,9 +25,9 @@
 	}
 ?>
 <table align="center">
-<tr><td>Nombre </td><td><input type="text" name="nombre" value ="<?php echo $institucion->nombre;?>"/></td></tr>
+<tr><td>Nombre </td><td><input type="text" required name="nombre" value ="<?php echo $institucion->nombre;?>"/></td></tr>
 
-<tr><td>Nombre Corto </td><td><input type="text" name="nombreCorto" value ="<?php echo $institucion->nombreCorto;?>"/></td></tr>
+<tr><td>Nombre Corto </td><td><input type="text" required name="nombreCorto" value ="<?php echo $institucion->nombreCorto;?>"/></td></tr>
 
 <tr><td>Prefijo Evaluaciones </td><td><input type="text" name="prefijo" value ="<?php echo $institucion->prefijoEvaluacion;?>"/></td></tr>
 

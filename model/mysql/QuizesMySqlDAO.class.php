@@ -15,12 +15,16 @@ class QuizesMySqlDAO implements QuizesDAO{
 	 * @param int $id_curso
 	 */
 	public function queryEvaluacionesByIdCurso($id_curso){
-		$sql = 'SELECT q.* '.
-                        'FROM quizes AS q JOIN plataforma_quiz pq ON q.id=pq.id_quiz '. 
-                        'JOIN plataformas p ON pq.id_plataforma=p.id '. 
-                        'JOIN instituciones i ON i.id_plataforma=p.id '.
-                        'WHERE id_curso = ? AND q.nombre REGEXP prefijo_tarea '. 
-                        'ORDER BY fecha_cierre ASC';
+		$sql = 'SELECT q.* 
+                        FROM quizes q JOIN (
+                            SELECT prefijo_tarea,cg.id_curso FROM cursos_has_grupos cg
+                            JOIN grupos g ON cg.id_grupo=g.id
+                            JOIN sedes s ON g.id_sede=s.id
+                            JOIN instituciones i ON s.id_institucion=i.id
+                            WHERE cg.id_curso=? LIMIT 1 ) as t
+                        ON q.id_curso=t.id_curso
+                        WHERE  q.nombre REGEXP prefijo_tarea 
+                        ORDER BY fecha_cierre ASC';
 		
 		$sqlQuery = new SqlQuery($sql);
 		$sqlQuery->set($id_curso);
@@ -76,6 +80,32 @@ class QuizesMySqlDAO implements QuizesDAO{
                'AND q.fecha_cierre < NOW() ORDER BY nombre ASC';
 		$sqlQuery = new SqlQuery($sql);
 		$sqlQuery->set($curso_id);
+		return $this->getList($sqlQuery);
+	}
+        
+        public function queryCerradosByIdGrupo($grupo_id){
+		
+		/**
+		 * @author cgajardo: previous query
+		 * $sql = 'SELECT q.* '. 
+               'FROM quizes AS q '. 
+               'JOIN sedes_has_cursos sc ON q.id_curso=sc.id_curso '.
+               'JOIN sedes s ON sc.id_sede=s.id '.
+               'JOIN instituciones i ON s.id_institucion=i.id '.
+               'WHERE q.id_curso = ? AND q.nombre REGEXP i.prefijo_tarea '.
+               'AND q.fecha_cierre > 0 AND q.fecha_cierre < NOW() ORDER BY nombre ASC';
+		 */
+		
+		$sql = 'SELECT q.* 
+                        FROM quizes AS q 
+                        JOIN cursos_has_grupos cg ON q.id_curso=cg.id_curso 
+                        JOIN grupos g ON cg.id_grupo = g.id
+                        JOIN sedes s ON g.id_sede=s.id 
+                        JOIN instituciones i ON s.id_institucion=i.id
+                        WHERE g.id = ? AND q.nombre REGEXP i.prefijo_tarea 
+                        AND q.fecha_cierre < NOW() ORDER BY nombre ASC';
+		$sqlQuery = new SqlQuery($sql);
+		$sqlQuery->set($grupo_id);
 		return $this->getList($sqlQuery);
 	}
         

@@ -108,15 +108,13 @@ class SedesMySqlDAO implements SedesDAO{
 		$sql = 'INSERT INTO sedes (nombre, pais, region, ciudad, id_institucion) VALUES (?, ?, ?, ?, ?)';
 		$sqlQuery = new SqlQuery($sql);
 		
-		$sqlQuery->set($sede->nombre);
-		$sqlQuery->set($sede->pais);
-		$sqlQuery->set($sede->region);
-		$sqlQuery->set($sede->ciudad);
+		$sqlQuery->setString($sede->nombre);
+		$sqlQuery->setString($sede->pais);
+		$sqlQuery->setString($sede->region);
+		$sqlQuery->setString($sede->ciudad);
 		$sqlQuery->setNumber($sede->idInstitucion);
-
-		$id = $this->executeInsert($sqlQuery);	
-		$sede->id = $id;
-		return $id;
+                
+                return $this->executeInsert($sqlQuery);	
 	}
 	
 	/**

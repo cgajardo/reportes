@@ -25,7 +25,7 @@
 ?>
     <h1>Ingrese los Datos de la Sede</h1>
 <table align="center">
-<tr><td>Nombre</td> <td><input type="text" name="nombre" value ="<?php echo $sede->nombre;?>"/></td></tr>
+<tr><td>Nombre</td> <td><input required type="text" name="nombre" value ="<?php echo $sede->nombre;?>"/></td></tr>
 
 <tr><td>Pa&iacute;s </td><td><input type="text" name="pais" value ="<?php echo $sede->pais;?>"/></td></tr>
 
@@ -33,7 +33,7 @@
 
 <tr><td>Ciudad </td><td><input type="text" name="ciudad" value ="<?php echo $sede->ciudad;?>"/></td></tr>
 
-<tr><td>Instituci&oacute;n </td><td><select type="text" name="institucion">
+<tr><td>Instituci&oacute;n </td><td><select required type="text" name="institucion">
 <?php 
 echo $combo;
 ?>

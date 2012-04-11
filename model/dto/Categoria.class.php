@@ -15,7 +15,7 @@
 
 		var $identificadorMoodle;
                 
-                var $idContenido;
+                var $contenido;
 
 		
 	}

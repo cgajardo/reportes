@@ -75,10 +75,11 @@ class CategoriasMySqlDAO implements CategoriasDAO{
  	 * @param CategoriasMySql categoria
  	 */
 	public function update($categoria){
-		$sql = 'UPDATE categorias SET nombre = ?, padre = ?, identificador_moodle = ? WHERE id = ?';
+		$sql = 'UPDATE categorias SET nombre = ?, id_contenido = ?, padre = ?, identificador_moodle = ? WHERE id = ?';
 		$sqlQuery = new SqlQuery($sql);
 		
 		$sqlQuery->set($categoria->nombre);
+                $sqlQuery->set($categoria->contenido->id);
 		$sqlQuery->setNumber($categoria->padre);
 		$sqlQuery->set($categoria->identificadorMoodle);
 
@@ -152,6 +153,7 @@ class CategoriasMySqlDAO implements CategoriasDAO{
 		$categoria->nombre = $row['nombre'];
 		$categoria->padre = $row['padre'];
 		$categoria->identificadorMoodle = $row['identificador_moodle'];
+                $categoria->contenido = DAOFactory::getContenidosDAO()->load($row['id_contenido']);
 
 		return $categoria;
 	}

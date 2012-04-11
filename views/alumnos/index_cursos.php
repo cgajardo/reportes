@@ -1,4 +1,8 @@
 <!DOCTYPE h1 PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--
+Pagina principal del reporte de alumnos que muestra la lista de cursos disponibles para revisar.
+Al hacer click en el link del curso, direcciona a index_quiz.
+-->
 <html>
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>

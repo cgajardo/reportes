@@ -1,4 +1,8 @@
 <!DOCTYPE h1 PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--
+Pagina que muestra las evaluaciones de un determinado curso.
+Al seleccionar una evaluacion, direcciona al alumno a la reporte seleccionado (reporte.php).
+-->
 <html>
 <head>
 	<title><?php echo $titulo;?></title>

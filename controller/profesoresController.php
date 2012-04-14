@@ -43,7 +43,7 @@ public function reporte(){
 	$curso = DAOFactory::getCursosDAO()->getCursoByGrupoId($grupo->id);
 	$estudiantes_en_grupo = DAOFactory::getPersonasDAO()->getEstudiantesInGroup($grupo->id);
         $notas_grupo = DAOFactory::getIntentosDAO()->getNotasNombreGrupo($quiz->id,$grupo->id);
-	$contenido_logro = DAOFactory::getIntentosDAO()->getLogroPorContenidoGrupo($quiz->id);
+	$contenido_logro = DAOFactory::getIntentosDAO()->getLogroPorContenidoGrupo($quiz->id,$grupo->id);
 	//$nota_maxima= DAOFactory::getNotasDAO()->getMaxNotaInQuiz($quiz->id);
 	//enviamos los siguientes valores a la vista
 	$this->registry->template->titulo = 'Reporte Profesor';
@@ -66,20 +66,14 @@ public function reporte(){
 	$this->registry->template->porcentaje_suficiente = ($institucion->notaSuficiente-$quiz->notaMinima)/($quiz->notaMaxima-$quiz->notaMinima)*100;
                 
 	// esto es lo necesario para la matriz de desempeño, TODO: deber�a tener su vista propia?
-	$quizes_en_curso = DAOFactory::getQuizesDAO()->queryCerradosByIdCurso($curso->id);
+	$quizes_en_grupo = DAOFactory::getQuizesDAO()->queryCerradosByIdGrupo($grupo->id);
 	$matriz_desempeno = array();
-	foreach ($quizes_en_curso as $quiz_en_curso){
-		$contenidos=DAOFactory::getIntentosDAO()->getLogroPorContenidoGrupo($quiz_en_curso->id);
-		$matriz_desempeno[$quiz_en_curso->nombre] = DAOFactory::getIntentosDAO()->getPromedioLogroPorContenido($quiz_en_curso->id, $grupo->id);
-	}
-        $promedio_grupo = 0;
-        $numero_preguntas=0;
-	foreach($matriz_desempeno[$quiz->nombre] as $contenido){
-                $promedio_grupo += $contenido['logro']*$contenido['numero_preguntas'];
-                $numero_preguntas+=$contenido['numero_preguntas'];
-		$matriz_contenidos[$contenido['contenido']->nombre] = DAOFactory::getIntentosDAO()->getLogroPorContenido2($grupo->id, $quiz->id, $contenido['contenido']->id);
-	}
-        $this->registry->template->promedio_grupo = round($promedio_grupo/$numero_preguntas);
+	foreach ($quizes_en_grupo as $quiz_en_grupo){
+		$contenidos=DAOFactory::getIntentosDAO()->getLogroPorContenidoGrupo($quiz_en_grupo->id,$grupo->id);
+                foreach($contenidos as $contenido){
+                    $matriz_desempeno[$quiz_en_grupo->nombre][] = $contenido;
+                }
+        }
 	$tiempo = DAOFactory::getLogsDAO()->getTiempoTarea($quiz->fechaCierre, $grupo->id);
 	//enviamos estos elementos a la vista
 	$_SESSION['matriz_desempeño'] = $matriz_desempeno;
@@ -129,8 +123,8 @@ public function index(){
 	elseif (isset($PARAMS['grupo'])){
 		$id_grupo = $PARAMS['grupo'];
 		$id_curso = $PARAMS['curso'];
-		$quizes = DAOFactory::getQuizesDAO()->queryCerradosByIdCurso($id_curso);
-		
+		$quizes = DAOFactory::getQuizesDAO()->queryCerradosByIdGrupo($id_grupo);
+                
 		$this->registry->template->titulo = 'Tus evaluaciones';
 		$this->registry->template->usuario = $usuario;
 		$this->registry->template->cursos = $cursos_usuarios;

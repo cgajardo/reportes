@@ -7,9 +7,9 @@ public function asociar_ajax(){
 	$id_categoria = $_GET['id_categoria'];
 	$categoria = DAOFactory::getCategoriasDAO()->load($id_categoria);
 	if($id_contenido!=-1){
-            $categoria->idContenido = $id_contenido; 
+            $categoria->contenido = $id_contenido; 
         }else{
-            $categoria->idContenido = NULL;
+            $categoria->contenido = NULL;
         }
 	DAOFactory::getCategoriasDAO()->update($categoria);
 	$contenido = DAOFactory::getContenidosDAO()->load($id_contenido);
@@ -205,8 +205,8 @@ public function preguntas_quiz(){
     foreach($categorias as $categoria){
             echo '<tr>';
             echo '<td>'.utf8_encode($categoria->nombre).'</td>';
-            if ($categoria->idContenido) {
-                echo '<td id="'.utf8_encode($categoria->id).'">'.utf8_encode($categoria->contenido->nombre).'</td>';
+            if ($categoria->contenido) {
+                echo '<td id="'.utf8_encode($categoria->id).'">'.@utf8_encode($categoria->contenido->nombre).'</td>';
             }else{
                 echo '<td id="'.utf8_encode($categoria->id).'"></td>';
             }

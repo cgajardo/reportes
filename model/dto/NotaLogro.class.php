@@ -13,9 +13,9 @@
 		
 		var $logro;
                 
-        var $nombre;
-                
-        var $apellido;
+                var $nombre;
+
+                var $apellido;
 		
 	}
 ?>

@@ -9,7 +9,9 @@ public function index() {
 public function showtest(){
 	session_start();
 	session_destroy();
-        echo $this->encrypter->encode("platform=instituto&username=8719807");
+        var_dump(DAOFactory::getContenidosDAO()->loadWithPadre(6));
+        echo "PROFE: ".$this->encrypter->encode("platform=instituto&username=17378894");
+        echo "<br>ALUMNO ".$this->encrypter->encode("platform=instituto&username=16739676");
 	/*** load the index template ***/
 	$this->registry->template->show('index');
 }

@@ -79,7 +79,7 @@ class CategoriasMySqlDAO implements CategoriasDAO{
 		$sqlQuery = new SqlQuery($sql);
 		
 		$sqlQuery->set($categoria->nombre);
-                $sqlQuery->set($categoria->contenido->id);
+                $sqlQuery->set($categoria->contenido);
 		$sqlQuery->setNumber($categoria->padre);
 		$sqlQuery->set($categoria->identificadorMoodle);
 
@@ -222,10 +222,9 @@ class CategoriasMySqlDAO implements CategoriasDAO{
         }
         
         public function getCategoriasByQuizWithContenido($id_quiz){
-            $sql ='SELECT c.id,c.nombre,c2.nombre AS id_contenido,c.padre,c.identificador_moodle 
+            $sql ='SELECT c.*
                         FROM categorias c 
                         JOIN quizes_has_categorias qc ON qc.id_categoria=c.id 
-                        LEFT JOIN contenidos c2 ON c.id_contenido = c2.id 
                         WHERE qc.id_quiz = ? ';
                 
                 $sqlQuery = new SqlQuery($sql);

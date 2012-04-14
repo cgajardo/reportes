@@ -159,15 +159,33 @@ class IntentosMySqlDAO implements IntentosDAO{
          * @param int $quiz_id
          */
         
-        public function getLogroPorContenidoGrupo($id_quiz){
+        public function getLogroPorContenidoGrupo($id_quiz,$id_grupo){
 		
-		$sql = 'SELECT p.id_contenido as contenido, floor(sum(i.puntaje_alumno)/sum(i.maximo_puntaje)*100) as logro, count(qp.id_pregunta) as numero_preguntas '.
-				'FROM intentos  AS i, preguntas as p, quizes_has_preguntas as qp '.
-				'WHERE p.id = i.id_pregunta AND i.id_quiz = ? AND p.id = qp.id_pregunta '.
-				'GROUP BY p.id_contenido';
+		$sql = 'SELECT c.id_contenido AS contenido,sum(puntaje_alumno)/sum(maximo_puntaje)*100 AS logro,count(*) AS numero_preguntas
+                        FROM preguntas p 
+                        JOIN ( 
+                            SELECT i.* FROM intentos i 
+                            JOIN ( 
+                                SELECT id_persona,id_quiz,numero_intento,max(puntaje) 
+                                FROM ( 
+                                    SELECT i.id_persona,id_quiz,numero_intento, sum(puntaje_alumno) AS puntaje 
+                                    FROM intentos i
+                                    JOIN grupos_has_estudiantes ge ON ge.id_persona=i.id_persona
+                                    WHERE id_quiz = ? AND id_grupo = ?
+                                    GROUP BY i.id_persona,id_quiz,numero_intento 
+                                    ORDER BY puntaje DESC)
+                                AS t1 
+                                GROUP BY id_persona)
+                            AS t2 ON i.id_persona=t2.id_persona AND i.id_quiz=t2.id_quiz AND i.numero_intento=t2.numero_intento ) 
+                        AS t3 ON p.id = t3.id_pregunta 
+                        JOIN categorias c ON p.id_categoria=c.id
+                        GROUP BY c.id_contenido
+                        ORDER BY logro DESC';
 		
 		$sqlQuery = new SqlQuery($sql);
 		$sqlQuery->set($id_quiz);
+		$sqlQuery->set($id_grupo);
+
 		return $this->getContenidoLogroArray($sqlQuery);
 	}
 	
@@ -223,36 +241,29 @@ class IntentosMySqlDAO implements IntentosDAO{
              */
         
         public function getNotasNombreGrupo($quiz,$grupo){
-		$sql = 'SELECT t1.nombre,t1.apellido,t1.id as id_persona,t2.logro as nota, nota_maxima FROM '.
-                        '(SELECT nombre,apellido,id FROM personas JOIN grupos_has_estudiantes ON id=id_persona WHERE id_grupo=?) as t1 '.
-                        'LEFT JOIN '.
-                        '(SELECT nombre,apellido,tabla.id_persona, sum(logro*n)/sum(n) as logro ,numero_intento, nota_maxima FROM ( '.
-                        'SELECT nombre, apellido,x.* FROM personas p JOIN ( '.
-                        'SELECT id_persona,logro,t2.numero_intento,t2.id_contenido,n, nota_maxima FROM '.
-                        '(SELECT id_persona, sum(puntaje_alumno)/sum(maximo_puntaje)*100 AS logro, numero_intento, id_contenido, nota_maxima FROM ( '.
-                        'SELECT i.*,p.id_contenido,q.nota_maxima FROM intentos i JOIN preguntas p ON i.id_pregunta=p.id '.
-                        'JOIN quizes q ON q.id=i.id_quiz '.
-                        'WHERE i.id_quiz=? '.
-                        'ORDER BY id_persona,numero_intento,id_contenido) as t '.
-                        'GROUP BY id_persona,numero_intento,id_contenido) as t2 '.
-                        'JOIN (SELECT numero_intento,id_contenido,n FROM ( '.
-                        'SELECT id_persona,numero_intento,id_contenido,count(*) AS n FROM ( '.
-                        'SELECT i.*,p.id_contenido FROM intentos i JOIN preguntas p ON i.id_pregunta=p.id '.
-                        'WHERE i.id_quiz = ? '.
-                        'ORDER BY id_persona) as t '.
-                        'GROUP BY id_persona,numero_intento,id_contenido) as s '.
-                        'GROUP BY id_contenido '.
-                        ')as t3 ON t2.id_contenido=t3.id_contenido AND t2.numero_intento=t3.numero_intento '.
-                        ')as x ON p.id=x.id_persona JOIN grupos_has_estudiantes ge ON ge.id_persona=x.id_persona '.
-                        ') as tabla JOIN grupos_has_estudiantes ge ON ge.id_persona=tabla.id_persona '.
-                        'WHERE ge.id_grupo=? '.
-                        'GROUP BY nombre,apellido,id_persona,numero_intento '.
-                        'ORDER BY logro DESC,apellido,nombre) as t2 ON t1.id=t2.id_persona ORDER BY t2.logro DESC';
+		$sql = 'SELECT p2.nombre,p2.apellido,id_persona,sum(puntaje_alumno)/sum(maximo_puntaje)*100 AS logro
+                        FROM preguntas p 
+                        JOIN ( 
+                            SELECT i.* FROM intentos i 
+                            JOIN ( 
+                                SELECT id_persona,id_quiz,numero_intento,max(puntaje) 
+                                FROM ( 
+                                    SELECT i.id_persona,id_quiz,numero_intento, sum(puntaje_alumno) AS puntaje 
+                                    FROM intentos i
+                                    JOIN grupos_has_estudiantes ge ON ge.id_persona=i.id_persona
+                                    WHERE id_quiz = ? AND id_grupo = ?
+                                    GROUP BY i.id_persona,id_quiz,numero_intento 
+                                    ORDER BY puntaje DESC)
+                                AS t1 
+                                GROUP BY id_persona)
+                            AS t2 ON i.id_persona=t2.id_persona AND i.id_quiz=t2.id_quiz AND i.numero_intento=t2.numero_intento ) 
+                        AS t3 ON p.id = t3.id_pregunta 
+                        JOIN categorias c ON p.id_categoria=c.id
+                        JOIN personas p2 ON t3.id_persona=p2.id
+                        GROUP BY id_persona';
 	
 		//TODO: revisar por qu� algunos valores se escapan de rango y mejorar esta consulta
 		$sqlQuery = new SqlQuery($sql);
-		$sqlQuery->setNumber($grupo);
-                $sqlQuery->setNumber($quiz);
 		$sqlQuery->setNumber($quiz);
 		$sqlQuery->setNumber($grupo);
                  
@@ -556,11 +567,11 @@ class IntentosMySqlDAO implements IntentosDAO{
 		for($i=0;$i<count($tab);$i++){
 			$notaLogro = new NotaLogro();
 			$notaLogro->id = $tab[$i]['id_persona'];
-			if($tab[$i]['nota']!=NULL){
-                            $notaLogro->nota = round($tab[$i]['nota']*$tab[$i]['nota_maxima']/100);
-                            $notaLogro->logro =  round($tab[$i]['nota']);
+			if($tab[$i]['logro']!=NULL){
+                            //$notaLogro->nota = round($tab[$i]['nota']*$tab[$i]['nota_maxima']/100);
+                            $notaLogro->logro =  round($tab[$i]['logro']);
                         }else{
-                            $notaLogro->nota = NULL;
+                            //$notaLogro->nota = NULL;
                             $notaLogro->logro =  NULL;
                         }
                         $notaLogro->nombre = $tab[$i]['nombre'];

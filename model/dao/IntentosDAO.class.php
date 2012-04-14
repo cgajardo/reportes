@@ -25,6 +25,16 @@ interface IntentosDAO{
 	public function getLogroPorContenido($id_quiz, $id_usuario);
 	
 	/**
+	 * Esta funcion devuelve una lista de pares: contenido-porcentaje para un grupo en un quiz dado
+	 *
+	 * @author jtoro
+	 * @param int $id_quiz
+	 * @param int $id_grupo
+	 */
+        
+        public function getLogroPorContenidoGrupo($id_quiz,$id_grupo);
+        
+        /**
 	 * cgajardo: obtiene la nota de un usuario en un quiz
 	 *
 	 * @param int $quiz_id

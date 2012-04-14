@@ -93,6 +93,7 @@ class ContenidosMySqlDAO implements ContenidosDAO{
 		$sql = 'SELECT * FROM contenidos WHERE id = ?';
 		$sqlQuery = new SqlQuery($sql);
 		$sqlQuery->setNumber($id);
+                
 		return $this->getRow($sqlQuery);
 	}
 

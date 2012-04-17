@@ -94,5 +94,7 @@ interface ContenidosDAO{
         public function loadWithPadre($id);
         
         public function getRealContenidos();
+        
+        public function getContenidosByQuiz($id_quiz);
 }
 ?>

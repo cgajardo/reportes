@@ -126,5 +126,7 @@ interface IntentosDAO{
         public function getLogroPorContenidoWithPadre($id_quiz,$id_usuario);
         
         public function getNotasCurso($quiz,$curso);
+        
+        public function getLogroPorContenidoGrupoDetalle($id_quiz,$id_grupo);
 }
 ?>

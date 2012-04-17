@@ -146,6 +146,8 @@ interface PersonasDAO{
         public function getUserByNombreApellido($nombre, $apellido);
         
         public function getEstudiantesInQuiz($id_quiz,$id_grupo);
+        
+        public function getEstudiantesInGrupoOrderByColumn($id_grupo,$columna);
 
 }
 ?>

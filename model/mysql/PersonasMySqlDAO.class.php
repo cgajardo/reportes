@@ -365,7 +365,8 @@ class PersonasMySqlDAO implements PersonasDAO{
 		$tab = QueryExecutor::execute($sqlQuery);
 		$ret = array();
 		for($i=0;$i<count($tab);$i++){
-			$ret[$i] = $this->readRow($tab[$i]);
+                        $persona=$this->readRow($tab[$i]);
+			$ret[$persona->id] = $persona;
 		}
 		return $ret;
 	}
@@ -434,6 +435,17 @@ class PersonasMySqlDAO implements PersonasDAO{
         
         return $this->getList($sqlQuery);
         
+    }
+    
+    public function getEstudiantesInGrupoOrderByColumn($id_quiz,$columna){
+        $sql = 'SELECT p.* FROM personas p 
+                JOIN grupos_has_estudiantes ge ON p.id=ge.id_persona 
+                WHERE ge.id_grupo = ? 
+                ORDER BY '.$columna;
+        $sqlQuery = new SqlQuery($sql);
+        $sqlQuery->setNumber($id_quiz);
+        
+        return $this->getList($sqlQuery);
     }
 }
 ?>

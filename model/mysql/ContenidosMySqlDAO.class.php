@@ -51,21 +51,18 @@ class ContenidosMySqlDAO implements ContenidosDAO{
 	 * @author cgajardo
 	 * @param int $quiz_id
 	 */
-	public function getContenidosByQuiz($quiz_id){
-		$sql = 'SELECT c.* '.
-				'FROM contenidos as c, preguntas as p, categorias as cat '.
-				'WHERE p.id_categoria = cat.id '.
-				'AND cat.id_contenido = c.id '.
-				'AND p.id IN (SELECT qp.id_pregunta '.
-                              'FROM quizes_has_preguntas AS qp '.
-                              'WHERE qp.id_quiz = ?) '.
-				'GROUP BY c.id';
-		
-		$sqlQuery = new SqlQuery($sql);
-		$sqlQuery->set($quiz_id);
-		
-		return $this->getContenidoLogroArray($sqlQuery);
-	}
+	public function getContenidosByQuiz($id_quiz){
+		$sql ='SELECT c.* 
+                    FROM contenidos c 
+                    JOIN categorias c2 ON c.id=c2.id_contenido 
+                    JOIN quizes_has_categorias qc ON qc.id_categoria=c2.id 
+                    WHERE qc.id_quiz = ?
+                    GROUP BY c.id';
+            $sqlQuery = new SqlQuery($sql);
+            $sqlQuery->setNumber($id_quiz);
+
+            return $this->getList($sqlQuery);
+        }
 	
 	/**
 	 * Esta función permite mantener la compatibilidad con la misma funcion de IntentodDAO
@@ -271,7 +268,8 @@ class ContenidosMySqlDAO implements ContenidosDAO{
 		$tab = QueryExecutor::execute($sqlQuery);
 		$ret = array();
 		for($i=0;$i<count($tab);$i++){
-			$ret[$i] = $this->readRow($tab[$i]);
+                        $contenido = $this->readRow($tab[$i]);
+			$ret[$contenido->id] = $contenido;
 		}
 		return $ret;
 	}
@@ -350,5 +348,7 @@ class ContenidosMySqlDAO implements ContenidosDAO{
                 return $this->getList(new SqlQuery($sql));
         
     }
+    
+        
 }
 ?>

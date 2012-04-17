@@ -41,9 +41,11 @@ public function reporte(){
             $institucion = DAOFactory::getInstitucionesDAO()-> getInstitucionByDirectorId($usuario->id);
         }
 	$curso = DAOFactory::getCursosDAO()->getCursoByGrupoId($grupo->id);
-	$estudiantes_en_grupo = DAOFactory::getPersonasDAO()->getEstudiantesInGroup($grupo->id);
+	$estudiantes_en_grupo = DAOFactory::getPersonasDAO()->getEstudiantesInGrupoOrderByColumn($grupo->id,"apellido, nombre");
         $notas_grupo = DAOFactory::getIntentosDAO()->getNotasNombreGrupo($quiz->id,$grupo->id);
-	$contenido_logro = DAOFactory::getIntentosDAO()->getLogroPorContenidoGrupo($quiz->id,$grupo->id);
+        $contenidos_quiz = DAOFactory::getContenidosDAO()->getContenidosByQuiz($quiz->id);
+        $detalle_notas = DAOFactory::getIntentosDAO()->getLogroPorContenidoGrupoDetalle($quiz->id,$grupo->id);
+        
 	//$nota_maxima= DAOFactory::getNotasDAO()->getMaxNotaInQuiz($quiz->id);
 	//enviamos los siguientes valores a la vista
 	$this->registry->template->titulo = 'Reporte Profesor';
@@ -56,7 +58,6 @@ public function reporte(){
 	$this->registry->template->total_estudiantes_grupo = count($estudiantes_en_grupo);
 	$this->registry->template->nombre_actividad = $quiz->nombre;
 	$this->registry->template->fecha_cierre = $quiz->fechaCierre;
-	$this->registry->template->contenido_logro = $contenido_logro;
 	$this->registry->template->nombre_curso = $curso->nombre;
 	$this->registry->template->nombre_grupo = $grupo->nombre;
 	$this->registry->template->institucion = $institucion;
@@ -74,6 +75,17 @@ public function reporte(){
                     $matriz_desempeno[$quiz_en_grupo->nombre][] = $contenido;
                 }
         }
+        foreach($detalle_notas AS $nota){
+            $matriz_contenidos[$contenidos_quiz[$nota['contenido']]->nombre][]=$nota;
+        }
+        $promedio=0;
+        $preguntas=0;
+        foreach($matriz_desempeno[$quiz->nombre] AS $contenido){
+            $promedio+=$contenido['logro']*$contenido['numero_preguntas'];
+            $preguntas+=$contenido['numero_preguntas'];
+        }
+        $promedio/=$preguntas;
+        $this->registry->template->promedio_grupo=$promedio;
 	$tiempo = DAOFactory::getLogsDAO()->getTiempoTarea($quiz->fechaCierre, $grupo->id);
 	//enviamos estos elementos a la vista
 	$_SESSION['matriz_desempeño'] = $matriz_desempeno;

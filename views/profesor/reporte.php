@@ -462,7 +462,7 @@ foreach ($notas_grupo as $nota) {
     	foreach($matriz_contenidos as $contenido=>$quiz){
                 $aux='';
                 foreach($quiz as $celda){
-                    if($celda['logro']==NULL || $celda['logro']<45){
+                    if($celda['logro']==NULL || $celda['logro']<$porcentaje_aprobado){
                         $aux.= '<tr><td>'.$celda['apellido'].', '.$celda['nombre'].'</td></tr>';
                     }
                 }
@@ -492,14 +492,14 @@ foreach ($notas_grupo as $nota) {
         <?php
         
         $s = '<table border=\"1\"><tr><th><b>Nombre</b></th><th><b>Nota '.$nombre_actividad.'</b></th><th>Minutos en la Plataforma</th></tr>';
-        foreach($tiempos as $id=>$tiempo){
-            $s.= '<tr><td>'.$notas_grupo[$id]->apellido.', '.$notas_grupo[$id]->nombre.'</td><td>';
-            if($notas_grupo[$id]->logro!=NULL){
-                $s.= $notas_grupo[$id]->logro;
+        foreach($estudiantes as $estudiante){
+            $s.= '<tr><td>'.$estudiante->apellido.', '.$estudiante->nombre.'</td><td>';
+            if(isset($notas_grupo[$estudiante->id]->logro)){
+                $s.= $notas_grupo[$estudiante->id]->logro;
             }else{
                 $s.= 'No Rinde';
             }
-            $s.= '</td><td>'.(int)($tiempo/60).'</td></tr>';
+            $s.= '</td><td>'.(int)($tiempos[$estudiante->id]/60).'</td></tr>';
             //$s=$s.'</td><td></td></tr>';
         }
         $s.= '</table>';

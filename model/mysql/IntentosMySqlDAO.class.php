@@ -93,8 +93,6 @@ class IntentosMySqlDAO implements IntentosDAO{
                 $sqlQuery->setNumber($id_quiz);
                 $sqlQuery->setNumber($id_usuario);
                 
-                echo $sqlQuery->getQuery();
-                
 		return $this->getContenidoLogroArray($sqlQuery);
 	}
         
@@ -187,6 +185,36 @@ class IntentosMySqlDAO implements IntentosDAO{
 		$sqlQuery->set($id_grupo);
 
 		return $this->getContenidoLogroArray($sqlQuery);
+	}
+        
+        public function getLogroPorContenidoGrupoDetalle($id_quiz,$id_grupo){
+		
+		$sql = 'SELECT c.id_contenido AS contenido,t3.id_persona,sum(puntaje_alumno)/sum(maximo_puntaje)*100 AS logro,count(*) AS numero_preguntas
+                        FROM preguntas p 
+                        JOIN ( 
+                            SELECT i.* FROM intentos i 
+                            JOIN ( 
+                                SELECT id_persona,id_quiz,numero_intento,max(puntaje) 
+                                FROM ( 
+                                    SELECT i.id_persona,id_quiz,numero_intento, sum(puntaje_alumno) AS puntaje 
+                                    FROM intentos i
+                                    JOIN grupos_has_estudiantes ge ON ge.id_persona=i.id_persona
+                                    WHERE id_quiz = ? AND id_grupo = ?
+                                    GROUP BY i.id_persona,id_quiz,numero_intento 
+                                    ORDER BY puntaje DESC)
+                                AS t1 
+                                GROUP BY id_persona)
+                            AS t2 ON i.id_persona=t2.id_persona AND i.id_quiz=t2.id_quiz AND i.numero_intento=t2.numero_intento ) 
+                        AS t3 ON p.id = t3.id_pregunta 
+                        JOIN categorias c ON p.id_categoria=c.id
+                        GROUP BY c.id_contenido,t3.id_persona
+                        ORDER BY contenido,logro DESC';
+		
+		$sqlQuery = new SqlQuery($sql);
+		$sqlQuery->set($id_quiz);
+		$sqlQuery->set($id_grupo);
+
+		return $this->getLogroArray($sqlQuery);
 	}
 	
 	/**
@@ -600,6 +628,15 @@ class IntentosMySqlDAO implements IntentosDAO{
 		for($i=0;$i<count($tab);$i++){
 			$contenido = DAOFactory::getContenidosDAO()->loadWithPadre($tab[$i]['contenido']);
 			$ret[$i] = array('contenido' => $contenido, 'logro'=> $tab[$i]['logro'], 'numero_preguntas' => $tab[$i]['numero_preguntas']);
+		}
+		return $ret;
+	}
+        
+	protected function getLogroArray($sqlQuery){
+		$tab = QueryExecutor::execute($sqlQuery);
+		$ret = array();
+		for($i=0;$i<count($tab);$i++){
+			$ret[$i] = array('contenido' => $tab[$i]['contenido'], 'id_persona' => $tab[$i]['id_persona'], 'logro'=> $tab[$i]['logro'], 'numero_preguntas' => $tab[$i]['numero_preguntas']);
 		}
 		return $ret;
 	}

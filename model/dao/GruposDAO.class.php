@@ -96,6 +96,10 @@ interface GruposDAO{
 	public function deleteByIdSede($value);
 
 	public function deleteByIdentificadorMoodle($value);
+        
+        public function getGruposInSede($id_sede);
+        
+        public function getGruposInCursoAndSede($id_curso,$id_sede);
 
 
 }

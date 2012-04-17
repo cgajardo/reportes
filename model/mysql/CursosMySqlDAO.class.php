@@ -22,8 +22,8 @@ class CursosMySqlDAO implements CursosDAO{
 		
 		
 		$sql = 'SELECT c.* '.
-			'FROM galyleo_reportes.cursos_has_grupos AS cg, '.
-				'galyleo_reportes.cursos as c , galyleo_reportes.grupos as g '.
+			'FROM cursos_has_grupos AS cg, '.
+                        'cursos as c , grupos as g '.
 			'WHERE g.nombre = ? '.
 			'AND c.nombre = ? '.
 			'AND c.id=cg.id_curso AND g.id = cg.id_grupo ';
@@ -93,9 +93,11 @@ class CursosMySqlDAO implements CursosDAO{
 	 * @param int $sede_id
 	 */
 	public function getCursosInSede($sede_id){
-		$sql = 'SELECT c.* '.
-			'FROM cursos AS c, sedes_has_cursos AS sc '.
-			'WHERE c.id = sc.id_curso AND sc.id_sede = ? ';
+		$sql = 'SELECT c.* FROM cursos c 
+                        JOIN cursos_has_grupos cg ON c.id=cg.id_curso 
+                        JOIN grupos g ON cg.id_grupo=g.id 
+                        WHERE g.id_sede = ? 
+                        GROUP BY c.id';
 		
 		$sqlQuery = new SqlQuery($sql);
 		$sqlQuery->set($sede_id);

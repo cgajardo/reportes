@@ -5,13 +5,7 @@ Class contenidosController Extends baseController {
 public function asociar_ajax(){
 	$id_contenido = $_GET['id_contenido'];
 	$id_categoria = $_GET['id_categoria'];
-	$categoria = DAOFactory::getCategoriasDAO()->load($id_categoria);
-	if($id_contenido!=-1){
-            $categoria->contenido = $id_contenido; 
-        }else{
-            $categoria->contenido = NULL;
-        }
-	DAOFactory::getCategoriasDAO()->update($categoria);
+	DAOFactory::getCategoriasDAO()->updateContenido($id_categoria,$id_contenido);
 	$contenido = DAOFactory::getContenidosDAO()->load($id_contenido);
 	echo @utf8_encode($contenido->nombre);
 }

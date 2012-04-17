@@ -28,7 +28,6 @@ Class enrutadorController Extends baseController {
 		}
 		
 		$usuario = DAOFactory::getPersonasDAO()->getUserInPlatform($nombre_plataforma,$username);
-		
 		$_SESSION['usuario'] = $usuario;
 		$_SESSION['plataforma'] = $nombre_plataforma;
 		

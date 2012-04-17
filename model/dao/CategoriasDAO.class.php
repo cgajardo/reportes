@@ -44,7 +44,9 @@ interface CategoriasDAO{
  	 *
  	 * @param Categorias categoria
  	 */
-	public function update($categoria);	
+	public function update($categoria);
+        
+        public function updateContenido($id_categoria,$id_contenido);
 
 	/**
 	 * Delete all rows

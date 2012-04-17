@@ -28,7 +28,7 @@
    	    data.addRows(<?php echo $arbol;?>);
 
    	    var options = {
-   	      title: 'Tiempo de uso de la plataforma por sede',
+   	      title: 'Promedio de logro por sede',
    	      hAxis: {title: 'Sedes', titleTextStyle: {color: 'blue'}, viewWindowMode:'maximized'},
    	      vAxis: {title: 'minutos/alumnos', titleTextStyle: {color: 'blue'}, viewWindowMode:'explicit', viewWindow: {min:0}}
    	    };

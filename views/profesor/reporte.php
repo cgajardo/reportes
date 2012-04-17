@@ -364,6 +364,10 @@ foreach ($notas_grupo as $nota) {
             rendidas a la fecha y en las p&aacute;ginas siguientes encontrar&aacute;
             los resultados de la &uacute;ltima actividad rendida.
         <div id="matriz_desempeno">           
+            <table id="tabla_desempeno">
+                <tr id="fila_desempeno">
+                    
+                
     <?php
         //hola mundo
     	 foreach($matriz_desempeño as $quiz => $columna){
@@ -397,11 +401,10 @@ foreach ($notas_grupo as $nota) {
                     echo '</td></td>';
                     echo $celdas;
                     echo '</table></td>';
-
             }
-        
     ?>
-
+    </tr>            
+</table>
     </div>
 
             <div>

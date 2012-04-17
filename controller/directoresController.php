@@ -143,7 +143,6 @@ public function logro(){
 	session_start(); //inicia una sesion
 	$director = $_SESSION['usuario'];
 	$platform = $_SESSION['plataforma'];
-	$sedes = DAOFactory::getSedesDAO()->getSedesByDirector($director->id);
 	
 	//buscamos la institución en la session
 	if(isset($_SESSION['institucion'])){
@@ -152,6 +151,8 @@ public function logro(){
 		$institucion = DAOFactory::getInstitucionesDAO()->getInstitucionByDirectorId($director->id);
 	}
 	
+        $sedes=  DAOFactory::getSedesDAO()->getSedesByInstitucion($institucion->id);
+        
 	/* árbol de tiempo para una institución */
 	$arbol_logro = array();
 	$suma_logro_sedes = 0;
@@ -162,17 +163,17 @@ public function logro(){
 		$suma_quizes_cursos = 0;
 		//buscamos todos los cursos en una sede
 		foreach ($cursos as $curso){
-			$grupos = DAOFactory::getGruposDAO()->getGruposInCurso($curso->id);
-                        $quizes = DAOFactory::getQuizesDAO()->queryCerradosByIdCurso($curso->id);
+			$grupos = DAOFactory::getGruposDAO()->getGruposInCursoAndSede($curso->id,$sede->id);
 			$suma_logro_grupos = 0;
 			$suma_quizes_grupos = 0;
 			//buscamos todos todos grupos en un curso
 			foreach ($grupos as $grupo){
+                                $quizes = DAOFactory::getQuizesDAO()->queryCerradosByIdGrupo($grupo->id);
 				$suma_logro_grupo = 0;
 				$suma_quizes_grupo = 0;
 				//buscamos todos los alumnos de un grupo (sumamos su tiempo)
 				foreach ($quizes as $quiz){
-                                        $logros = DAOFactory::getIntentosDAO()->getPromedioLogroPorContenido($quiz->id, $grupo->id);
+                                        $logros = DAOFactory::getIntentosDAO()->getLogroPorContenidoGrupo($quiz->id, $grupo->id);
                                         $nota_logro=0;
                                         $cantidad_preguntas=0;
                                         foreach($logros as $logro){
@@ -180,12 +181,16 @@ public function logro(){
                                             $nota_logro+=$logro['logro']*$logro['numero_preguntas'];
                                             $cantidad_preguntas+=$logro['numero_preguntas'];
                                         }                                        
-                                        $suma_logro_grupo += $nota_logro/$cantidad_preguntas;
-                                        $suma_quizes_grupo++;
+                                        if($cantidad_preguntas){
+                                            $suma_logro_grupo += $nota_logro/$cantidad_preguntas;
+                                            $suma_quizes_grupo++;
+                                        }
 				}
-				$arbol_logro['detalle'][$sede->nombre]['detalle'][$curso->nombre]['detalle'][$grupo->nombre]['promedio'] = $suma_logro_grupo/$suma_quizes_grupo;
-				$suma_logro_grupos += $suma_logro_grupo;
-				$suma_quizes_grupos += $suma_quizes_grupo;
+                                if($suma_quizes_grupo){
+                                    $arbol_logro['detalle'][$sede->nombre]['detalle'][$curso->nombre]['detalle'][$grupo->nombre]['promedio'] = $suma_logro_grupo/$suma_quizes_grupo;
+                                    $suma_logro_grupos += $suma_logro_grupo;
+                                    $suma_quizes_grupos += $suma_quizes_grupo;
+                                }
 			}
 			$arbol_logro['detalle'][$sede->nombre]['detalle'][$curso->nombre]['promedio'] = $suma_logro_grupos/$suma_quizes_grupos;
 			$suma_logro_cursos += $suma_logro_grupos;
@@ -339,17 +344,17 @@ public function matrizLogroGrupo(){
 	
 	$curso = DAOFactory::getCursosDAO()->getCursoByNombreGrupoCurso($nombre_grupo, $nombre_curso);
 	$grupo = DAOFactory::getGruposDAO()->getGrupoByCursoAndNombre($curso->id, $nombre_grupo);
-	$quizes_en_curso = DAOFactory::getQuizesDAO()->queryCerradosByIdCurso($curso->id);
+	$quizes_en_grupo = DAOFactory::getQuizesDAO()->queryCerradosByIdGrupo($grupo->id);
 	
-	foreach ($quizes_en_curso as $quiz_en_curso){
-		$contenidos=DAOFactory::getIntentosDAO()->getLogroPorContenidoGrupo($quiz_en_curso->id);
-		$matriz_desempeño[$quiz_en_curso->nombre] = DAOFactory::getIntentosDAO()->getPromedioLogroPorContenido($quiz_en_curso->id, $grupo->id);
+	foreach ($quizes_en_grupo as $quiz_en_grupo){
+		$contenidos=DAOFactory::getIntentosDAO()->getLogroPorContenidoGrupo($quiz_en_grupo->id,$grupo->id);
+		$matriz_desempeño[$quiz_en_grupo->nombre] = DAOFactory::getIntentosDAO()->getLogroPorContenidoGrupo($quiz_en_grupo->id, $grupo->id);
 	}
 	
 	$this->registry->template->matriz_desempeño = $matriz_desempeño;
 	$this->registry->template->grupo = $grupo;
 	$this->registry->template->nombre_sede = $nombre_sede;
-	$this->registry->template->quizes_en_curso = $quizes_en_curso;
+	$this->registry->template->quizes_en_grupo = $quizes_en_grupo;
 	$this->registry->template->encrypter = $this->encrypter;
        
 	//finally

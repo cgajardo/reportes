@@ -86,6 +86,22 @@ class CategoriasMySqlDAO implements CategoriasDAO{
 		$sqlQuery->setNumber($categoria->id);
 		return $this->executeUpdate($sqlQuery);
 	}
+        
+        public function updateContenido($id_categoria,$id_contenido){
+                $sql = 'UPDATE categorias SET id_contenido = ? WHERE id = ?';
+                $sqlQuery = new SqlQuery($sql);
+                
+                $sqlQuery->setNumber($id_contenido);
+                $sqlQuery->setNumber($id_categoria);
+                $this->executeUpdate($sqlQuery);
+                
+                $subCategorias = $this->queryByPadre($id_categoria);
+                foreach ($subCategorias AS $id => $subCategoria){
+                    $this->updateContenido($id,$id_contenido);
+                }
+                
+            
+        }
 
 	/**
  	 * Delete all rows
@@ -162,7 +178,8 @@ class CategoriasMySqlDAO implements CategoriasDAO{
 		$tab = QueryExecutor::execute($sqlQuery);
 		$ret = array();
 		for($i=0;$i<count($tab);$i++){
-			$ret[$i] = $this->readRow($tab[$i]);
+                        $categoria = $this->readRow($tab[$i]);
+			$ret[$categoria->id] = $categoria;
 		}
 		return $ret;
 	}

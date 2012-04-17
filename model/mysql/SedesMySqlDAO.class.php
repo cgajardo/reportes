@@ -41,7 +41,7 @@ class SedesMySqlDAO implements SedesDAO{
 					'FROM sedes '.
 					'WHERE id_institucion IN ('.
     					'SELECT id_institucion '.
-						'FROM galyleo_reportes.instituciones_has_directores '. 
+						'FROM instituciones_has_directores '. 
 						'WHERE id_persona = ?)';
 		}else{
 			///si es director solo en una sede..

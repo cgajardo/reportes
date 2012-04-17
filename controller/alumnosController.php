@@ -79,7 +79,7 @@ public function reporte(){
 	
 	$platform = $_SESSION['plataforma'];
 	
-	//permite a un profesor o director ver el reporte de un alumno
+	//permite a un profesor o director ver el |rte de un alumno
 	if(isset($PARAMS['usuario'])){
 		$usuario = DAOFactory::getPersonasDAO()->load($PARAMS['usuario']);
 	}
@@ -96,13 +96,13 @@ public function reporte(){
 	
 	// esto es lo necesario para la matriz de desempeño, TODO: debería tener su vista propia?
 	$matriz_desempeño = array();
-	$quizes_en_curso = DAOFactory::getQuizesDAO()->queryCerradosByIdCurso($curso->id);
-	foreach ($quizes_en_curso as $quiz_en_curso){
-		$logro_contenido = DAOFactory::getIntentosDAO()->getLogroPorContenido($quiz_en_curso->id, $usuario->id);
+	$quizes_en_grupo = DAOFactory::getQuizesDAO()->queryCerradosByIdGrupo($grupo->id);
+	foreach ($quizes_en_grupo as $quiz_en_grupo){
+		$logro_contenido = DAOFactory::getIntentosDAO()->getLogroPorContenido($quiz_en_grupo->id, $usuario->id);
 		if(empty($logro_contenido)){
-			$matriz_desempeño[$quiz_en_curso->nombre] = DAOFactory::getContenidosDAO()->getContenidosByQuiz($quiz_en_curso->id);
+			$matriz_desempeño[$quiz_en_grupo->nombre] = DAOFactory::getContenidosDAO()->getContenidosByQuiz($quiz_en_grupo->id);
 		}else{
-			$matriz_desempeño[$quiz_en_curso->nombre] = $logro_contenido;
+			$matriz_desempeño[$quiz_en_grupo->nombre] = $logro_contenido;
 		}
 	}
 	$tiempos_semanas = array();

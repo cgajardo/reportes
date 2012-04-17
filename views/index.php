@@ -3,28 +3,16 @@
 <p>Prueba ingresando como:</p>
 <h4>Alumnos:</h4>
 <ul>
-  <li><a href="./enrutador/?params=lnFtbVjp2gnQMUkAa_1qgT64fPt6LOGceYd3vuJex_-WwY2gLaDtgQ">Jos&eacute, Ignacio Osorio (Instituto)</a></li>
-  <li><a href="./enrutador/?params=lnFtbVjp2gnQMUkAa_1qgT64fPt6LOGcqFVkR2OXAcnxjND2_WqSuQ">Pruebas</a></li>
-  <!--18162154-->
-  <li><a href="./enrutador?params=lnFtbVjp2gmDCYidkYAPdvehQvhmDNuKeqIjv8xuNh0">Andr&eacute;s Cort&eacute;s (Santiago)</a></li>
-  <!--18459086-->
-  <li><a href="./enrutador?params=lnFtbVjp2gmDCYidkYAPdvehQvhmDNuKGa62irDOuLA">Lucia Luppichini (Santiago)</a></li>
-  <li><a href="./enrutador?params=lnFtbVjp2gmDCYidkYAPdvehQvhmDNuKO6L0UvUnh70">Lucia Luppichini (Santiago)</a></li>
-  <!--17968517-->
-  <li><a href="./enrutador?params=lnFtbVjp2gmDCYidkYAPdvehQvhmDNuK7Ha7HListeg">Nadia Tobar (Valparaiso)</a></li>
-  <!--18450021-->
-  <li><a href="./enrutador?params=lnFtbVjp2gmDCYidkYAPdvehQvhmDNuK7g0EdEC9dvQ"> Samuel Norero (Valparaiso)</a></li>
+  <li><a href="./enrutador/?params=lnFtbVjp2gnQMUkAa_1qgT64fPt6LOGc-TUl-mqUeO7dzTl256IVTQ">Instituto-IPCHILE</a></li>  
 </ul>
 <br/>
 <h4>Profesores:</h4>
 <ul>
 	<!--leonelo.iturriaga-->
-  <li><a href="./enrutador/index?params=lnFtbVjp2gmDCYidkYAPdvehQvhmDNuKtQxS6cNqf6u_6r9qx5C8X1jIROZf5S03">Leonelo Iturriaga (santiago)</a></li>
-  	<!--sigrid.lazarus-->
-  <li><a href="./enrutador/index?params=lnFtbVjp2gmDCYidkYAPdvehQvhmDNuKR2wu6j3i1_doA9tNRUghRg">Sigrid L&aacute;zaruz (valparaiso)</a></li>
+  <li><a href="./enrutador/index?params=lnFtbVjp2gnQMUkAa_1qgT64fPt6LOGcDIfDzlsT7tmoCymvCIzWgw">Instituto-IPCHILE</a></li>
 </ul>
 <h4>Rectores:</h4>
 <ul>
-  <li><a href="./enrutador/index?params=lnFtbVjp2gmDCYidkYAPdvehQvhmDNuKRN_BbeXnCws">Rector Santa Maria</a></li>
+  <li><a href="./enrutador/index?params=lnFtbVjp2gnQMUkAa_1qgT64fPt6LOGcb16Nv4HV34APu_S5T6CYJg">Instituto-IPCHILE</a></li>
 </ul>
 </html>

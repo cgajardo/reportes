@@ -3,22 +3,22 @@
 /* mantenien las tablas de la matriz de desempeño juntas */
 
 body{
-	padding-left: 7%;
-	padding-right: 7%;
-	width: 1018px;
+    padding-left: 7%;
+    padding-right: 7%;
+    width: 1018px;
 }
 
 table.matriz {
-        visibility:scroll;
-        width:250;
-	float:left;
-        margin: 0px 0px;
+    visibility:scroll;
+    width:250px;
+    float:left;
+    margin: 0px 0px;
 }
 
 .center{
     margin-left:auto;
     margin-right:auto;
-    
+
 }
 
 img.header {
@@ -26,15 +26,25 @@ img.header {
     height: 150px;
     margin-top: -8px;
 }
-        
+
 table{
     border-spacing: 0px;
 }
 #matriz_desempeno {
-	margin:0;
-	font-size:small;
+    width:1000px;
+    margin:0;
+    font-size:small;
+    z-index: 5;
+    overflow-x: scroll;
 }
 
+#tabla_desempeno{
+    z-index: -100;
+}
+
+#fila_desempeno{
+    vertical-align: top;
+}
 #matriz_resago {
     width : 100%;
     margin:0px;
@@ -49,100 +59,100 @@ td{
 }
 /** elementos **/
 .title {
-	text-align:center;
+    text-align:center;
 }
 .fecha_reporte {
-	text-align: right;
+    text-align: right;
 }
 .datos_alumno {
-	text-align: left;
+    text-align: left;
 }
 .descripcion {
 }
 .subtitulo{
-	font-weight: bold;
-	padding-bottom: 10px;
-	text-decoration: underline;
+    font-weight: bold;
+    padding-bottom: 10px;
+    text-decoration: underline;
 }
 
 /** para la matriz de desempeño **/
 td.header{
-	border: 1px solid black;
-	border-bottom: 1px solid black;
-	font-weight: bold;
+    border: 1px solid black;
+    border-bottom: 1px solid black;
+    font-weight: bold;
 }
 td.insuficiente {
-	border: 1px solid black;
-	background-color: #EE6B9E;
-	color: #000000;
+    border: 1px solid black;
+    background-color: #EE6B9E;
+    color: #000000;
 }
 td.suficiente {
-	border: 1px solid black;
-	background-color: #FFA773;
-	color: #000000;
+    border: 1px solid black;
+    background-color: #FFA773;
+    color: #000000;
 }
 td.destacado{
-	border: 1px solid black;
-	background-color: #67E46F;
-	color: #000000;
+    border: 1px solid black;
+    background-color: #67E46F;
+    color: #000000;
 }
 td.no_rendido{
-	border: 1px solid black;
-	background-color: #A9A9A9;
-	color: #000000;
+    border: 1px solid black;
+    background-color: #A9A9A9;
+    color: #000000;
 }
 
 table.leyenda {
-	margin-top: 30px;
-	margin-bottom: 30px;
-	margin-left: auto;
-	margin-right: auto;
-	text-align: center;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
 }
 
 .leyenda {
-	margin-top: 30px;
-	margin-bottom: 30px;
-	margin-left: auto;
-	margin-right: auto;
-	text-align: center;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
 }
 
 .mensaje_insuficiente{	
-	background-image: url("/reportes/views/images/icons/medalla-bronce.png");
-	background-position: left;
-	background-repeat: no-repeat;
-	padding-left: 35px;
+    background-image: url("/reportes/views/images/icons/medalla-bronce.png");
+    background-position: left;
+    background-repeat: no-repeat;
+    padding-left: 35px;
 }
 .mensaje_suficiente {
-	background-image: url("/reportes/views/images/icons/medalla-oro.png");
-	background-position: left;
-	background-repeat: no-repeat;
-	padding-left: 35px;	
+    background-image: url("/reportes/views/images/icons/medalla-oro.png");
+    background-position: left;
+    background-repeat: no-repeat;
+    padding-left: 35px;	
 }
 .footer {
-	background-image: url("/reportes/views/images/logos/footer.png");
-	background-position: center;
-	background-repeat: no-repeat;
-	height: 68px;
-	margin-bottom:-8px;
-	 	
+    background-image: url("/reportes/views/images/logos/footer.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 68px;
+    margin-bottom:-8px;
+
 }
 
 .author{
-	text-align: center;
-	font-size: small;
-	padding: 5px;
+    text-align: center;
+    font-size: small;
+    padding: 5px;
 }
 
 .hr{
-	background-image: url("/reportes/views/images/logos/separador.jpg");
-	height: 13px;
+    background-image: url("/reportes/views/images/logos/separador.jpg");
+    height: 13px;
 }
 
 .contador{
-	width:500px;
-	text-align: center;
+    width:500px;
+    text-align: center;
 }
 
 img.loading-gif {
@@ -152,9 +162,9 @@ img.loading-gif {
 }
 
 #chart_nav{
-	height: 50px;
+    height: 50px;
 }
 
 .supercenter{
-	margin-top: 100px;
+    margin-top: 100px;
 }

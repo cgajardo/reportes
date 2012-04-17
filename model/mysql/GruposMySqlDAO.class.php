@@ -246,7 +246,8 @@ class GruposMySqlDAO implements GruposDAO{
 		$tab = QueryExecutor::execute($sqlQuery);
 		$ret = array();
 		for($i=0;$i<count($tab);$i++){
-			$ret[$i] = $this->readRow($tab[$i]);
+                        $grupo = $this->readRow($tab[$i]);
+			$ret[$grupo->id] = $grupo;
 		}
 		return $ret;
 	}
@@ -292,5 +293,27 @@ class GruposMySqlDAO implements GruposDAO{
 	protected function executeInsert($sqlQuery){
 		return QueryExecutor::executeInsert($sqlQuery);
 	}
+        
+        public function getGruposInSede($id_sede){
+            $sql = 'SELECT * 
+                    FROM grupos 
+                    WHERE id_sede = ?';
+            $sqlQuery = new SqlQuery($sql);
+            $sqlQuery->setNumber($id_sede);
+            
+            return $this->getList($sqlQuery);
+        }
+        
+        public function getGruposInCursoAndSede($id_curso,$id_sede){
+            $sql = 'SELECT g.* FROM grupos g 
+                    JOIN cursos_has_grupos cg ON cg.id_grupo=g.id 
+                    WHERE cg.id_curso = ? AND g.id_sede = ?';
+            $sqlQuery = new SqlQuery($sql);
+            
+            $sqlQuery->setNumber($id_curso);
+            $sqlQuery->setNumber($id_sede);
+            
+            return $this->getList($sqlQuery);
+        }
 }
 ?>

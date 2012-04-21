@@ -226,10 +226,10 @@ class IntentosMySqlDAO implements IntentosDAO{
 	 */
 	public function getNotaInQuizByPersona($quiz_id, $usuario_id){
 		$sql = 'SELECT nc.id_persona, max(nc.nota) as nota, nc.nmax as nota_maxima,nc.nmin AS nota_minima '.
-				'FROM (SELECT id_persona, q.nota_maxima AS nmax,q.nota_minima AS nmin, sum(puntaje_alumno)*(q.nota_maxima-q.nota_minima)/q.puntaje_maximo+q.nota_minima AS nota, numero_intento '.
-				'FROM intentos, quizes as q WHERE id_quiz = ? AND q.id = ? AND id_persona = ? '.
-				'GROUP BY id_persona, numero_intento) AS nc '.
-				'WHERE nc.nota <= nc.nmax GROUP BY nc.id_persona';
+                        'FROM (SELECT id_persona, q.nota_maxima AS nmax,q.nota_minima AS nmin, sum(puntaje_alumno)*(q.nota_maxima-q.nota_minima)/q.puntaje_maximo+q.nota_minima AS nota, numero_intento '.
+                        'FROM intentos, quizes as q WHERE id_quiz = ? AND q.id = ? AND id_persona = ? '.
+                        'GROUP BY id_persona, numero_intento) AS nc '.
+                        'WHERE nc.nota <= nc.nmax GROUP BY nc.id_persona';
 	
 		//TODO: revisar por qu� algunos valores se escapan de rango y mejorar esta consulta
 		$sqlQuery = new SqlQuery($sql);

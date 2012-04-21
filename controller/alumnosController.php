@@ -117,7 +117,7 @@ public function reporte(){
 		$hoy = $semana_pasada;
 		$semana_pasada = $hoy - (7 * 24 * 60 * 60);
 	}
-
+        
 	//enviamos los siguientes valores a la vista
 	$this->registry->template->titulo = 'Reporte Estudiante';
 	$this->registry->template->usuario = $usuario;
@@ -131,8 +131,8 @@ public function reporte(){
 	$this->registry->template->contenido_logro = $contenido_logro;
 	$this->registry->template->nombre_curso = $curso->nombre;
 	$this->registry->template->nombre_grupo = $grupo->nombre;
-	$this->registry->template->porcentaje_aprobado = ($institucion->notaAprobado-$quiz->notaMinima)/($quiz->notaMaxima-$quiz->notaMinima)*100;
-	$this->registry->template->porcentaje_suficiente = ($institucion->notaSuficiente-$quiz->notaMinima)/($quiz->notaMaxima-$quiz->notaMinima)*100;
+	$this->registry->template->porcentaje_aprobado = $institucion->notaAprobado;
+	$this->registry->template->porcentaje_suficiente = $institucion->notaSuficiente;
 	$this->registry->template->institucion = $institucion;
 	$this->registry->template->matriz_desempeño = $matriz_desempeño;
 	$this->registry->template->tiempos_semanas = $tiempos_semanas;

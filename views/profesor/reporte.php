@@ -87,7 +87,7 @@ foreach ($notas_grupo as $nota) {
 
                       var options = {
                           title: 'Ranking del Curso',
-                          hAxis: {showTextEvery: 1,gridlines:{count:10}, slantedText:'True', slantedTextAngle: 90,textStyle:{fontSize:10},viewWindowMode:'maximized'},
+                          hAxis: {textPosition:'none', slantedText:'True', slantedTextAngle: 90,textStyle:{fontSize:10},viewWindowMode:'maximized'},
                           vAxis: {showTextEvery: 1,viewindow: {min: 0},format:'# %'},
                           pointSize:5
                       };
@@ -155,7 +155,7 @@ foreach ($notas_grupo as $nota) {
 
                       var options = {
                           title: 'Ranking del Curso',
-                          hAxis: {showTextEvery: 1,gridlines:{count:10}, slantedText:'True', slantedTextAngle: 90,textStyle:{fontSize:10},viewWindowMode:'maximized'},
+                          hAxis: {gridlines:{count:10},textPosition:'none' , textStyle:{fontSize:10},viewWindowMode:'maximized'},
                           vAxis: {showTextEvery: 1,viewindow: {min: 0}},
                           pointSize:5
                       };
@@ -466,7 +466,7 @@ foreach ($notas_grupo as $nota) {
                 $aux='';
                 foreach($quiz as $celda){
                     if($celda['logro']==NULL || $celda['logro']<$porcentaje_aprobado){
-                        $aux.= '<tr><td>'.$celda['apellido'].', '.$celda['nombre'].'</td></tr>';
+                        $aux.= '<tr><td>'.$estudiantes[$celda['id_persona']]->apellido.', '.$estudiantes[$celda['id_persona']]->nombre.'</td></tr>';
                     }
                 }
     		

@@ -288,7 +288,8 @@ class IntentosMySqlDAO implements IntentosDAO{
                         AS t3 ON p.id = t3.id_pregunta 
                         JOIN categorias c ON p.id_categoria=c.id
                         JOIN personas p2 ON t3.id_persona=p2.id
-                        GROUP BY id_persona';
+                        GROUP BY id_persona
+                        ORDER BY logro DESC';
 	
 		//TODO: revisar por qu� algunos valores se escapan de rango y mejorar esta consulta
 		$sqlQuery = new SqlQuery($sql);

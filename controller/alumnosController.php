@@ -123,8 +123,15 @@ public function reporte(){
 	$this->registry->template->usuario = $usuario;
 	$this->registry->template->notas_grupo = $notas_grupo;
 	$this->registry->template->promedio_grupo = promedio_grupo($notas_grupo,count($estudiantes_en_grupo));
-	$this->registry->template->nota_alumno = $nota_alumno[0];
-	$this->registry->template->posicion_en_grupo = posicion($notas_grupo, $nota_alumno[0]);
+        if(isset($nota_alumno[0])){            
+            $this->registry->template->nota_alumno = $nota_alumno[0];
+            $this->registry->template->posicion_en_grupo = posicion($notas_grupo, $nota_alumno[0]);
+        }
+        else{
+            $this->registry->template->mensaje="Usted no ha rendido evaluación";
+            $this->registry->template->show("errorA1");
+            return;
+        }
 	$this->registry->template->total_estudiantes_grupo = count($estudiantes_en_grupo);
 	$this->registry->template->nombre_actividad = $quiz->nombre;
 	$this->registry->template->fecha_cierre = $quiz->fechaCierre;

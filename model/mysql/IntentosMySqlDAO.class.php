@@ -562,7 +562,7 @@ class IntentosMySqlDAO implements IntentosDAO{
 		for($i=0;$i<count($tab);$i++){
 			$notaLogro = new NotaLogro();
 			$notaLogro->id = $tab[$i]['id_persona'];
-			$notaLogro->logro = round(($tab[$i]['nota']-$tab[$i]['nota_minima'])*($tab[$i]['nota_maxima']-$tab[$i]['nota_minima'])/100);
+			$notaLogro->logro = round(($tab[$i]['nota']-$tab[$i]['nota_minima'])/($tab[$i]['nota_maxima']-$tab[$i]['nota_minima'])*100);
 			$notaLogro->nota =  round($tab[$i]['nota']);
             $ret[$i] = $notaLogro;
 		}

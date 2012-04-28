@@ -32,7 +32,7 @@
                 $s = $encrypter->encode("plataforma=" . $nombre_sede . "&grupo=" . $grupo->id . "&quiz=" . $quizes_en_grupo[$i]->id);
                 echo '<table class="matriz" border="1">';
                 echo '<tr><td class="header">';
-                echo '<a href="../profesores/reporte?params=' . $s . '">' . $quiz . '</a> (' . round($logro_quiz / $total_preguntas) . '%)';
+                echo '<a href="../profesores/reporte?params=' . $s . '">' . utf8_encode($quiz) . '</a> (' . round($logro_quiz / $total_preguntas) . '%)';
                 echo '</td></td>';
                 echo $celdas;
                 echo '</table></td>';

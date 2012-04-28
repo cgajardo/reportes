@@ -61,17 +61,17 @@ public function index() {
 public function reporte(){
 	session_start();
 	$PARAMS = $this->encrypter->decodeURL($_GET['params']);
-        $curso_id = $PARAMS['curso'];
-	$quiz_id = $PARAMS['quiz'];
+        @$curso_id = $PARAMS['curso'];
+	@$quiz_id = $PARAMS['quiz'];
 
 	//recuperamos los objetos que nos interesan
 	$usuario = $_SESSION['usuario'];
 	
 	$rol = $usuario->getRol(); 
 	if( $rol == 'rector' || $rol == 'profesor'){
-		$curso_id = $_GET['curso'];
-		$quiz_id = $_GET['quiz'];
-		$nombreApellido = explode(',', $_GET['alumno']);
+		$curso_id = $PARAMS['curso'];
+		$quiz_id = $PARAMS['quiz'];
+		$nombreApellido = explode(',', $PARAMS['alumno']);
 		$nombre = trim($nombreApellido[1]);
 		$apellido = trim($nombreApellido[0]);
 		$usuario = DAOFactory::getPersonasDAO()->queryByNombreApellido($nombre,$apellido);

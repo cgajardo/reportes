@@ -163,17 +163,15 @@ public function index(){
 
 public function data(){
     
-    session_start();
-    $usuario = explode(', ',$_GET['alumno']);
-    /*
-    foreach($_SESSION['notas_grupo'] as $id=>$nota){
-        if($nota->nombre==$usuario[1] && $nota->apellido==$usuario[0]){
-            $id_usuario = $id;
-            break;
-        }
-    }
-    */
-    print "hola";
+//    session_start();
+//    $usuario = explode(', ',$_GET['alumno']);
+//    foreach($_SESSION['notas_grupo'] as $id=>$nota){
+//        if($nota->nombre==$usuario[1] && $nota->apellido==$usuario[0]){
+//            $id_usuario = $id;
+//            break;
+//        }
+//    }
+    print $this->encrypter->encode('curso='.$_GET['curso'].'&quiz='.$_GET['quiz'].'&alumno='.$_GET['alumno']);
     $this->registry->template->show('debug');
 }
 }

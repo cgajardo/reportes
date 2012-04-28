@@ -95,41 +95,39 @@ foreach ($notas_grupo as $nota) {
                       chart.draw(data, options);
                       google.visualization.events.addListener(chart, 'select', loadAlumno);
                       
-//                      function loadAlumno(){
-//
-//
-//                        //document.getElementById("chart_div").innerHTML='<img class="loading-gif" border="0" src="../views/images/loading.gif" alt="cargando"/>';
-//                        //recuperamos la id del director
-//                        var xmlhttp;
-//                        var selection = chart.getSelection();
-//                        for (var i = 0; i < selection.length; i++) {
-//                                var item = selection[i];
-//                            if (item.row != null) {
-//                                alumno = data['F'][item.row]['c'][0]['v'];
-//                            } else {
-//                                alert("error");
-//                            }
-//                        }
-//                        
-//                        if (window.XMLHttpRequest){
-//                                // code for IE7+, Firefox, Chrome, Opera, Safari
-//                                xmlhttp=new XMLHttpRequest();
-//                        }
-//                        else{
-//                                // code for IE6, IE5
-//                                xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-//                        }
-//                        xmlhttp.onreadystatechange=function() { 
-//                                alert("HOLA");
-//                                if (xmlhttp.readyState==4 && xmlhttp.status==200){
-//                                        //document.getElementById("myDiv").innerHTML=xmlhttp.responseText;
-//                                        alert(xmlhttp.responseText);
-//                                        //location.href='../alumnos/reporte?alumno='+alumno+'&curso=<?php echo $curso->id;?>&quiz=<?php echo $quiz->id;?>';
-//                        }
-//                        }
-//                        xmlhttp.open("GET","data?plataforma=<?php echo $platform;?>&alumno="+alumno+"&curso=<?php echo $curso->id;?>&grupo=<?php echo $grupo->id;?>&quiz=<?php echo $quiz->id;?>",true);
-//                        xmlhttp.send();
-//                    }      
+                      function loadAlumno(){
+
+
+                        //document.getElementById("chart_div").innerHTML='<img class="loading-gif" border="0" src="../views/images/loading.gif" alt="cargando"/>';
+                        //recuperamos la id del director
+                        var xmlhttp;
+                        var selection = chart.getSelection();
+                        for (var i = 0; i < selection.length; i++) {
+                                var item = selection[i];
+                            if (item.row != null) {
+                                alumno = data['D'][item.row]['c'][0]['v'];
+                            } else {
+                                alert("error");
+                            }
+                        }
+                        
+                        if (window.XMLHttpRequest){
+                                // code for IE7+, Firefox, Chrome, Opera, Safari
+                                xmlhttp=new XMLHttpRequest();
+                        }
+                        else{
+                                // code for IE6, IE5
+                                xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+                        }
+                        xmlhttp.onreadystatechange=function() {
+                                if (xmlhttp.readyState==4 && xmlhttp.status==200){
+                                        //document.getElementById("myDiv").innerHTML=xmlhttp.responseText;
+                                        location.href='../alumnos/reporte?params='+xmlhttp.responseText;
+                        }
+                        }
+                        xmlhttp.open("GET","data?plataforma=<?php echo $platform;?>&alumno="+alumno+"&curso=<?php echo $curso->id;?>&grupo=<?php echo $grupo->id;?>&quiz=<?php echo $quiz->id;?>",true);
+                        xmlhttp.send();
+                    }      
                 }
 
         </script>

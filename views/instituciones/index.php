@@ -1,6 +1,6 @@
 <html>
 <head>
-<link rel="stylesheet" type="text/css" href="/reportes/views/styles/galyleo.css" />
+<link rel="stylesheet" type="text/css" href="../views/styles/galyleo.css" />
 </head>
 <body align="center">
     <img class="header" src="views/images/logos/galyleo.jpg">

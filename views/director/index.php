@@ -3,10 +3,10 @@
 <head>
 	<title>Inicio Director</title>
      <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
-     <link rel="stylesheet" type="text/css" href="/reportes/views/styles/galyleo.css" />
+     <link rel="stylesheet" type="text/css" href="../views/styles/galyleo.css" />
      <style type="text/css">
   	.header_institucion {
-		background-image: url("/reportes/views/images/logos/<?php echo $institucion->nombreCorto;?>-header.png");
+		background-image: url("views/images/logos/<?php echo $institucion->nombreCorto;?>-header.png");
 		background-position: center;
 		background-repeat: no-repeat;
 		height: 150px;

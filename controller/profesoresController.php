@@ -63,8 +63,8 @@ public function reporte(){
 	$this->registry->template->institucion = $institucion;
 	$this->registry->template->nota_maxima = $quiz->notaMaxima;
 	$this->registry->template->nota_minima = $quiz->notaMinima;
-	$this->registry->template->porcentaje_aprobado = ($institucion->notaAprobado-$quiz->notaMinima)/($quiz->notaMaxima-$quiz->notaMinima)*100;
-	$this->registry->template->porcentaje_suficiente = ($institucion->notaSuficiente-$quiz->notaMinima)/($quiz->notaMaxima-$quiz->notaMinima)*100;
+	$this->registry->template->porcentaje_aprobado = $institucion->notaAprobado;
+	$this->registry->template->porcentaje_suficiente = $institucion->notaSuficiente;
                 
 	// esto es lo necesario para la matriz de desempeño, TODO: deber�a tener su vista propia?
 	$quizes_en_grupo = DAOFactory::getQuizesDAO()->queryCerradosByIdGrupo($grupo->id);
@@ -165,14 +165,15 @@ public function data(){
     
     session_start();
     $usuario = explode(', ',$_GET['alumno']);
-    
+    /*
     foreach($_SESSION['notas_grupo'] as $id=>$nota){
         if($nota->nombre==$usuario[1] && $nota->apellido==$usuario[0]){
             $id_usuario = $id;
             break;
         }
     }
-    
+    */
+    print "hola";
     $this->registry->template->show('debug');
 }
 }

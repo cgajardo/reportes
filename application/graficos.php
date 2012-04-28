@@ -280,7 +280,7 @@ foreach ($notas_grupo as $nota) {
                       function loadAlumno(){
 
 
-                        //document.getElementById("chart_div").innerHTML='<img class="loading-gif" border="0" src="/reportes/views/images/loading.gif" alt="cargando"/>';
+                        //document.getElementById("chart_div").innerHTML='<img class="loading-gif" border="0" src="../views/images/loading.gif" alt="cargando"/>';
                         //recuperamos la id del director
                         var xmlhttp;
                         var selection = chart.getSelection();
@@ -358,7 +358,7 @@ foreach ($notas_grupo as $nota) {
                   function loadAlumno(){
 
 
-                        //document.getElementById("chart_div").innerHTML='<img class="loading-gif" border="0" src="/reportes/views/images/loading.gif" alt="cargando"/>';
+                        //document.getElementById("chart_div").innerHTML='<img class="loading-gif" border="0" src="../views/images/loading.gif" alt="cargando"/>';
                         //recuperamos la id del director
                         var xmlhttp;
                         var selection = chart.getSelection();

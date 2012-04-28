@@ -27,15 +27,15 @@
 		
 		//esta funcion permite obtener el rol de un usuario en una plataforma dada
 		public function getRol(){
-			$esAlumno = DAOFactory::getPersonasDAO()->checkRolAlumno($this->id);
-			if($esAlumno)
-				return "alumno";
-			$esProfesor = DAOFactory::getPersonasDAO()->checkRolProfesor($this->id);
-			if($esProfesor)
-				return "profesor";
-			$esRector = DAOFactory::getPersonasDAO()->checkRolDirector($this->id);
+                        $esRector = DAOFactory::getPersonasDAO()->checkRolDirector($this->id);
 			if($esRector)
 				return "rector";
+			$esProfesor = DAOFactory::getPersonasDAO()->checkRolProfesor($this->id);
+			if($esProfesor)
+				return "profesor";			
+                        $esAlumno = DAOFactory::getPersonasDAO()->checkRolAlumno($this->id);
+			if($esAlumno)
+				return "alumno";
 		}
 		
 		public function getRolEnGrupo($id_grupo){

@@ -37,14 +37,14 @@ class LogsMySqlDAO implements LogsDAO{
 		//UNIX_TIMESTAMP
 		$sql = 'SELECT tiempo, modulo, accion, id_modulo '.
 				'FROM logs '. 
-				'WHERE FROM_UNIXTIME(tiempo) BETWEEN DATE_SUB( ? ,INTERVAL 7 DAY) AND ? '.
+				'WHERE FROM_UNIXTIME(tiempo) BETWEEN DATE_SUB( now() ,INTERVAL 14 DAY) AND now() '.
 					'AND id_persona = ? '.
                                 'GROUP BY tiempo,modulo,accion,id_modulo '.
 				'ORDER BY tiempo ASC';
 		
 		$sqlQuery = new SqlQuery($sql);
-		$sqlQuery->setString($fecha_fin);
-		$sqlQuery->setString($fecha_fin);
+		//$sqlQuery->setString($fecha_fin);
+		//$sqlQuery->setString($fecha_fin);
 		$sqlQuery->setNumber($usuario_id);
 
 		return $this->contadorDeTiempo($sqlQuery);

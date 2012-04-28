@@ -26,12 +26,14 @@ Esta pagina es la encargada de crear los reportes de cada alumnos.
                 data.addColumn('number', 'Porcentaje de logro');
                 data.addRows([
 <?php
+$i=0;
 foreach ($notas_grupo as $id => $nota) {
-    if ($id == count($notas_grupo) - 1) {
+    if ($i == count($notas_grupo) - 1) {
         echo '[' . ($id + 1) . ', ' . ($nota->logro / 100) . ']';
     } else {
         echo '[' . ($id + 1) . ', ' . ($nota->logro / 100) . '],';
     }
+    $i++;
 };
 for ($sinnotas = count($notas_grupo); $sinnotas < $total_estudiantes_grupo; $sinnotas++) {
     echo ',[' . ($sinnotas + 1) . ', 0]';
@@ -45,7 +47,8 @@ for ($sinnotas = count($notas_grupo); $sinnotas < $total_estudiantes_grupo; $sin
                           hAxis: {showTextEvery: 1, showTextEvery:1,gridlines:{count:10}},
                           vAxis: {showTextEvery: 1,viewWindow: {min: 0},format:'#%'},
                           pointSize: 5
-                      };
+              
+          };
 
                       var chart = new google.visualization.LineChart(document.getElementById('ranking_curso'));
                       chart.draw(data, options);

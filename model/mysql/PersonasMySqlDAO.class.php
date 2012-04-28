@@ -65,7 +65,7 @@ class PersonasMySqlDAO implements PersonasDAO{
 	public function checkRolProfesor($persona_id){
 		$sql = 'SELECT * '. 
 			'FROM grupos_has_profesores '.
-		'WHERE id_persona = ? ';
+                        'WHERE id_persona = ? ';
 		
 		$sqlQuery = new SqlQuery($sql);
 		$sqlQuery->setNumber($persona_id);

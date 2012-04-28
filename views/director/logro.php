@@ -3,19 +3,19 @@
    <head>
    	<title><?php echo $titulo; ?></title>
      <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
-     <link rel="stylesheet" type="text/css" href="/reportes/views/styles/galyleo.css" />
+     <link rel="stylesheet" type="text/css" href="../views/styles/galyleo.css" />
      <style type="text/css">
   	.header_institucion {
-		background-image: url("/reportes/views/images/logos/<?php echo $institucion->nombreCorto;?>-header.png");
+		background-image: url("../views/images/logos/<?php echo $institucion->nombreCorto;?>-header.png");
 		background-position: center;
 		background-repeat: no-repeat;
 		height: 150px;
 		margin-top: -8px;
 	}
 	</style>
-     <script type="text/javascript" charset="utf-8" src="/reportes/views/js/json.js"></script>
-  	 <script type="text/javascript" charset="utf-8" src="/reportes/views/js/directorlogrochart.js"></script>
-  	 <script type="text/javascript" src="/reportes/views/js/googlecharts.js"></script>
+     <script type="text/javascript" charset="utf-8" src="../views/js/json.js"></script>
+  	 <script type="text/javascript" charset="utf-8" src="../views/js/directorlogrochart.js"></script>
+  	 <script type="text/javascript" src="../views/js/googlecharts.js"></script>
      <script type="text/javascript" charset="utf-8">
      var chart;
      var data;
@@ -48,7 +48,7 @@
    <body style="font-family: Arial;border: 0 none;">
    	<div class="header_institucion"></div>
     <div id="chart_div" style="width: 800px; height: 400px;">
-    	<img class="loading-gif" border="0" src="/reportes/views/images/loading.gif" alt="cargando"/>
+    	<img class="loading-gif" border="0" src="../views/images/loading.gif" alt="cargando"/>
     </div>
     <div id="chart_nav"></div>
     <div id="detalleLogro"></div>

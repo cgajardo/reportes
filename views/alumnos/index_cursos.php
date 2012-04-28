@@ -7,10 +7,10 @@ Al hacer click en el link del curso, direcciona a index_quiz.
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
 	<title><?php echo $titulo;?></title>
-	<link rel="stylesheet" type="text/css" href="/reportes/views/styles/galyleo.css" />
+	<link rel="stylesheet" type="text/css" href="../views/styles/galyleo.css" />
   	<style type="text/css">
   	.header_institucion {
-		background-image: url("/reportes/views/images/logos/<?php echo $institucion->nombreCorto;?>-header.png");
+		background-image: url("../views/images/logos/<?php echo $institucion->nombreCorto;?>-header.png");
 		background-position: center;
 		background-repeat: no-repeat;
 		height: 150px;
@@ -27,7 +27,7 @@ Al hacer click en el link del curso, direcciona a index_quiz.
 	  
 	<?php
 	foreach($cursos as $curso){
-		echo '<a href="'.str_replace("index.php","",$_SERVER['PHP_SELF']).'alumnos/index?params='.$encrypter->encode('&curso='.$curso->id).'">'.$curso->nombre.'</a></br>';	
+		echo '<a href="'.str_replace("index.php","",$_SERVER['PHP_SELF']).'alumnos/index?params='.$encrypter->encode('&curso='.$curso->id).'">'.utf8_encode($curso->nombre).'</a></br>';	
 	} 
 	echo '</br>';
 	?>

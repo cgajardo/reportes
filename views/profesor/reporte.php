@@ -17,13 +17,12 @@
         var_dump($x);
         echo '<hr/>';
     }*/
-    
 
 ?>
 <html>
     <head>
         <title><?php echo $titulo; ?></title>
-        <link rel="stylesheet" type="text/css" href="/reportes/views/styles/galyleo.css" />
+        <link rel="stylesheet" type="text/css" href="../views/styles/galyleo.css" />
   	<style type="text/css">
             .border{
                 border:1px solid;
@@ -43,7 +42,7 @@
 		margin-top: -8px;
 	}
 	</style>
-        <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+        <script type="text/javascript" src="../views/js/googlecharts.js"></script>
 
         <!-- javascript for ranking_curso -->
         <script type="text/javascript">
@@ -96,40 +95,41 @@ foreach ($notas_grupo as $nota) {
                       chart.draw(data, options);
                       google.visualization.events.addListener(chart, 'select', loadAlumno);
                       
-                      function loadAlumno(){
-
-
-                        //document.getElementById("chart_div").innerHTML='<img class="loading-gif" border="0" src="/reportes/views/images/loading.gif" alt="cargando"/>';
-                        //recuperamos la id del director
-                        var xmlhttp;
-                        var selection = chart.getSelection();
-                        for (var i = 0; i < selection.length; i++) {
-                                var item = selection[i];
-                            if (item.row != null) {
-                                alumno = data['F'][item.row]['c'][0]['v'];
-                            } else {
-                                alert("error");
-                            }
-                        }
-                        
-                        if (window.XMLHttpRequest){
-                                // code for IE7+, Firefox, Chrome, Opera, Safari
-                                xmlhttp=new XMLHttpRequest();
-                        }
-                        else{
-                                // code for IE6, IE5
-                                xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-                        }
-                        xmlhttp.onreadystatechange=function() { 
-                                if (xmlhttp.readyState==4 && xmlhttp.status==200){
-                                        //document.getElementById("myDiv").innerHTML=xmlhttp.responseText;
-                                        //alert(xmlhttp.responseText);
-                                        location.href='../alumnos/reporte?alumno='+alumno+'&curso=<?php echo $curso->id;?>&quiz=<?php echo $quiz->id;?>';
-                        }
-                        }
-                        xmlhttp.open("GET","data?plataforma=<?php echo $platform;?>&alumno="+alumno+"&curso=<?php echo $curso->id;?>&grupo=<?php echo $grupo->id;?>&quiz=<?php echo $quiz->id;?>",true);
-                        xmlhttp.send();
-                    }      
+//                      function loadAlumno(){
+//
+//
+//                        //document.getElementById("chart_div").innerHTML='<img class="loading-gif" border="0" src="../views/images/loading.gif" alt="cargando"/>';
+//                        //recuperamos la id del director
+//                        var xmlhttp;
+//                        var selection = chart.getSelection();
+//                        for (var i = 0; i < selection.length; i++) {
+//                                var item = selection[i];
+//                            if (item.row != null) {
+//                                alumno = data['F'][item.row]['c'][0]['v'];
+//                            } else {
+//                                alert("error");
+//                            }
+//                        }
+//                        
+//                        if (window.XMLHttpRequest){
+//                                // code for IE7+, Firefox, Chrome, Opera, Safari
+//                                xmlhttp=new XMLHttpRequest();
+//                        }
+//                        else{
+//                                // code for IE6, IE5
+//                                xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+//                        }
+//                        xmlhttp.onreadystatechange=function() { 
+//                                alert("HOLA");
+//                                if (xmlhttp.readyState==4 && xmlhttp.status==200){
+//                                        //document.getElementById("myDiv").innerHTML=xmlhttp.responseText;
+//                                        alert(xmlhttp.responseText);
+//                                        //location.href='../alumnos/reporte?alumno='+alumno+'&curso=<?php echo $curso->id;?>&quiz=<?php echo $quiz->id;?>';
+//                        }
+//                        }
+//                        xmlhttp.open("GET","data?plataforma=<?php echo $platform;?>&alumno="+alumno+"&curso=<?php echo $curso->id;?>&grupo=<?php echo $grupo->id;?>&quiz=<?php echo $quiz->id;?>",true);
+//                        xmlhttp.send();
+//                    }      
                 }
 
         </script>
@@ -143,12 +143,14 @@ foreach ($notas_grupo as $nota) {
                 data.addColumn('number', 'Minutos en Plataforma');
                 data.addRows([
                     <?php
+                    $i=0;
                     foreach ($notas_grupo as $id => $nota) {
-                        if ($id == count($notas_grupo) - 1) {
+                        if ($i == count($notas_grupo) - 1) {
                             echo '[\'' . $nota->apellido . ", " . $nota->nombre . '\', ' . (int)($tiempos[$nota->id]/60) . ']';
                         } else {
                             echo '[\'' . $nota->apellido . ", " . $nota->nombre . '\', ' . (int)($tiempos[$nota->id]/60) . '],';
                         }
+                        $i++;
                     }
                     ?>
                       ]);
@@ -168,7 +170,7 @@ foreach ($notas_grupo as $nota) {
                   function loadAlumno(){
 
 
-                        //document.getElementById("chart_div").innerHTML='<img class="loading-gif" border="0" src="/reportes/views/images/loading.gif" alt="cargando"/>';
+                        //document.getElementById("chart_div").innerHTML='<img class="loading-gif" border="0" src="../views/images/loading.gif" alt="cargando"/>';
                         //recuperamos la id del director
                         var xmlhttp;
                         var selection = chart.getSelection();
@@ -410,9 +412,9 @@ foreach ($notas_grupo as $nota) {
             <div>
                 <table class="leyenda" border="1">
                 <tr>
-                        <td class="destacado">Logro &gt;= <?php echo $porcentaje_aprobado;?>%</td>
-                        <td class="suficiente"><?php echo $porcentaje_suficiente;?>% &lt; Logro &lt;<?php echo $porcentaje_aprobado;?>%</td>
-                        <td class="insuficiente">Logro &lt;= <?php echo $porcentaje_suficiente;?>%</td>
+                    <td class="destacado">Logro &gt;= <?php echo round($porcentaje_aprobado);?>%</td>
+                        <td class="suficiente"><?php echo round($porcentaje_suficiente);?>% &lt; Logro &lt;<?php echo round($porcentaje_aprobado);?>%</td>
+                        <td class="insuficiente">Logro &lt;= <?php echo round($porcentaje_suficiente);?>%</td>
                         <td class="no_rendido">A&uacute;n no rendido</td>
                 </tr>
                 </table>

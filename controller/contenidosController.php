@@ -204,7 +204,7 @@ public function preguntas_quiz(){
             }else{
                 echo '<td id="'.utf8_encode($categoria->id).'"></td>';
             }
-            echo '<td>'.'<select id="'.utf8_encode($categoria->id).'" '.$combo.'</td>';
+            echo '<td>'.'<select id="'.utf8_encode($categoria->id).'" '.utf8_encode($combo).'</td>';
             echo '<td id="padres'.$categoria->id.'"></td>';
             echo '<td id="hijos'.$categoria->id.'"></td>';
             echo '</tr>';

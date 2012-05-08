@@ -70,10 +70,18 @@ public function reporte(){
 	$quizes_en_grupo = DAOFactory::getQuizesDAO()->queryCerradosByIdGrupo($grupo->id);
 	$matriz_desempeno = array();
 	foreach ($quizes_en_grupo as $quiz_en_grupo){
-		$contenidos=DAOFactory::getIntentosDAO()->getLogroPorContenidoGrupo($quiz_en_grupo->id,$grupo->id);
-                foreach($contenidos as $contenido){
-                    $matriz_desempeno[$quiz_en_grupo->nombre][] = $contenido;
-                }
+		$logro_contenido=DAOFactory::getIntentosDAO()->getLogroPorContenidoGrupo($quiz_en_grupo->id,$grupo->id);
+                if(empty($logro_contenido)){
+                    $i=0;
+                    foreach (DAOFactory::getContenidosDAO()->getContenidosByQuiz($quiz_en_grupo->id) as $contenido){
+			$matriz_desempeño[$quiz_en_grupo->nombre][$i]['logro'] = -1;
+                        $matriz_desempeño[$quiz_en_grupo->nombre][$i]['numero_preguntas'] = 0;
+                        $matriz_desempeño[$quiz_en_grupo->nombre][$i]['contenido'] = $contenido;
+                        $i++;
+                    }
+		}else{
+			$matriz_desempeño[$quiz_en_grupo->nombre] = $logro_contenido;
+		}
         }
         foreach($detalle_notas AS $nota){
             $matriz_contenidos[$contenidos_quiz[$nota['contenido']]->nombre][]=$nota;

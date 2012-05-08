@@ -23,7 +23,7 @@
     <?php 
         foreach ($profesores as $profesor) {
             $aux = explode('_', $profesor->identificadorMoodle);
-            echo '<option value=enrutador/?"'.$encrypter->encode('platform='.$aux[0].'&user='.$profesor->usuario).'">'.$profesor->nombre.' '.$profesor->apellido.'</option>';
+            echo '<option value=enrutador/index?"'.$encrypter->encode('platform='.$aux[0].'&user='.$profesor->usuario).'">'.$profesor->nombre.' '.$profesor->apellido.'</option>';
         }
     ?>
 </select>

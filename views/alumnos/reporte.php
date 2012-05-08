@@ -129,7 +129,7 @@ foreach (array_reverse($tiempos_semanas) AS $fecha => $tiempo) {
                         $celdas .= '<tr>';
                         //nos permite identificar si el control fue rendido o no
                         if ($celda['logro'] == -1) {
-                            $celdas .= '<td class="no_rendido">' . $celda['contenido']->nombre . '</td>';
+                            $celdas .= '<td class="no_rendido">' . $celda['contenido']->nombre . '(-)</td>';
                         } elseif ($celda['logro'] <= $institucion->notaSuficiente) {
                             $celdas .= '<td class="insuficiente">' . $celda['contenido']->nombre . ' (' . round($celda['logro']) . '%)</td>';
                         } elseif ($celda['logro'] > $institucion->notaSuficiente && $celda['logro'] < $institucion->notaAprobado) {

@@ -140,6 +140,14 @@ class PersonasMySqlDAO implements PersonasDAO{
 		$sqlQuery->setNumber($grupo_id);
 		return $this->getList($sqlQuery);
 	}
+        
+        public function getProfesoresInGroup($grupo_id){
+		$sql = 'SELECT p.* FROM personas AS p, grupos_has_profesores AS gp '. 
+			 'WHERE gp.id_persona = p.id AND gp.id_grupo = ?';
+		$sqlQuery = new SqlQuery($sql);
+		$sqlQuery->setNumber($grupo_id);
+		return $this->getList($sqlQuery);
+	}
 
 	
 	/**
@@ -298,7 +306,7 @@ class PersonasMySqlDAO implements PersonasDAO{
 	public function queryByRolMoodle($value){
 		$sql = 'SELECT * FROM personas WHERE rol_moodle = ?';
 		$sqlQuery = new SqlQuery($sql);
-		$sqlQuery->set($value);
+		$sqlQuery->setString($value);
 		return $this->getList($sqlQuery);
 	}
 

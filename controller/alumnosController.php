@@ -100,7 +100,13 @@ public function reporte(){
 	foreach ($quizes_en_grupo as $quiz_en_grupo){
 		$logro_contenido = DAOFactory::getIntentosDAO()->getLogroPorContenido($quiz_en_grupo->id, $usuario->id);
 		if(empty($logro_contenido)){
-			$matriz_desempeño[$quiz_en_grupo->nombre] = DAOFactory::getContenidosDAO()->getContenidosByQuiz($quiz_en_grupo->id);
+                    $i=0;
+                    foreach (DAOFactory::getContenidosDAO()->getContenidosByQuiz($quiz_en_grupo->id) as $contenido){
+			$matriz_desempeño[$quiz_en_grupo->nombre][$i]['logro'] = -1;
+                        $matriz_desempeño[$quiz_en_grupo->nombre][$i]['numero_preguntas'] = 0;
+                        $matriz_desempeño[$quiz_en_grupo->nombre][$i]['contenido'] = $contenido;
+                        $i++;
+                    }
 		}else{
 			$matriz_desempeño[$quiz_en_grupo->nombre] = $logro_contenido;
 		}

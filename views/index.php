@@ -1,12 +1,32 @@
 <html>
+    <script>
+        function asd(x){
+            location.href(x);
+        }
+    </script>
 <h1>Bienvenido</h1>
 <p>Prueba ingresando como:</p>
 <h4>Alumnos:</h4>
-<ul>
-  <li><a href="./enrutador/?params=lnFtbVjp2gnQMUkAa_1qgT64fPt6LOGc-TUl-mqUeO7dzTl256IVTQ">Instituto-IPCHILE</a></li>  
-</ul>
+<select onchange="asd(this.value)">
+    <option>SELECT</option>
+    <?php 
+        foreach ($alumnos as $alumno) {
+            $aux = explode('_', $alumno->identificadorMoodle);
+            echo '<option value="'.$encrypter->encode('platform='.$aux[0].'&user='.$alumno->usuario).'">'.$alumno->nombre.' '.$alumno->apellido.'</option>';
+        }
+    ?>
+</select>
 <br/>
 <h4>Profesores:</h4>
+<select onchange="function(){this.value);}">
+    <option>SELECT</option>
+    <?php 
+        foreach ($profesores as $profesor) {
+            $aux = explode('_', $profesor->identificadorMoodle);
+            echo '<option value=enrutador/?"'.$encrypter->encode('platform='.$aux[0].'&user='.$profesor->usuario).'">'.$profesor->nombre.' '.$profesor->apellido.'</option>';
+        }
+    ?>
+</select>
 <ul>
 	<!--leonelo.iturriaga-->
   <li><a href="./enrutador/index?params=lnFtbVjp2gnQMUkAa_1qgT64fPt6LOGcDIfDzlsT7tmoCymvCIzWgw">Instituto-IPCHILE</a></li>

@@ -9,7 +9,15 @@ public function index() {
 public function showtest(){
 	session_start();
 	session_destroy();
-        print $this->encrypter->decode('lnFtbVjp2gnQMUkAa_1qgT64fPt6LOGc-TUl-mqUeO7dzTl256IVTQ');
+        $grupos = DAOFactory::getGruposDAO()->queryAll();
+        $alumnos = DAOFactory::getPersonasDAO()->queryByRolMoodle("student");
+        $profesores = DAOFactory::getPersonasDAO()->queryByRolMoodle("teacher");
+        //$directores = DAOFactory::getPersonasDAO()->getDirectores();
+        print 'enrutador/?params='.$this->encrypter->encode('platform=instituto&username=15806964');
+
+        //$this->registry->template->profesores = $profesores;
+        //$this->registry->template->alumnos = $alumnos;
+        $this->registry->template->encrypter = $this->encrypter;
         
 	/*** load the index template ***/
 	$this->registry->template->show('index');

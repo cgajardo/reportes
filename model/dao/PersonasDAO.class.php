@@ -70,6 +70,13 @@ interface PersonasDAO{
 	 */
 	public function getEstudiantesInGroup($grupo_id);
 	
+        /**
+	 * jtoro: devuelve la lista de personas que pertecenen a un grupo
+	 * en rol de profesor
+	 * @param int $grupo_id
+	 */
+	public function getProfesoresInGroup($grupo_id);
+        
 	/**
 	* cgajardo: obtener al usuario de acuerdo a su username y plataforma
 	* 

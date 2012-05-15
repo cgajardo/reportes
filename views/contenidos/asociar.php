@@ -4,7 +4,7 @@
 <link rel="stylesheet" type="text/css" href="../views/styles/pagination.css"/>
 <script type="text/javascript" src="/reportes/views/js/jquery_1.7.1.js"></script>
 <script type="text/javascript" charset="utf-8">
-function loadXMLDoc($id_contenido, $id_pregunta){
+function asociar($id_contenido, $id_pregunta){
         var xmlhttp;
 	if (window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
   		xmlhttp=new XMLHttpRequest();
@@ -17,29 +17,60 @@ function loadXMLDoc($id_contenido, $id_pregunta){
     		document.getElementById($id_pregunta).innerHTML=xmlhttp.responseText;
     	}
   	};
-		xmlhttp.open("POST","<?php echo($_SERVER['PHP_SELF']);?>?rt=contenidos/asociar_ajax&id_contenido="+$id_contenido+"&id_pregunta="+$id_pregunta,true);
-		xmlhttp.send();
+        xmlhttp.open("POST","asociar_ajax?id_contenido="+$id_contenido+"&id_pregunta="+$id_pregunta,true);
+	xmlhttp.send();
 }
 
-function buscar(){
+function loadPadres($id_contenido, $id_pregunta){
+   var xmlhttp;
+	if (window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
+		xmlhttp=new XMLHttpRequest();
+	}
+	else{// code for IE6, IE5
+		xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+	}
+	xmlhttp.onreadystatechange=function(){
+		if (xmlhttp.readyState==4 && xmlhttp.status==200){
+			document.getElementById('padres'+$id_pregunta).innerHTML=xmlhttp.responseText;
+		}
+	};
+	xmlhttp.open("POST","contenidos_padres?contenido="+$id_contenido+"&pregunta="+$id_pregunta,true);
+	xmlhttp.send();
+}
+
+function loadHijos($id_contenido, $id_pregunta){
+    var xmlhttp;
+	if (window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
+		xmlhttp=new XMLHttpRequest();
+	}
+	else{// code for IE6, IE5
+		xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+	}
+	xmlhttp.onreadystatechange=function(){
+		if (xmlhttp.readyState==4 && xmlhttp.status==200){
+			document.getElementById('hijos'+$id_pregunta).innerHTML=xmlhttp.responseText;
+		}
+	};
+	xmlhttp.open("POST","contenidos_hijos?contenido="+$id_contenido+"&pregunta="+$id_pregunta,true);
+	xmlhttp.send();
+}
+
+function load($padre,$categoria){
     
-        var pat=document.getElementById("pat").value;
-        if(pat!=""){
-            var xmlhttp;
-            if (window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
-                    xmlhttp=new XMLHttpRequest();
-            }
-            else{// code for IE6, IE5
-                    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-            }
-            xmlhttp.onreadystatechange=function(){
-                    if (xmlhttp.readyState==4 && xmlhttp.status==200){
-                    document.getElementById("con_contenido").innerHTML=xmlhttp.responseText;
-            }
-            };
-            xmlhttp.open("GET","<?php echo($_SERVER['PHP_SELF']);?>?rt=contenidos/buscar_ajax&patron="+pat,true);
-            xmlhttp.send();
+        var xmlhttp;
+        if (window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
+                xmlhttp=new XMLHttpRequest();
         }
+        else{// code for IE6, IE5
+                xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhttp.onreadystatechange=function(){
+                if (xmlhttp.readyState==4 && xmlhttp.status==200){
+                document.getElementById("cat"+$padre).innerHTML=xmlhttp.responseText;
+        }
+        };
+        xmlhttp.open("GET","load_categoria?categoria="+$categoria,true);
+        xmlhttp.send();
 }
 </script>
 <style>
@@ -65,51 +96,18 @@ function buscar(){
 <body align="center">
     <img class="header" src="../views/images/logos/galyleo.jpg"><br/><br/>
     <div align="left" style="margin-left:112px">
-<a href="./asociar?filter=sin">Mostrar s&oacute;lo preguntas sin contenido</a><br/>
-<a href="./asociar">Mostrar todas las preguntas</a>
-<br/>
-
-<?php
-$combo = 'name="contenido" onchange="loadXMLDoc(this.value, this.id)">';
-$combo.='<option value="-1">Seleccione un Contenido</option>';
-foreach ($contenidos as $contenido){
-	$combo.='<option value="'.$contenido->id.'">'.$contenido->nombre.'</option>';
-} 
-$combo.='</select>';
-?>
-BUSCAR PREGUNTA <input id="pat" <?php  if(isset($_GET['patron'])){echo 'value="'.$_GET['patron'].'"';}?>><input type="button" onclick="buscar()" value="BUSCAR">
+        <table>
+            <tr><th colspan="2"><select id="0" name="categoria" onchange="load(0,this.value)">
+                        <option value="-1">SELECCIONE CATEGORIA</option>
+                <?php 
+                    foreach ($categorias as $categoria) {
+                        echo '<option value="'.$categoria->id.'">'.$categoria->nombre.'</option>';
+                    }
+                ?>
+            </select></th></tr>
+            <tr><td></td><td><div id="cat0"></div></td></tr>
+        </table>
     </div>
-<div id="con_contenido">
-<table class="paginable" align="center">
-<tr>
-	<th>Pregunta</th>
-	<th>Contenido asociado</th>
-	<th>Elegir otro contenido</th>
-</tr>
-<?php 
-foreach($todas_las_preguntas as $pregunta){
-	echo '<tr>';
-	echo '<td>'.$pregunta->nombre.'</td>';
-        if ($pregunta->contenido) {
-            echo '<td id="'.$pregunta->id.'">'.$pregunta->contenido->nombre.'</td>';
-        }else{
-            echo '<td id="'.$pregunta->id.'"></td>';
-        }
-	echo '<td>'.'<select id="'.$pregunta->id.'" '.$combo.'</td>';
-	echo '</tr>';
-}
-?>
-</table>
-    <table align="center"><tr><td><?php 
-    if(isset($_GET['patron'])){
-        echo pagination($page, $total,$_GET['patron']);
-    }else{
-        echo pagination($page, $total,NULL);
-    }
-    ?></td></tr>
-    </table>
-</div>
-    <table align="center"><tr><td><?php print pagination($page, $total,NULL);?></td></tr></table>
 <div class="footer"></div>
 </body>
 </html>

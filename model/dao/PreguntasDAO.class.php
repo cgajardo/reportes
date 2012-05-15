@@ -82,7 +82,7 @@ interface PreguntasDAO{
 
 	public function deleteByIdContenido($value);
         
-    public function getPreguntaByCategoria($nombre_categoria);
+    public function getPreguntaByCategoria($id_categoria);
 
         public function getPreguntaByPatron($patron);
         

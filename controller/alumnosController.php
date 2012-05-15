@@ -32,6 +32,7 @@ public function index() {
 	/* caso en que el usuario ya selecciono el curso*/
 	elseif (isset($PARAMS['curso'])){
                 $id_curso =$PARAMS['curso'];
+                $diagnostico = DAOFactory::getQuizesDAO()->queryDiagnosticosByIdCurso($id_curso);
 		$grupo = DAOFactory::getGruposDAO()->getGrupoByCursoAndUser($usuario->id, $id_curso);
         //        $actividades = DAOFactory::getCursosHasContenidos()->getCerradosByCursoWithContenidos($id_curso);
 		$quizes = DAOFactory::getQuizesDAO()->queryCerradosByIdGrupo($grupo->id);
@@ -43,6 +44,7 @@ public function index() {
 		$this->registry->template->encrypter = $this->encrypter;
 		$this->registry->template->quizes = $quizes;
 		$this->registry->template->id_curso = $id_curso;
+                $this->registry->template->diagnostico = $diagnostico;
 		//$this->registry->template->calendario = $actividades;
 		//$this->registry->template->actividades_actual = $actividades_actual;
 		//finally
@@ -158,119 +160,17 @@ public function reporte(){
 
 public function nivelacion(){
     
-    session_start();
-	$PARAMS = $this->encrypter->decodeURL($_GET['params']);
-	$curso_id = $PARAMS['curso'];
-
-	//recuperamos los objetos que nos interesan
-	$usuario = $_SESSION['usuario'];
-	$platform = $_SESSION['plataforma'];
-	
-	$curso = DAOFactory::getCursosDAO()->load($curso_id);
-	$quiz = DAOFactory::getQuizesDAO()->queryDiagnosticosByIdCurso($curso->id);
-	//cgajardo: qué sucede si hay más de 1 quiz de diagnostico para 1 curso???
-	$institucion = DAOFactory::getInstitucionesDAO()-> getInstitucionByNombrePlataforma($platform);
-	//para qué necesito al grupo??
-	
-	$reultadosTemaUnidad = DAOFactory::getIntentosDAO()->getLogroPorUnidadTema($usuario->id, $quiz->id);
-	
-	print_r($reultadosTemaUnidad);
-	/** Current work**/
-	
-	
-	$grupo = DAOFactory::getGruposDAO()->getGrupoByCursoAndUser($usuario->id, $curso->id);
-        
-        foreach(DAOFactory::getIntentosDAO()->getLogroPorContenidoWithPadre($quiz->id, $usuario->id) as $contenido){
-            $contenido_logro[$contenido['contenido']->padre][$contenido['contenido']->nombre]=$contenido['logro'];
-        }
-        $notas_curso=  DAOFactory::getIntentosDAO()->getNotasCurso($quiz->id,$curso->id);
-        $estudiantes_en_curso = 0;
-        foreach(DAOFactory::getGruposDAO()->getGruposInCurso($curso->id) as $grupo){
-            $estudiantes_en_curso +=count(DAOFactory::getPersonasDAO()->getEstudiantesInGroup($grupo->id));
-        }
-        $this->registry->template->contenido_logro = $contenido_logro;
-	$nota_alumno = DAOFactory::getIntentosDAO()->getNotaInQuizByPersona($quiz->id, $usuario->id);
-        
-	
-
-	//enviamos los siguientes valores a la vista*/
-	$this->registry->template->titulo = 'Informe de nivelaci&oacute,';
-	$this->registry->template->usuario = $usuario;
-	$this->registry->template->notas_curso = $notas_curso;
-	$this->registry->template->logro_curso = (promedio_grupo($notas_curso,$estudiantes_en_curso)-$quiz->notaMinima)/($quiz->notaMaxima-$quiz->notaMinima)*100;
-	$this->registry->template->nota_alumno = $nota_alumno[0];
-	$this->registry->template->posicion_en_curso = posicion($notas_curso, $nota_alumno[0]);
-	$this->registry->template->total_estudiantes_curso = count($estudiantes_en_curso);
-	$this->registry->template->nombre_actividad = 'Nivelacion';
-	//$this->registry->template->fecha_cierre = $quiz->fechaCierre;
-	//$this->registry->template->contenido_logro = $contenido_logro;
-        $this->registry->template->porcentaje_aprobado = ($institucion->notaAprobado-$quiz->notaMinima)/($quiz->notaMaxima-$quiz->notaMinima)*100;
-	$this->registry->template->porcentaje_suficiente = ($institucion->notaSuficiente-$quiz->notaMinima)/($quiz->notaMaxima-$quiz->notaMinima)*100;
-	$this->registry->template->nombre_curso = $curso->nombre;
-	$this->registry->template->nombre_grupo = $grupo->nombre;
-	$this->registry->template->institucion = $institucion;
-	//$this->registry->template->matriz_desempeño = $matriz_desempeño;
-	//$this->registry->template->tiempos_semanas = $tiempos_semanas;
-
-        
-	//finally
-	$this->registry->template->show('alumnos/nivelacion');
-}
-
-public function avance(){
-    
         session_start();
-	$PARAMS = $this->encrypter->decodeURL($_GET['params']);
-	$curso_id = $PARAMS['curso'];
-
-		//recuperamos los objetos que nos interesan
-	$usuario = $_SESSION['usuario'];
-	$platform = $_SESSION['plataforma'];
-	
-	//permite a un profesor o director ver el reporte de un alumno
-	if(isset($PARAMS['usuario'])){
-		$usuario = DAOFactory::getPersonasDAO()->load($PARAMS['usuario']);
-	}
-	
-	$curso = DAOFactory::getCursosDAO()->load($curso_id);
-
-	$institucion = DAOFactory::getInstitucionesDAO()-> getInstitucionByNombrePlataforma($platform);
-	$grupo = DAOFactory::getGruposDAO()->getGrupoByCursoAndUser($usuario->id, $curso->id);
-        $quiz = DAOFactory::getQuizesDAO()->queryDiagnosticosByIdCurso($curso->id);
-        foreach(DAOFactory::getIntentosDAO()->getLogroPorContenidoWithPadre($quiz->id, $usuario->id) as $contenido){
-            $contenido_logro[$contenido['contenido']->padre][$contenido['contenido']->nombre]=$contenido['logro'];
-        }
-        $notas_curso=  DAOFactory::getIntentosDAO()->getNotasCurso($quiz->id,$curso->id);
-        $estudiantes_en_curso = 0;
-        foreach(DAOFactory::getGruposDAO()->getGruposInCurso($curso->id) as $grupo){
-            $estudiantes_en_curso +=count(DAOFactory::getPersonasDAO()->getEstudiantesInGroup($grupo->id));
-        }
-        $this->registry->template->contenido_logro = $contenido_logro;
-	$nota_alumno = DAOFactory::getIntentosDAO()->getNotaInQuizByPersona($quiz->id, $usuario->id);
+        $PARAMS = $this->encrypter->decodeURL($_GET['params']);
+        $quiz_id = $PARAMS['quiz'];
+        $curso_id = $PARAMS['curso'];
+        $usuario = $_SESSION['usuario'];
         
-	
-
-	//enviamos los siguientes valores a la vista*/
-	$this->registry->template->titulo = 'Reporte Estudiante';
-	$this->registry->template->usuario = $usuario;
-	$this->registry->template->notas_curso = $notas_curso;
-	$this->registry->template->logro_curso = (promedio_grupo($notas_curso,$estudiantes_en_curso)-$quiz->notaMinima)/($quiz->notaMaxima-$quiz->notaMinima)*100;
-	$this->registry->template->nota_alumno = $nota_alumno[0];
-	$this->registry->template->posicion_en_curso = posicion($notas_curso, $nota_alumno[0]);
-	$this->registry->template->total_estudiantes_curso = count($estudiantes_en_curso);
-	$this->registry->template->nombre_actividad = 'Nivelacion';
-	//$this->registry->template->fecha_cierre = $quiz->fechaCierre;
-	//$this->registry->template->contenido_logro = $contenido_logro;
-        $this->registry->template->porcentaje_aprobado = ($institucion->notaAprobado-$quiz->notaMinima)/($quiz->notaMaxima-$quiz->notaMinima)*100;
-	$this->registry->template->porcentaje_suficiente = ($institucion->notaSuficiente-$quiz->notaMinima)/($quiz->notaMaxima-$quiz->notaMinima)*100;
-	$this->registry->template->nombre_curso = $curso->nombre;
-	$this->registry->template->nombre_grupo = $grupo->nombre;
-	$this->registry->template->institucion = $institucion;
-	//$this->registry->template->matriz_desempeño = $matriz_desempeño;
-	//$this->registry->template->tiempos_semanas = $tiempos_semanas;
-
+        $curso = DAOFactory::getCursosDAO()->load($curso_id);
+        $contenidos = DAOFactory::getIntentosDAO()->getLogroPorContenidoWithPadre($quiz_id, $usuario->id);        
         
-	//finally
+        $this->registry->template->nombre_curso = $curso->nombre;
+        $this->registry->template->usuario = $usuario;
 	$this->registry->template->show('alumnos/nivelacion');
 }
 

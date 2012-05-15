@@ -27,7 +27,7 @@ Al hacer click en el link del curso, direcciona a index_quiz.
 	  
 	<?php
 	foreach($cursos as $curso){
-		echo '<a href="'.str_replace("index.php","",$_SERVER['PHP_SELF']).'alumnos/index?params='.$encrypter->encode('&curso='.$curso->id).'">'.utf8_encode($curso->nombre).'</a></br>';	
+		echo '<a href="'.str_replace("index.php","",$_SERVER['PHP_SELF']).'alumnos/index?params='.$encrypter->encode('curso='.$curso->id).'">'.utf8_encode($curso->nombre).'</a></br>';	
 	} 
 	echo '</br>';
 	?>

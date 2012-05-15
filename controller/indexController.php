@@ -13,10 +13,13 @@ public function showtest(){
         $alumnos = DAOFactory::getPersonasDAO()->queryByRolMoodle("student");
         $profesores = DAOFactory::getPersonasDAO()->queryByRolMoodle("teacher");
         //$directores = DAOFactory::getPersonasDAO()->getDirectores();
-        print 'enrutador/?params='.$this->encrypter->encode('platform=instituto&username=15806964');
+        print 'enrutador/index?params='.$this->encrypter->encode('platform=instituto&username=16648841');
+        print '<br>enrutador/index?params='.$this->encrypter->encode('platform=instituto&username=18081351');
+        print '<br>enrutador/index?params='.$this->encrypter->encode('platform=instituto&username=15806964');
+        print '<br>enrutador/index?params='.$this->encrypter->encode('platform=instituto&username=anamaria');
 
         $this->registry->template->profesores = $profesores;
-        $this->registry->template->alumnos = $alumnos;
+        //$this->registry->template->alumnos = $alumnos;
         $this->registry->template->encrypter = $this->encrypter;
         
 	/*** load the index template ***/

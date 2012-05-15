@@ -75,33 +75,16 @@ class CategoriasMySqlDAO implements CategoriasDAO{
  	 * @param CategoriasMySql categoria
  	 */
 	public function update($categoria){
-		$sql = 'UPDATE categorias SET nombre = ?, id_contenido = ?, padre = ?, identificador_moodle = ? WHERE id = ?';
+		$sql = 'UPDATE categorias SET nombre = ?, padre = ?, identificador_moodle = ? WHERE id = ?';
 		$sqlQuery = new SqlQuery($sql);
 		
 		$sqlQuery->set($categoria->nombre);
-                $sqlQuery->set($categoria->contenido);
 		$sqlQuery->setNumber($categoria->padre);
 		$sqlQuery->set($categoria->identificadorMoodle);
 
 		$sqlQuery->setNumber($categoria->id);
 		return $this->executeUpdate($sqlQuery);
 	}
-        
-        public function updateContenido($id_categoria,$id_contenido){
-                $sql = 'UPDATE categorias SET id_contenido = ? WHERE id = ?';
-                $sqlQuery = new SqlQuery($sql);
-                
-                $sqlQuery->setNumber($id_contenido);
-                $sqlQuery->setNumber($id_categoria);
-                $this->executeUpdate($sqlQuery);
-                
-                $subCategorias = $this->queryByPadre($id_categoria);
-                foreach ($subCategorias AS $id => $subCategoria){
-                    $this->updateContenido($id,$id_contenido);
-                }
-                
-            
-        }
 
 	/**
  	 * Delete all rows
@@ -164,12 +147,15 @@ class CategoriasMySqlDAO implements CategoriasDAO{
 	 */
 	protected function readRow($row){
 		$categoria = new Categoria();
-		
 		$categoria->id = $row['id'];
 		$categoria->nombre = $row['nombre'];
 		$categoria->padre = $row['padre'];
 		$categoria->identificadorMoodle = $row['identificador_moodle'];
-                $categoria->contenido = DAOFactory::getContenidosDAO()->load($row['id_contenido']);
+                if(!isset($row['contenido'])){
+                    $categoria->contenido=NULL;
+                }else{
+                    $categoria->contenido=$row['contenido'];
+                }
 
 		return $categoria;
 	}
@@ -238,17 +224,36 @@ class CategoriasMySqlDAO implements CategoriasDAO{
                 return $this->getList($sqlQuery);
         }
         
-        public function getCategoriasByQuizWithContenido($id_quiz){
-            $sql ='SELECT c.*
-                        FROM categorias c 
-                        JOIN quizes_has_categorias qc ON qc.id_categoria=c.id 
-                        WHERE qc.id_quiz = ? ';
-                
+        public function updateContenido($id_categoria,$id_contenido){
+                $sql = 'UPDATE preguntas SET id_contenido = ? WHERE id_categoria = ?';
                 $sqlQuery = new SqlQuery($sql);
-                $sqlQuery->setNumber($id_quiz);
                 
-                return $this->getList($sqlQuery);
+                $sqlQuery->setNumber($id_contenido);
+                $sqlQuery->setNumber($id_categoria);
+                $this->executeUpdate($sqlQuery);
+                
+                $subCategorias = $this->queryByPadre($id_categoria);
+                foreach ($subCategorias AS $id => $subCategoria){
+                    $this->updateContenido($id,$id_contenido);
+                }
+                
             
+        }
+        
+        public function getCategoriasByQuizWithContenidos($id_quiz){
+            $sql = 'SELECT c.*,c2.nombre AS contenido
+                    FROM categorias c 
+                    JOIN preguntas p ON p.id_categoria = c.id 
+                    LEFT JOIN contenidos c2 ON p.id_contenido = c2.id 
+                    JOIN quizes_has_categorias qc ON qc.id_categoria = c.id 
+                    WHERE qc.id_quiz = ? 
+                    GROUP BY c.id,c2.id 
+                    ORDER BY c.id';
+            
+            $sqlQuery = new SqlQuery($sql);
+            $sqlQuery->setNumber($id_quiz);
+            
+            return $this->getList($sqlQuery);
         }
 }
 ?>

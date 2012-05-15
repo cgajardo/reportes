@@ -4,10 +4,17 @@ Class contenidosController Extends baseController {
 	
 public function asociar_ajax(){
 	$id_contenido = $_GET['id_contenido'];
-	$id_categoria = $_GET['id_categoria'];
-	DAOFactory::getCategoriasDAO()->updateContenido($id_categoria,$id_contenido);
-	$contenido = DAOFactory::getContenidosDAO()->load($id_contenido);
-	echo @utf8_encode($contenido->nombre);
+	if(isset($_GET['id_categoria'])){
+            $id_categoria = $_GET['id_categoria'];
+            DAOFactory::getCategoriasDAO()->updateContenido($id_categoria,$id_contenido);
+        }elseif(isset ($_GET['id_pregunta'])){
+            $id_pregunta = $_GET['id_pregunta'];
+            $pregunta= DAOFactory::getPreguntasDAO()->load($id_pregunta);
+            $pregunta->contenido=$id_contenido;
+            DAOFactory::getPreguntasDAO()->update($pregunta);
+        }
+        $contenido = DAOFactory::getContenidosDAO()->load($id_contenido);
+        echo @utf8_encode($contenido->nombre);        
 }
 
 public function index() 
@@ -59,47 +66,19 @@ public function editar($contenido = null){
 	
 }
 
-public function asociar(){
+public function asociar_preguntas(){
 	
 	session_start();
-		
-	//paginacion
-	if(!isset($_GET['page'])){
-		$page = 1;
-	}else{
-		$page = $_GET['page'];
-	}
 	
-	//aplicar filtro
-	if(isset($_GET['filter'])){
-		$this->registry->template->todas_las_preguntas = DAOFactory::getPreguntasDAO()->getSinAsociarFrom(($page-1)*20,20);
-		$this->registry->template->total = DAOFactory::getPreguntasDAO()->countSinAsociar();
-	} else{
-                if(isset($_GET['patron'])){
-                    $this->registry->template->todas_las_preguntas = DAOFactory::getPreguntasDAO()->getFromWithPatron(($page-1)*20,20,$_GET['patron']);
-                    $this->registry->template->total = DAOFactory::getPreguntasDAO()->countWithPatron($_GET['patron']);
-                }else{
-                    $this->registry->template->todas_las_preguntas = DAOFactory::getPreguntasDAO()->getFrom(($page-1)*20,20);
-                    $this->registry->template->total = DAOFactory::getPreguntasDAO()->count();
-                }
-		
-	}
-	
-	//buscar o recuperar todos los contenidos
-	if(isset($_SESSION['contenidos'])){
-		$this->registry->template->contenidos = $_SESSION['contenidos'];
-	} else{ 
-                $contenidos = DAOFactory::getContenidosDAO()->queryAll();
-		$this->registry->template->contenidos = $contenidos;
-		$_SESSION['contenidos']  = $contenidos;
-	}
-	
-	$this->registry->template->page = $page;
-	//finally
+	$categorias = DAOFactory::getCategoriasDAO()->queryByPadre(0);
+        $contenidos = DAOFactory::getContenidosDAO()->queryByContenidoPadre(0);
+        
+        $this->registry->template->categorias = $categorias;
+        $_SESSION['contenidos'] = $contenidos;
 	$this->registry->template->show('contenidos/asociar');
 }
 
-public function asociar2(){
+public function asociar_categorias(){
         $cursos = DAOFactory::getCursosDAO()->queryAll();
         foreach($cursos as $curso){
             $quizesByCurso[]= array($curso, DAOFactory::getQuizesDAO()->queryEvaluacionesByIdCurso($curso->id));
@@ -181,7 +160,7 @@ public function preguntas_quiz(){
     
     $id_quiz = $_GET['quiz'];
     
-    $categorias = DAOFactory::getCategoriasDAO()->getCategoriasByQuizWithContenido($id_quiz);
+    $categorias_aux = DAOFactory::getCategoriasDAO()->getCategoriasByQuizWithContenidos($id_quiz);
     $contenidos = DAOFactory::getContenidosDAO()->getRealContenidos();
     $combo = 'name="contenido" onchange="loadPadres(this.value, this.id)">';
     $combo.='<option value="-1">Seleccione un Tema</option>';
@@ -192,24 +171,26 @@ public function preguntas_quiz(){
     $combo.='</select>';
     echo '<table class="paginable" align="center">
         <tr>
-            <th>Pregunta</th>
+            <th>Categoria</th>
             <th>Contenido asociado</th>
             <th colspan="3" >Elegir otro contenido</th>
         </tr>';
-    foreach($categorias as $categoria){
-            echo '<tr>';
-            echo '<td>'.utf8_encode($categoria->nombre).'</td>';
-            if ($categoria->contenido) {
-                echo '<td id="'.utf8_encode($categoria->id).'">'.@utf8_encode($categoria->contenido->nombre).'</td>';
-            }else{
-                echo '<td id="'.utf8_encode($categoria->id).'"></td>';
-            }
-            echo '<td>'.'<select id="'.utf8_encode($categoria->id).'" '.utf8_encode($combo).'</td>';
-            echo '<td id="padres'.$categoria->id.'"></td>';
-            echo '<td id="hijos'.$categoria->id.'"></td>';
-            echo '</tr>';
+    foreach($categorias_aux as $categoria){
+            $categorias[$categoria->nombre][]=$categoria;
     }
-
+    foreach($categorias as $nombre=>$categoria){
+            echo '<tr><td>'.utf8_encode($nombre).'</td><td><div id="'.$categoria[0]->id.'"><table>';
+            foreach($categoria as $subCategoria){
+                echo '<tr><th>';
+                if(!is_null($subCategoria->contenido)){
+                    echo utf8_encode($subCategoria->contenido);
+                }
+                echo '</th>';
+            }
+            echo '</table></td><td><select id="'.$subCategoria->id.'" '.utf8_encode($combo).'</td>';
+            echo '<td><div id="padres'.$subCategoria->id.'"></div></td>
+                <td><div id="hijos'.$subCategoria->id.'"></div></td></tr>';
+    }
     echo '</table>';
     $this->registry->template->show('debug');
 }
@@ -225,7 +206,7 @@ public function contenidos_padres(){
     } 
     $combo.='</select>';
     
-   	echo '<select id="'.$id_pregunta.'" '.utf8_encode($combo);
+   	echo '<select '.utf8_encode($combo);
 
     $this->registry->template->show('debug');
 	
@@ -449,6 +430,52 @@ public function calendario_curso(){
         print 'Actividad Eliminada';
         $this->registry->template->show('debug');
         
+    }
+    
+    public function load_categoria(){
+        $padre=$_GET['categoria'];
+        session_start();
+        $contenidos = $_SESSION['contenidos'];
+        $categorias = DAOFactory::getCategoriasDAO()->queryByPadre($padre);
+        $preguntas = DAOFactory::getPreguntasDAO()->getPreguntaByCategoria($padre);
+        
+        $combo = 'name="contenido" onchange="loadPadres(this.value, this.id)">';
+        $combo.='<option value="-1">Seleccione un Tema</option>';
+
+        foreach ($contenidos as $contenido){
+            $combo.='<option value="'.$contenido->id.'">'.$contenido->nombre.'</option>';
+        } 
+        $combo.='</select>';
+        if(count($categorias)){
+            echo '<b>Sub-Categorias<b><br>';
+            echo '<table><tr><th><select id="'.$padre.'" onchange="load(this.id,this.value)"><option value="-1">SELECCIONE CATEGORIA</option>';
+            foreach($categorias as $categoria){
+                    echo '<option value="'.$categoria->id.'">'.utf8_encode($categoria->nombre).'</option>';
+            }
+            echo '</select></th></tr>
+                <tr><td></td><td><div id="cat'.$padre.'"></div></td></tr>
+                </table>';
+        }
+        if(count($preguntas)){
+            echo '<table><tr>
+                    <th>Pregunta</th>
+                    <th>Contenido asociado</th>
+                    <th colspan="3" >Elegir otro contenido</th>
+                </tr>';
+            foreach ($preguntas as $pregunta) {
+                echo '<tr><td>'.$pregunta->nombre.'</td><td><div id="'.$pregunta->id.'">';
+                if (!is_null($pregunta->contenido)){
+                    echo utf8_encode($pregunta->contenido->nombre);
+                }
+                echo '</div></td><td><select id="'.$pregunta->id.'" '.utf8_encode($combo).'</td>';
+                echo '<td><div id="padres'.$pregunta->id.'"></td>';
+                echo '<td><div id="hijos'.$pregunta->id.'"></td>';
+
+            }
+        }elseif(!count($categorias)){
+            echo '<b>CATEGORIA VACIA</b>';
+        }
+            
     }
 
 }

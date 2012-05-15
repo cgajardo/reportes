@@ -18,7 +18,7 @@ function asociar($id_contenido, $id_pregunta){
     		document.getElementById($id_pregunta).innerHTML=xmlhttp.responseText;
     	}
   	};
-        xmlhttp.open("POST","<?php print($_SERVER['PHP_SELF']);?>?rt=contenidos/asociar_ajax&id_contenido="+$id_contenido+"&id_categoria="+$id_pregunta,true);
+        xmlhttp.open("POST","asociar_ajax?id_contenido="+$id_contenido+"&id_categoria="+$id_pregunta,true);
 	xmlhttp.send();
 }
 

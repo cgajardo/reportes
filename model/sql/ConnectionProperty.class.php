@@ -9,7 +9,7 @@ class ConnectionProperty{
 	private static $host = '127.0.0.1';
 	private static $user = 'root';
 	private static $password = 'root';
-	private static $database = 'galyleo_new_model3';
+	private static $database = 'galyleo_new_model4';
 
 	public static function getHost(){
 		return ConnectionProperty::$host;

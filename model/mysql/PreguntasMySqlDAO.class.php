@@ -200,6 +200,7 @@ class PreguntasMySqlDAO implements PreguntasDAO{
 		$sql = 'SELECT * FROM preguntas WHERE id_contenido = ?';
 		$sqlQuery = new SqlQuery($sql);
 		$sqlQuery->setNumber($value);
+                
 		return $this->getList($sqlQuery);
 	}
 
@@ -297,10 +298,11 @@ class PreguntasMySqlDAO implements PreguntasDAO{
 		return QueryExecutor::executeInsert($sqlQuery);
 	}
 
-    public function getPreguntaByCategoria($nombre_categoria) {
-                $sql = 'SELECT p.* FROM preguntas p WHERE p.nombre=?';
+    public function getPreguntaByCategoria($id_categoria) {
+                $sql = 'SELECT * FROM preguntas WHERE id_categoria=?';
+                
                 $sqlQuery = new SqlQuery($sql);
-                $sqlQuery->setString($nombre_categoria);
+                $sqlQuery->setString($id_categoria);
                 return $this->getList($sqlQuery);
                 
     }
@@ -327,8 +329,11 @@ class PreguntasMySqlDAO implements PreguntasDAO{
     public function getPregutasByQuizWithContenido($id_quiz) {
         
                 $sql = 'SELECT p.* 
-                        FROM preguntas p JOIN quizes_has_preguntas qp ON p.id=qp.id_pregunta 
-                        LEFT JOIN contenidos c ON p.id_contenido=c.id WHERE id_quiz = ?';
+                        FROM preguntas p
+                        JOIN categorias c ON p.id_categoria=c.id
+                        JOIN quizes_has_categorias qp ON c.id=qp.id_categoria 
+                        LEFT JOIN contenidos c2 ON p.id_contenido=c2.id 
+                        WHERE id_quiz = ?';
                 
                 $sqlQuery = new SqlQuery($sql);
                 $sqlQuery->setNumber($id_quiz);
@@ -336,5 +341,6 @@ class PreguntasMySqlDAO implements PreguntasDAO{
                 return $this->getList($sqlQuery);
         
     }
+    
 }
 ?>

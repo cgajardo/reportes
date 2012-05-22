@@ -23,12 +23,13 @@ class QuizesMySqlDAO implements QuizesDAO{
                             JOIN instituciones i ON s.id_institucion=i.id
                             WHERE cg.id_curso=? LIMIT 1 ) as t
                         ON q.id_curso=t.id_curso
-                        WHERE  q.nombre REGEXP prefijo_tarea 
+                        WHERE  q.nombre REGEXP prefijo_tarea
+                        OR q.nombre REGEXP "Avance"
+                        OR q.nombre REGEXP "Diagn" 
                         ORDER BY fecha_cierre ASC';
 		
 		$sqlQuery = new SqlQuery($sql);
 		$sqlQuery->set($id_curso);
-		
 		return $this->getList($sqlQuery);
 		
 	}
@@ -117,6 +118,15 @@ class QuizesMySqlDAO implements QuizesDAO{
                 $sqlQuery->setString('diagnostico');
 		$sqlQuery->setNumber($curso_id);
 		return $this->getRow($sqlQuery);
+	}
+        
+        public function queryAvancesByIdCurso($curso_id){
+		$sql = 'SELECT * FROM quizes 
+                    WHERE nombre REGEXP ? AND id_curso = ?';
+		$sqlQuery = new SqlQuery($sql);
+                $sqlQuery->setString('Avance');
+		$sqlQuery->setNumber($curso_id);
+		return $this->getList($sqlQuery);
 	}
 	
 	/**

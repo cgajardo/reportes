@@ -363,7 +363,6 @@ class PersonasMySqlDAO implements PersonasDAO{
 		$persona->password = $row['password'];
 		$persona->correo = $row['correo'];
 		$persona->identificadorMoodle = $row['identificador_moodle'];
-		$persona->rolMoodle = $row['rol_moodle'];
 		$persona->idInstitucion = $row['id_institucion'];
 
 		return $persona;

@@ -686,7 +686,7 @@ class IntentosMySqlDAO implements IntentosDAO{
 
     public function getLogroPorContenidoWithPadre($id_quiz, $id_usuario) {
 		
-            $sql = 'SELECT sum(puntaje_alumno)/sum(maximo_puntaje)*100 AS logro, count(*) AS numero_preguntas,c.id_contenido AS contenido
+            $sql = 'SELECT sum(puntaje_alumno)/sum(maximo_puntaje)*100 AS logro, count(*) AS numero_preguntas,p.id_contenido AS contenido
                     FROM preguntas p 
                     JOIN ( 
                         SELECT i.* FROM intentos i 
@@ -701,13 +701,11 @@ class IntentosMySqlDAO implements IntentosDAO{
                             AS t1 ) 
                         AS t2 ON i.id_persona=t2.id_persona AND i.id_quiz=t2.id_quiz AND i.numero_intento=t2.numero_intento ) 
                     AS t3 ON p.id = t3.id_pregunta 
-                    JOIN categorias c ON p.id_categoria=c.id
-                    GROUP BY c.id_contenido';
+                    GROUP BY p.id_contenido';
 
             $sqlQuery = new SqlQuery($sql);
             $sqlQuery->setNumber($id_quiz);
             $sqlQuery->setNumber($id_usuario);
-            echo $sqlQuery->getQuery();
 
             return $this->getContenidoLogroArray($sqlQuery);
     }

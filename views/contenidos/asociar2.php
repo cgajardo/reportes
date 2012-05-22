@@ -69,7 +69,7 @@ function preguntas(){
     		document.getElementById("preguntas").innerHTML=xmlhttp.responseText;
     	}
   	};
-        xmlhttp.open("POST","preguntas_quiz?quiz="+quiz,true);
+        xmlhttp.open("POST","categorias_quiz?quiz="+quiz,true);
 	xmlhttp.send();
 }
 </script>
@@ -107,7 +107,7 @@ foreach($quizesByCurso as $quizes){
 }
 echo '<select '.$combo.'</select>';
 ?>
-        <br><br><b>PREGUNTAS DEL QUIZ: </b>
+        <br><br><b>CATEGORIAS DEL QUIZ: </b>
     <div id="preguntas"></div>
     </div>
     <br><br>

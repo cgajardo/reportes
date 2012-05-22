@@ -32,6 +32,10 @@ public function index() {
 	/* caso en que el usuario ya selecciono el curso*/
 	elseif (isset($PARAMS['curso'])){
                 $id_curso =$PARAMS['curso'];
+                $curso = DAOFactory::getCursosDAO()->load($id_curso);
+                if($curso->nivelacion==1){
+                    $this->nivelacion;
+                }
                 $diagnostico = DAOFactory::getQuizesDAO()->queryDiagnosticosByIdCurso($id_curso);
 		$grupo = DAOFactory::getGruposDAO()->getGrupoByCursoAndUser($usuario->id, $id_curso);
         //        $actividades = DAOFactory::getCursosHasContenidos()->getCerradosByCursoWithContenidos($id_curso);
@@ -162,15 +166,21 @@ public function nivelacion(){
     
         session_start();
         $PARAMS = $this->encrypter->decodeURL($_GET['params']);
-        $quiz_id = $PARAMS['quiz'];
         $curso_id = $PARAMS['curso'];
         $usuario = $_SESSION['usuario'];
         
+        $diag =  DAOFactory::getQuizesDAO()->queryDiagnosticosByIdCurso($curso_id);
+        $avances = DAOFactory::getQuizesDAO()->queryAvancesByIdCurso($curso_id);
         $curso = DAOFactory::getCursosDAO()->load($curso_id);
-        $contenidos = DAOFactory::getIntentosDAO()->getLogroPorContenidoWithPadre($quiz_id, $usuario->id);        
-        
+        $contenidos_diag = DAOFactory::getIntentosDAO()->getLogroPorUnidadTema($usuario->id,$diag->id);
+        foreach ($avances as $avance) {
+            $contenidos_av[] = DAOFactory::getIntentosDAO()->getLogroPorUnidadTema($usuario->id,$avance->id);
+        }
+        var_dump($contenidos_av);
+        $this->registry->template->titulo = "Reporte Nivelaci&oacute;n";
         $this->registry->template->nombre_curso = $curso->nombre;
         $this->registry->template->usuario = $usuario;
+        $this->registry->template->institucion = DAOFactory::getInstitucionesDAO()->load($usuario->idInstitucion);
 	$this->registry->template->show('alumnos/nivelacion');
 }
 

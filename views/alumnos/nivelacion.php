@@ -31,8 +31,8 @@ Esta pagina es la encargada de crear los reportes de nivelacion de cada alumno.
         <div style="{textalign:justify;}">
         Estimado Estudiante:<br>
         A continuaci&oacute;n podr&aacute; ver su Matriz de Desempe&ntilde;o en el diagn&oacute;stico, en la cual se presentan los 
-        contenidos medidos en esta evaluaci&oacute;n con sus respectivos porcentajes de logro. El objetivo es que
-        <b>!!!!!!!!!!!!!FECHA¡¡¡¡¡¡¡¡¡¡ </b>pueda transformar la matriz completa a verde. Para esto se le
+        contenidos medidos en esta evaluaci&oacute;n con sus respectivos porcentajes de logro. El objetivo es que 
+        <b>antes del !!!!!FECHA!!!!!!!! </b>pueda transformar la matriz completa a verde. Para esto se le
         indicar&aacute;n semanalmente qu&eacute; actividades debe realizar.
         </div>
         

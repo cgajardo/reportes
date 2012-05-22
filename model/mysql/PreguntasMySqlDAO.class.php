@@ -298,7 +298,7 @@ class PreguntasMySqlDAO implements PreguntasDAO{
 		return QueryExecutor::executeInsert($sqlQuery);
 	}
 
-    public function getPreguntaByCategoria($id_categoria) {
+    public function getPreguntasByCategoria($id_categoria) {
                 $sql = 'SELECT * FROM preguntas WHERE id_categoria=?';
                 
                 $sqlQuery = new SqlQuery($sql);
@@ -326,7 +326,19 @@ class PreguntasMySqlDAO implements PreguntasDAO{
 	
     }
 
-    public function getPregutasByQuizWithContenido($id_quiz) {
+    public function getAllPreguntasByCategoria($id_categoria) {
+            $preguntas = $this->getPreguntasByCategoria($id_categoria);
+            $categorias = DAOFactory::getCategoriasDAO()->queryByPadre($id_categoria);
+            foreach ($categorias as $categoria) {
+               foreach($this->getAllPreguntasByCategoria($categoria->id) as $pregunta){
+                   array_push($preguntas, $pregunta);
+               }
+                   
+            }
+            return $preguntas;
+    }
+    
+    public function getPreguntasByQuizWithContenido($id_quiz) {
         
                 $sql = 'SELECT p.* 
                         FROM preguntas p

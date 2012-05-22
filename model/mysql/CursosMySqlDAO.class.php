@@ -295,6 +295,7 @@ class CursosMySqlDAO implements CursosDAO{
 		$curso->nombre = $row['nombre'];
 		$curso->nombreCorto = $row['nombre_corto'];
 		$curso->identificadorMoodle = $row['identificador_moodle'];
+                $curso->nivelacion = $row['nivelacion'];
 
 		return $curso;
 	}

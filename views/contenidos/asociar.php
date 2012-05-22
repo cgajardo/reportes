@@ -4,6 +4,7 @@
 <link rel="stylesheet" type="text/css" href="../views/styles/pagination.css"/>
 <script type="text/javascript" src="/reportes/views/js/jquery_1.7.1.js"></script>
 <script type="text/javascript" charset="utf-8">
+
 function asociar($id_contenido, $id_pregunta){
         var xmlhttp;
 	if (window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -55,22 +56,21 @@ function loadHijos($id_contenido, $id_pregunta){
 	xmlhttp.send();
 }
 
-function load($padre,$categoria){
-    
-        var xmlhttp;
-        if (window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
-                xmlhttp=new XMLHttpRequest();
-        }
-        else{// code for IE6, IE5
-                xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-        }
-        xmlhttp.onreadystatechange=function(){
-                if (xmlhttp.readyState==4 && xmlhttp.status==200){
-                document.getElementById("cat"+$padre).innerHTML=xmlhttp.responseText;
-        }
-        };
-        xmlhttp.open("GET","load_categoria?categoria="+$categoria,true);
-        xmlhttp.send();
+function preguntas(){
+    var quiz=document.getElementById("quiz").value;
+    if (window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
+  		xmlhttp=new XMLHttpRequest();
+  	}
+	else{// code for IE6, IE5
+  		xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  	}
+	xmlhttp.onreadystatechange=function(){
+  		if (xmlhttp.readyState==4 && xmlhttp.status==200){
+    		document.getElementById("preguntas").innerHTML=xmlhttp.responseText;
+    	}
+  	};
+        xmlhttp.open("POST","preguntas_quiz?quiz="+quiz,true);
+	xmlhttp.send();
 }
 </script>
 <style>
@@ -80,7 +80,6 @@ function load($padre,$categoria){
         margin-left: auto;
         margin-right: auto;
     }
-    
     .footer {
 	background-image: url("/reportes/views/images/logos/footer.png");
 	background-position: center;
@@ -96,18 +95,22 @@ function load($padre,$categoria){
 <body align="center">
     <img class="header" src="../views/images/logos/galyleo.jpg"><br/><br/>
     <div align="left" style="margin-left:112px">
-        <table>
-            <tr><th colspan="2"><select id="0" name="categoria" onchange="load(0,this.value)">
-                        <option value="-1">SELECCIONE CATEGORIA</option>
-                <?php 
-                    foreach ($categorias as $categoria) {
-                        echo '<option value="'.$categoria->id.'">'.$categoria->nombre.'</option>';
-                    }
-                ?>
-            </select></th></tr>
-            <tr><td></td><td><div id="cat0"></div></td></tr>
-        </table>
+        <br/>
+<?php
+$combo ='id="quiz" onchange="preguntas()"><option value="-1">Seleccione un Quiz</option>';
+foreach($quizesByCurso as $quizes){
+    $combo.='<optgroup label="'.$quizes[0]->nombre.'">';
+    foreach($quizes[1] as $quiz){
+        $combo .= '<option value="'.$quiz->id.'">'.$quiz->nombre.'</option>';
+    }
+    $combo.='</optgroup>';
+}
+echo '<select '.$combo.'</select>';
+?>
+        <br><br><b>PREGUNTAS DEL QUIZ: </b>
+    <div id="preguntas"></div>
     </div>
-<div class="footer"></div>
+    <br><br>
+    <div class="footer"></div>
 </body>
 </html>

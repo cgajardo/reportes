@@ -34,6 +34,27 @@ class IntentosMySqlDAO implements IntentosDAO{
 		return $this->getLogroTemaArray($sqlQuery);
 		
 	}
+        
+        public function getLogroPorUnidadTemaGrupo($grupo_id, $quiz_id){
+		
+		$sql = 'SELECT sum(puntaje_alumno) AS logro, sum(maximo_puntaje) AS logro_maximo,
+                        c.id AS id_contenido, c2.nombre AS unidad, c3.nombre AS tema 
+                        FROM intentos i 
+                        JOIN preguntas p ON i.id_pregunta = p.id 
+                        JOIN contenidos c ON p.id_contenido = c.id 
+                        JOIN contenidos c2 ON c.padre = c2.id 
+                        JOIN contenidos c3 ON c2.padre = c3.id 
+                        JOIN grupos_has_estudiantes g ON i.id_persona = g.id_persona
+                        WHERE g.id_grupo = ? AND i.id_quiz = ?
+                        GROUP BY c.id' ;
+		
+		$sqlQuery = new SqlQuery($sql);
+		$sqlQuery->setNumber($grupo_id);
+		$sqlQuery->setNumber($quiz_id);
+		
+		return $this->getLogroTemaArray($sqlQuery);
+		
+	}
 	
 	/**
 	 * Retorna el logro por quiz para un alumno

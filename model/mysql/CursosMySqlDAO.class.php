@@ -350,5 +350,27 @@ class CursosMySqlDAO implements CursosDAO{
 	protected function executeInsert($sqlQuery){
 		return QueryExecutor::executeInsert($sqlQuery);
 	}
-}
+        
+        public function getNivelacionCierre($id_curso){
+                $sql = 'SELECT * FROM cierre_nivelacion 
+                    WHERE id_curso = ?';
+                $sqlQuery = new SqlQuery($sql);
+                $sqlQuery->setNumber($id_curso);
+                
+                return $this->getRowCierre($sqlQuery);
+        }
+        
+        protected function getRowCierre($sqlQuery){
+                $tab = QueryExecutor::execute($sqlQuery);
+		if(count($tab)==0){
+			return null;
+		}
+		$cierre = new CierreNivelacion();
+		$cierre->idCurso = $tab[0]['id_curso'];               
+		$cierre->fechaCierre = $tab[0]['fecha_cierre'];               
+
+		return $cierre;
+	}
+        
+}       
 ?>

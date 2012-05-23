@@ -178,6 +178,8 @@ public function nivelacion(){
         $notas_grupo = DAOFactory::getIntentosDAO()->getNotasGrupo($diag->id,$grupo->id);
         $estudiantes_en_grupo = DAOFactory::getPersonasDAO()->getEstudiantesInGroup($grupo->id);
         $nota_alumno = DAOFactory::getIntentosDAO()->getNotaInQuizByPersona($diag->id, $usuario->id);
+        $fecha_cierre = DAOFactory::getCursosDAO()->getNivelacionCierre($curso->id);
+        $fecha_cierre =  explode(' ', $fecha_cierre->fechaCierre);
         
         foreach ($avances as $avance) {
             $contenidos_av[] = DAOFactory::getIntentosDAO()->getLogroPorUnidadTema($usuario->id,$avance->id);
@@ -235,7 +237,8 @@ public function nivelacion(){
         $this->registry->template->nota_alumno = $nota_alumno[0];
         $this->registry->template->posicion_en_grupo = posicion($notas_grupo, $nota_alumno[0]);
         $this->registry->template->promedio_grupo = promedio_grupo($notas_grupo,count($estudiantes_en_grupo));
-	$this->registry->template->reforzamiento = $cont_rep;
+	$this->registry->template->reforzamiento = $cont_rep;        
+	$this->registry->template->cierre = $fecha_cierre[0];        
 	$this->registry->template->show('alumnos/nivelacion');
         
 }

@@ -106,6 +106,8 @@ interface QuizesDAO{
         
         public function queryDiagnosticosByIdCurso($curso_id);
         
+        public function queryAvancesByIdCurso($curso_id);
+        
         public function getQuizWithCierre();
         
 }

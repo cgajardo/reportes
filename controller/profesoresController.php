@@ -74,13 +74,15 @@ public function reporte(){
                 if(empty($logro_contenido)){
                     $i=0;
                     foreach (DAOFactory::getContenidosDAO()->getContenidosByQuiz($quiz_en_grupo->id) as $contenido){
-			$matriz_desempeño[$quiz_en_grupo->nombre][$i]['logro'] = -1;
-                        $matriz_desempeño[$quiz_en_grupo->nombre][$i]['numero_preguntas'] = 0;
-                        $matriz_desempeño[$quiz_en_grupo->nombre][$i]['contenido'] = $contenido;
+			$matriz_desempeno[$quiz_en_grupo->nombre][$i]['logro'] = -1;
+                        $matriz_desempeno[$quiz_en_grupo->nombre][$i]['numero_preguntas'] = 0;
+                        $matriz_desempeno[$quiz_en_grupo->nombre][$i]['contenido'] = $contenido;
                         $i++;
                     }
 		}else{
-			$matriz_desempeño[$quiz_en_grupo->nombre] = $logro_contenido;
+                    foreach($logro_contenido as $contenido){
+			$matriz_desempeno[$quiz_en_grupo->nombre][] = $contenido;
+                    }
 		}
         }
         foreach($detalle_notas AS $nota){
@@ -143,6 +145,10 @@ public function index(){
 	elseif (isset($PARAMS['grupo'])){
 		$id_grupo = $PARAMS['grupo'];
 		$id_curso = $PARAMS['curso'];
+                $curso = DAOFactory::getCursosDAO()->load($id_curso);
+                if($curso->nivelacion == 1){
+                    $this->nivelacion();
+                }
 		$quizes = DAOFactory::getQuizesDAO()->queryCerradosByIdGrupo($id_grupo);
                 
 		$this->registry->template->titulo = 'Tus evaluaciones';
@@ -182,5 +188,86 @@ public function data(){
     print $this->encrypter->encode('curso='.$_GET['curso'].'&quiz='.$_GET['quiz'].'&alumno='.$_GET['alumno']);
     $this->registry->template->show('debug');
 }
+
+public function nivelacion(){
+        
+        session_start();
+        $PARAMS = $this->encrypter->decodeURL($_GET['params']);
+        $curso_id = $PARAMS['curso'];
+        $grupo_id = $PARAMS['grupo'];
+        $usuario = $_SESSION['usuario'];
+        
+        $diag =  DAOFactory::getQuizesDAO()->queryDiagnosticosByIdCurso($curso_id);
+        $avances = DAOFactory::getQuizesDAO()->queryAvancesByIdCurso($curso_id);
+        $institucion = DAOFactory::getInstitucionesDAO()->load($usuario->idInstitucion);
+        $curso = DAOFactory::getCursosDAO()->load($curso_id);
+        $grupo = DAOFactory::getGruposDAO()->load($grupo_id);
+        $contenidos_diag = DAOFactory::getIntentosDAO()->getLogroPorUnidadTemaGrupo($grupo->id,$diag->id);
+        $notas_grupo = DAOFactory::getIntentosDAO()->getNotasGrupo($diag->id,$grupo->id);
+        $estudiantes_en_grupo = DAOFactory::getPersonasDAO()->getEstudiantesInGroup($grupo->id);
+        $fecha_cierre = DAOFactory::getCursosDAO()->getNivelacionCierre($curso->id);
+        $fecha_cierre =  explode(' ', $fecha_cierre->fechaCierre);
+        
+        
+        foreach ($avances as $avance) {
+            $contenidos_av[] = DAOFactory::getIntentosDAO()->getLogroPorUnidadTemaGrupo($grupo->id,$avance->id);
+        }
+        //var_dump($contenidos_diag[0]);
+        $cont_rep = array();
+
+        foreach ($contenidos_diag as $contenido){
+            $matriz[$contenido->unidad][$contenido->contenido->nombre] =  round($contenido->sumaAlumno/$contenido->sumaMaxima*100);
+            $contenidos[$contenido->contenido->nombre]=$contenido->contenido;
+        }
+//        //var_dump($contenidos_av);
+//        
+        if(count($contenidos_av)){
+            $matriz2=$matriz;
+            foreach ($contenidos_av as $quiz){
+                foreach ($quiz as $contenido) {
+                    if(!empty($contenido) && $matriz2[$contenido->unidad][$contenido->contenido->nombre]<round($contenido->sumaAlumno/$contenido->sumaMaxima*100)){
+                        $matriz2[$contenido->unidad][$contenido->contenido->nombre] =  round($contenido->sumaAlumno/$contenido->sumaMaxima*100);
+                    }
+                }
+            }
+        }else{
+            $matriz2=NULL;
+        }
+//        if(is_null($matriz2)){
+//            foreach ($matriz as $unidad){
+//                foreach ($unidad as $contenido=>$logro){
+//                    if($logro<$institucion->notaAprobado){
+//                        array_push($cont_rep, $contenidos[$contenido]);
+//                    }
+//                }
+//            }
+//        }else{
+//            foreach ($matriz2 as $unidad){
+//                foreach ($unidad as $contenido=>$logro){
+//                    if($logro<$institucion->notaAprobado){
+//                        array_push($cont_rep, $contenidos[$contenido]);
+//                    }
+//                }
+//            }
+//        }
+//        
+//        //var_dump($matriz);
+        $this->registry->template->titulo = "Reporte Nivelaci&oacute;n";
+        $this->registry->template->notas_grupo = $notas_grupo;
+        $this->registry->template->total_estudiantes_grupo = count($estudiantes_en_grupo);
+        $this->registry->template->nombre_curso = $curso->nombre.'-'.$grupo->nombre;
+        $this->registry->template->usuario = $usuario;
+        $this->registry->template->institucion = $institucion;
+        $this->registry->template->matriz_diag = $matriz;
+        $this->registry->template->matriz_av = $matriz2;
+        $this->registry->template->porcentaje_aprobado = $institucion->notaAprobado;
+	$this->registry->template->porcentaje_suficiente = $institucion->notaSuficiente;
+        $this->registry->template->promedio_grupo = promedio_grupo($notas_grupo,count($estudiantes_en_grupo));
+	$this->registry->template->reforzamiento = $cont_rep;
+	$this->registry->template->cierre = $fecha_cierre[0];
+	$this->registry->template->show('profesor/nivelacion');
+        
+}
+
 }
 ?>

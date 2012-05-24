@@ -15,7 +15,6 @@
 
 		var $identificadorMoodle;
                 
-                var $contenido;
                 
 	}
 ?>

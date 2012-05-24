@@ -82,5 +82,6 @@
 	require_once('dao/CursosHasContenidosDAO.class.php');
 	require_once('dto/CursosHasContenidos.class.php');
 	require_once('mysql/CursosHasContenidosMySqlDAO.class.php');
+	require_once('dto/CierreNivelacion.class.php');
 
 ?>

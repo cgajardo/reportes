@@ -282,7 +282,7 @@ foreach ($notas_grupo as $nota) {
                 foreach($notas_grupo as $nota){
                     if($nota->logro==NUll){
                         $ausentes++;
-                    }elseif($nota->logro>45){
+                    }elseif($nota->logro>=$porcentaje_aprobado){
                         $aprobados++;
                     }else{
                         $reprobados++;

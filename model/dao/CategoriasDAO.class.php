@@ -68,7 +68,7 @@ interface CategoriasDAO{
         
         public function getCategoriasByQuiz($id_quiz);
         
-        public function getCategoriasByQuizWithContenido($id_quiz);
+        public function getCategoriasByQuizWithContenidos($id_quiz);
         
 
 

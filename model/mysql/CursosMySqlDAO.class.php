@@ -112,17 +112,12 @@ class CursosMySqlDAO implements CursosDAO{
 	 * @param int $usuario_id
 	 */
 	public function getCursosByUsuario($usuario_id){
-		$sql = 'SELECT c.* '.
-				'FROM cursos as c '.
-				'WHERE c.id IN ('.
-					'SELECT id_curso '. 
-                	'FROM cursos_has_grupos '.
-                	'WHERE id_grupo IN ('.
-                		'SELECT id_grupo '.  
-                      	'FROM grupos_has_estudiantes '.
-						'WHERE id_persona = ?)'.
-                	') '. 
-				'ORDER BY c.id ASC';
+		$sql = 'SELECT c.* 
+                    FROM cursos c 
+                    JOIN cursos_has_grupos cg ON c.id=cg.id_curso 
+                    JOIN grupos_has_estudiantes ge ON cg.id_grupo = ge.id_grupo 
+                    WHERE ge.id_persona = ?
+                    GROUP BY c.id';
 		
 		$sqlQuery = new SqlQuery($sql);
 		$sqlQuery->set($usuario_id); 
@@ -300,6 +295,7 @@ class CursosMySqlDAO implements CursosDAO{
 		$curso->nombre = $row['nombre'];
 		$curso->nombreCorto = $row['nombre_corto'];
 		$curso->identificadorMoodle = $row['identificador_moodle'];
+                $curso->nivelacion = $row['nivelacion'];
 
 		return $curso;
 	}
@@ -354,5 +350,27 @@ class CursosMySqlDAO implements CursosDAO{
 	protected function executeInsert($sqlQuery){
 		return QueryExecutor::executeInsert($sqlQuery);
 	}
-}
+        
+        public function getNivelacionCierre($id_curso){
+                $sql = 'SELECT * FROM cierre_nivelacion 
+                    WHERE id_curso = ?';
+                $sqlQuery = new SqlQuery($sql);
+                $sqlQuery->setNumber($id_curso);
+                
+                return $this->getRowCierre($sqlQuery);
+        }
+        
+        protected function getRowCierre($sqlQuery){
+                $tab = QueryExecutor::execute($sqlQuery);
+		if(count($tab)==0){
+			return null;
+		}
+		$cierre = new CierreNivelacion();
+		$cierre->idCurso = $tab[0]['id_curso'];               
+		$cierre->fechaCierre = $tab[0]['fecha_cierre'];               
+
+		return $cierre;
+	}
+        
+}       
 ?>

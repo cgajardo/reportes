@@ -110,6 +110,7 @@ interface CursosDAO{
 
 	public function deleteByIdentificadorMoodle($value);
 
-
+        public function getNivelacionCierre($id_curso);
+        
 }
 ?>

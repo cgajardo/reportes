@@ -9,7 +9,7 @@ Al seleccionar una evaluacion, direcciona al alumno a la reporte seleccionado (r
 	<link rel="stylesheet" type="text/css" href="../views/styles/galyleo.css" />
   	<style type="text/css">
   	.header_institucion {
-		background-image: url("../views/images/logos/<?php echo $institucion->nombreCorto;?>-header.png");
+		background-image: url("views/images/logos/<?php echo $institucion->nombreCorto;?>-header.png");
 		background-position: center;
 		background-repeat: no-repeat;
 		height: 150px;
@@ -42,7 +42,9 @@ Al seleccionar una evaluacion, direcciona al alumno a la reporte seleccionado (r
 	selecciona una evaluaci&oacute;n para revisar tus notas</p>
 	
 	<?php
-        //echo '<a href="'.str_replace("index.php","",$_SERVER['PHP_SELF']).'alumnos/nivelacion?params='.$encrypter->encode('&curso='.$id_curso).'">NIVELACION</a></br>';
+        if(!is_null($diagnostico)){
+            echo '<a href="'.str_replace("index.php","",$_SERVER['PHP_SELF']).'alumnos/nivelacion?params='.$encrypter->encode('curso='.$id_curso.'&quiz='.$diagnostico->id).'">NIVELACION</a></br>';
+        }
 	foreach($quizes as $quiz){
 		
 		if($quiz->fechaCierre > date("Y-m-f H:m:s")){

@@ -38,11 +38,23 @@ table{
     overflow-x: scroll;
 }
 
+#matriz_desempeno2 {
+    width:1000px;
+    margin:0;
+    font-size:small;
+    z-index: 5;
+    overflow-x: scroll;
+}
+
 #tabla_desempeno{
     z-index: -100;
 }
 
 #fila_desempeno{
+    vertical-align: top;
+}
+
+#fila_desempeno2{
     vertical-align: top;
 }
 #matriz_resago {

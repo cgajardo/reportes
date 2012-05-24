@@ -347,9 +347,21 @@ public function matrizLogroGrupo(){
 	$quizes_en_grupo = DAOFactory::getQuizesDAO()->queryCerradosByIdGrupo($grupo->id);
 	
 	foreach ($quizes_en_grupo as $quiz_en_grupo){
-		$contenidos=DAOFactory::getIntentosDAO()->getLogroPorContenidoGrupo($quiz_en_grupo->id,$grupo->id);
-		$matriz_desempeño[$quiz_en_grupo->nombre] = DAOFactory::getIntentosDAO()->getLogroPorContenidoGrupo($quiz_en_grupo->id, $grupo->id);
-	}
+		$logro_contenido=DAOFactory::getIntentosDAO()->getLogroPorContenidoGrupo($quiz_en_grupo->id,$grupo->id);
+                if(empty($logro_contenido)){
+                    $i=0;
+                    foreach (DAOFactory::getContenidosDAO()->getContenidosByQuiz($quiz_en_grupo->id) as $contenido){
+			$matriz_desempeño[$quiz_en_grupo->nombre][$i]['logro'] = -1;
+                        $matriz_desempeño[$quiz_en_grupo->nombre][$i]['numero_preguntas'] = 0;
+                        $matriz_desempeño[$quiz_en_grupo->nombre][$i]['contenido'] = $contenido;
+                        $i++;
+                    }
+		}else{
+                    foreach($logro_contenido as $contenido){
+			$matriz_desempeño[$quiz_en_grupo->nombre][] = $contenido;
+                    }
+		}
+        }
 	
 	$this->registry->template->matriz_desempeño = $matriz_desempeño;
 	$this->registry->template->grupo = $grupo;

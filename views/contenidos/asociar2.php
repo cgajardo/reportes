@@ -18,7 +18,7 @@ function asociar($id_contenido, $id_pregunta){
     		document.getElementById($id_pregunta).innerHTML=xmlhttp.responseText;
     	}
   	};
-        xmlhttp.open("POST","<?php print($_SERVER['PHP_SELF']);?>?rt=contenidos/asociar_ajax&id_contenido="+$id_contenido+"&id_categoria="+$id_pregunta,true);
+        xmlhttp.open("POST","asociar_ajax?id_contenido="+$id_contenido+"&id_categoria="+$id_pregunta,true);
 	xmlhttp.send();
 }
 
@@ -69,7 +69,7 @@ function preguntas(){
     		document.getElementById("preguntas").innerHTML=xmlhttp.responseText;
     	}
   	};
-        xmlhttp.open("POST","preguntas_quiz?quiz="+quiz,true);
+        xmlhttp.open("POST","categorias_quiz?quiz="+quiz,true);
 	xmlhttp.send();
 }
 </script>
@@ -107,7 +107,7 @@ foreach($quizesByCurso as $quizes){
 }
 echo '<select '.$combo.'</select>';
 ?>
-        <br><br><b>PREGUNTAS DEL QUIZ: </b>
+        <br><br><b>CATEGORIAS DEL QUIZ: </b>
     <div id="preguntas"></div>
     </div>
     <br><br>

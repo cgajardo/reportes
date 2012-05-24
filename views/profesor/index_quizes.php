@@ -2,10 +2,10 @@
 <html>
 <head>
 	<title><?php echo $titulo;?></title>
-	<link rel="stylesheet" type="text/css" href="../views/styles/galyleo.css" />
+	<link rel="stylesheet" type="text/css" href="views/styles/galyleo.css" />
   	<style type="text/css">
   	.header_institucion {
-		background-image: url("../views/images/logos/<?php echo $institucion->nombreCorto;?>-header.png");
+		background-image: url("views/images/logos/<?php echo $institucion->nombreCorto;?>-header.png");
 		background-position: center;
 		background-repeat: no-repeat;
 		height: 150px;

@@ -2,10 +2,10 @@
 <html>
 <head>
 	<title><?php echo $titulo;?></title>
-	<link rel="stylesheet" type="text/css" href="../views/styles/galyleo.css" />
+	<link rel="stylesheet" type="text/css" href="views/styles/galyleo.css" />
   	<style type="text/css">
   	.header_institucion {
-		background-image: url("../views/images/logos/<?php echo $institucion->nombreCorto;?>-header.png");
+		background-image: url("views/images/logos/<?php echo $institucion->nombreCorto;?>-header.png");
 		background-position: center;
 		background-repeat: no-repeat;
 		height: 150px;
@@ -27,8 +27,11 @@
             foreach($grupos as $grupo){
                 
                 //var_dump($_SERVER['PHP_SELF']);
-		echo '<a href="'. str_replace("index.php","",$_SERVER['PHP_SELF']).'profesores/index?params='.$encrypter->encode('&curso='.$curso->id.'&grupo='.$grupo->id).'">'.$curso->nombre.'-'.$grupo->nombre.'</a></br>';	
-                
+                if($curso->nivelacion == 1){
+                    echo '<a href="profesores/nivelacion?params='.$encrypter->encode('&curso='.$curso->id.'&grupo='.$grupo->id).'">'.$curso->nombre.'-'.$grupo->nombre.'</a></br>';	
+                }else{
+                    echo '<a href="profesores/index?params='.$encrypter->encode('&curso='.$curso->id.'&grupo='.$grupo->id).'">'.$curso->nombre.'-'.$grupo->nombre.'</a></br>';	
+                }
             }
 	} 
 	echo '</br>';

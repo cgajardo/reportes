@@ -85,7 +85,7 @@ function cursos(){
             <option>Seleccione un curso</option>
             <?php
                 foreach($cursos as $curso){
-                    echo '<option value="'.$curso->id.'">'.utf8_decode($curso->nombre).'</option>';
+                    echo '<option value="'.$curso->id.'">'.$curso->nombre.'</option>';
                 }
             ?>
         </select>

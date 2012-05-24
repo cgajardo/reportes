@@ -1,18 +1,19 @@
 <html>
     <script>
         function asd(x){
-            location.href(x);
+            location.href=x;
         }
     </script>
 <h1>Bienvenido</h1>
 <p>Prueba ingresando como:</p>
 <h4>Alumnos:</h4>
+<?php echo "localhost/reportes/enrutador/index?params=".$encrypter->encode('platform=instituto&username=16647541'); ?><br>
 <select onchange="asd(this.value)">
     <option>SELECT</option>
     <?php 
         foreach ($alumnos as $alumno) {
             $aux = explode('_', $alumno->identificadorMoodle);
-            echo '<option value="'.$encrypter->encode('platform='.$aux[0].'&user='.$alumno->usuario).'">'.$alumno->nombre.' '.$alumno->apellido.'</option>';
+            echo '<option value=enrutador/index?params='.$encrypter->encode('platform='.$aux[0].'&user='.$alumno->usuario).'>'.$alumno->nombre.' '.$alumno->apellido.'</option>';
         }
     ?>
 </select>
@@ -23,7 +24,7 @@
     <?php 
         foreach ($profesores as $profesor) {
             $aux = explode('_', $profesor->identificadorMoodle);
-            echo '<option value=enrutador/index?"'.$encrypter->encode('platform='.$aux[0].'&user='.$profesor->usuario).'">'.$profesor->nombre.' '.$profesor->apellido.'</option>';
+            echo '<option value="../enrutador/index?params='.$encrypter->encode('platform='.$aux[0].'&user='.$profesor->usuario).'">'.$profesor->nombre.' '.$profesor->apellido.'</option>';
         }
     ?>
 </select>

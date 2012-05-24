@@ -15,6 +15,6 @@
 
 		var $identificadorMoodle;
 
-		
+		var $nivelacion;
 	}
 ?>

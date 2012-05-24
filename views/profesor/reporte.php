@@ -498,6 +498,7 @@ foreach ($notas_grupo as $nota) {
         foreach($estudiantes as $estudiante){
             $s.= '<tr><td>'.$estudiante->apellido.', '.$estudiante->nombre.'</td><td>';
             if(isset($notas_grupo[$estudiante->id]->logro)){
+                if($estudiante){}
                 $s.= $notas_grupo[$estudiante->id]->logro;
             }else{
                 $s.= 'No Rinde';

@@ -38,18 +38,21 @@ Class enrutadorController Extends baseController {
 		//DAOFactory::getPersonasDAO()->updateVisitCounter($username);
 		
 		switch ($rol) {
-			case "alumno":
-				$this->registry->template->ruta ="alumnos".$cola; 
-				$this->registry->template->show('enrutador');
-				break;
-			case "profesor":
-				$this->registry->template->ruta ="profesores"; 
-				$this->registry->template->show('enrutador');
-				break;
 			case "rector":
 				$this->registry->template->ruta ="directores"; 
 				$this->registry->template->show('enrutador');
 				break;
+                        case "profesor":
+				$this->registry->template->ruta ="profesores"; 
+				$this->registry->template->show('enrutador');
+				break;
+                            
+                        case "alumno":
+				$this->registry->template->ruta ="alumnos".$cola; 
+				$this->registry->template->show('enrutador');
+				break;
+			
+			
 		}
 		
 		

@@ -38,7 +38,8 @@
 ?>
 </table>
 <br/>
-<a href="<?php echo str_replace("index.php","",$_SERVER['PHP_SELF']);?>instituciones/agregar"><button>Nueva Instituci&oacute;n</button></a>
+<a href="<?php echo str_replace("index.php","",$_SERVER['PHP_SELF']);?>instituciones/agregar"><button>Nueva Instituci&oacute;n</button></a><br/>
+<a href="<?php echo str_replace("index.php","",$_SERVER['PHP_SELF']);?>admin/index"><button>Volver</button></a>
 <div class="footer"></div>
 </body>
 </html>

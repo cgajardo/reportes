@@ -39,7 +39,8 @@ echo $combo;
 ?>
 </select></td></tr>
 </table>	
-<input type="submit" value="Guardar"/>
+<input type="submit" value="Guardar"/><br/>
+<a href="<?php echo str_replace("index.php","",$_SERVER['PHP_SELF']);?>admin/index"><button>Volver</button></a>
 
 </form>
     <div class="footer"></div>

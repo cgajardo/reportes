@@ -37,7 +37,8 @@
 </table>
 <br/>
 <a href="sedes/agregar"><button>Nueva Sede</button></a>
-<a href="sedes/cursos"><button>Asociar  Grupos a Sede</button></a>
+<a href="sedes/cursos"><button>Asociar  Grupos a Sede</button></a><br/>
+<a href="<?php echo str_replace("index.php","",$_SERVER['PHP_SELF']);?>admin/index"><button>Volver</button></a>
 <div class="footer"></div>
 </body>
 </html>

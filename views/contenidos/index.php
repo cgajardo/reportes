@@ -14,7 +14,10 @@
     <img class="header" src="views/images/logos/galyleo.jpg"><br/><br/>
     <div align="left">
     <a href="<?php echo str_replace("index.php","",$_SERVER['PHP_SELF']);?>contenidos/agregar">Nuevo Contenido</a><br/>
-    <a href="<?php echo str_replace("index.php","",$_SERVER['PHP_SELF']);?>contenidos/asociar_categorias">Asociar Contenido a Preguntas</a>
+    <a href="<?php echo str_replace("index.php","",$_SERVER['PHP_SELF']);?>contenidos/asociar_categorias">Asociar Contenido a Categorias</a><br/>
+    <a href="<?php echo str_replace("index.php","",$_SERVER['PHP_SELF']);?>contenidos/asociar_preguntas">Asociar Contenido a Preguntas</a><br/>
+    <a href="<?php echo str_replace("index.php","",$_SERVER['PHP_SELF']);?>admin/index">Volver</a>
+    
     </div><br/>
     <table border="1">
     <tr>

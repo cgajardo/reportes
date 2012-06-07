@@ -45,6 +45,7 @@ function getConection($instancia){
   			return $link;
   			break; 
   		case 'universidad':
+                        echo "Procesando Universidad....espere unos minutos....";
   				//conectarnos de manera segura con la base de datos de prueba en desarrollo
   				//TODO: definir un tiempo de vida para el socket
 			$link = mysqli_connect('127.0.0.1', 'root', 'root', 'dump_universidad', 3306);
@@ -54,7 +55,8 @@ function getConection($instancia){
   			return $link;
   			break;
   		case 'instituto':
-  				//conectarnos de manera segura con la base de datos de prueba en desarrollo
+  			echo "Procesando Instituto....espere unos minutos....";
+                        //conectarnos de manera segura con la base de datos de prueba en desarrollo
   				//TODO: definir un tiempo de vida para el socket
 			$link = mysqli_connect('127.0.0.1', 'root', 'root', 'dump_instituto', 3306);
   			if (!$link)

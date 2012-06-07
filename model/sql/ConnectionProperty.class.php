@@ -7,8 +7,8 @@
  */
 class ConnectionProperty{
 	private static $host = '127.0.0.1';
-	private static $user = 'root';
-	private static $password = 'root';
+	private static $user = 'reportes';
+	private static $password = 'reportes.,';
 	private static $database = 'galyleo_new_model_v2';
 
 	public static function getHost(){

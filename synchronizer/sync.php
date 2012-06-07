@@ -38,7 +38,7 @@ function getConection($instancia){
 			//TODO: definir un tiempo de vida para el socket
 			//shell_exec("ssh -f -L 3307:127.0.0.1:3306 root@209.20.92.248 sleep 3600 >> logfile");
 		  	//$link = mysqli_connect('127.0.0.1', 'root', 'dAmjAXtf', 'test_ssh', 3307);
-			$link = mysqli_connect('127.0.0.1', 'root', 'root', 'galyleo_new_model_v2', 3306);
+			$link = mysqli_connect('127.0.0.1', 'reportes', 'reportes.,', 'galyleo_new_model_v2', 3306);
   			if (!$link)
 		    	die('Could not connect: ' . mysqli_error());
 			debug('Connected successfully to local');
@@ -53,6 +53,15 @@ function getConection($instancia){
   			debug('Connected successfully to institutos');
   			return $link;
   			break;
+  		case 'instituto':
+  				//conectarnos de manera segura con la base de datos de prueba en desarrollo
+  				//TODO: definir un tiempo de vida para el socket
+			$link = mysqli_connect('127.0.0.1', 'root', 'root', 'dump_instituto', 3306);
+  			if (!$link)
+  				die('Could not connect: ' . mysqli_error());
+  			debug('Connected successfully to institutos');
+  			return $link;
+  			break;                        
 	} 
 	
 }
